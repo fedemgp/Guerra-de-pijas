@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-#include "../common/CommunicationSocket.h"
+#include "CommunicationSocket.h"
 #include "ServerSocket.h"
 
 int main(){

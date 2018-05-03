@@ -1,15 +1,19 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
 #include <cstring>
 #include <netdb.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+
 
 #include "ServerSocket.h"
-#include "../common/Exception.h"
-#include "../common/ErrorMessages.h"
+#include "Exception.h"
+#include "ErrorMessages.h"
 
 ServerSocket::ServerSocket(const char *port){
     this->bindAndListen(port);

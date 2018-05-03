@@ -1,5 +1,5 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include "../common/CommunicationSocket.h"
-#include "../common/Socket.h"
+#include "CommunicationSocket.h"
+#include "Socket.h"
 
 class ServerSocket: public Socket{
 public:

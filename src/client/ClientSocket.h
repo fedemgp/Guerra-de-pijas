@@ -1,5 +1,5 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "../common/CommunicationSocket.h"
+#include "CommunicationSocket.h"
 
 /**
  * Socket que tiene la capacidad de realizar una conexion con el servidor,

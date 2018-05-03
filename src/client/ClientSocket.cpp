@@ -1,5 +1,5 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
@@ -8,8 +8,8 @@
 #include <unistd.h>
 
 #include "ClientSocket.h"
-#include "../common/ErrorMessages.h"
-#include "../common/Exception.h"
+#include "ErrorMessages.h"
+#include "Exception.h"
 
 ClientSocket::ClientSocket(const char *hostName, const char *port){
     int status;
