@@ -8,8 +8,8 @@ SRCEXT      := cpp
 
 # compiler parameters
 CC          := g++
-CFLAGS      := -ggdb -std=c++11 -Wall -Wpedantic -Werror -pthread
-LIB         :=
+CFLAGS      := -ggdb -std=c++11 -Wall -Wpedantic -Werror -pthread $(shell sdl-config --cflags)
+LIB         := SDL2
 INC         := libs
 DEFINES     :=
 
