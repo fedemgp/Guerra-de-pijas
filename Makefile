@@ -5,6 +5,7 @@ TESTDIR     := tests
 BUILDDIR    := int
 TARGETDIR   := target
 SRCEXT      := cpp
+THIRD_PARTY := libs/Box2D
 
 # compiler parameters
 CC          := g++
@@ -31,6 +32,10 @@ BUILDDIR := $(BUILDDIR)/$(BIN)
 # source files
 SRCS := $(shell find $(SRCDIR)/$(BIN) -type f -name *.$(SRCEXT))
 SRCS += $(shell find $(LIBSDIR) -type f -name *.$(SRCEXT))
+
+# builds a filter-out pattern for each third-party directory, so it can be excluded
+# when using clang-format
+THIRD_PARTY := $(addsuffix /%,$(THIRD_PARTY))
 
 # object files
 OBJS := $(patsubst %,$(BUILDDIR)/%,$(SRCS:.$(SRCEXT)=.o))
@@ -105,8 +110,8 @@ dirs:
 
 # runs clang-format in all the project source files
 format:
-	@find libs/ -iname *.h -o -iname *.$(SRCEXT) | xargs clang-format -i -style=file
-	@find src/ -iname *.h -o -iname *.$(SRCEXT) | xargs clang-format -i -style=file
+	@clang-format -i -style=file $(filter-out $(THIRD_PARTY),$(shell find $(LIBSDIR) -type f -iname *.$(SRCEXT) -o -iname *.h))
+	@clang-format -i -style=file $(filter-out $(THIRD_PARTY),$(shell find $(SRCDIR) -type f -iname *.$(SRCEXT) -o -iname *.h))
 
 # INTERNAL: builds the binary
 $(TARGETDIR)/$(BIN): $(OBJS) | dirs
