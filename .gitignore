@@ -3,3 +3,5 @@ Enunciado/
 *.o
 .idea/
 CMakeLists.txt
+int/
+target/
