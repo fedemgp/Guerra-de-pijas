@@ -8,7 +8,7 @@ SRCEXT      := cpp
 
 # compiler parameters
 CC          := g++
-CFLAGS      := -ggdb -std=c++11 -Wall -Wpedantic -Werror -pthread $(shell sdl-config --cflags)
+CFLAGS      := -ggdb -std=c++11 -Wall -Wpedantic -Werror -pthread $(shell sdl2-config --cflags)
 LIB         := SDL2
 INC         := libs
 DEFINES     :=
@@ -89,7 +89,9 @@ help:
 	@echo
 	@echo "Compiled binaries can be found in \033[1;92m$(TARGETDIR)\033[0m."
 	@echo
-	@echo "\033[1;92mmake format\033[0m runs clang-format on every source and header file."
+	@echo "Other targets"
+	@echo "  * format:\tformats the source code (requires clang-format)."
+	@echo "  * clean:\tdeletes all the intermediate build files and binaires."
 	@echo
 
 # clean objects and binaries
