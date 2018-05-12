@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.0)
+project(4-Worms)
+
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic")
+
+message("Agregando '${CMAKE_SOURCE_DIR}/libs' como directorio de includes")
+include_directories(${CMAKE_SOURCE_DIR}/libs)
+
+message("Agregando Box2D como librería")
+file(GLOB_RECURSE BOX2D_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/Box2D/*.cpp")
+add_library(Box2D STATIC ${BOX2D_SOURCES})
+
+add_executable( client
+        libs/CommunicationSocket.cpp
+        libs/CommunicationSocket.h
+        libs/ErrorMessages.h
+        libs/Exception.cpp
+        libs/Exception.h
+        libs/Socket.cpp
+        libs/Socket.h
+        src/client/ClientSocket.cpp
+        src/client/ClientSocket.h
+        src/client/main.cpp)
+target_link_libraries(client SDL2 SDL2_image)
+
+add_executable(	server
+        libs/CommunicationSocket.cpp
+        libs/CommunicationSocket.h
+        libs/ErrorMessages.h
+        libs/Exception.cpp
+        libs/Exception.h
+        libs/Socket.cpp
+        libs/Socket.h
+        src/server/main.cpp
+        src/server/ServerSocket.cpp
+        src/server/ServerSocket.h)
+target_link_libraries(server Box2D)
+
+
+add_executable( Box2DTest
+                src/box2DTest/test.cpp)
+target_link_libraries(Box2DTest Box2D)
