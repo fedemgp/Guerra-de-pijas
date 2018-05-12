@@ -1,0 +1,281 @@
+Gusanos:
+    Movimiento:
+       ☐ No empuja a otro mientras se desplaza
+       ☐ Se mueve a 2m/s
+    Salto:
+       ☐ Apretando enter
+       ☐ salta 1m adelante y 0.5m de alto
+    Caida:
+       ☐ el gusano se daña cuando la caida es mayor a 2 metros
+       ☐ daño de 1 punto/m, maximo 25 puntos
+    Vuelta atras:
+       ☐ Apretando retroceso
+       ☐ 0.2m atrás y 1.2m de alto
+    Salto doble(OPCIONAL):
+       ☐ Apretando dos veces retroceso
+    Eleccion de arma:
+       ☐ Click derecho muestra arsenal ?
+    Muerte:
+       ☐ Cuando llega a 0pts
+       ☐ Muerte animada
+    ☐ Sale disparado por explosión si está en el rango
+    ☐ adquiere fuerza y velocidad
+    ☐ puede rebotar contra las paredes
+    ☐ sufre daño por explosiones
+
+Escenarios:
+  Vigas:
+    ☐ 2 longitudes: 6m y 3m de largo
+    ☐ ancho fijo de 0.8m
+    ☐ si pendiente > 45° gusano cae
+  Agua:
+    ☐ mata gusano.
+  Fondo:
+    ☐ Imagen solo estétic
+
+Cámara:
+  Se enfoca nuevamente al gusano activo por:
+      ☐ desplazamiento
+      ☐ disparo
+  ☐ Muestra porción del escenario
+  ☐ centrada en el gusano activo
+  ☐ Sigue al gusano en desplazamiento
+  ☐ Camara se mueve con el mouse para ver otras partes del escenario
+  ☐ Sigue al proyectil hasta el impacto
+  Sigue al gusano en movimiento tras el impacto:
+      ☐ hasta que termine de moverse
+      ☐ hasta que muera
+      ☐ cuando termina de moverse o muera, elige a otro
+      ☐ continua hasta que estén todos quietos
+
+Turno:
+  ☐ 1 gusano activo por turno
+  ☐ se elige de forma ciclica
+  termina cuando:
+    ☐ gusano sufre daño
+    gusano realiza accion:
+      ☐ gusano dispara
+      ☐ gusano usa herramienta
+      ☐ tiene 3 segundos adicionales para moverse luego de la acción
+    ☐ pasan mas de 60s
+  ☐ Siguiente turno arranca cuando todos los proyectiles impactan y los gusanos están quietos
+
+Jugador:
+  ☐ con un color
+  vida:
+    ☐ encima de cada gusano
+    ☐ del color del equipo
+    ☐ se muestra la suma total de las vidas de los gusanos del equipo
+  Juega en turnos:
+    ☐ Ve lo que muestra la camara
+    ☐ selecciona arma o herramienta
+  Cuando pierde:
+    ☐ Es salteado de la ronda
+    ☐ puede seguir viendo la partida
+  Cuando gana:
+    ☐ Fin de juego
+    ☐ Pantalla de victoria (e ponemos a pablito lescano cantando ui ar de shempions de fondo)
+
+Juego:
+  Empieza:
+    ☐ Asigna gusanos al azar
+  Rondas:
+    ☐ Todos los jugadores juegan un turno
+    ☐ Siempre mismo orden
+    ☐ gusano cambia ciclicamente
+  Termina:
+    ☐ Jugador gana (o hay empate?)
+    ☐ Pantalla victoria del ganador
+
+Animaciones:
+  ☐ Movimiento del gusano
+  ☐ vuelo de gusanos
+  ☐ movimiento del proyectil
+  ☐ explosiones
+
+Sonidos:
+  ☐ Disparo
+  ☐ Explosión
+  Gusano:
+    ☐ Salta
+    ☐ Muere
+  ☐ Si hay muchos eventos, se evitan algunos.+
+  Musica ambiente:
+    ☐ Volumen relativamente bajo (= death metal al palo)
+
+Armas:
+  ☐ Usar flechas de arriba y abajo para apuntar
+  ☐ Los ángulos van desde -90° a 90°
+  ☐ 0° el disparo es horizontal
+  ☐ Con flecha izquierda o derecha cambia la dirección de disparo
+  Arma cuerpo a cuerpo:
+    ☐ El daño es local, al gusano que se encuentra al lado
+  Potencia:
+    ☐ Potencia ajustable.
+    ☐ Presionando Espacio ajusta la potencia, de modo creciente.
+    ☐ Si se llega a un límite de potencia o si suelto espacio, disparo
+    ☐ La velocidad de disparo es proporcional a la potencia usada
+  Cuenta regresiva:
+    ☐ Proyectiles que no explotan al momento del impacto
+    ☐ Tiempo de la cuenta ajustable
+    ☐ Se ajusta el tiempo con las teclas 1,2,3,4 y 5
+    ☐ Por defecto, la cuenta regresiva es de 5
+  Teledirigido:
+    ☐ Usuario hace click para determinar donde colocar herramienta / disparar.
+    ☐ En el caso de usar proyectil, luego se debe disparar con espacio.
+    ☐ ¿Que pasa si quiero disparar un teledirigido sin haber fijado destino? se dispara a si mismo
+  Armas con fragmentos:
+    ☐ Luego de la explosión generan fragmentos que hacen daño
+    ☐ Trayectoria parabólica
+  Armas con rebote:
+    ☐ La banana debe ser elastica.
+    ☐ Banana rebota muchas veces.
+    ☐ (OPCIONAL) agregar atributo de elasticidad a las granadas
+  Viento:
+    ☐ Proyectil afectado por el viento
+    ☐ Viento aplica fuerza al proyectil
+    ☐ Viento viaja de izquierda a derecha o al revés
+    ☐ Viento varia velocidad desde 0.2m/s a 10m/s
+  Municiones:
+    ☐ Valor fijado por EQUIPO y por ARMA
+    ☐ Cantidad de veces que el gusano puede usar el arma
+  Daño:
+    ☐ Causado a todos los gusanos en la cercanía
+    ☐ Inversamente proporcional al rango de explosión
+    ☐ Armas tienen rango  y daño maximo propio
+    ☐ Gusano adquiere velocidad inversamente proporcional al rango
+    ☐ Gusano adquiere dirección por la explosión
+      ☐ Depende de la distancia y dirección al epicentro
+    ☐ Gusano puede rebotar contra las paredes cuando vuela
+
+Tipos de armas:
+  Bazooka:
+    ☐ Mira SI
+    ☐ Cuerpo a cuerpo NO
+    ☐ Potencia variable SI
+    ☐ Cuenta regresiva NO
+    ☐ Teledirigido NO
+    ☐ Trayectoria afectada por el viento SI
+    ☐ Municiones Infinitas
+    ☐ Daño: 50 (epicentro); 2mts radio
+  Mortero:
+    ☐ Mira: SI
+    ☐ Cuerpo a cuerpo: NO
+    ☐ Potencia variable: SI
+    ☐ Cuenta regresiva: NO
+    ☐ Teledirigido: NO
+    ☐ Afectado por el viento: SI
+    ☐ Municiones: 10
+    Daño:   
+      ☐ (principal) 50 pts epicentro; 2mts radio
+      ☐ (cada fragmento) 10pts epicentro; 2mts radio
+      ☐ Cantidad de fragmentos: 6
+  Granada verde:
+    ☐ Mira: SI
+    ☐ Cuerpo a cuerpo:  no
+    ☐ Disparo con potencia variable: SI
+    ☐ Cuenta regresiva: SI
+    ☐ Teledirigido NO
+    ☐ Viento: NO
+    ☐ Municiones: Infinitas
+    ☐ Daño: 30pts centro, 2 mts radio
+  Granada roja:
+    ☐ Mira SI
+    ☐ Cuerpo a cuerpo NO
+    ☐ Potencia variable: SI
+    ☐ Cuenta regresiva: SI
+    ☐ Teledirigido NO
+    ☐ Viento NO
+    ☐ Municiones 10
+    Daño:  
+      ☐ (principal) 30 pts centro, 2mts radio
+      ☐ (fragmento) 10pts centro, 2mts radio
+      ☐ Fragmentos: 6
+  Banana:
+    ☐ Mira: SI
+    ☐ Cuerpo a cuerpo:  no
+    ☐ Disparo con potencia variable: SI
+    ☐ Cuenta regresiva: SI
+    ☐ Teledirigido NO
+    ☐ Viento: NO
+    ☐ Municiones: 5
+    ☐ Daño: 70pts centro, 4 mts radio
+    ☐ Rebote: alto ? (debe ser elastico)
+  La HOLY:
+    ☐ Mira: SI
+    ☐ Cuerpo a cuerpo:  no
+    ☐ Disparo con potencia variable: SI
+    ☐ Cuenta regresiva: SI
+    ☐ Teledirigido NO
+    ☐ Viento: NO
+    ☐ Municiones: 2
+    ☐ Daño: 110pts centro, 8 mts radio (Daaaaaaaaaamn)
+    SI NO PONEMOS “ALELUYA” CUANDO EXPLOTA BOICOTEO EL JUEGO
+  TNT:
+    ☐ Mira: NO
+    ☐ Cuerpo a cuerpo:  SI
+    ☐ Disparo con potencia variable: NO
+    ☐ Cuenta regresiva: SI
+    ☐ Teledirigido NO
+    ☐ Viento: NO
+    ☐ Municiones: 5
+    ☐ Daño: 50pts centro, 4 mts radio
+  Bate:
+    ☐ Mira: SI
+    ☐ Cuerpo a cuerpo:  SI
+    ☐ Disparo con potencia variable: NO
+    ☐ Cuenta regresiva: NO
+    ☐ Teledirigido NO
+    ☐ Viento: NO
+    ☐ Municiones: Infinitas
+    ☐ Daño: 10pts
+    TIENE QUE HACER SAPITO EL GUSANO SI LO TIRAMOS MA O MENO HORIZONTAL AL AGUA
+  Ataque aereo:
+    ☐ Mira: NO
+    ☐ Cuerpo a cuerpo:  no
+    ☐ Disparo con potencia variable: NO
+    ☐ Cuenta regresiva: NO
+    ☐ Teledirigido SI
+    ☐ Viento: si? (cualquiera)
+    ☐ Municiones: 2
+    Daño: 
+      ☐ (cada misil) 40pts centro, 2 mts radio
+      ☐ Los misiles explotan de forma independiente entre ellos
+  Teleport:
+    ☐ Mira: NO
+    ☐ Cuerpo a cuerpo:  no
+    ☐ Disparo con potencia variable: NO
+    ☐ Cuenta regresiva: NO
+    ☐ Teledirigido SI
+    ☐ Viento: NO
+    ☐ Municiones: Infinito
+    ☐ Daño: -
+    Arma de tibios
+    ☐ Te teleporta a la posición elegida, salvo que sea dentro de una viga
+
+Configuración:
+
+  ☐ Soporte a múltiples partidas en simultáneo
+  ☐ Salas?
+  ☐ Indicar escenarios disponibles, partidas creadas etc.
+  ☐ Asignar de forma aleatoria los gusanos del escenario a cada jugador
+  ☐ La cantidad de gusanos en el mapa se configura en el editor, con una cantidad máxima
+  ☐ Si no es divisible por la cantidad de jugadores-> +25 de vida para el perjudicado
+  Atributos configurables por archivo:
+    ☐ Velocidad
+    ☐ Altura del salto
+    ☐ Distancia recorrida por el salto
+    ☐ Daño de las armas
+    ☐ Rango de las armas
+    ☐ Elasticidad
+    Si se afecta con el viento?
+
+Editor:
+    ☐ Elegir fondo de pantalla
+    ☐ Colocar vigas y gusanos
+    ☐ Definir qué armas pueden usarse
+    ☐ Cantidad de municiones
+    ☐ Daño
+    ☐ Vida inicial de gusanos
+    ☐ Tiempo del turno
+    

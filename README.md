@@ -16,6 +16,12 @@
 
 Run `make help` to get more information about different build options.
 
+## FeatureList
+
+* Download sublime text
+* [Install Package control](https://packagecontrol.io/installation#st2)
+* Go to Preference -> Package Control -> Install Package -> plainTasks
+* For a tutorial of plain tasks, visit Preference -> Package Settings -> Plain tasks -> tutorials
 
 ## Useful links
 
