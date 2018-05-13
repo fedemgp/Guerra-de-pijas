@@ -2,6 +2,6 @@ cmake-build-debug/
 Enunciado/
 *.o
 .idea/
-CMakeLists.txt
 int/
+build/
 target/
