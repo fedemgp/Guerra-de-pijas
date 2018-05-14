@@ -6,7 +6,6 @@
 #ifndef __Exception_H__
 #define __Exception_H__
 
-
 #include <exception>
 #include <string>
 /**
@@ -15,15 +14,15 @@
  * que recibe printf), y una cantidad indefinida de parámetros adicionales,
  * para agregarselos al esqueleto de fmt.
  */
-class Exception: public std::exception{
-private:
+class Exception : public std::exception {
+   private:
     std::string msg_error;
-public:
-    explicit Exception(const char *fmt, ...) noexcept;
+
+   public:
+    explicit Exception(const char* fmt, ...) noexcept;
     Exception() = delete;
     virtual const char* what() const noexcept;
     virtual ~Exception() noexcept = default;
 };
 
-
-#endif //__Exception_H__
+#endif  //__Exception_H__

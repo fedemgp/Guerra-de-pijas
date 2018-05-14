@@ -14,23 +14,22 @@
  * @param fmt = Formato al cual completar
  * @param ... = argumentos para completar fmt
  */
-Exception::Exception(const char *fmt, ...) noexcept{
+Exception::Exception(const char *fmt, ...) noexcept {
     std::istringstream iss(fmt);
     std::ostringstream oss;
     std::string stringFragment;
 
     va_list args;
     va_start(args, fmt);
-    while (std::getline(iss, stringFragment, '%')){
+    while (std::getline(iss, stringFragment, '%')) {
         oss << stringFragment;
         char type(0);
         iss >> type;
-        switch (type){
+        switch (type) {
             case 's':
                 oss << va_arg(args, const char *);
                 break;
             case 'S':
-                oss << va_arg(args, std::string);
                 break;
             case 'i':
                 oss << va_arg(args, int);
@@ -47,6 +46,6 @@ Exception::Exception(const char *fmt, ...) noexcept{
     this->msg_error = oss.str();
 }
 
-const char* Exception::what() const noexcept{
+const char *Exception::what() const noexcept {
     return this->msg_error.data();
 }
