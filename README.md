@@ -1,8 +1,17 @@
 ## Build Dependencies
 
-### SDL
+### SDL2
+
+SDL2 handles the GUI on the client application.
 
     sudo apt-get install libsdl2-dev
+
+
+### SDL2 image
+
+SDL2-image is a library that allows to load (among others) PNG images using SDL2.
+
+    sudo apt-get install libsdl2-image-dev
 
 
 ### clang-format (optional)
@@ -26,3 +35,4 @@ Run `make help` to get more information about different build options.
 ## Useful links
 
 [SDL tutorial](http://lazyfoo.net/tutorials/SDL/)
+[Box2D: Moving at constant speed](http://www.iforce2d.net/b2dtut/constant-speed)
