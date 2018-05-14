@@ -154,7 +154,7 @@ class Game {
    public:
     Game(Window &w)
         : window(w),
-          wwalk("src/client/assets/img/Worms/wwalk2.png", w.get_renderer(),
+          wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.get_renderer(),
                 Color{0x7f, 0x7f, 0xbb}) {}
     ~Game() {}
 
