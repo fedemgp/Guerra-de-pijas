@@ -1,11 +1,10 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
 #ifndef __COMMUNICATIONSOCKET_H__
 #define __COMMUNICATIONSOCKET_H__
-
 
 #include "Socket.h"
 /**
@@ -16,11 +15,11 @@
  * En el cliente, se usa indirectamente, ya que es padre de la clase
  * ClientSocket, la cual tiene la capacidad de realizar un connect al servidor.
  */
-class CommunicationSocket: public Socket{
-protected:
+class CommunicationSocket : public Socket {
+   protected:
     CommunicationSocket() = default;
 
-public:
+   public:
     explicit CommunicationSocket(int fd);
     /**
      * Envia length bytes, contenidos en el buffer. Si la conexion falla, se
@@ -40,5 +39,4 @@ public:
     unsigned int receive(char *buffer, unsigned int length);
 };
 
-
-#endif //__COMMUNICATIONSOCKET_H__
+#endif  //__COMMUNICATIONSOCKET_H__

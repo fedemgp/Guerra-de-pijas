@@ -5,9 +5,8 @@
 #ifndef __SOCKET_H__
 #define __SOCKET_H__
 
-
-class Socket{
-protected:
+class Socket {
+   protected:
     int fd;
     /**
      * Constructor protegido, las clases hijas ClientSocket, ServerSocket y
@@ -17,20 +16,19 @@ protected:
     explicit Socket(int fd);
     void close();
 
-public:
+   public:
     virtual ~Socket();
     /*
      * La superclase Socket se va a poder mover, pero no copiar.
      */
     Socket(Socket &&other) noexcept;
-    Socket& operator=(Socket &&other) noexcept;
+    Socket &operator=(Socket &&other) noexcept;
     Socket(Socket &other) = delete;
-    Socket& operator=(Socket &other) = delete;
+    Socket &operator=(Socket &other) = delete;
     /**
      *  Termina la comunicacion del socket.
      */
     void shutdown();
 };
 
-
-#endif //__SOCKET_H__
+#endif  //__SOCKET_H__

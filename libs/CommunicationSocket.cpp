@@ -1,5 +1,5 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
 
@@ -9,16 +9,14 @@
 #include "ErrorMessages.h"
 #include "Exception.h"
 
+CommunicationSocket::CommunicationSocket(int fd) : Socket(fd) {}
 
-CommunicationSocket::CommunicationSocket(int fd): Socket(fd){}
-
-unsigned int CommunicationSocket::send(const char *buffer, unsigned int length){
+unsigned int CommunicationSocket::send(const char *buffer, unsigned int length) {
     unsigned int sent = 0;
     int status = 0;
 
-    while (sent < length){
-        status = ::send(this->fd, &buffer[sent], length - sent,
-                        MSG_NOSIGNAL);
+    while (sent < length) {
+        status = ::send(this->fd, &buffer[sent], length - sent, MSG_NOSIGNAL);
         /*
          * Inspirado en el ejemplo del ejemplo de ayuda echoserver
          * status == 0: cerraron el socket, lanzo una exepcion de socket cerrado
@@ -28,9 +26,9 @@ unsigned int CommunicationSocket::send(const char *buffer, unsigned int length){
          */
         if (status == 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED);
-        } else if (status < 0){
+        } else if (status < 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED_UNEXPECTLY);
-        } else{
+        } else {
             sent += status;
         }
     }
@@ -38,13 +36,12 @@ unsigned int CommunicationSocket::send(const char *buffer, unsigned int length){
     return sent;
 }
 
-unsigned int CommunicationSocket::receive(char *buffer, unsigned int length){
+unsigned int CommunicationSocket::receive(char *buffer, unsigned int length) {
     unsigned int received = 0;
     int status = 0;
 
-    while (received < length){
-        status = ::recv(this->fd, &buffer[received], length - received,
-                        MSG_NOSIGNAL);
+    while (received < length) {
+        status = ::recv(this->fd, &buffer[received], length - received, MSG_NOSIGNAL);
         /*
          * Inspirado en el ejemplo del ejemplo de ayuda echoserver
          * status == 0: cerraron el socket, lanzo una exepcion de socket cerrado
@@ -54,9 +51,9 @@ unsigned int CommunicationSocket::receive(char *buffer, unsigned int length){
          */
         if (status == 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED);
-        } else if (status < 0){
+        } else if (status < 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED_UNEXPECTLY);
-        } else{
+        } else {
             received += status;
         }
     }
