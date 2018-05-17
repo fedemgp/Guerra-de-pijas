@@ -43,7 +43,7 @@ class Window {
             throw Exception{"Failed creating the screen surface"};
         }
 
-        if (!IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) {
+        if ((!IMG_Init(IMG_INIT_PNG)) & IMG_INIT_PNG) {
             SDL_DestroyRenderer(this->renderer);
             SDL_DestroyWindow(this->window);
             throw Exception{"Failed initialiing IMG: %s", IMG_GetError()};

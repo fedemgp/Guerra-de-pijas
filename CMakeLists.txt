@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(4-Worms)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pthread")
 
 message("Agregando '${CMAKE_SOURCE_DIR}/libs' como directorio de includes")
 include_directories(${CMAKE_SOURCE_DIR}/libs)
@@ -40,3 +40,27 @@ target_link_libraries(server Box2D)
 add_executable( Box2DTest
                 src/box2DTest/test.cpp)
 target_link_libraries(Box2DTest Box2D)
+
+add_executable( prototype
+                src/prototype/main.cpp
+                src/prototype/ClientSocket.cpp
+                src/prototype/ClientSocket.h
+                src/prototype/gui.h
+                src/prototype/stream.h
+                libs/Socket.cpp
+        libs/Socket.h
+        libs/CommunicationSocket.cpp
+        libs/CommunicationSocket.h
+        libs/Exception.cpp
+        libs/Exception.h)
+target_link_libraries(prototype Box2D SDL2 SDL2_image)
+
+
+add_executable( both
+        libs/Socket.cpp
+        libs/Socket.h
+        libs/CommunicationSocket.cpp
+        libs/CommunicationSocket.h
+        libs/Exception.cpp
+        libs/Exception.h src/clientServer/main.cpp src/clientServer/Stream.h src/clientServer/GameStateMsg.h src/clientServer/Window.cpp src/clientServer/Window.h src/clientServer/Color.h src/clientServer/Animation.cpp src/clientServer/Animation.h src/clientServer/Game.cpp src/clientServer/Game.h src/clientServer/Point.h)
+target_link_libraries(both Box2D SDL2 SDL2_image)
