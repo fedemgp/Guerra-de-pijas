@@ -10,14 +10,14 @@
 #include "Window.h"
 
 // TODO DEHARDCODE
-GUI::GUIGame::GUIGame(Window &w)
+GUI::Game::Game(Window &w)
     : window(w),
       wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.getRenderer(), Color{0x7f, 0x7f, 0xbb}) {
 }
 
-GUI::GUIGame::~GUIGame() {}
+GUI::Game::~Game() {}
 
-void GUI::GUIGame::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output) {
+void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output) {
     uint32_t prev = SDL_GetTicks();
     IO::GameStateMsg m;
     bool quit = false;
@@ -64,11 +64,11 @@ void GUI::GUIGame::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Pla
     }
 }
 
-void GUI::GUIGame::update(float dt) {
+void GUI::Game::update(float dt) {
     this->wwalk.update(dt);
 }
 
-void GUI::GUIGame::render() {
+void GUI::Game::render() {
     this->window.clear();
     this->wwalk.render(this->window.getRenderer(), this->x, this->y);
     this->window.render();

@@ -7,12 +7,15 @@
 #define __GUIGame_H__
 
 #include "Animation.h"
+#include "Window.h"
+#include "GameStateMsg.h"
+#include "Stream.h"
 
 namespace GUI {
-class GUIGame {
+class Game {
    public:
-    GUIGame(Window &w);
-    ~GUIGame();
+    Game(Window &w);
+    ~Game();
     void start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output);
     void update(float dt);
     void render();

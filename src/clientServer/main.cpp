@@ -24,9 +24,9 @@ int main(int argc, const char *argv[]) {
         std::thread game_thread =
             std::thread(std::bind(&Worms::Game::start, &game, &server_stream, &player_stream));
 
-        GUI::GUIGame gui_game{window};
+        GUI::Game gui_game{window};
         std::thread gui_thread =
-            std::thread(std::bind(&GUI::GUIGame::start, &gui_game, &server_stream, &player_stream));
+            std::thread(std::bind(&GUI::Game::start, &gui_game, &server_stream, &player_stream));
 
         gui_thread.join();
 
