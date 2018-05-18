@@ -56,8 +56,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
         std::chrono::high_resolution_clock::time_point current =
             std::chrono::high_resolution_clock::now();
         double dt =
-            std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count() /
-            1000.0f;
+            std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
         lag += dt;
 
         IO::PlayerInput pi;
