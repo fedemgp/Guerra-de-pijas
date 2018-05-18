@@ -52,7 +52,7 @@ add_executable( prototype
         libs/CommunicationSocket.cpp
         libs/CommunicationSocket.h
         libs/Exception.cpp
-        libs/Exception.h)
+        libs/Exception.h src/prototype/Physics.h src/prototype/Player.h src/prototype/Point.h src/prototype/World.h src/prototype/Game.h)
 target_link_libraries(prototype Box2D SDL2 SDL2_image)
 
 
