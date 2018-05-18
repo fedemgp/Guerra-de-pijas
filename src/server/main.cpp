@@ -4,13 +4,13 @@
  */
 
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "CommunicationSocket.h"
 #include "ServerSocket.h"
 
-int main(){
+int main() {
     std::string port("1051");
     ServerSocket s(port.data());
     std::cout << "Se bindeo" << std::endl;

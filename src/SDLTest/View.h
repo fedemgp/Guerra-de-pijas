@@ -15,8 +15,8 @@
 
 #define WORM_WALK_SPRITES_QUANTITY 15
 
-class View{
-public:
+class View {
+   public:
     SDL_Window *window;
     SDL_Surface *screenSurface;
     SDL_Renderer *renderer;
@@ -27,10 +27,9 @@ public:
     ~View();
     void loadMedia();
 
-private:
+   private:
     bool SDLInitiated;
     bool IMGInitiated;
 };
 
-
-#endif //__View_H__
+#endif  //__View_H__

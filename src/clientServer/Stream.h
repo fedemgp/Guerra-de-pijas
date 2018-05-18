@@ -1,5 +1,5 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 17/05/18.
  */
 
@@ -13,62 +13,62 @@
 #include "Exception.h"
 
 namespace IO {
-    template<typename Msg>
-    class Stream {
-    public:
-        Stream() {}
+template <typename Msg>
+class Stream {
+   public:
+    Stream() {}
 
-        ~Stream() {
-            this->close();
-        }
+    ~Stream() {
+        this->close();
+    }
 
-        void push(const Msg &m) {
-            std::lock_guard <std::mutex> lock(this->mutex);
-            this->q.push(m);
-            this->not_empty.notify_all();
-        }
+    void push(const Msg &m) {
+        std::lock_guard<std::mutex> lock(this->mutex);
+        this->q.push(m);
+        this->notEmpty.notify_all();
+    }
 
-        bool pop(Msg &m, bool block = true) {
-            std::unique_lock <std::mutex> lock(this->mutex);
-            while (this->q.empty() && !this->closed) {
-                if (!block) {
-                    return false;
-                }
-                this->not_empty.wait(lock);
+    bool pop(Msg &m, bool block = true) {
+        std::unique_lock<std::mutex> lock(this->mutex);
+        while (this->q.empty() && !this->closed) {
+            if (!block) {
+                return false;
             }
-
-            if (this->closed) {
-                throw Exception{"closed"};
-            }
-
-            m = this->q.front();
-            this->q.pop();
-            return true;
+            this->notEmpty.wait(lock);
         }
 
-        Stream &operator<<(const Msg &m) {
-            this->push(m);
-            return *this;
+        if (this->closed) {
+            throw Exception{"closed"};
         }
 
-        Stream &operator>>(Msg &m) {
-            this->pop(m);
-            return *this;
-        }
+        m = this->q.front();
+        this->q.pop();
+        return true;
+    }
 
-        void close() {
-            if (this->closed) {
-                return;
-            }
-            this->closed = true;
-            this->not_empty.notify_all();
-        }
+    Stream &operator<<(const Msg &m) {
+        this->push(m);
+        return *this;
+    }
 
-    private:
-        std::queue<Msg> q;
-        std::mutex mutex;
-        std::condition_variable not_empty;
-        std::atomic<bool> closed{false};
-    };
-}//namespaces IO
-#endif //__STREAM_H__
+    Stream &operator>>(Msg &m) {
+        this->pop(m);
+        return *this;
+    }
+
+    void close() {
+        if (this->closed) {
+            return;
+        }
+        this->closed = true;
+        this->notEmpty.notify_all();
+    }
+
+   private:
+    std::queue<Msg> q;
+    std::mutex mutex;
+    std::condition_variable notEmpty;
+    std::atomic<bool> closed{false};
+};
+}  // namespaces IO
+#endif  //__STREAM_H__

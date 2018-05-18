@@ -1,77 +1,118 @@
 /*
- * Created by Federico Manuel Gomez Peter 
- * Date: 17/05/18.
+ *  Created by Federico Manuel Gomez Peter.
+ *  date: 18/05/18
  */
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <Box2D/Box2D.h>
+#include <zconf.h>
+#include <atomic>
+#include <chrono>
 
-#include "Animation.h"
-#include "Color.h"
 #include "Game.h"
-#include "GameStateMsg.h"
-#include "Stream.h"
-#include "Window.h"
+#include "Player.h"
+#include "World.h"
 
-//TODO DEHARDCODE
-GUI::Game::Game(Window &w): window(w), wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.get_renderer(),
-                                             Color{0x7f, 0x7f, 0xbb}) {}
+Worms::Game::Game(const World &&level) : physics(b2Vec2{0.0f, -10.0f}), level(std::move(level)) {
+    for (auto &wormPos : this->level.getWormPosition()) {
+        Player p{this->physics};
+        p.setPosition(wormPos);
+        this->players.emplace_back(p);
+    }
 
-GUI::Game::~Game() {}
+    // a static body
+    b2PolygonShape poly;
 
-void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output)  {
-    uint32_t prev = SDL_GetTicks();
-    IO::GameStateMsg m;
-    bool quit = false;
+    b2BodyDef bdef;
+    bdef.type = b2_staticBody;
+    bdef.position.Set(0.0f, 0.0f);
+    b2Body *staticBody = this->physics.createBody(bdef);
+
+    b2FixtureDef fixture;
+    fixture.density = 1;
+    fixture.shape = &poly;
+
+    // add four walls to the static body
+    const float height = level.getHeight();
+    const float width = level.getWidth();
+
+    poly.SetAsBox(width / 2.0f, 1, b2Vec2(0, 0), 0);  // ground
+    staticBody->CreateFixture(&fixture);
+    poly.SetAsBox(width / 2.0f, 1, b2Vec2(0, height), 0);  // ceiling
+    staticBody->CreateFixture(&fixture);
+    poly.SetAsBox(1, height / 2.0f, b2Vec2(width / -2.0f, height / 2.0f), 0);  // left wall
+    staticBody->CreateFixture(&fixture);
+    poly.SetAsBox(1, height / 2.0f, b2Vec2(width / 2.0f, height / 2.0f), 0);  // right wall
+    staticBody->CreateFixture(&fixture);
+}
+
+void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
+                        IO::Stream<IO::PlayerInput> *playerStream) {
+    /* game loop */
+    std::chrono::high_resolution_clock::time_point prev = std::chrono::high_resolution_clock::now();
+    float lag = 0.0f;
+    float32 timeStep = 1.0f / 60.0f;
+
     while (!quit) {
-        /* handle events on queue */
-        SDL_Event e;
-        while (SDL_PollEvent(&e) != 0) {
-            switch (e.type) {
-                case SDL_QUIT:
-                    quit = true;
+        std::chrono::high_resolution_clock::time_point current =
+            std::chrono::high_resolution_clock::now();
+        double dt =
+            std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count() /
+            1000.0f;
+        lag += dt;
+
+        IO::PlayerInput pi;
+        if (playerStream->pop(pi, false)) {
+            switch (pi) {
+                case IO::PlayerInput::move_left:
+                    this->players[0].moveLeft();
                     break;
-                case SDL_KEYDOWN:
-                    switch (e.key.keysym.sym) {
-                        case SDLK_LEFT:
-                            output->push(IO::PlayerInput::move_left);
-                            this->wwalk.flip(SDL_FLIP_NONE);
-                            break;
-                        case SDLK_RIGHT:
-                            output->push(IO::PlayerInput::move_right);
-                            this->wwalk.flip(SDL_FLIP_HORIZONTAL);
-                            break;
-                    }
+                case IO::PlayerInput::move_right:
+                    this->players[0].moveRight();
                     break;
-                case SDL_KEYUP:
-                    switch (e.key.keysym.sym) {
-                        case SDLK_LEFT:
-                        case SDLK_RIGHT:
-                            output->push(IO::PlayerInput::stop_move);
-                            break;
-                    }
+                case IO::PlayerInput::stop_move:
+                    this->players[0].stopMove();
                     break;
             }
         }
 
-        *input >> m;
-        this->x = m.positions[0] * this->window.width;
-        this->y = this->window.height - m.positions[1] * this->window.height;
+        /* updates the actors */
+        for (auto &worm : this->players) {
+            worm.update(dt);
+        }
 
-        uint32_t current = SDL_GetTicks();
-        float dt = static_cast<float>(current - prev) / 1000.0f;
-        this->update(dt);
+        /* updates the physics engine */
+        for (int i = 0; i < 5 && lag > timeStep; i++) {
+            this->physics.update(timeStep);
+            lag -= timeStep;
+        }
+
+        /* sends the current game state */
+        this->serialize(*output);
+
         prev = current;
-        this->render();
+        usleep(20 * 1000);
     }
+
+    output->close();
 }
 
-void GUI::Game::update(float dt)  {
-    this->wwalk.update(dt);
+void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
+    assert(this->players.size() <= 20);
+
+    const float w = this->level.getWidth();
+    const float h = this->level.getHeight();
+
+    IO::GameStateMsg m;
+    m.num_worms = 0;
+    for (const auto &worm : this->players) {
+        m.positions[m.num_worms * 2] = (worm.getPosition().x + w / 2.0f) / w;
+        m.positions[m.num_worms * 2 + 1] = worm.getPosition().y / h;
+        m.num_worms++;
+    }
+
+    s << m;
 }
 
-void GUI::Game::render() {
-    this->window.clear();
-    this->wwalk.render(this->window.get_renderer(), this->x, this->y);
-    this->window.render();
+void Worms::Game::exit() {
+    this->quit = true;
 }

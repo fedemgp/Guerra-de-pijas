@@ -1,30 +1,32 @@
 /*
- * Created by Federico Manuel Gomez Peter 
- * Date: 17/05/18.
+ *  Created by Federico Manuel Gomez Peter.
+ *  date: 18/05/18
  */
 
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include "Animation.h"
-#include "GameStateMsg.h"
-#include "Stream.h"
-#include "Window.h"
+#include <atomic>
 
-namespace GUI {class Game {
-    public:
-        Game(Window &w);
-        ~Game();
-        void start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output);
-        void update(float dt);
-        void render();
+#include "Player.h"
+#include "World.h"
 
-    private:
-        Window &window;
-        Animation wwalk;
-        int x{0}, y{0};
-    };
-}  // namespace GUI
+namespace Worms {
 
+class Game {
+   public:
+    std::atomic<bool> quit{false};
+    Game(const World &&level);
+    ~Game() = default;
+    void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
+    void serialize(IO::Stream<IO::GameStateMsg> &s) const;
+    void exit();
 
-#endif //__GAME_H__
+   private:
+    Physics physics;
+    World level;
+    std::vector<Player> players;
+};
+}  // namespace Worms
+
+#endif  //__GAME_H__

@@ -1,18 +1,18 @@
 /*
- * Created by Federico Manuel Gomez Peter 
+ * Created by Federico Manuel Gomez Peter
  * Date: 17/05/18.
  */
 
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 #include "Exception.h"
 #include "Window.h"
 
-GUI::Window::Window(): Window(WINDOW_WIDTH, WINDOW_HEIGHT){}
+GUI::Window::Window() : Window(WINDOW_WIDTH, WINDOW_HEIGHT) {}
 
-GUI::Window::Window(int width, int height): width(width), height(height) {
+GUI::Window::Window(int width, int height) : width(width), height(height) {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw Exception{"SDL could not initialize: %s", SDL_GetError()};
     }
@@ -24,35 +24,34 @@ GUI::Window::Window(int width, int height): width(width), height(height) {
     this->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
                                     SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
     if (!this->window) {
-        //TODO call SDL_GETError
-        throw Exception{"Failed creating the window"};
+        this->close();
+        throw Exception{"Window could not be created: %s", SDL_GetError()};
     }
 
-    this->surface = SDL_GetWindowSurface(this->window);
-    if (!this->surface) {
-        //TODO call SDL_GETError
-        throw Exception{"Failed creating the screen surface"};
-    }
-
-    this->renderer = SDL_CreateRenderer(this->window, -1,
-                                        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    this->renderer =
+        SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (!this->renderer) {
-        //TODO call SDL_GETError
-        throw Exception{"Failed creating the screen surface"};
+        this->close();
+        throw Exception{"Failed creating the render: %s", SDL_GetError()};
     }
 
     if ((!IMG_Init(IMG_INIT_PNG)) & IMG_INIT_PNG) {
+        this->close();
         throw Exception{"Failed initialiing IMG: %s", IMG_GetError()};
     }
 }
 
 GUI::Window::~Window() {
-    if (this->renderer != nullptr){
+    this->close();
+}
+
+void GUI::Window::close() {
+    if (this->renderer != nullptr) {
         SDL_DestroyRenderer(this->renderer);
         this->renderer = nullptr;
     }
 
-    if (this->window != nullptr){
+    if (this->window != nullptr) {
         SDL_DestroyWindow(this->window);
         this->window = nullptr;
     }
@@ -69,6 +68,6 @@ void GUI::Window::render() {
     SDL_RenderPresent(this->renderer);
 }
 
-SDL_Renderer& GUI::Window::get_renderer() {
+SDL_Renderer& GUI::Window::getRenderer() {
     return *this->renderer;
 }

@@ -52,7 +52,7 @@ add_executable( prototype
         libs/CommunicationSocket.cpp
         libs/CommunicationSocket.h
         libs/Exception.cpp
-        libs/Exception.h src/prototype/Physics.h src/prototype/Player.h src/prototype/Point.h src/prototype/World.h src/prototype/Game.h)
+        libs/Exception.h )
 target_link_libraries(prototype Box2D SDL2 SDL2_image)
 
 add_executable( SDLTest
@@ -72,5 +72,22 @@ add_executable( both
         libs/CommunicationSocket.cpp
         libs/CommunicationSocket.h
         libs/Exception.cpp
-        libs/Exception.h src/clientServer/main.cpp src/clientServer/Stream.h src/clientServer/GameStateMsg.h src/clientServer/Window.cpp src/clientServer/Window.h src/clientServer/Color.h src/clientServer/Animation.cpp src/clientServer/Animation.h src/clientServer/Game.cpp src/clientServer/Game.h src/clientServer/Point.h)
+        libs/Exception.h
+        src/clientServer/main.cpp
+        src/clientServer/Stream.h
+        src/clientServer/GameStateMsg.h
+        src/clientServer/Window.cpp
+        src/clientServer/Window.h
+        src/clientServer/Color.h
+        src/clientServer/Animation.h
+        src/clientServer/Animation.cpp
+        src/clientServer/Point.h
+        src/clientServer/Game.cpp
+        src/clientServer/Game.h
+        src/clientServer/World.cpp
+        src/clientServer/World.h
+        src/clientServer/Player.cpp
+        src/clientServer/Player.h
+        src/clientServer/Physics.cpp
+        src/clientServer/Physics.h src/clientServer/GUIGame.cpp src/clientServer/GUIGame.h)
 target_link_libraries(both Box2D SDL2 SDL2_image)

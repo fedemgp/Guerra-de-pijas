@@ -11,8 +11,8 @@
 #include "CommunicationSocket.h"
 #include "Socket.h"
 
-class ServerSocket: public Socket{
-public:
+class ServerSocket : public Socket {
+   public:
     explicit ServerSocket(const char *port);
     /**
      * Acepta una conexión y devuelve un CommunicationSocket por movimiento.
@@ -22,5 +22,4 @@ public:
     void bindAndListen(const char *port);
 };
 
-
-#endif //__SERVERSOCKET_H__
+#endif  //__SERVERSOCKET_H__
