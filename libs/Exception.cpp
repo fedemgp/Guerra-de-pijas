@@ -15,37 +15,24 @@
  * @param ... = argumentos para completar fmt
  */
 Exception::Exception(const char *fmt, ...) noexcept {
-    std::istringstream iss(fmt);
-    std::ostringstream oss;
-    std::string stringFragment;
-
-    va_list args;
+    va_list args, args_copy;
     va_start(args, fmt);
-    while (std::getline(iss, stringFragment, '%')) {
-        oss << stringFragment;
-        char type(0);
-        iss >> type;
-        switch (type) {
-            case 's':
-                oss << va_arg(args, const char *);
-                break;
-            case 'S':
-                break;
-            case 'i':
-                oss << va_arg(args, int);
-                break;
-            case 'f':
-                oss << va_arg(args, float);
-                break;
-            default:
-                break;
-        }
+    va_copy(args_copy, args);
+
+    try {
+        std::size_t size = std::vsnprintf(nullptr, 0, fmt, args) + 1;
+
+        this->msg_error.reserve(size);
+        std::vsnprintf(&this->msg_error.front(), size, fmt, args_copy);
+
+        va_end(args_copy);
+        va_end(args);
+    } catch (...) {
+        va_end(args_copy);
+        va_end(args);
     }
-    oss << '\0';
-    va_end(args);
-    this->msg_error = oss.str();
 }
 
 const char *Exception::what() const noexcept {
-    return this->msg_error.data();
+    return this->msg_error.c_str();
 }

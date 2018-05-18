@@ -40,7 +40,7 @@ View::View() : window(nullptr), screenSurface(nullptr), renderer(nullptr),
 
     //Initialize PGN loading
     int imgFlags = IMG_INIT_PNG;
-    if (!IMG_Init(imgFlags) & imgFlags){
+    if ((!IMG_Init(imgFlags)) & imgFlags){
         this->close();
         throw Exception("SDL_image could not initialize! SDL_image Error: %s",
                         IMG_GetError());

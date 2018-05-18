@@ -55,6 +55,16 @@ add_executable( prototype
         libs/Exception.h)
 target_link_libraries(prototype Box2D SDL2 SDL2_image)
 
+add_executable( SDLTest
+        libs/Exception.cpp
+        libs/Exception.h
+        src/SDLTest/main.cpp
+        src/SDLTest/View.cpp
+        src/SDLTest/View.h
+        src/SDLTest/Texture.cpp
+        src/SDLTest/Texture.h)
+target_link_libraries(SDLTest SDL2 SDL2_image)
+
 
 add_executable( both
         libs/Socket.cpp
