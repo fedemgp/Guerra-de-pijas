@@ -35,4 +35,5 @@ Run `make help` to get more information about different build options.
 ## Useful links
 
 [SDL tutorial](http://lazyfoo.net/tutorials/SDL/)
+
 [Box2D: Moving at constant speed](http://www.iforce2d.net/b2dtut/constant-speed)
