@@ -3,16 +3,16 @@
  * Date: 17/05/18.
  */
 
+#include "GUIGame.h"
 #include <SDL2/SDL.h>
 #include "GameStateMsg.h"
 #include "Stream.h"
 #include "Window.h"
-#include "GUIGame.h"
 
 // TODO DEHARDCODE
 GUI::GUIGame::GUIGame(Window &w)
-        : window(w),
-          wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.getRenderer(), Color{0x7f, 0x7f, 0xbb}) {
+    : window(w),
+      wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.getRenderer(), Color{0x7f, 0x7f, 0xbb}) {
 }
 
 GUI::GUIGame::~GUIGame() {}

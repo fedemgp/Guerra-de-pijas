@@ -8,21 +8,20 @@
 
 #include "Animation.h"
 
-namespace GUI{
-    class GUIGame{
-    public:
-        GUIGame(Window &w);
-        ~GUIGame();
-        void start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output);
-        void update(float dt);
-        void render();
+namespace GUI {
+class GUIGame {
+   public:
+    GUIGame(Window &w);
+    ~GUIGame();
+    void start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output);
+    void update(float dt);
+    void render();
 
-    private:
-        Window &window;
-        Animation wwalk;
-        int x{0}, y{0};
-    };
+   private:
+    Window &window;
+    Animation wwalk;
+    int x{0}, y{0};
+};
 }
 
-
-#endif //__GUIGame_H__
+#endif  //__GUIGame_H__
