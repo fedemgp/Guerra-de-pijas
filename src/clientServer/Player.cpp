@@ -7,6 +7,7 @@
 
 #include "Physics.h"
 #include "Player.h"
+#include "PlayerStill.h"
 
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -21,21 +22,12 @@ Worms::Player::Player(Physics &physics) {
     this->fixture.friction = 0.0f;
 
     this->body->CreateFixture(&this->fixture);
+
+    this->state = std::shared_ptr<State>(new Still());
 }
 
 void Worms::Player::update(float dt) {
-    float final_vel = 0.0f;
-    switch (this->state) {
-        case PlayerState::still:
-            final_vel = 0.0f;
-            break;
-        case PlayerState::movingLeft:
-            final_vel = -3.0f;
-            break;
-        case PlayerState::movingRight:
-            final_vel = 3.0f;
-            break;
-    }
+    float final_vel = this->state->update();
 
     b2Vec2 vel = this->body->GetLinearVelocity();
     const float delta = final_vel - vel.x;
@@ -52,14 +44,18 @@ Math::Point<float> Worms::Player::getPosition() const {
     return Math::Point<float>{pos.x, pos.y};
 }
 
-void Worms::Player::moveRight() {
-    this->state = PlayerState::movingRight;
-}
-
-void Worms::Player::moveLeft() {
-    this->state = PlayerState::movingLeft;
-}
-
-void Worms::Player::stopMove() {
-    this->state = PlayerState::still;
+void Worms::Player::handleState(IO::PlayerInput pi) {
+    switch (pi) {
+        case IO::PlayerInput::moveLeft:
+            this->state->moveLeft(*this);
+            break;
+        case IO::PlayerInput::moveRight:
+            this->state->moveRight(*this);
+            break;
+        case IO::PlayerInput::stopMove:
+            this->state->stopMove(*this);
+            break;
+        case IO::PlayerInput::moveNone:
+            break;
+    }
 }

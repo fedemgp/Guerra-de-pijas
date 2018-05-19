@@ -48,7 +48,9 @@ Worms::Game::Game(const World &&level) : physics(b2Vec2{0.0f, -10.0f}), level(st
 
 void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                         IO::Stream<IO::PlayerInput> *playerStream) {
+
     try {
+
         /* game loop */
         std::chrono::high_resolution_clock::time_point prev = std::chrono::high_resolution_clock::now();
         float lag = 0.0f;
@@ -56,26 +58,14 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 
         while (!quit) {
             std::chrono::high_resolution_clock::time_point current =
-                    std::chrono::high_resolution_clock::now();
+                std::chrono::high_resolution_clock::now();
             double dt =
-                    std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
+                std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
             lag += dt;
 
             IO::PlayerInput pi;
             if (playerStream->pop(pi, false)) {
-                switch (pi) {
-                    case IO::PlayerInput::moveLeft:
-                        this->players[0].moveLeft();
-                        break;
-                    case IO::PlayerInput::moveRight:
-                        this->players[0].moveRight();
-                        break;
-                    case IO::PlayerInput::stopMove:
-                        this->players[0].stopMove();
-                        break;
-                    case IO::PlayerInput::moveNone:
-                        break;
-                }
+                this->players[0].handleState(pi);
             }
 
             /* updates the actors */
