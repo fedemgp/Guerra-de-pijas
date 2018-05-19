@@ -16,8 +16,12 @@ namespace Worms {
 class Game {
    public:
     std::atomic<bool> quit{false};
+
     Game(const World &&level);
-    ~Game() = default;
+    ~Game() {}
+
+    Game(Game &&other) = delete;
+
     void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const;
     void exit();

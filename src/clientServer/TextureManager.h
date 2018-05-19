@@ -13,6 +13,7 @@ class TextureManager {
    public:
     TextureManager(SDL_Renderer& renderer);
     ~TextureManager();
+    TextureManager& operator=(TextureManager& other) = delete;
 
     void load(ID id, const std::string& file_name, Color key);
     const Texture& get(ID id) const;
@@ -24,8 +25,7 @@ class TextureManager {
 }  // namespace GUI
 
 template <typename ID, typename HASH>
-GUI::TextureManager<ID, HASH>::TextureManager(SDL_Renderer& renderer) : renderer(renderer) {
-}
+GUI::TextureManager<ID, HASH>::TextureManager(SDL_Renderer& renderer) : renderer(renderer) {}
 
 template <typename ID, typename HASH>
 GUI::TextureManager<ID, HASH>::~TextureManager() {}

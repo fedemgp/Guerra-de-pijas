@@ -30,6 +30,13 @@ void GUI::Animation::update(float dt) {
     }
 }
 
+/**
+ * @brief Renders the animation in the given coordinates.
+ *
+ * @param renderer Renderer.
+ * @param x X coordinate.
+ * @param y Y corrdinate.
+ */
 void GUI::Animation::render(SDL_Renderer &renderer, int x, int y) {
     SDL_Rect clip = {0, this->size * this->currentFrame, this->size, this->size};
     SDL_Rect dst = {x, y, this->size, this->size};

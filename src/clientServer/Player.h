@@ -3,11 +3,12 @@
  *  date: 18/05/18
  */
 
-#ifndef __Player_H__
-#define __Player_H__
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 #include "GameStateMsg.h"
 #include "Physics.h"
+#include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
 
@@ -23,17 +24,15 @@ class Player {
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
-    void moveRight();
-    void moveLeft();
-    void stopMove();
+    void handleState(IO::PlayerInput pi);
+    std::shared_ptr<Worms::State> state;
 
    private:
     b2Body *body;
     b2BodyDef bodyDef;
     b2PolygonShape shape;
     b2FixtureDef fixture;
-    PlayerState state{PlayerState::still};
 };
 }
 
-#endif  //__Player_H__
+#endif  //__PLAYER_H__

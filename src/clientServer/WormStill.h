@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#ifndef __WORM_WALK_H__
-#define __WORM_WALK_H__
+#ifndef __WORM_QUIET_H__
+#define __WORM_QUIET_H__
 
 #include <SDL2/SDL_system.h>
 
@@ -13,13 +13,14 @@
 #include "WormState.h"
 
 namespace Worm {
-class Walk : public State {
+class Still : public State {
    public:
-    explicit Walk(GUI::Animation &&animation);
-    virtual ~Walk();
+    Still(GUI::Animation &&animation);
+    ~Still();
 
     virtual void render(int x, int y, SDL_Renderer &renderer) override;
     virtual void update(float dt) override;
+
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
@@ -29,4 +30,4 @@ class Walk : public State {
 };
 }  // namespace Worm
 
-#endif  //__WORM_WALK_H__
+#endif  //__WORM_QUIET_H__

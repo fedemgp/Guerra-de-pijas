@@ -7,11 +7,11 @@
 
 #include "GameStateMsg.h"
 #include "Worm.h"
-#include "WormQuiet.h"
+#include "WormStill.h"
 #include "WormWalk.h"
 
 Worm::Worm::Worm(const TextureManager &texture_mgr) : texture_mgr(texture_mgr) {
-    this->setState(::Worm::StateID::quiet);
+    this->setState(::Worm::StateID::still);
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -50,7 +50,7 @@ void Worm::Worm::render(int x, int y, SDL_Renderer &renderer) {
     this->state->render(x, y, renderer);
 }
 
-void Worm::Worm::update(double dt) {
+void Worm::Worm::update(float dt) {
     this->state->update(dt);
 }
 
@@ -61,8 +61,8 @@ GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
 void Worm::Worm::setState(StateID state) {
     /* creates the right state type */
     switch (state) {
-        case StateID::quiet:
-            this->state = std::shared_ptr<State>(new Quiet{this->getAnimation(state)});
+        case StateID::still:
+            this->state = std::shared_ptr<State>(new Still{this->getAnimation(state)});
             break;
         case StateID::walk:
             this->state = std::shared_ptr<State>(new Walk{this->getAnimation(state)});
