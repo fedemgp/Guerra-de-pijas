@@ -1,3 +1,4 @@
+#include "Player.h"
 #include "PlayerWalkLeft.h"
 #include "PlayerWalkRight.h"
 #include "PlayerStill.h"
@@ -16,4 +17,12 @@ void Worms::WalkLeft::moveLeft(Worms::Player &p) {
 
 void Worms::WalkLeft::stopMove(Worms::Player &p) {
     p.state = std::shared_ptr<State>(new Still());
+}
+
+void Worms::WalkLeft::jumpRight(Worms::Player &p) {
+
+}
+
+void Worms::WalkLeft::jumpLeft(Worms::Player &p) {
+
 }

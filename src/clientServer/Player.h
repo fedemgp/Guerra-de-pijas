@@ -24,9 +24,6 @@ class Player {
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
-    void moveRight();
-    void moveLeft();
-    void stopMove();
     void handleState(IO::PlayerInput pi);
     std::shared_ptr<State> state;
 

@@ -2,8 +2,6 @@
 #define _PLAYERSTATE_H
 
 
-#include "Player.h"
-
 namespace Worms {
     class Player;
     class State {
@@ -12,6 +10,8 @@ namespace Worms {
         virtual float update() = 0;
         virtual void moveRight(Player &p) = 0;
         virtual void moveLeft(Player &p) = 0;
+        virtual void jumpRight(Player &p) = 0;
+        virtual void jumpLeft(Player &p) = 0;
         virtual void stopMove(Player &p) = 0;
     };
 }
