@@ -7,10 +7,10 @@
 
 #include "GameStateMsg.h"
 #include "Worm.h"
-#include "WormQuiet.h"
+#include "WormStill.h"
 
 Worm::Worm::Worm(SDL_Renderer &renderer) : renderer(renderer) {
-    this->state = std::shared_ptr<State>(new Quiet(this->renderer, SDL_FLIP_NONE));
+    this->state = std::shared_ptr<State>(new Still(this->renderer, SDL_FLIP_NONE));
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -49,6 +49,6 @@ void Worm::Worm::render(int x, int y) {
     this->state->render(x, y);
 }
 
-void Worm::Worm::update(double dt) {
+void Worm::Worm::update(float dt) {
     this->state->update(dt);
 }

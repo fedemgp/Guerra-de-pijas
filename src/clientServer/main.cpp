@@ -3,15 +3,16 @@
  * Date: 17/05/18.
  */
 #include <exception>
-#include <iostream>
 #include <thread>
+#include <iostream>
 
+#include "GameStateMsg.h"
 #include "GUIGame.h"
 #include "Game.h"
-#include "GameStateMsg.h"
 #include "Stream.h"
 #include "Window.h"
 #include "World.h"
+
 
 int main(int argc, const char *argv[]) {
     try {

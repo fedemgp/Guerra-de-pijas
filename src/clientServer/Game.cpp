@@ -7,6 +7,7 @@
 #include <zconf.h>
 #include <atomic>
 #include <chrono>
+#include <iostream>
 
 #include "Game.h"
 #include "Player.h"
@@ -47,54 +48,60 @@ Worms::Game::Game(const World &&level) : physics(b2Vec2{0.0f, -10.0f}), level(st
 
 void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                         IO::Stream<IO::PlayerInput> *playerStream) {
-    /* game loop */
-    std::chrono::high_resolution_clock::time_point prev = std::chrono::high_resolution_clock::now();
-    float lag = 0.0f;
-    float32 timeStep = 1.0f / 60.0f;
+    try {
+        /* game loop */
+        std::chrono::high_resolution_clock::time_point prev = std::chrono::high_resolution_clock::now();
+        float lag = 0.0f;
+        float32 timeStep = 1.0f / 60.0f;
 
-    while (!quit) {
-        std::chrono::high_resolution_clock::time_point current =
-            std::chrono::high_resolution_clock::now();
-        double dt =
-            std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
-        lag += dt;
+        while (!quit) {
+            std::chrono::high_resolution_clock::time_point current =
+                    std::chrono::high_resolution_clock::now();
+            double dt =
+                    std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
+            lag += dt;
 
-        IO::PlayerInput pi;
-        if (playerStream->pop(pi, false)) {
-            switch (pi) {
-                case IO::PlayerInput::moveLeft:
-                    this->players[0].moveLeft();
-                    break;
-                case IO::PlayerInput::moveRight:
-                    this->players[0].moveRight();
-                    break;
-                case IO::PlayerInput::stopMove:
-                    this->players[0].stopMove();
-                    break;
-                case IO::PlayerInput::moveNone:
-                    break;
+            IO::PlayerInput pi;
+            if (playerStream->pop(pi, false)) {
+                switch (pi) {
+                    case IO::PlayerInput::moveLeft:
+                        this->players[0].moveLeft();
+                        break;
+                    case IO::PlayerInput::moveRight:
+                        this->players[0].moveRight();
+                        break;
+                    case IO::PlayerInput::stopMove:
+                        this->players[0].stopMove();
+                        break;
+                    case IO::PlayerInput::moveNone:
+                        break;
+                }
             }
+
+            /* updates the actors */
+            for (auto &worm : this->players) {
+                worm.update(dt);
+            }
+
+            /* updates the physics engine */
+            for (int i = 0; i < 5 && lag > timeStep; i++) {
+                this->physics.update(timeStep);
+                lag -= timeStep;
+            }
+
+            /* sends the current game state */
+            this->serialize(*output);
+
+            prev = current;
+            usleep(20 * 1000);
         }
 
-        /* updates the actors */
-        for (auto &worm : this->players) {
-            worm.update(dt);
-        }
-
-        /* updates the physics engine */
-        for (int i = 0; i < 5 && lag > timeStep; i++) {
-            this->physics.update(timeStep);
-            lag -= timeStep;
-        }
-
-        /* sends the current game state */
-        this->serialize(*output);
-
-        prev = current;
-        usleep(20 * 1000);
+        output->close();
+    } catch (std::exception &e){
+        std::cerr << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unkown error in Worms::Game::start()" << std::endl;
     }
-
-    output->close();
 }
 
 void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {

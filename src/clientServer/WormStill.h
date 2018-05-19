@@ -13,12 +13,12 @@
 #include "WormState.h"
 
 namespace Worm {
-class Quiet : public State {
+class Still : public State {
    public:
-    Quiet(SDL_Renderer &r, SDL_RendererFlip flipType);
-    ~Quiet();
+    Still(SDL_Renderer &r, SDL_RendererFlip flipType);
+    ~Still();
     void render(int x, int y) override;
-    void update(double dt) override;
+    void update(float dt) override;
     IO::PlayerInput moveRight(Worm &w) override;
     IO::PlayerInput moveLeft(Worm &w) override;
     IO::PlayerInput stopMove(Worm &w) override;

@@ -97,6 +97,6 @@ add_executable( clientServer
         src/clientServer/WormWalkRight.h
         src/clientServer/WormWalkLeft.cpp
         src/clientServer/WormWalkLeft.h
-        src/clientServer/WormQuiet.cpp
-        src/clientServer/WormQuiet.h src/clientServer/Worm.cpp src/clientServer/Worm.h )
+        src/clientServer/WormStill.cpp
+        src/clientServer/WormStill.h src/clientServer/Worm.cpp src/clientServer/Worm.h src/clientServer/TexturePool.cpp src/clientServer/TexturePool.h)
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)

@@ -8,11 +8,16 @@
 
 namespace Worm {
 class Worm;
+    /**
+     * Worm status interface. It is used to implement the state pattern and
+     * thus obtain a polymorphic behavior and at the same time treat the
+     * animation as a state machine
+     */
 class State {
    public:
     virtual ~State() = default;
     virtual void render(int x, int y) = 0;
-    virtual void update(double dt) = 0;
+    virtual void update(float dt) = 0;
     virtual IO::PlayerInput moveRight(Worm &w) = 0;
     virtual IO::PlayerInput moveLeft(Worm &w) = 0;
     virtual IO::PlayerInput stopMove(Worm &w) = 0;

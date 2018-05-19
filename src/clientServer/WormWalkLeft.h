@@ -18,7 +18,7 @@ class WalkLeft : public State {
     explicit WalkLeft(SDL_Renderer &r);
     ~WalkLeft();
     void render(int x, int y) override;
-    void update(double dt) override;
+    void update(float dt) override;
     IO::PlayerInput moveRight(Worm &w) override;
     IO::PlayerInput moveLeft(Worm &w) override;
     IO::PlayerInput stopMove(Worm &w) override;
