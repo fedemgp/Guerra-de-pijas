@@ -61,19 +61,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 
         IO::PlayerInput pi;
         if (playerStream->pop(pi, false)) {
-            switch (pi) {
-                case IO::PlayerInput::moveLeft:
-                    this->players[0].moveLeft();
-                    break;
-                case IO::PlayerInput::moveRight:
-                    this->players[0].moveRight();
-                    break;
-                case IO::PlayerInput::stopMove:
-                    this->players[0].stopMove();
-                    break;
-                case IO::PlayerInput::moveNone:
-                    break;
-            }
+            this->players[0].handleState(pi);
         }
 
         /* updates the actors */

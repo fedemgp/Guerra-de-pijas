@@ -3,13 +3,14 @@
  *  date: 18/05/18
  */
 
-#ifndef __Player_H__
-#define __Player_H__
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
 
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "Point.h"
 #include "Stream.h"
+#include "PlayerState.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
@@ -26,14 +27,15 @@ class Player {
     void moveRight();
     void moveLeft();
     void stopMove();
+    void handleState(IO::PlayerInput pi);
+    std::shared_ptr<State> state;
 
    private:
     b2Body *body;
     b2BodyDef bodyDef;
     b2PolygonShape shape;
     b2FixtureDef fixture;
-    PlayerState state{PlayerState::still};
 };
 }
 
-#endif  //__Player_H__
+#endif  //__PLAYER_H__

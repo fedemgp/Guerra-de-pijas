@@ -6,6 +6,8 @@
 #ifndef __WORM_STATE_H__
 #define __WORM_STATE_H__
 
+#include "GameStateMsg.h"
+
 namespace Worm {
 class Worm;
 class State {
