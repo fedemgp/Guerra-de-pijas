@@ -4,19 +4,14 @@
  */
 
 #include "WormQuiet.h"
-#include "WormWalkLeft.h"
-#include "WormWalkRight.h"
+#include "Texture.h"
 
-Worm::Quiet::Quiet(SDL_Renderer &r, SDL_RendererFlip flipType)
-    : animation("src/clientServer/assets/img/Worms/wwalk2.png", r, GUI::Color{0x7f, 0x7f, 0xbb}),
-      renderer(r) {
-    this->animation.setFlip(flipType);
-}
+Worm::Quiet::Quiet(GUI::Animation &&animation) : animation(std::move(animation)) {}
 
 Worm::Quiet::~Quiet() {}
 
-void Worm::Quiet::render(int x, int y) {
-    this->animation.render(this->renderer, x, y);
+void Worm::Quiet::render(int x, int y, SDL_Renderer &renderer) {
+    this->animation.render(renderer, x, y);
 }
 
 void Worm::Quiet::update(double dt) {
@@ -24,12 +19,14 @@ void Worm::Quiet::update(double dt) {
 }
 
 IO::PlayerInput Worm::Quiet::moveRight(Worm &w) {
-    w.state = std::shared_ptr<State>(new WalkRight(this->renderer));
+    w.setState(::Worm::StateID::walk);
+    w.direction = ::Worm::Direction::right;
     return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Quiet::moveLeft(Worm &w) {
-    w.state = std::shared_ptr<State>(new WalkLeft(this->renderer));
+    w.setState(::Worm::StateID::walk);
+    w.direction = ::Worm::Direction::left;
     return IO::PlayerInput::moveLeft;
 }
 

@@ -6,9 +6,11 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
+#include <vector>
 #include "Animation.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
+#include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
 
@@ -23,9 +25,10 @@ class Game {
 
    private:
     Window &window;
-    Worm::Worm worm;
+    Worm::TextureManager texture_mgr;
+    std::vector<Worm::Worm> worms;
     int x{0}, y{0};
 };
-}
+}  // namespace GUI
 
 #endif  //__GUIGame_H__

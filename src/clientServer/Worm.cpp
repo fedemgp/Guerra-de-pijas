@@ -8,9 +8,10 @@
 #include "GameStateMsg.h"
 #include "Worm.h"
 #include "WormQuiet.h"
+#include "WormWalk.h"
 
-Worm::Worm::Worm(SDL_Renderer &renderer) : renderer(renderer) {
-    this->state = std::shared_ptr<State>(new Quiet(this->renderer, SDL_FLIP_NONE));
+Worm::Worm::Worm(const TextureManager &texture_mgr) : texture_mgr(texture_mgr) {
+    this->setState(::Worm::StateID::quiet);
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -45,10 +46,26 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
     }
 }
 
-void Worm::Worm::render(int x, int y) {
-    this->state->render(x, y);
+void Worm::Worm::render(int x, int y, SDL_Renderer &renderer) {
+    this->state->render(x, y, renderer);
 }
 
 void Worm::Worm::update(double dt) {
     this->state->update(dt);
+}
+
+GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
+    return GUI::Animation{this->texture_mgr.get(state)};
+}
+
+void Worm::Worm::setState(StateID state) {
+    /* creates the right state type */
+    switch (state) {
+        case StateID::quiet:
+            this->state = std::shared_ptr<State>(new Quiet{this->getAnimation(state)});
+            break;
+        case StateID::walk:
+            this->state = std::shared_ptr<State>(new Walk{this->getAnimation(state)});
+            break;
+    }
 }

@@ -4,6 +4,7 @@
  */
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 #include "GUIGame.h"
 #include "GameStateMsg.h"
@@ -11,11 +12,20 @@
 #include "Window.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w) : window(w), worm(w.getRenderer()) {}
+GUI::Game::Game(Window &w) : window(w), texture_mgr(w.getRenderer()) {
+    /* loads the required textures */
+    this->texture_mgr.load(Worm::StateID::walk, "src/clientServer/assets/img/Worms/wwalk2.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(Worm::StateID::quiet, "src/clientServer/assets/img/Worms/wwalk2.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+}
 
 GUI::Game::~Game() {}
 
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output) {
+    // TODO: remove this
+    this->worms.emplace_back(this->texture_mgr);
+
     uint32_t prev = SDL_GetTicks();
     IO::GameStateMsg m{1};
     bool quit = false;
@@ -28,10 +38,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
                     quit = true;
                     break;
                 case SDL_KEYDOWN:
-                    this->worm.handleKeyDown(e.key.keysym.sym, output);
+                    this->worms[0].handleKeyDown(e.key.keysym.sym, output);
                     break;
                 case SDL_KEYUP:
-                    this->worm.handleKeyUp(e.key.keysym.sym, output);
+                    this->worms[0].handleKeyUp(e.key.keysym.sym, output);
                     break;
             }
         }
@@ -49,11 +59,15 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
 }
 
 void GUI::Game::update(float dt) {
-    this->worm.update(dt);
+    for (auto &worm : this->worms) {
+        worm.update(dt);
+    }
 }
 
 void GUI::Game::render() {
     this->window.clear();
-    this->worm.render(this->x, this->y);
+    for (auto &worm : this->worms) {
+        worm.render(this->x, this->y, this->window.getRenderer());
+    }
     this->window.render();
 }

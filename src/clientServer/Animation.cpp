@@ -9,43 +9,16 @@
 
 #include "Animation.h"
 
-GUI::Animation::Animation(const std::string &filename, SDL_Renderer &renderer, GUI::Color key) {
-    /* loads the image into a temporary surface */
-    SDL_Surface *tmp = IMG_Load(filename.c_str());
-    if (!tmp) {
-        throw Exception{"Error loading %s: %s", filename.c_str(), IMG_GetError()};
-    }
-
-    SDL_SetColorKey(tmp, SDL_TRUE, SDL_MapRGB(tmp->format, key.r, key.g, key.b));
-
-    /* creates a texture from the surface */
-    this->texture = SDL_CreateTextureFromSurface(&renderer, tmp);
-    if (!this->texture) {
-        SDL_FreeSurface(tmp);
-        throw Exception{"Error creating texture for %s: %s", filename.c_str(), SDL_GetError()};
-    }
-
+GUI::Animation::Animation(const Texture &texture) : texture(texture) {
     /* assumes the frames are squares */
-    this->numFrames = tmp->h / tmp->w;
-    this->size = tmp->w;
-
-    /* releases the temporary surface */
-    SDL_FreeSurface(tmp);
+    this->numFrames = this->texture.getHeight() / this->texture.getWidth();
+    this->size = this->texture.getWidth();
 
     assert(this->numFrames > 0);
     assert(this->size > 0);
 }
 
-GUI::Animation::~Animation() {
-    this->free();
-}
-
-void GUI::Animation::free() {
-    if (this->texture != nullptr) {
-        SDL_DestroyTexture(this->texture);
-        this->texture = nullptr;
-    }
-}
+GUI::Animation::~Animation() {}
 
 void GUI::Animation::update(float dt) {
     this->elapsed += dt;
@@ -58,10 +31,17 @@ void GUI::Animation::update(float dt) {
 }
 
 void GUI::Animation::render(SDL_Renderer &renderer, int x, int y) {
-    /* set rendering space and render to screen */
     SDL_Rect clip = {0, this->size * this->currentFrame, this->size, this->size};
     SDL_Rect dst = {x, y, this->size, this->size};
-    SDL_RenderCopyEx(&renderer, this->texture, &clip, &dst, 0, nullptr, this->flipType);
+    this->texture.render(renderer, clip, dst, this->flipType);
+}
+
+/**
+ * @brief Resets the animation.
+ *
+ */
+void GUI::Animation::reset() {
+    this->currentFrame = 0;
 }
 
 void GUI::Animation::advanceFrame() {

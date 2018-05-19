@@ -15,9 +15,10 @@
 namespace Worm {
 class Quiet : public State {
    public:
-    Quiet(SDL_Renderer &r, SDL_RendererFlip flipType);
+    Quiet(GUI::Animation &&animation);
     ~Quiet();
-    void render(int x, int y) override;
+
+    void render(int x, int y, SDL_Renderer &renderer) override;
     void update(double dt) override;
     IO::PlayerInput moveRight(Worm &w) override;
     IO::PlayerInput moveLeft(Worm &w) override;
@@ -25,7 +26,6 @@ class Quiet : public State {
 
    private:
     GUI::Animation animation;
-    SDL_Renderer &renderer;
 };
 }  // namespace Worm
 

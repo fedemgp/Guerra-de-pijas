@@ -10,22 +10,25 @@
 
 #include "Color.h"
 #include "Exception.h"
+#include "Texture.h"
 
 namespace GUI {
 class Animation {
    public:
-    Animation(const std::string &filename, SDL_Renderer &renderer, Color key);
+    Animation(const Texture &texture);
     ~Animation();
+
     void update(float dt);
     void render(SDL_Renderer &renderer, int x, int y);
+
+    void reset();
     void advanceFrame();
     void setFlip(SDL_RendererFlip flipType);
     SDL_RendererFlip getFlip();
 
    private:
-    void free();
     /** SDL texture of the raw image. */
-    SDL_Texture *texture{nullptr};
+    const Texture &texture;
     /** Current animation frame. */
     int currentFrame{0};
     /** Total number of frames in the sprite. */
