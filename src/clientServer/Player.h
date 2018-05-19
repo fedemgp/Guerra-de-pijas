@@ -28,7 +28,7 @@ class Player {
     void moveLeft();
     void stopMove();
     void handleState(IO::PlayerInput pi);
-    std::shared_ptr<State> state;
+    std::shared_ptr<Worms::State> state;
 
    private:
     b2Body *body;

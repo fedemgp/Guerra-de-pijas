@@ -2,8 +2,6 @@
 #define _PLAYERSTATE_H
 
 
-#include "Player.h"
-
 namespace Worms {
     class Player;
     class State {
