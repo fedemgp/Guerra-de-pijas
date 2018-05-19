@@ -298,7 +298,7 @@ bool b2PolygonShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& inpu
 		{
 			// Note: we want this predicate without division:
 			// lower < numerator / denominator, where denominator < 0
-			// Since denominator < 0, we have to flip the inequality:
+			// Since denominator < 0, we have to setFlip the inequality:
 			// lower < numerator / denominator <==> denominator * lower > numerator.
 			if (denominator < 0.0f && numerator < lower * denominator)
 			{

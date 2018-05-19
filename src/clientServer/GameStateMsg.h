@@ -14,9 +14,10 @@ struct GameStateMsg {
 };
 
 enum class PlayerInput {
-    move_right,
-    move_left,
-    stop_move,
+    moveNone,
+    moveRight,
+    moveLeft,
+    stopMove,
 };
 }  // namesmpace IO
 

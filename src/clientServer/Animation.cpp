@@ -37,7 +37,11 @@ GUI::Animation::Animation(const std::string &filename, SDL_Renderer &renderer, G
 }
 
 GUI::Animation::~Animation() {
-    if (!this->texture) {
+    this->free();
+}
+
+void GUI::Animation::free() {
+    if (this->texture != nullptr) {
         SDL_DestroyTexture(this->texture);
         this->texture = nullptr;
     }
@@ -64,6 +68,10 @@ void GUI::Animation::advanceFrame() {
     this->currentFrame = (this->currentFrame + 1) % this->numFrames;
 }
 
-void GUI::Animation::flip(SDL_RendererFlip flip_type) {
+void GUI::Animation::setFlip(SDL_RendererFlip flip_type) {
     this->flipType = flip_type;
+}
+
+SDL_RendererFlip GUI::Animation::getFlip() {
+    return this->flipType;
 }

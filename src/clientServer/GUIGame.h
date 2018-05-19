@@ -7,9 +7,10 @@
 #define __GUIGame_H__
 
 #include "Animation.h"
-#include "Window.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
+#include "Window.h"
+#include "Worm.h"
 
 namespace GUI {
 class Game {
@@ -22,7 +23,7 @@ class Game {
 
    private:
     Window &window;
-    Animation wwalk;
+    Worm::Worm worm;
     int x{0}, y{0};
 };
 }

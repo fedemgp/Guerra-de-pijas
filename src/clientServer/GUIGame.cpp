@@ -3,23 +3,21 @@
  * Date: 17/05/18.
  */
 
-#include "GUIGame.h"
 #include <SDL2/SDL.h>
+
+#include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
 #include "Window.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w)
-    : window(w),
-      wwalk("src/prototype/assets/img/Worms/wwalk2.png", w.getRenderer(), Color{0x7f, 0x7f, 0xbb}) {
-}
+GUI::Game::Game(Window &w) : window(w), worm(w.getRenderer()) {}
 
 GUI::Game::~Game() {}
 
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output) {
     uint32_t prev = SDL_GetTicks();
-    IO::GameStateMsg m;
+    IO::GameStateMsg m{1};
     bool quit = false;
     while (!quit) {
         /* handle events on queue */
@@ -30,24 +28,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
                     quit = true;
                     break;
                 case SDL_KEYDOWN:
-                    switch (e.key.keysym.sym) {
-                        case SDLK_LEFT:
-                            output->push(IO::PlayerInput::move_left);
-                            this->wwalk.flip(SDL_FLIP_NONE);
-                            break;
-                        case SDLK_RIGHT:
-                            output->push(IO::PlayerInput::move_right);
-                            this->wwalk.flip(SDL_FLIP_HORIZONTAL);
-                            break;
-                    }
+                    this->worm.handleKeyDown(e.key.keysym.sym, output);
                     break;
                 case SDL_KEYUP:
-                    switch (e.key.keysym.sym) {
-                        case SDLK_LEFT:
-                        case SDLK_RIGHT:
-                            output->push(IO::PlayerInput::stop_move);
-                            break;
-                    }
+                    this->worm.handleKeyUp(e.key.keysym.sym, output);
                     break;
             }
         }
@@ -65,11 +49,11 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
 }
 
 void GUI::Game::update(float dt) {
-    this->wwalk.update(dt);
+    this->worm.update(dt);
 }
 
 void GUI::Game::render() {
     this->window.clear();
-    this->wwalk.render(this->window.getRenderer(), this->x, this->y);
+    this->worm.render(this->x, this->y);
     this->window.render();
 }

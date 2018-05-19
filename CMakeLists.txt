@@ -66,7 +66,7 @@ add_executable( SDLTest
 target_link_libraries(SDLTest SDL2 SDL2_image)
 
 
-add_executable( both
+add_executable( clientServer
         libs/Socket.cpp
         libs/Socket.h
         libs/CommunicationSocket.cpp
@@ -84,10 +84,19 @@ add_executable( both
         src/clientServer/Point.h
         src/clientServer/Game.cpp
         src/clientServer/Game.h
-        src/clientServer/World.cpp
         src/clientServer/World.h
+        src/clientServer/World.cpp
         src/clientServer/Player.cpp
         src/clientServer/Player.h
         src/clientServer/Physics.cpp
-        src/clientServer/Physics.h src/clientServer/GUIGame.cpp src/clientServer/GUIGame.h)
-target_link_libraries(both Box2D SDL2 SDL2_image)
+        src/clientServer/Physics.h
+        src/clientServer/GUIGame.cpp
+        src/clientServer/GUIGame.h
+        src/clientServer/WormState.h
+        src/clientServer/WormWalkRight.cpp
+        src/clientServer/WormWalkRight.h
+        src/clientServer/WormWalkLeft.cpp
+        src/clientServer/WormWalkLeft.h
+        src/clientServer/WormQuiet.cpp
+        src/clientServer/WormQuiet.h src/clientServer/Worm.cpp src/clientServer/Worm.h )
+target_link_libraries(clientServer Box2D SDL2 SDL2_image)

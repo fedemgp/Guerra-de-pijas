@@ -25,6 +25,7 @@ int main(int argc, const char *argv[]) {
             std::thread(std::bind(&Worms::Game::start, &game, &server_stream, &player_stream));
 
         GUI::Game gui_game{window};
+
         std::thread gui_thread =
             std::thread(std::bind(&GUI::Game::start, &gui_game, &server_stream, &player_stream));
 

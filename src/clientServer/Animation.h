@@ -19,9 +19,11 @@ class Animation {
     void update(float dt);
     void render(SDL_Renderer &renderer, int x, int y);
     void advanceFrame();
-    void flip(SDL_RendererFlip flipType);
+    void setFlip(SDL_RendererFlip flipType);
+    SDL_RendererFlip getFlip();
 
    private:
+    void free();
     /** SDL texture of the raw image. */
     SDL_Texture *texture{nullptr};
     /** Current animation frame. */
@@ -31,7 +33,7 @@ class Animation {
     /** Size of the sprite (height and width). */
     int size;
     /** Time elapsed since last update. */
-    float elapsed;
+    float elapsed{0.0f};
     /** Frames per seconds (should this be elsewere?). */
     float frameRate{1.0f / 30.0f};
     SDL_RendererFlip flipType{SDL_FLIP_NONE};

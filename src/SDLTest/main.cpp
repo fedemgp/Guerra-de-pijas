@@ -2,14 +2,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <thread>
 #include "View.h"
 
 /*
  *  Created by Federico Manuel Gomez Peter.
  *  date: 13/05/18
  */
-
-int main(int argc, const char *argv[]) {
+void _start() {
     try {
         View view;
         view.loadMedia();
@@ -88,6 +88,14 @@ int main(int argc, const char *argv[]) {
             // Update screen
             SDL_RenderPresent(view.renderer);
         }
+    } catch (...) {
+        std::cerr << "ERROR" << std::endl;
+    }
+}
+int main(int argc, const char *argv[]) {
+    try {
+        std::thread t = std::thread(&_start);
+        t.join();
 
     } catch (Exception &e) {
         std::cerr << e.what() << std::endl;
