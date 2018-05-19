@@ -65,53 +65,8 @@ add_executable( SDLTest
         src/SDLTest/Texture.h)
 target_link_libraries(SDLTest SDL2 SDL2_image)
 
-
+file(GLOB CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        libs/Socket.cpp
-        libs/Socket.h
-        libs/CommunicationSocket.cpp
-        libs/CommunicationSocket.h
-        libs/Exception.cpp
-        libs/Exception.h
-        libs/utils.h
-        src/clientServer/main.cpp
-        src/clientServer/Stream.h
-        src/clientServer/GameStateMsg.h
-        src/clientServer/Window.cpp
-        src/clientServer/Window.h
-        src/clientServer/Color.h
-        src/clientServer/Animation.h
-        src/clientServer/Animation.cpp
-        src/clientServer/Point.h
-        src/clientServer/Game.cpp
-        src/clientServer/Game.h
-        src/clientServer/World.h
-        src/clientServer/World.cpp
-        src/clientServer/Player.cpp
-        src/clientServer/Player.h
-        src/clientServer/Physics.cpp
-        src/clientServer/Physics.h
-        src/clientServer/GUIGame.cpp
-        src/clientServer/GUIGame.h
-        src/clientServer/WormState.h
-        src/clientServer/WormWalk.cpp
-        src/clientServer/WormWalk.h
-        src/clientServer/Worm.cpp
-        src/clientServer/Worm.h
-        src/clientServer/WormStill.cpp
-        src/clientServer/WormStill.h
-        src/clientServer/PlayerState.h
-        src/clientServer/PlayerWalkLeft.cpp
-        src/clientServer/PlayerWalkLeft.h
-        src/clientServer/PlayerWalkRight.cpp
-        src/clientServer/PlayerWalkRight.h
-        src/clientServer/PlayerStill.cpp
-        src/clientServer/PlayerStill.h
-        src/clientServer/PlayerJumpRight.cpp
-        src/clientServer/PlayerJumpRight.h
-        src/clientServer/PlayerJumpLeft.cpp
-        src/clientServer/PlayerJumpLeft.h
-        src/clientServer/Texture.cpp
-        src/clientServer/Texture.h
-        src/clientServer/TextureManager.h)
+        ${CLIENT_SERVER_SOURCES})
+
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)
