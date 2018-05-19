@@ -17,7 +17,7 @@ GUI::Game::Game(Window &w) : window(w), texture_mgr(w.getRenderer()) {
     /* loads the required textures */
     this->texture_mgr.load(Worm::StateID::walk, "src/clientServer/assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(Worm::StateID::still, "src/clientServer/assets/img/Worms/wwalk2.png",
+    this->texture_mgr.load(Worm::StateID::still, "src/clientServer/assets/img/Worms/wbrth1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
 }
 

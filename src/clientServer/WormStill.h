@@ -15,18 +15,14 @@
 namespace Worm {
 class Still : public State {
    public:
-    Still(GUI::Animation &&animation);
+    Still();
     ~Still();
 
-    virtual void render(int x, int y, SDL_Renderer &renderer) override;
     virtual void update(float dt) override;
 
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
-
-   private:
-    GUI::Animation animation;
 };
 }  // namespace Worm
 

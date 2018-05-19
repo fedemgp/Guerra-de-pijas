@@ -15,17 +15,14 @@
 namespace Worm {
 class Walk : public State {
    public:
-    explicit Walk(GUI::Animation &&animation);
+    explicit Walk();
     virtual ~Walk();
 
-    virtual void render(int x, int y, SDL_Renderer &renderer) override;
     virtual void update(float dt) override;
+
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
-
-   private:
-    GUI::Animation animation;
 };
 }  // namespace Worm
 

@@ -66,6 +66,7 @@ class Worm {
    private:
     const TextureManager &texture_mgr;
     std::shared_ptr<State> state;
+    GUI::Animation animation;
 };
 }  // namespace Worm
 

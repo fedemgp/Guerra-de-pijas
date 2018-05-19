@@ -16,6 +16,7 @@ namespace GUI {
 class Animation {
    public:
     Animation(const Texture &texture);
+    Animation(const Texture &texture, bool playReversed);
     ~Animation();
 
     void update(float dt);
@@ -28,7 +29,7 @@ class Animation {
 
    private:
     /** SDL texture of the raw image. */
-    const Texture &texture;
+    const Texture *texture;
     /** Current animation frame. */
     int currentFrame{0};
     /** Total number of frames in the sprite. */
@@ -38,8 +39,12 @@ class Animation {
     /** Time elapsed since last update. */
     float elapsed{0.0f};
     /** Frames per seconds (should this be elsewere?). */
-    float frameRate{1.0f / 30.0f};
+    float frameRate{1.0f / 25.0f};
     SDL_RendererFlip flipType{SDL_FLIP_NONE};
+    /** If true, when the animation finishes, it's played reversed instead of restarting. */
+    bool playReversed{false};
+    /** Frame step. */
+    int step{1};
 };
 }  // namespace GUI
 

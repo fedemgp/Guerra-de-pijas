@@ -21,8 +21,9 @@ class Worm;
 class State {
    public:
     virtual ~State() = default;
-    virtual void render(int x, int y, SDL_Renderer &renderer) = 0;
+
     virtual void update(float dt) = 0;
+
     virtual IO::PlayerInput moveRight(Worm &w) = 0;
     virtual IO::PlayerInput moveLeft(Worm &w) = 0;
     virtual IO::PlayerInput stopMove(Worm &w) = 0;
