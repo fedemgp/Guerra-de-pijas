@@ -9,6 +9,7 @@
 #include <string>
 
 #include "Animation.h"
+#include "Texture.h"
 
 GUI::Animation::Animation(const Texture &texture) : texture(&texture) {
     /* assumes the frames are squares */

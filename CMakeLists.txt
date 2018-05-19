@@ -73,6 +73,7 @@ add_executable( clientServer
         libs/CommunicationSocket.h
         libs/Exception.cpp
         libs/Exception.h
+        libs/utils.h
         src/clientServer/main.cpp
         src/clientServer/Stream.h
         src/clientServer/GameStateMsg.h
@@ -93,10 +94,8 @@ add_executable( clientServer
         src/clientServer/GUIGame.cpp
         src/clientServer/GUIGame.h
         src/clientServer/WormState.h
-        src/clientServer/WormWalkRight.cpp
-        src/clientServer/WormWalkRight.h
-        src/clientServer/WormWalkLeft.cpp
-        src/clientServer/WormWalkLeft.h
+        src/clientServer/WormWalk.cpp
+        src/clientServer/WormWalk.h
         src/clientServer/Worm.cpp
         src/clientServer/Worm.h
         src/clientServer/WormStill.cpp
@@ -111,5 +110,8 @@ add_executable( clientServer
         src/clientServer/PlayerJumpRight.cpp
         src/clientServer/PlayerJumpRight.h
         src/clientServer/PlayerJumpLeft.cpp
-        src/clientServer/PlayerJumpLeft.h)
+        src/clientServer/PlayerJumpLeft.h
+        src/clientServer/Texture.cpp
+        src/clientServer/Texture.h
+        src/clientServer/TextureManager.h)
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)
