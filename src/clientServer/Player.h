@@ -25,7 +25,7 @@ class Player {
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
     void handleState(IO::PlayerInput pi);
-    std::shared_ptr<State> state;
+    std::shared_ptr<Worms::State> state;
 
    private:
     b2Body *body;

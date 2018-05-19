@@ -1,3 +1,6 @@
+
+#include <memory>
+#include "Player.h"
 #include "Player.h"
 #include "PlayerWalkLeft.h"
 #include "PlayerWalkRight.h"

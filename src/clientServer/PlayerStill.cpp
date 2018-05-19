@@ -2,6 +2,9 @@
 // Created by Gorco on 19/05/18.
 //
 
+#include <memory>
+
+#include "Player.h"
 #include "Player.h"
 #include "PlayerStill.h"
 #include "PlayerWalkRight.h"
