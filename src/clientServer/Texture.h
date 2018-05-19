@@ -16,6 +16,7 @@ class Texture {
     int getHeight() const;
 
     void render(SDL_Renderer &renderer, SDL_Rect clip, SDL_Rect dst, SDL_RendererFlip flip) const;
+    void render(SDL_Renderer &renderer, SDL_Rect dst) const;
 
    private:
     int height{0}, width{0};

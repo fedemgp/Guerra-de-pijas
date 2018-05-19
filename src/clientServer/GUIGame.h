@@ -9,6 +9,8 @@
 #include <vector>
 #include "Animation.h"
 #include "GameStateMsg.h"
+#include "GameTextures.h"
+#include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
 #include "Window.h"
@@ -17,7 +19,7 @@
 namespace GUI {
 class Game {
    public:
-    Game(Window &w);
+    Game(Window &w, Worms::Stage &&stage);
     ~Game();
     void start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output);
     void update(float dt);
@@ -25,9 +27,12 @@ class Game {
 
    private:
     Window &window;
-    Worm::TextureManager texture_mgr;
+    GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
-    int x{0}, y{0};
+    Worms::Stage stage;
+    float x{0}, y{0};
+    float camx{0}, camy{0};
+    float scale{15.0f};  // pixels per meter
 };
 }  // namespace GUI
 

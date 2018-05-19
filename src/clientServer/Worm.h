@@ -10,14 +10,12 @@
 #include <memory>
 #include "Animation.h"
 #include "GameStateMsg.h"
+#include "GameTextures.h"
 #include "Stream.h"
-#include "TextureManager.h"
 #include "WormState.h"
 #include "utils.h"
 
 namespace Worm {
-using TextureManager = GUI::TextureManager<StateID, Utils::EnumClassHash>;
-
 enum class Direction { right, left };
 
 class Worm {
@@ -28,7 +26,7 @@ class Worm {
    public:
     Direction direction;
 
-    explicit Worm(const TextureManager &texture_mgr);
+    explicit Worm(const GUI::GameTextureManager &texture_mgr);
     ~Worm() {}
     /**
      * Calls State::update to change frame of animation
@@ -64,7 +62,7 @@ class Worm {
     void setState(StateID state);
 
    private:
-    const TextureManager &texture_mgr;
+    const GUI::GameTextureManager &texture_mgr;
     std::shared_ptr<State> state;
     GUI::Animation animation;
 };

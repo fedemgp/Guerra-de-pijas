@@ -3,26 +3,29 @@
  *  date: 18/05/18
  */
 
-#ifndef __WORLD_H__
-#define __WORLD_H__
+#ifndef __STAGE_H__
+#define __STAGE_H__
 
 #include <vector>
 #include "Point.h"
 
 namespace Worms {
 
-class World {
+class Stage {
    public:
-    World();
-    ~World() = default;
-    const std::vector<Math::Point<float>> &getWormPosition() const;
+    Stage();
+    ~Stage() = default;
+    const std::vector<Math::Point<float>> &getWormPositions() const;
+    const std::vector<Math::Point<float>> &getGirderPositions() const;
+
     float getHeight() const;
     float getWidth() const;
 
    private:
     std::vector<Math::Point<float>> playerPositions;
+    std::vector<Math::Point<float>> girderPositions;
     float width{30.0f}, height{30.0f};
 };
 }  // namespace Worms
 
-#endif  //__WORLD_H__
+#endif  //__STAGE_H__

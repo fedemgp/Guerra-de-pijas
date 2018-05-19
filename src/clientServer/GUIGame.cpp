@@ -13,11 +13,17 @@
 #include "Window.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w) : window(w), texture_mgr(w.getRenderer()) {
+GUI::Game::Game(Window &w, Worms::Stage &&stage)
+    : window(w), texture_mgr(w.getRenderer()), stage(stage) {
     /* loads the required textures */
-    this->texture_mgr.load(Worm::StateID::walk, "src/clientServer/assets/img/Worms/wwalk2.png",
+    this->texture_mgr.load(GUI::GameTextures::WormWalk,
+                           "src/clientServer/assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(Worm::StateID::still, "src/clientServer/assets/img/Worms/wbrth1.png",
+    this->texture_mgr.load(GUI::GameTextures::WormIdle,
+                           "src/clientServer/assets/img/Worms/wbrth1.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::LongGirder,
+                           "src/clientServer/assets/img/Weapons/grdl4.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
@@ -49,8 +55,8 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
             }
 
             *input >> m;
-            this->x = m.positions[0] * this->window.width;
-            this->y = this->window.height - m.positions[1] * this->window.height;
+            this->x = m.positions[0];
+            this->y = m.positions[1];
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
@@ -76,8 +82,26 @@ void GUI::Game::update(float dt) {
 void GUI::Game::render() {
     this->window.clear();
 
+    /* camera centered in the player */
+    this->camx = this->x - (this->window.width / 2) / this->scale;
+    this->camy = this->y + (this->window.height / 2) / this->scale;
+
     for (auto &worm : this->worms) {
-        worm.render(this->x, this->y, this->window.getRenderer());
+        /* convert to camera coordinates */
+        int local_x = (this->x - this->camx) * this->scale;
+        int local_y = (this->camy - this->y) * this->scale;
+        worm.render(local_x, local_y, this->window.getRenderer());
     }
+
+    for (auto &girder : this->stage.getGirderPositions()) {
+        const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
+
+        SDL_Rect dst;
+        dst.x = ((girder.x + this->stage.getWidth() / 2) - this->camx) * this->scale;
+        dst.y = (this->camy - girder.y) * this->scale;
+
+        texture.render(this->window.getRenderer(), dst);
+    }
+
     this->window.render();
 }

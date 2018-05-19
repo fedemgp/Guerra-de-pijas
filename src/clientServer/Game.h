@@ -9,7 +9,7 @@
 #include <atomic>
 
 #include "Player.h"
-#include "World.h"
+#include "Stage.h"
 
 namespace Worms {
 
@@ -17,7 +17,7 @@ class Game {
    public:
     std::atomic<bool> quit{false};
 
-    Game(const World &&level);
+    Game(const Stage &&stage);
     ~Game() {}
 
     Game(Game &&other) = delete;
@@ -28,7 +28,7 @@ class Game {
 
    private:
     Physics physics;
-    World level;
+    Stage stage;
     std::vector<Player> players;
 };
 }  // namespace Worms

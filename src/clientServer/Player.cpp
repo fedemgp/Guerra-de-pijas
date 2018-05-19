@@ -12,10 +12,12 @@
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
+    this->bodyDef.fixedRotation = true;
 
     this->body = physics.createBody(this->bodyDef);
-
-    this->shape.SetAsBox(1.0f, 2.0f);
+    const float width = 0.8f;
+    const float height = 2.0f;
+    this->shape.SetAsBox(width / 2, height / 2);
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
     this->fixture.restitution = 0.3f;

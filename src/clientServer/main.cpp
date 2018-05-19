@@ -11,7 +11,7 @@
 #include "GameStateMsg.h"
 #include "Stream.h"
 #include "Window.h"
-#include "World.h"
+#include "Stage.h"
 
 int main(int argc, const char *argv[]) {
     try {
@@ -20,11 +20,11 @@ int main(int argc, const char *argv[]) {
         GUI::Window window{};
         window.clear();
 
-        Worms::Game game{Worms::World{}};
+        Worms::Game game{Worms::Stage{}};
         std::thread game_thread =
             std::thread(std::bind(&Worms::Game::start, &game, &server_stream, &player_stream));
 
-        GUI::Game gui_game{window};
+        GUI::Game gui_game{window, Worms::Stage{}};
 
         std::thread gui_thread =
             std::thread(std::bind(&GUI::Game::start, &gui_game, &server_stream, &player_stream));

@@ -10,8 +10,8 @@
 #include "WormStill.h"
 #include "WormWalk.h"
 
-Worm::Worm::Worm(const TextureManager &texture_mgr)
-    : texture_mgr(texture_mgr), animation(texture_mgr.get(StateID::still)) {
+Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
+    : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
     this->setState(::Worm::StateID::still);
 }
 
@@ -63,10 +63,20 @@ void Worm::Worm::update(float dt) {
 }
 
 GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
-    if (state == StateID::still) {
-        return GUI::Animation{this->texture_mgr.get(state), true};
+    GUI::GameTextures texture_id;
+    switch (state) {
+        case StateID::still:
+            texture_id = GUI::GameTextures::WormIdle;
+            break;
+        case StateID::walk:
+            texture_id = GUI::GameTextures::WormWalk;
+            break;
     }
-    return GUI::Animation{this->texture_mgr.get(state)};
+    if (state == StateID::still) {
+        return GUI::Animation{this->texture_mgr.get(texture_id), true};
+    }
+
+    return GUI::Animation{this->texture_mgr.get(texture_id)};
 }
 
 void Worm::Worm::setState(StateID state) {

@@ -44,7 +44,7 @@ GUI::Texture::~Texture() {
 }
 
 /**
- * @brief Renders the texture.
+ * @brief Renders a texture's portion.
  *
  * @param renderer The renderer instance.
  * @param clip Portion of the texture to render.
@@ -54,7 +54,23 @@ GUI::Texture::~Texture() {
 void GUI::Texture::render(SDL_Renderer &renderer, SDL_Rect clip, SDL_Rect dst,
                           SDL_RendererFlip flip) const {
     /* set rendering space and render to screen */
+    dst.x -= clip.w / 2;
+    dst.y -= clip.h / 2;
     SDL_RenderCopyEx(&renderer, this->texture, &clip, &dst, 0, nullptr, flip);
+}
+
+/**
+ * @brief Renders the complete texture.
+ *
+ * @param renderer Renderer.
+ * @param dst Position where texture will be rendered.
+ */
+void GUI::Texture::render(SDL_Renderer &renderer, SDL_Rect dst) const {
+    dst.w = this->width;
+    dst.h = this->height;
+    dst.x -= this->width / 2;
+    dst.y -= this->height / 2;
+    SDL_RenderCopy(&renderer, this->texture, NULL, &dst);
 }
 
 /**
