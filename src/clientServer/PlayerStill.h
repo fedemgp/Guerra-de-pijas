@@ -9,11 +9,11 @@
 
 namespace Worms {
 class Still : public State {
-    float update() override;
+    float update(Player &p) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
-    void jumpRight(Player &p) override;
-    void jumpLeft(Player &p) override;
+    void jump(Player &p) override;
+
     void stopMove(Player &p) override;
 };
 }

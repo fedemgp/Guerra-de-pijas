@@ -6,18 +6,26 @@
 #ifndef __GAME_STATE_MSG_H__
 #define __GAME_STATE_MSG_H__
 
-namespace IO {
-// TODO protocol?
-struct GameStateMsg {
-    char num_worms;
-    float positions[20 * 2];
-};
+#define WORMS_QUANTITY 20
 
+namespace Worm {
+    enum class StateID { walk, still, startJump/*, jump*/
+    };
+}
+
+namespace IO {
 enum class PlayerInput {
     moveNone,
     moveRight,
     moveLeft,
-    stopMove,
+    startJump,
+    stopMove
+};
+// TODO protocol?
+struct GameStateMsg {
+    char num_worms;
+    float positions[WORMS_QUANTITY * 2];
+    Worm::StateID stateIDs[WORMS_QUANTITY];
 };
 }  // namesmpace IO
 

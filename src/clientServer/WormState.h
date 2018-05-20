@@ -10,7 +10,6 @@
 #include "GameStateMsg.h"
 
 namespace Worm {
-enum class StateID { walk, still };
 
 class Worm;
 /**
@@ -19,7 +18,8 @@ class Worm;
  * animation as a state machine
  */
 class State {
-   public:
+    public:
+    State(StateID stateID) : stateID(stateID) {};
     virtual ~State() = default;
 
     virtual void update(float dt) = 0;
@@ -29,8 +29,14 @@ class State {
     virtual IO::PlayerInput stopMove(Worm &w) = 0;
     //        virtual IO::PlayerInput pointUp(Worm &w) = 0;
     //        virtual IO::PlayerInput pointDown(Worm &w) = 0;
-    //        virtual IO::PlayerInput jump(Worm &w) = 0;
+    virtual IO::PlayerInput jump(Worm &w) = 0;
     //        virtual IO::PlayerInput fire(Worm &w) = 0;
+    StateID getState() {
+        return this->stateID;
+    };
+
+    private:
+    StateID stateID;
 };
 }  // namespace Worm
 

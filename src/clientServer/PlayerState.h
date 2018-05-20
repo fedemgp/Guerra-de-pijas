@@ -6,11 +6,10 @@ class Player;
 class State {
    public:
     virtual ~State() = default;
-    virtual float update() = 0;
+    virtual float update(Player &p) = 0;
     virtual void moveRight(Player &p) = 0;
     virtual void moveLeft(Player &p) = 0;
-    virtual void jumpRight(Player &p) = 0;
-    virtual void jumpLeft(Player &p) = 0;
+    virtual void jump(Player &p) = 0;
     virtual void stopMove(Player &p) = 0;
 };
 }

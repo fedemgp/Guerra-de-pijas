@@ -9,6 +9,7 @@
 #include "Worm.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "WormJump.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -71,6 +72,9 @@ GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
         case StateID::walk:
             texture_id = GUI::GameTextures::WormWalk;
             break;
+        case StateID::startJump:
+            texture_id = GUI::GameTextures::StartJump;
+            break;
     }
     if (state == StateID::still) {
         return GUI::Animation{this->texture_mgr.get(texture_id), true};
@@ -80,15 +84,20 @@ GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
 }
 
 void Worm::Worm::setState(StateID state) {
-    this->animation = this->getAnimation(state);
+    if (this->state->getState() != state) {
+        this->animation = this->getAnimation(state);
 
-    /* creates the right state type */
-    switch (state) {
-        case StateID::still:
-            this->state = std::shared_ptr<State>(new Still{});
-            break;
-        case StateID::walk:
-            this->state = std::shared_ptr<State>(new Walk{});
-            break;
+        /* creates the right state type */
+        switch (state) {
+            case StateID::still:
+                this->state = std::shared_ptr<State>(new Still());
+                break;
+            case StateID::walk:
+                this->state = std::shared_ptr<State>(new Walk());
+                break;
+            case StateID::startJump:
+                this->state = std::shared_ptr<State>(new Jump());
+                break;
+        }
     }
 }

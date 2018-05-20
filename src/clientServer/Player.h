@@ -15,9 +15,12 @@
 enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
+enum class Direction { right, left, up, down };
 
 class Player {
    public:
+    Direction direction;
+
     Player(Physics &physics);
     ~Player() = default;
     void update(float dt);

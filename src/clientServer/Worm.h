@@ -16,7 +16,7 @@
 #include "utils.h"
 
 namespace Worm {
-enum class Direction { right, left };
+enum class Direction { right, left, up, down };
 
 class Worm {
     /**

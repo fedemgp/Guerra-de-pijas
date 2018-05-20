@@ -6,7 +6,7 @@
 #include "WormStill.h"
 #include "Texture.h"
 
-Worm::Still::Still() {}
+Worm::Still::Still() : State(StateID::still) {}
 
 Worm::Still::~Still() {}
 
@@ -27,4 +27,9 @@ IO::PlayerInput Worm::Still::moveLeft(Worm &w) {
 
 IO::PlayerInput Worm::Still::stopMove(Worm &w) {
     return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Still::jump(Worm &w) {
+    w.setState(StateID::startJump);
+    return IO::PlayerInput::startJump;
 }

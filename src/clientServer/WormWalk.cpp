@@ -5,7 +5,7 @@
 
 #include "WormWalk.h"
 
-Worm::Walk::Walk() {}
+Worm::Walk::Walk() : State(StateID::walk) {}
 
 Worm::Walk::~Walk() {}
 
@@ -33,4 +33,9 @@ IO::PlayerInput Worm::Walk::moveRight(Worm &w) {
 IO::PlayerInput Worm::Walk::stopMove(Worm &w) {
     w.setState(StateID::still);
     return IO::PlayerInput::stopMove;
+}
+
+IO::PlayerInput Worm::Walk::jump(Worm &w) {
+    w.setState(StateID::startJump);
+    return IO::PlayerInput::startJump;
 }

@@ -26,10 +26,11 @@ Worms::Player::Player(Physics &physics) {
     this->body->CreateFixture(&this->fixture);
 
     this->state = std::shared_ptr<State>(new Still());
+    this->direction = Direction::left;
 }
 
 void Worms::Player::update(float dt) {
-    float final_vel = this->state->update();
+    float final_vel = this->state->update(*this);
 
     b2Vec2 vel = this->body->GetLinearVelocity();
     const float delta = final_vel - vel.x;
@@ -53,6 +54,9 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
             break;
         case IO::PlayerInput::moveRight:
             this->state->moveRight(*this);
+            break;
+        case IO::PlayerInput::startJump:
+            this->state->jump(*this);
             break;
         case IO::PlayerInput::stopMove:
             this->state->stopMove(*this);
