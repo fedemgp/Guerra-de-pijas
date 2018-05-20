@@ -7,13 +7,13 @@
 
 #include "GameStateMsg.h"
 #include "Worm.h"
+#include "WormJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "WormJump.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
-    this->setState(::Worm::StateID::still);
+    this->setState(::Worm::StateID::Still);
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -26,6 +26,11 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             break;
         case SDLK_LEFT:
             i = this->state->moveLeft(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_a:
+            i = this->state->jump(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
@@ -66,17 +71,20 @@ void Worm::Worm::update(float dt) {
 GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
     GUI::GameTextures texture_id;
     switch (state) {
-        case StateID::still:
+        case StateID::Still:
             texture_id = GUI::GameTextures::WormIdle;
             break;
-        case StateID::walk:
+        case StateID::Walk:
             texture_id = GUI::GameTextures::WormWalk;
             break;
-        case StateID::startJump:
+        case StateID::StartJump:
             texture_id = GUI::GameTextures::StartJump;
             break;
+        case StateID::Jumping:
+            texture_id = GUI::GameTextures::Jumping;
+            break;
     }
-    if (state == StateID::still) {
+    if (state == StateID::Still) {
         return GUI::Animation{this->texture_mgr.get(texture_id), true};
     }
 
@@ -84,19 +92,21 @@ GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
 }
 
 void Worm::Worm::setState(StateID state) {
-    if (this->state->getState() != state) {
+    if (this->state == nullptr || this->state->getState() != state) {
         this->animation = this->getAnimation(state);
 
         /* creates the right state type */
         switch (state) {
-            case StateID::still:
+            case StateID::Still:
                 this->state = std::shared_ptr<State>(new Still());
                 break;
-            case StateID::walk:
+            case StateID::Walk:
                 this->state = std::shared_ptr<State>(new Walk());
                 break;
-            case StateID::startJump:
+            case StateID::StartJump:
                 this->state = std::shared_ptr<State>(new Jump());
+                break;
+            case StateID::Jumping:
                 break;
         }
     }

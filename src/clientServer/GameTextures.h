@@ -6,8 +6,7 @@
 
 namespace GUI {
 /** Different kinds of textures. */
-enum class GameTextures { WormWalk, WormIdle, LongGirder, ShortGirder, StartJump
-};
+enum class GameTextures { WormWalk, WormIdle, LongGirder, ShortGirder, StartJump, Jumping };
 
 /** Specialized TextureManager class. */
 using GameTextureManager = TextureManager<GameTextures, Utils::EnumClassHash>;

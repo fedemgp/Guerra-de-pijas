@@ -4,10 +4,14 @@
  */
 
 #include <Box2D/Box2D.h>
+#include <iostream>
 
 #include "Physics.h"
 #include "Player.h"
+#include "PlayerStartJump.h"
 #include "PlayerStill.h"
+#include "PlayerWalk.h"
+#include "PlayerJumping.h"
 
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -30,12 +34,17 @@ Worms::Player::Player(Physics &physics) {
 }
 
 void Worms::Player::update(float dt) {
-    float final_vel = this->state->update(*this);
+    const std::vector<float> &impulses =
+        this->state->update(*this, dt, this->body->GetMass(), this->body->GetLinearVelocity());
 
-    b2Vec2 vel = this->body->GetLinearVelocity();
-    const float delta = final_vel - vel.x;
-    float impulse = this->body->GetMass() * delta;
-    this->body->ApplyLinearImpulse(b2Vec2(impulse, 0), this->body->GetWorldCenter(), true);
+//    b2Vec2 vel = this->body->GetLinearVelocity();
+//        const float delta = impulses[0] - vel.x;
+//        float impulse = this->body->GetMass() * delta;
+//
+    std::cout << "impulses = [" << impulses[0] << ',' << impulses[1] << std::endl;
+    this->body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
+                                   this->body->GetWorldCenter(), true);
+//    std::cout << this->body->GetPosition().x << ", " << this->body->GetPosition().y << std::endl;
 }
 
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
@@ -45,6 +54,10 @@ void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
 Math::Point<float> Worms::Player::getPosition() const {
     const b2Vec2 &pos = this->body->GetPosition();
     return Math::Point<float>{pos.x, pos.y};
+}
+
+Worm::StateID Worms::Player::getStateId() const {
+    return this->state->getState();
 }
 
 void Worms::Player::handleState(IO::PlayerInput pi) {
@@ -63,5 +76,25 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
             break;
         case IO::PlayerInput::moveNone:
             break;
+    }
+}
+
+void Worms::Player::setState(Worm::StateID stateID) {
+    if (this->state == nullptr || this->state->getState() != stateID) {
+        /* creates the right state type */
+        switch (stateID) {
+            case Worm::StateID::Still:
+                this->state = std::shared_ptr<State>(new Still());
+                break;
+            case Worm::StateID::Walk:
+                this->state = std::shared_ptr<State>(new Walk());
+                break;
+            case Worm::StateID::StartJump:
+                this->state = std::shared_ptr<State>(new StartJump());
+                break;
+            case Worm::StateID::Jumping:
+                this->state = std::shared_ptr<State>(new Jumping());
+                break;
+        }
     }
 }

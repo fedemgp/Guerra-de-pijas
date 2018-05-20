@@ -21,7 +21,8 @@ class Game {
    public:
     Game(Window &w, Worms::Stage &&stage);
     ~Game();
-    void start(IO::Stream<IO::GameStateMsg> *serverResponse, IO::Stream<IO::PlayerInput> *clientResponse);
+    void start(IO::Stream<IO::GameStateMsg> *serverResponse,
+               IO::Stream<IO::PlayerInput> *clientResponse);
     void update(float dt);
     void render();
 

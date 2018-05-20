@@ -5,12 +5,11 @@
 
 #include "WormWalk.h"
 
-Worm::Walk::Walk() : State(StateID::walk) {}
+Worm::Walk::Walk() : State(StateID::Walk) {}
 
 Worm::Walk::~Walk() {}
 
-void Worm::Walk::update(float dt) {
-}
+void Worm::Walk::update(float dt) {}
 
 IO::PlayerInput Worm::Walk::moveLeft(Worm &w) {
     if (w.direction == Direction::left) {
@@ -31,11 +30,11 @@ IO::PlayerInput Worm::Walk::moveRight(Worm &w) {
 }
 
 IO::PlayerInput Worm::Walk::stopMove(Worm &w) {
-    w.setState(StateID::still);
+    w.setState(StateID::Still);
     return IO::PlayerInput::stopMove;
 }
 
 IO::PlayerInput Worm::Walk::jump(Worm &w) {
-    w.setState(StateID::startJump);
+    w.setState(StateID::StartJump);
     return IO::PlayerInput::startJump;
 }

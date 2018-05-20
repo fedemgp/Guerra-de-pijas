@@ -13,6 +13,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include "../clientServer/GameStateMsg.h"
 #include "Box2D/Box2D.h"
 #include "Exception.h"
 #include "gui.h"

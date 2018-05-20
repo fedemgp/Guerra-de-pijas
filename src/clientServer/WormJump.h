@@ -6,14 +6,13 @@
 #ifndef __WORM_JUMP_H__
 #define __WORM_JUMP_H__
 
-
-#include "WormState.h"
 #include "GameStateMsg.h"
 #include "Worm.h"
+#include "WormState.h"
 
 namespace Worm {
 class Jump : public State {
-public:
+   public:
     Jump();
     ~Jump();
 
@@ -26,5 +25,4 @@ public:
 };
 }  // namespace Worm
 
-
-#endif //__WormJump_H__
+#endif  //__WormJump_H__

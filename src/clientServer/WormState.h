@@ -18,8 +18,8 @@ class Worm;
  * animation as a state machine
  */
 class State {
-    public:
-    State(StateID stateID) : stateID(stateID) {};
+   public:
+    State(StateID stateID) : stateID(stateID){};
     virtual ~State() = default;
 
     virtual void update(float dt) = 0;
@@ -31,11 +31,11 @@ class State {
     //        virtual IO::PlayerInput pointDown(Worm &w) = 0;
     virtual IO::PlayerInput jump(Worm &w) = 0;
     //        virtual IO::PlayerInput fire(Worm &w) = 0;
-    StateID getState() {
+    virtual StateID getState() {
         return this->stateID;
     };
 
-    private:
+   protected:
     StateID stateID;
 };
 }  // namespace Worm

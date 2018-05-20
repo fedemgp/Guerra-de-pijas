@@ -26,13 +26,17 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            "src/clientServer/assets/img/Weapons/grdl4.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::StartJump,
-                           "src/clientServer/assets/img/Weapons/wjump2.png",
+                           "src/clientServer/assets/img/Worms/wjump2.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Jumping,
+                           "src/clientServer/assets/img/Worms/wflyup.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
 GUI::Game::~Game() {}
 
-void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse, IO::Stream<IO::PlayerInput> *clientResponse) {
+void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
+                      IO::Stream<IO::PlayerInput> *clientResponse) {
     try {
         // TODO: remove this
         this->worms.emplace_back(this->texture_mgr);
@@ -71,7 +75,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse, IO::Stream<I
             usleep(5 * 1000);
         }
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;
     } catch (...) {
         std::cerr << "Unkown error in GUI::Game::start()." << std::endl;
     }

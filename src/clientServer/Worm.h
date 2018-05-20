@@ -63,7 +63,7 @@ class Worm {
 
    private:
     const GUI::GameTextureManager &texture_mgr;
-    std::shared_ptr<State> state;
+    std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
 };
 }  // namespace Worm

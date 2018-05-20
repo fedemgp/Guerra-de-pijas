@@ -5,13 +5,11 @@
 
 #include "WormJump.h"
 
-Worm::Jump::Jump() : State(StateID::startJump) {}
+Worm::Jump::Jump() : State(StateID::StartJump) {}
 
 Worm::Jump::~Jump() {}
 
-void Worm::Jump::update(float dt) {
-
-}
+void Worm::Jump::update(float dt) {}
 
 IO::PlayerInput Worm::Jump::moveRight(Worm &w) {
     return IO::PlayerInput::moveNone;
