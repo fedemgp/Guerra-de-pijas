@@ -2,12 +2,12 @@
 // Created by Gorco on 19/05/18.
 //
 
-#ifndef INC_4_WORMS_PLAYERJUMPRIGHT_H
-#define INC_4_WORMS_PLAYERJUMPRIGHT_H
+#ifndef __WORMS_PLAYER_JUMP_RIGHT_H__
+#define __WORMS_PLAYER_JUMP_RIGHT_H__
 
 #include "Player.h"
 
-#define JUMP_TIME 0.7f
+#define JUMP_TIME 0.6f
 #define JUMP_VEL_X 3.0f
 #define JUMP_VEL_Y 6.0f
 
@@ -25,6 +25,6 @@ class StartJump : public State {
    private:
     float timeElapsed{0.0f};
 };
-}
+}// namespace Worms
 
-#endif  // INC_4_WORMS_PLAYERJUMPRIGHT_H
+#endif  // __WORMS_PLAYER_JUMP_RIGHT_H__

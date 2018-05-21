@@ -29,7 +29,7 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
-        case SDLK_a:
+        case SDLK_RETURN:
             i = this->state->jump(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;

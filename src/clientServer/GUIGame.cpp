@@ -75,7 +75,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             prev = current;
             this->render();
 
-            usleep(5 * 1000);1.0
+            usleep(5 * 1000);
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;
