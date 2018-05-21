@@ -10,6 +10,7 @@
 #include "WormJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "WormStateBazooka.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -31,6 +32,11 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             break;
         case SDLK_RETURN:
             i = this->state->jump(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_1:
+            i = this->state->bazooka(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;

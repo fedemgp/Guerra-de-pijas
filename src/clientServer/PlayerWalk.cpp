@@ -36,3 +36,5 @@ void Worms::Walk::stopMove(Worms::Player &p) {
 void Worms::Walk::jump(Worms::Player &p) {}
 
 Worms::Walk::Walk() : State(Worm::StateID::Walk) {}
+
+void Worms::Walk::bazooka(Worms::Player &p) {}

@@ -39,6 +39,6 @@ IO::PlayerInput Worm::Walk::jump(Worm &w) {
     return IO::PlayerInput::startJump;
 }
 
-IO::PlayerInput Worm::Walk::bazooka(Worm::Worm &w){
-    return IO::PlayerInput ::moveNone;
+IO::PlayerInput Worm::Walk::bazooka(Worm &w){
+    return IO::PlayerInput::moveNone;
 }

@@ -21,7 +21,9 @@ void Worms::EndJump::moveLeft(Worms::Player &p){}
 
 void Worms::EndJump::jump(Worms::Player &p){}
 
-void Worms::EndJump::stopMove(Worms::Player &p){}
+void Worms::EndJump::stopMove(Worms::Player &p) {}
+
+void Worms::EndJump::bazooka(Worms::Player &p) {}
 
 
 

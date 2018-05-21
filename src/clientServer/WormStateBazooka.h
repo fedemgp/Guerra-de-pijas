@@ -6,10 +6,12 @@
 #ifndef __WormStateBazooka_H__
 #define __WormStateBazooka_H__
 
+#include "GameStateMsg.h"
+#include "Worm.h"
 #include "WormState.h"
 
 namespace Worm{
-    class Bazooka: State{
+    class Bazooka : public State {
     public:
         Bazooka();
         ~Bazooka();

@@ -17,7 +17,6 @@ class Still : public State {
    public:
     Still();
     ~Still();
-
     virtual void update(float dt) override;
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;

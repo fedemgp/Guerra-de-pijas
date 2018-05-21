@@ -33,8 +33,8 @@ IO::PlayerInput Worm::Still::jump(Worm &w) {
     return IO::PlayerInput::startJump;
 }
 
-IO::PlayerInput Worm::Still::bazooka(Worm::Worm &w){
+IO::PlayerInput Worm::Still::bazooka(Worm &w){
     w.setState(StateID::Bazooka);
-    return IO::PlayerInput::Bazooka;
+    return IO::PlayerInput::bazooka;
 }
 

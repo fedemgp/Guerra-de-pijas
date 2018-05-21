@@ -33,3 +33,5 @@ void Worms::StartJump::moveLeft(Worms::Player &p) {}
 void Worms::StartJump::jump(Worms::Player &p) {}
 
 void Worms::StartJump::stopMove(Worms::Player &p) {}
+
+void Worms::StartJump::bazooka(Worms::Player &p) {}

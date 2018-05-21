@@ -12,6 +12,7 @@
 #include "PlayerWalk.h"
 #include "PlayerJumping.h"
 #include "PlayerEndJump.h"
+#include "PlayerBazooka.h"
 
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -65,6 +66,9 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::stopMove:
             this->state->stopMove(*this);
             break;
+        case IO::PlayerInput::bazooka:
+            this->state->bazooka(*this);
+            break;
         case IO::PlayerInput::moveNone:
             break;
     }
@@ -88,8 +92,10 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::EndJump:
                 this->state = std::shared_ptr<State>(new EndJump());
+                break;
             case Worm::StateID::Bazooka:
-                this->state = std::shared_ptr<State>(new Still());
+                this->state = std::shared_ptr<State>(new Bazooka());
+                break;
         }
     }
 }

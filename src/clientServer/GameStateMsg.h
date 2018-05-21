@@ -15,7 +15,7 @@ enum class StateID { Walk, Still, StartJump, Jumping, EndJump, Bazooka
 
 namespace IO {
 enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove,
-    Bazooka
+    bazooka
 };
 // TODO protocol?
 struct GameStateMsg {

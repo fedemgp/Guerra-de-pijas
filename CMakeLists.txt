@@ -67,6 +67,6 @@ target_link_libraries(SDLTest SDL2 SDL2_image)
 
 file(GLOB CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES} src/clientServer/WormStateBazooka.cpp src/clientServer/WormStateBazooka.h)
+        ${CLIENT_SERVER_SOURCES} src/clientServer/WormStateBazooka.cpp src/clientServer/WormStateBazooka.h src/clientServer/PlayerBazooka.cpp src/clientServer/PlayerBazooka.h)
 
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)
