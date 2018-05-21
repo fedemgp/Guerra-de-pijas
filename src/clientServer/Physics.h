@@ -8,6 +8,8 @@
 
 #include <Box2D/Box2D.h>
 
+#include "ContactEventListener.h"
+
 namespace Worms {
 
 class Physics {
@@ -20,6 +22,7 @@ class Physics {
    private:
     b2Vec2 gravity;
     b2World world;
+    ContactEventListener contactEventListener;
     int32 vIterations{6};
     int32 pIterations{2};
 };

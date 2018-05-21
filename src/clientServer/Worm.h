@@ -16,7 +16,7 @@
 #include "utils.h"
 
 namespace Worm {
-enum class Direction { right, left };
+enum class Direction { right, left, up, down };
 
 class Worm {
     /**
@@ -24,7 +24,7 @@ class Worm {
      * entries, and delegate in their attributes the rendering and animation
      */
    public:
-    Direction direction;
+    Direction direction{Direction::left};
 
     explicit Worm(const GUI::GameTextureManager &texture_mgr);
     ~Worm() {}
@@ -63,7 +63,7 @@ class Worm {
 
    private:
     const GUI::GameTextureManager &texture_mgr;
-    std::shared_ptr<State> state;
+    std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
 };
 }  // namespace Worm

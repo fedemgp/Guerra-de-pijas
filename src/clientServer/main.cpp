@@ -9,9 +9,9 @@
 #include "GUIGame.h"
 #include "Game.h"
 #include "GameStateMsg.h"
+#include "Stage.h"
 #include "Stream.h"
 #include "Window.h"
-#include "Stage.h"
 
 int main(int argc, const char *argv[]) {
     try {
@@ -28,7 +28,6 @@ int main(int argc, const char *argv[]) {
 
         std::thread gui_thread =
             std::thread(std::bind(&GUI::Game::start, &gui_game, &server_stream, &player_stream));
-
         gui_thread.join();
 
         game.exit();

@@ -7,12 +7,13 @@
 
 #include "GameStateMsg.h"
 #include "Worm.h"
+#include "WormJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
-    this->setState(::Worm::StateID::still);
+    this->setState(::Worm::StateID::Still);
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -25,6 +26,11 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             break;
         case SDLK_LEFT:
             i = this->state->moveLeft(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_a:
+            i = this->state->jump(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
@@ -62,33 +68,41 @@ void Worm::Worm::update(float dt) {
     this->animation.update(dt);
 }
 
-GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
-    GUI::GameTextures texture_id;
+GUI::Animation Worm::Worm::getAnimation(StateID state) const {
     switch (state) {
-        case StateID::still:
-            texture_id = GUI::GameTextures::WormIdle;
-            break;
-        case StateID::walk:
-            texture_id = GUI::GameTextures::WormWalk;
-            break;
+        case StateID::Still:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
+        case StateID::Walk:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormWalk)};
+        case StateID::StartJump:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::StartJump), true};
+        case StateID::Jumping:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Jumping)};
+        case StateID::EndJump:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
     }
-    if (state == StateID::still) {
-        return GUI::Animation{this->texture_mgr.get(texture_id), true};
-    }
-
-    return GUI::Animation{this->texture_mgr.get(texture_id)};
+    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
 
 void Worm::Worm::setState(StateID state) {
-    this->animation = this->getAnimation(state);
+    if (this->state == nullptr || this->state->getState() != state) {
+        this->animation = this->getAnimation(state);
 
-    /* creates the right state type */
-    switch (state) {
-        case StateID::still:
-            this->state = std::shared_ptr<State>(new Still{});
-            break;
-        case StateID::walk:
-            this->state = std::shared_ptr<State>(new Walk{});
-            break;
+        /* creates the right state type */
+        switch (state) {
+            case StateID::Still:
+                this->state = std::shared_ptr<State>(new Still());
+                break;
+            case StateID::Walk:
+                this->state = std::shared_ptr<State>(new Walk());
+                break;
+            case StateID::StartJump:
+                this->state = std::shared_ptr<State>(new Jump());
+                break;
+            case StateID::Jumping:
+                break;
+            case StateID::EndJump:
+                break;
+        }
     }
 }

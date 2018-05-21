@@ -7,14 +7,23 @@
 
 #include "Player.h"
 
+#define JUMP_TIME 0.7f
+#define JUMP_VEL_X 3.0f
+#define JUMP_VEL_Y 6.0f
+
 namespace Worms {
-class JumpRight : public State {
-    float update() override;
+class StartJump : public State {
+   public:
+    StartJump();
+    ~StartJump() = default;
+    void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
-    void jumpRight(Player &p) override;
-    void jumpLeft(Player &p) override;
+    void jump(Player &p) override;
     void stopMove(Player &p) override;
+
+   private:
+    float timeElapsed{0.0f};
 };
 }
 

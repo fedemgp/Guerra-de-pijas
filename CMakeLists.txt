@@ -41,19 +41,19 @@ add_executable( Box2DTest
                 src/box2DTest/test.cpp)
 target_link_libraries(Box2DTest Box2D)
 
-add_executable( prototype
-                src/prototype/main.cpp
-                src/prototype/ClientSocket.cpp
-                src/prototype/ClientSocket.h
-                src/prototype/gui.h
-                src/prototype/stream.h
-                libs/Socket.cpp
-        libs/Socket.h
-        libs/CommunicationSocket.cpp
-        libs/CommunicationSocket.h
-        libs/Exception.cpp
-        libs/Exception.h )
-target_link_libraries(prototype Box2D SDL2 SDL2_image)
+#add_executable( prototype
+#                src/prototype/main.cpp
+#                src/prototype/ClientSocket.cpp
+#                src/prototype/ClientSocket.h
+#                src/prototype/gui.h
+#                src/prototype/stream.h
+#                libs/Socket.cpp
+#        libs/Socket.h
+#        libs/CommunicationSocket.cpp
+#        libs/CommunicationSocket.h
+#        libs/Exception.cpp
+#        libs/Exception.h )
+#target_link_libraries(prototype Box2D SDL2 SDL2_image)
 
 add_executable( SDLTest
         libs/Exception.cpp
@@ -67,6 +67,6 @@ target_link_libraries(SDLTest SDL2 SDL2_image)
 
 file(GLOB CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES})
+        ${CLIENT_SERVER_SOURCES} src/clientServer/PlayerEndJump.cpp src/clientServer/PlayerEndJump.h)
 
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)

@@ -23,6 +23,7 @@ class Still : public State {
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
+    virtual IO::PlayerInput jump(Worm &w) override;
 };
 }  // namespace Worm
 

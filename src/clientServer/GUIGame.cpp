@@ -25,11 +25,21 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::LongGirder,
                            "src/clientServer/assets/img/Weapons/grdl4.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::StartJump,
+                           "src/clientServer/assets/img/Worms/wjump.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Jumping,
+                           "src/clientServer/assets/img/Worms/wflyup.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::EndJump,
+                           "src/clientServer/assets/img/Worms/wland2.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
 GUI::Game::~Game() {}
 
-void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::PlayerInput> *output) {
+void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
+                      IO::Stream<IO::PlayerInput> *clientResponse) {
     try {
         // TODO: remove this
         this->worms.emplace_back(this->texture_mgr);
@@ -46,17 +56,18 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
                         quit = true;
                         break;
                     case SDL_KEYDOWN:
-                        this->worms[0].handleKeyDown(e.key.keysym.sym, output);
+                        this->worms[0].handleKeyDown(e.key.keysym.sym, clientResponse);
                         break;
                     case SDL_KEYUP:
-                        this->worms[0].handleKeyUp(e.key.keysym.sym, output);
+                        this->worms[0].handleKeyUp(e.key.keysym.sym, clientResponse);
                         break;
                 }
             }
 
-            *input >> m;
+            *serverResponse >> m;
             this->x = m.positions[0];
             this->y = m.positions[1];
+            this->worms[0].setState(m.stateIDs[0]);
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
@@ -64,10 +75,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *input, IO::Stream<IO::Player
             prev = current;
             this->render();
 
-            usleep(5 * 1000);
+            usleep(5 * 1000);1.0
         }
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;
     } catch (...) {
         std::cerr << "Unkown error in GUI::Game::start()." << std::endl;
     }

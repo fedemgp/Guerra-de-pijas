@@ -5,15 +5,20 @@
 #ifndef INC_4_WORMS_STOPMOVE_H
 #define INC_4_WORMS_STOPMOVE_H
 
+#include <Box2D/Common/b2Math.h>
+#include <vector>
+
 #include "PlayerState.h"
 
 namespace Worms {
 class Still : public State {
-    float update() override;
+   public:
+    Still();
+    ~Still() = default;
+    void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
-    void jumpRight(Player &p) override;
-    void jumpLeft(Player &p) override;
+    void jump(Player &p) override;
     void stopMove(Player &p) override;
 };
 }

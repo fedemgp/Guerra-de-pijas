@@ -14,10 +14,11 @@
 #include "Stage.h"
 
 Worms::Game::Game(const Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
+    int i{0};
     for (auto &wormPos : this->stage.getWormPositions()) {
-        Player p{this->physics};
-        p.setPosition(wormPos);
-        this->players.emplace_back(p);
+        this->players.emplace_back(this->physics);
+        this->players[i].setPosition(wormPos);
+        i++;
     }
 
     /* sets the girders */
@@ -83,7 +84,8 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 
         output->close();
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << std::endl << "In Worms::Game::start" << std::endl;
+        ;
     } catch (...) {
         std::cerr << "Unkown error in Worms::Game::start()" << std::endl;
     }
@@ -99,6 +101,8 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     for (const auto &worm : this->players) {
         m.positions[m.num_worms * 2] = worm.getPosition().x + (w / 2.0f);
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
+        // TODO esto da ASCO. Cambiarlo cuando se pueda
+        m.stateIDs[(int)m.num_worms] = worm.getStateId();
         m.num_worms++;
     }
 
