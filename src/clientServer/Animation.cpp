@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cassert>
 #include <string>
+#include <iostream>
 
 #include "Animation.h"
 #include "Texture.h"
@@ -65,7 +66,9 @@ void GUI::Animation::advanceFrame() {
             this->step = -1;
         }
     }
-    this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
+    if (!(this->playOnce && this->currentFrame == this->numFrames - 1)) {   // Por ahora ignora el playReversed
+        this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
+    }
 }
 
 void GUI::Animation::setFlip(SDL_RendererFlip flip_type) {
@@ -74,4 +77,8 @@ void GUI::Animation::setFlip(SDL_RendererFlip flip_type) {
 
 SDL_RendererFlip GUI::Animation::getFlip() {
     return this->flipType;
+}
+
+void GUI::Animation::setAnimateOnce() {
+    this->playOnce = true;
 }

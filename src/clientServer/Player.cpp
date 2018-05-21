@@ -4,6 +4,7 @@
  */
 
 #include <Box2D/Box2D.h>
+#include <iostream>
 
 #include "Physics.h"
 #include "Player.h"
@@ -12,6 +13,9 @@
 #include "PlayerWalk.h"
 #include "PlayerJumping.h"
 #include "PlayerEndJump.h"
+#include "PlayerStartBackFlip.h"
+#include "PlayerBackFlipping.h"
+#include "PlayerEndBackFlip.h"
 
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -62,6 +66,9 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::startJump:
             this->state->jump(*this);
             break;
+        case IO::PlayerInput::startBackFlip:
+            this->state->backFlip(*this);
+            break;
         case IO::PlayerInput::stopMove:
             this->state->stopMove(*this);
             break;
@@ -88,6 +95,16 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::EndJump:
                 this->state = std::shared_ptr<State>(new EndJump());
+                break;
+            case Worm::StateID::StartBackFlip:
+                this->state = std::shared_ptr<State>(new StartBackFlip());
+                break;
+            case Worm::StateID::BackFlipping:
+                this->state = std::shared_ptr<State>(new BackFlipping());
+                break;
+            case Worm::StateID::EndBackFlip:
+                this->state = std::shared_ptr<State>(new EndBackFlip());
+                break;
         }
     }
 }

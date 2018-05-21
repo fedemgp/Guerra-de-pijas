@@ -27,7 +27,9 @@ class Animation {
     void setFlip(SDL_RendererFlip flipType);
     SDL_RendererFlip getFlip();
 
-   private:
+    void setAnimateOnce();
+
+private:
     /** SDL texture of the raw image. */
     const Texture *texture;
     /** Current animation frame. */
@@ -43,6 +45,8 @@ class Animation {
     SDL_RendererFlip flipType{SDL_FLIP_NONE};
     /** If true, when the animation finishes, it's played reversed instead of restarting. */
     bool playReversed{false};
+    /** If true, plays the animation once. */
+    bool playOnce{false};
     /** Frame step. */
     int step{1};
 };

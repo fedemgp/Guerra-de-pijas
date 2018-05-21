@@ -1,17 +1,15 @@
 /*
- *  Created by Federico Manuel Gomez Peter.
- *  date: 20/05/18
+ *  Created by Rodrigo.
+ *  date: 21/05/18
  */
 
-#include <vector>
-#include <Box2D/Dynamics/b2Body.h>
-#include <iostream>
-#include "PlayerJumping.h"
+
+#include "PlayerBackFlipping.h"
 #include "Player.h"
 
-Worms::Jumping::Jumping(): State(Worm::StateID::Jumping){}
+Worms::BackFlipping::BackFlipping(): State(Worm::StateID::BackFlipping){}
 
-void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body){
+void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body){
     /*
      * when the worm lands (there was a collision between the worm and the
      * girder) it has to changes its state to endJump, and take an impulse
@@ -27,16 +25,16 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body){
         b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
         body->ApplyLinearImpulseToCenter(impulses, true);
 
-        p.setState(Worm::StateID::EndJump);
+        p.setState(Worm::StateID::EndBackFlip);
     }
 }
 
-void Worms::Jumping::moveRight(Worms::Player &p){}
+void Worms::BackFlipping::moveRight(Worms::Player &p){}
 
-void Worms::Jumping::moveLeft(Worms::Player &p){}
+void Worms::BackFlipping::moveLeft(Worms::Player &p){}
 
-void Worms::Jumping::jump(Worms::Player &p){}
+void Worms::BackFlipping::jump(Worms::Player &p){}
 
-void Worms::Jumping::stopMove(Worms::Player &p){}
+void Worms::BackFlipping::stopMove(Worms::Player &p){}
 
-void Worms::Jumping::backFlip(Worms::Player &p) {}
+void Worms::BackFlipping::backFlip(Worms::Player &p) {}

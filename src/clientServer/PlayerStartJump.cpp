@@ -9,7 +9,7 @@ Worms::StartJump::StartJump() : State(Worm::StateID::StartJump) {}
 
 void Worms::StartJump::update(Player &p, float dt, b2Body *body){
     this->timeElapsed += dt;
-    if (this->timeElapsed >= JUMP_TIME) {
+    if (this->timeElapsed >= START_JUMP_TIME) {
         float32 mass = body->GetMass();
         b2Vec2 impulses = {mass * JUMP_VEL_X, mass * JUMP_VEL_Y};
         if (p.direction == Direction::left){
@@ -33,3 +33,5 @@ void Worms::StartJump::moveLeft(Worms::Player &p) {}
 void Worms::StartJump::jump(Worms::Player &p) {}
 
 void Worms::StartJump::stopMove(Worms::Player &p) {}
+
+void Worms::StartJump::backFlip(Worms::Player &p) {}

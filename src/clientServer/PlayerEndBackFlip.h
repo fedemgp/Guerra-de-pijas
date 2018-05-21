@@ -1,20 +1,22 @@
 /*
- *  Created by Federico Manuel Gomez Peter.
- *  date: 20/05/18
+ *  Created by Rodrigo.
+ *  date: 21/05/18
  */
 
-#ifndef __PLAYER_END_JUMP_H__
-#define __PLAYER_END_JUMP_H__
+
+#ifndef __PLAYER_END_BACKFLIP_H__
+#define __PLAYER_END_BACKFLIP_H__
+
 
 #include "PlayerState.h"
 
-#define JUMP_LAND_TIME 0.3f
+#define BACK_FLIP_LAND_TIME 0.4f
 
 namespace Worms{
-    class EndJump: public State{
+    class EndBackFlip : public State{
     public:
-        EndJump();
-        ~EndJump() = default;
+        EndBackFlip();
+        ~EndBackFlip() = default;
         void update(Player &p, float dt, b2Body *body) override;
         void moveRight(Player &p) override;
         void moveLeft(Player &p) override;
@@ -25,7 +27,7 @@ namespace Worms{
     private:
         float timeElapsed{0.0f};
     };
-}//namespace Worms
+}// namespace Worms
 
 
-#endif //__PLAYER_END_JUMP_H__
+#endif //__PLAYER_END_BACKFLIP_H__

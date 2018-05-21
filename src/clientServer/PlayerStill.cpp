@@ -36,3 +36,7 @@ void Worms::Still::stopMove(Worms::Player &p) {}
 void Worms::Still::jump(Worms::Player &p) {
     p.setState(Worm::StateID::StartJump);
 }
+
+void Worms::Still::backFlip(Worms::Player &p) {
+    p.setState(Worm::StateID::StartBackFlip);
+}

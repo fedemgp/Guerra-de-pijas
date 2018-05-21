@@ -34,6 +34,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::EndJump,
                            "src/clientServer/assets/img/Worms/wland2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::BackFlipping,
+                           "src/clientServer/assets/img/Worms/wbackflp.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
 GUI::Game::~Game() {}

@@ -7,7 +7,7 @@
 
 #include "Player.h"
 
-#define JUMP_TIME 0.6f
+#define START_JUMP_TIME 0.6f
 #define JUMP_VEL_X 3.0f
 #define JUMP_VEL_Y 6.0f
 
@@ -20,6 +20,7 @@ class StartJump : public State {
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;
+    void backFlip(Player &p) override;
     void stopMove(Player &p) override;
 
    private:

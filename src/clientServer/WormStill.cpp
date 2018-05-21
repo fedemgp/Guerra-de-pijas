@@ -32,3 +32,8 @@ IO::PlayerInput Worm::Still::jump(Worm &w) {
     w.setState(StateID::StartJump);
     return IO::PlayerInput::startJump;
 }
+
+IO::PlayerInput Worm::Still::backFlip(Worm &w) {
+    w.setState(StateID::StartBackFlip);
+    return IO::PlayerInput::startBackFlip;
+}

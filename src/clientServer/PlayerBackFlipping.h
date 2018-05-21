@@ -1,19 +1,20 @@
 /*
- *  Created by Federico Manuel Gomez Peter.
- *  date: 20/05/18
+ *  Created by Rodrigo.
+ *  date: 21/05/18
  */
 
-#ifndef __PLAYER_JUMPING_H__
-#define __PLAYER_JUMPING_H__
 
-#include <Box2D/Dynamics/b2Body.h>
+#ifndef __PLAYER_BACK_FLIPPING_H__
+#define __PLAYER_BACK_FLIPPING_H__
+
+
 #include "PlayerState.h"
 
 namespace Worms{
-class Jumping : public State{
+class BackFlipping : public State{
 public:
-    Jumping();
-    ~Jumping() = default;
+    BackFlipping();
+    ~BackFlipping() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
@@ -23,4 +24,5 @@ public:
 };
 }// namespace Worms
 
-#endif //__PLAYER_JUMPING_H__
+
+#endif //__PLAYER_BACK_FLIPPING_H__
