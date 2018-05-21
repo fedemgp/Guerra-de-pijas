@@ -9,7 +9,8 @@
 #define WORMS_QUANTITY 20
 
 namespace Worm {
-enum class StateID { Walk, Still, StartJump, Jumping };
+enum class StateID { Walk, Still, StartJump, Jumping, EndJump
+};
 }
 
 namespace IO {

@@ -26,10 +26,13 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            "src/clientServer/assets/img/Weapons/grdl4.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::StartJump,
-                           "src/clientServer/assets/img/Worms/wjump2.png",
-                           GUI::Color{0x80, 0x80, 0xC0});
+                           "src/clientServer/assets/img/Worms/wjump.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Jumping,
                            "src/clientServer/assets/img/Worms/wflyup.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::EndJump,
+                           "src/clientServer/assets/img/Worms/wland2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
@@ -72,7 +75,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             prev = current;
             this->render();
 
-            usleep(5 * 1000);
+            usleep(5 * 1000);1.0
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;

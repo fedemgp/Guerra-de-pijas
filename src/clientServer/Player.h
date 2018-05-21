@@ -20,7 +20,6 @@ enum class Direction { right, left, up, down };
 class Player {
    public:
     Direction direction;
-
     Player(Physics &physics);
     ~Player() = default;
     void update(float dt);
@@ -31,7 +30,11 @@ class Player {
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
 
-   private:
+    void startContact();
+
+    void endContact();
+
+private:
     std::shared_ptr<Worms::State> state;
     b2Body *body;
     b2BodyDef bodyDef;

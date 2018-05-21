@@ -5,7 +5,9 @@
 
 #include "Physics.h"
 
-Worms::Physics::Physics(b2Vec2 gravity) : gravity(gravity), world(this->gravity) {}
+Worms::Physics::Physics(b2Vec2 gravity) : gravity(gravity), world(this->gravity) {
+    this->world.SetContactListener(&this->contactEventListener);
+}
 
 void Worms::Physics::update(float dt) {
     this->world.Step(dt, this->vIterations, this->pIterations);

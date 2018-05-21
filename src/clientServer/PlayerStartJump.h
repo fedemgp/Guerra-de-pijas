@@ -7,18 +7,16 @@
 
 #include "Player.h"
 
-#define JUMP_TIME 0.5f
-
-#define JUMP_IMPULSE_Y 6.0f
-#define JUMP_IMPULSE_X 1.0f
+#define JUMP_TIME 0.7f
+#define JUMP_VEL_X 3.0f
+#define JUMP_VEL_Y 6.0f
 
 namespace Worms {
 class StartJump : public State {
    public:
     StartJump();
     ~StartJump() = default;
-    const std::vector<float>& update(Player &p, float dt, float32 mass,
-                                      const b2Vec2 &velocities) override;
+    void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;

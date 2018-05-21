@@ -1,20 +1,24 @@
 
 #include "Player.h"
 #include <memory>
+#include <iostream>
 #include "Player.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-const std::vector<float> & Worms::Walk::update(Player &p, float dt, float32 mass,
-                                               const b2Vec2 &vel) {
+void Worms::Walk::update(Player &p, float dt, b2Body *body){
     float final_vel{0.0f};
+    float32 mass = body->GetMass();
+    b2Vec2 vel = body->GetLinearVelocity();
+
     if (p.direction == Direction::left) {
         final_vel = -3.0f;
     } else {
         final_vel = 3.0f;
     }
     this->impulses[0] = mass * (final_vel - vel.x);
-    return this->impulses;
+    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
+                                   body->GetWorldCenter(), true);
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {

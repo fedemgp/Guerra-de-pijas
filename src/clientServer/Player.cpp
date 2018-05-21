@@ -4,7 +4,6 @@
  */
 
 #include <Box2D/Box2D.h>
-#include <iostream>
 
 #include "Physics.h"
 #include "Player.h"
@@ -12,6 +11,7 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "PlayerJumping.h"
+#include "PlayerEndJump.h"
 
 Worms::Player::Player(Physics &physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -24,27 +24,18 @@ Worms::Player::Player(Physics &physics) {
     this->shape.SetAsBox(width / 2, height / 2);
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
-    this->fixture.restitution = 0.3f;
+    this->fixture.restitution = 0.1f;
     this->fixture.friction = 0.0f;
 
     this->body->CreateFixture(&this->fixture);
+    this->body->SetUserData(this);
 
     this->state = std::shared_ptr<State>(new Still());
     this->direction = Direction::left;
 }
 
 void Worms::Player::update(float dt) {
-    const std::vector<float> &impulses =
-        this->state->update(*this, dt, this->body->GetMass(), this->body->GetLinearVelocity());
-
-//    b2Vec2 vel = this->body->GetLinearVelocity();
-//        const float delta = impulses[0] - vel.x;
-//        float impulse = this->body->GetMass() * delta;
-//
-    std::cout << "impulses = [" << impulses[0] << ',' << impulses[1] << std::endl;
-    this->body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
-                                   this->body->GetWorldCenter(), true);
-//    std::cout << this->body->GetPosition().x << ", " << this->body->GetPosition().y << std::endl;
+    this->state->update(*this, dt, this->body);
 }
 
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
@@ -95,6 +86,16 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Jumping:
                 this->state = std::shared_ptr<State>(new Jumping());
                 break;
+            case Worm::StateID::EndJump:
+                this->state = std::shared_ptr<State>(new EndJump());
         }
     }
+}
+
+void Worms::Player::startContact(){
+    this->state->startContact();
+}
+
+void Worms::Player::endContact(){
+    this->state->endContact();
 }

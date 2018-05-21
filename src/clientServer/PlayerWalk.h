@@ -8,12 +8,10 @@ class Walk : public State {
    public:
     Walk();
     ~Walk() = default;
-    const std::vector<float>& update(Player &p, float dt, float32 mass,
-                                    const b2Vec2 &velocities) override;
+    void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;
-
     void stopMove(Player &p) override;
 };
 }

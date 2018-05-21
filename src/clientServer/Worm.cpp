@@ -68,27 +68,20 @@ void Worm::Worm::update(float dt) {
     this->animation.update(dt);
 }
 
-GUI::Animation Worm::Worm::getAnimation(::Worm::StateID state) const {
-    GUI::GameTextures texture_id;
+GUI::Animation Worm::Worm::getAnimation(StateID state) const {
     switch (state) {
         case StateID::Still:
-            texture_id = GUI::GameTextures::WormIdle;
-            break;
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
         case StateID::Walk:
-            texture_id = GUI::GameTextures::WormWalk;
-            break;
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormWalk)};
         case StateID::StartJump:
-            texture_id = GUI::GameTextures::StartJump;
-            break;
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::StartJump), true};
         case StateID::Jumping:
-            texture_id = GUI::GameTextures::Jumping;
-            break;
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Jumping)};
+        case StateID::EndJump:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
     }
-    if (state == StateID::Still) {
-        return GUI::Animation{this->texture_mgr.get(texture_id), true};
-    }
-
-    return GUI::Animation{this->texture_mgr.get(texture_id)};
+    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
 
 void Worm::Worm::setState(StateID state) {
@@ -107,6 +100,8 @@ void Worm::Worm::setState(StateID state) {
                 this->state = std::shared_ptr<State>(new Jump());
                 break;
             case StateID::Jumping:
+                break;
+            case StateID::EndJump:
                 break;
         }
     }

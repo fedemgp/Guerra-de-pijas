@@ -24,7 +24,7 @@ class Worm {
      * entries, and delegate in their attributes the rendering and animation
      */
    public:
-    Direction direction;
+    Direction direction{Direction::left};
 
     explicit Worm(const GUI::GameTextureManager &texture_mgr);
     ~Worm() {}

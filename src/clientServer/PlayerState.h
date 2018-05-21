@@ -3,6 +3,7 @@
 
 #include <Box2D/Common/b2Math.h>
 #include <vector>
+#include <Box2D/Dynamics/b2Body.h>
 
 #include "GameStateMsg.h"
 
@@ -12,17 +13,19 @@ class State {
    public:
     explicit State(Worm::StateID id);
     virtual ~State() = default;
-    virtual const std::vector<float> &update(Player &p, float dt, float32 mass,
-                                             const b2Vec2 &velocities) = 0;
+    virtual void update(Player &p, float dt, b2Body *body) = 0;
     virtual void moveRight(Player &p) = 0;
     virtual void moveLeft(Player &p) = 0;
     virtual void jump(Player &p) = 0;
     virtual void stopMove(Player &p) = 0;
     virtual Worm::StateID getState() const;
+    virtual void startContact();
+    virtual void endContact();
 
    protected:
     Worm::StateID stateID;
     std::vector<float> impulses{0.0f, 0.0f};
+    int numContacts{0};
 };
 }
 

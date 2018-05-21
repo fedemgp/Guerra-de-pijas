@@ -14,10 +14,11 @@
 #include "Stage.h"
 
 Worms::Game::Game(const Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
+    int i{0};
     for (auto &wormPos : this->stage.getWormPositions()) {
-        Player p{this->physics};
-        p.setPosition(wormPos);
-        this->players.emplace_back(p);
+        this->players.emplace_back(this->physics);
+        this->players[i].setPosition(wormPos);
+        i++;
     }
 
     /* sets the girders */

@@ -12,10 +12,13 @@
 
 Worms::Still::Still() : State(Worm::StateID::Still) {}
 
-const std::vector<float> & Worms::Still::update(Player &p, float dt, float32 mass,
-                                                const b2Vec2 &velocities) {
-    this->impulses[0] = -velocities.x * mass;
-    return this->impulses;
+void Worms::Still::update(Player &p, float dt, b2Body *body){
+    float32 mass = body->GetMass();
+    b2Vec2 vel = body->GetLinearVelocity();
+
+    this->impulses[0] = -vel.x * mass;
+    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
+                             body->GetWorldCenter(), true);
 }
 
 void Worms::Still::moveRight(Worms::Player &p) {
