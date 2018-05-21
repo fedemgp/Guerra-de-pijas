@@ -7,7 +7,8 @@
 namespace GUI {
 /** Different kinds of textures. */
 enum class GameTextures { WormWalk, WormIdle, LongGirder, ShortGirder, StartJump, Jumping,
-    EndJump
+    EndJump,
+    Aim
 };
 
 /** Specialized TextureManager class. */

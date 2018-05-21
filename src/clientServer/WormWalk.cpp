@@ -38,3 +38,7 @@ IO::PlayerInput Worm::Walk::jump(Worm &w) {
     w.setState(StateID::StartJump);
     return IO::PlayerInput::startJump;
 }
+
+IO::PlayerInput Worm::Walk::bazooka(Worm::Worm &w){
+    return IO::PlayerInput ::moveNone;
+}

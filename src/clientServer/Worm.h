@@ -6,6 +6,8 @@
 #ifndef __Worm_H__
 #define __Worm_H__
 
+#define BAZOOKA_CENTER_FRAME 16
+
 #include <SDL2/SDL.h>
 #include <memory>
 #include "Animation.h"

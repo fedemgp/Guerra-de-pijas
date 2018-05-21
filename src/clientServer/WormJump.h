@@ -22,6 +22,7 @@ class Jump : public State {
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
     virtual IO::PlayerInput jump(Worm &w) override;
+    virtual IO::PlayerInput bazooka(Worm &w) override;
 };
 }  // namespace Worm
 

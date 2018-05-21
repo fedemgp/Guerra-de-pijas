@@ -88,6 +88,8 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::EndJump:
                 this->state = std::shared_ptr<State>(new EndJump());
+            case Worm::StateID::Bazooka:
+                this->state = std::shared_ptr<State>(new Still());
         }
     }
 }

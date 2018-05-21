@@ -17,6 +17,7 @@ class Animation {
    public:
     Animation(const Texture &texture);
     Animation(const Texture &texture, bool playReversed);
+    Animation(const Texture &texture, bool playReversed, int initialFrame, bool autoUpdate);
     ~Animation();
 
     void update(float dt);
@@ -30,6 +31,11 @@ class Animation {
    private:
     /** SDL texture of the raw image. */
     const Texture *texture;
+    /**
+     * Disable Automatic update (when worm uses a bazooka, the frame changes
+     * when user presses up or down)
+     */
+    bool autoUpdate{true};
     /** Current animation frame. */
     int currentFrame{0};
     /** Total number of frames in the sprite. */

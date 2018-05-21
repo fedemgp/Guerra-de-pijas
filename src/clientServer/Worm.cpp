@@ -13,7 +13,7 @@
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
-    this->setState(::Worm::StateID::Still);
+    this->setState(::Worm::StateID::Bazooka);
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -80,6 +80,8 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Jumping)};
         case StateID::EndJump:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
+        case StateID::Bazooka:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true, BAZOOKA_CENTER_FRAME, false};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
@@ -102,6 +104,9 @@ void Worm::Worm::setState(StateID state) {
             case StateID::Jumping:
                 break;
             case StateID::EndJump:
+                break;
+            case StateID::Bazooka:
+                this->state = std::shared_ptr<State>(new Bazooka());
                 break;
         }
     }

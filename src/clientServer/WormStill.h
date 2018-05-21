@@ -19,11 +19,11 @@ class Still : public State {
     ~Still();
 
     virtual void update(float dt) override;
-
     virtual IO::PlayerInput moveRight(Worm &w) override;
     virtual IO::PlayerInput moveLeft(Worm &w) override;
     virtual IO::PlayerInput stopMove(Worm &w) override;
     virtual IO::PlayerInput jump(Worm &w) override;
+    virtual IO::PlayerInput bazooka(Worm &w) override;
 };
 }  // namespace Worm
 

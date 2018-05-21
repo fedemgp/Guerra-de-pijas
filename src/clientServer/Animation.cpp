@@ -24,15 +24,23 @@ GUI::Animation::Animation(const Texture &texture, bool playReversed) : Animation
     this->playReversed = playReversed;
 }
 
+GUI::Animation::Animation(const GUI::Texture &texture, bool playReversed,
+                          int initialFrame, bool autoUpdate):
+                                Animation(texture, playReversed){
+    assert(this->numFrames > initialFrame);
+    this->currentFrame = initialFrame;
+    this->autoUpdate = autoUpdate;
+}
+
 GUI::Animation::~Animation() {}
-
 void GUI::Animation::update(float dt) {
-    this->elapsed += dt;
-
-    /* checks if the frame should be updated based on the time elapsed since the last update */
-    while (this->elapsed > this->frameRate) {
-        this->advanceFrame();
-        this->elapsed -= this->frameRate;
+    if (this->autoUpdate){
+        this->elapsed += dt;
+        /* checks if the frame should be updated based on the time elapsed since the last update */
+        while (this->elapsed > this->frameRate) {
+            this->advanceFrame();
+            this->elapsed -= this->frameRate;
+        }
     }
 }
 

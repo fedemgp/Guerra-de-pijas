@@ -26,3 +26,7 @@ IO::PlayerInput Worm::Jump::stopMove(Worm &w) {
 IO::PlayerInput Worm::Jump::jump(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jump::bazooka(Worm::Worm &w){
+    return IO::PlayerInput::Bazooka;
+}
