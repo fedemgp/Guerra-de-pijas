@@ -71,6 +71,10 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
             break;
         case IO::PlayerInput::moveNone:
             break;
+        case IO::PlayerInput::pointUp:
+            break;
+        case IO::PlayerInput::pointDown:
+            break;
     }
 }
 

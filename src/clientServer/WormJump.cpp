@@ -30,3 +30,11 @@ IO::PlayerInput Worm::Jump::jump(Worm &w) {
 IO::PlayerInput Worm::Jump::bazooka(Worm &w){
     return IO::PlayerInput::bazooka;
 }
+
+IO::PlayerInput Worm::Jump::pointUp(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jump::pointDown(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

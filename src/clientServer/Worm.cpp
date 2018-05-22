@@ -10,7 +10,7 @@
 #include "WormJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "WormStateBazooka.h"
+#include "WormBazooka.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {

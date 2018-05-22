@@ -38,3 +38,11 @@ IO::PlayerInput Worm::Still::bazooka(Worm &w){
     return IO::PlayerInput::bazooka;
 }
 
+IO::PlayerInput Worm::Still::pointUp(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Still::pointDown(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
