@@ -67,6 +67,6 @@ target_link_libraries(SDLTest SDL2 SDL2_image)
 
 file(GLOB CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES} src/clientServer/PlayerEndJump.cpp src/clientServer/PlayerEndJump.h src/clientServer/PlayerStartBackFlip.cpp src/clientServer/PlayerStartBackFlip.h src/clientServer/WormBackFlip.cpp src/clientServer/WormBackFlip.h src/clientServer/PlayerBackFlipping.cpp src/clientServer/PlayerBackFlipping.h src/clientServer/WormJumping.cpp src/clientServer/WormJumping.h src/clientServer/WormEndJump.cpp src/clientServer/WormEndJump.h src/clientServer/WormBackFlipping.cpp src/clientServer/WormBackFlipping.h src/clientServer/WormEndBackFlip.cpp src/clientServer/WormEndBackFlip.h src/clientServer/PlayerEndBackFlip.cpp src/clientServer/PlayerEndBackFlip.h)
+        ${CLIENT_SERVER_SOURCES})
 
 target_link_libraries(clientServer Box2D SDL2 SDL2_image)

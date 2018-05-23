@@ -16,7 +16,8 @@
 Worms::Game::Game(const Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
     int i{0};
     for (auto &wormPos : this->stage.getWormPositions()) {
-        this->players.emplace_back(this->physics);
+        /* the first worm is the active player */
+        this->players.emplace_back(this->physics, i == 0);
         this->players[i].setPosition(wormPos);
         i++;
     }
@@ -103,6 +104,9 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
         // TODO esto da ASCO. Cambiarlo cuando se pueda
         m.stateIDs[(int)m.num_worms] = worm.getStateId();
+        if (worm.isActive()){
+            m.activePlayerAngle = worm.getAngle();
+        }
         m.num_worms++;
     }
 

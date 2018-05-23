@@ -1,24 +1,21 @@
 /*
- *  Created by Rodrigo.
- *  date: 21/05/18
+ *  Created by Federico Manuel Gomez Peter.
+ *  date: 20/05/18
  */
 
-
-#ifndef __WORM_END_BACKFLIP_H__
-#define __WORM_END_BACKFLIP_H__
-
+#ifndef __WormStateBazooka_H__
+#define __WormStateBazooka_H__
 
 #include "GameStateMsg.h"
+#include "Worm.h"
 #include "WormState.h"
 
-namespace Worm {
-    class EndBackFlip : public State {
+namespace Worm{
+    class Bazooka : public State {
     public:
-        EndBackFlip();
-        ~EndBackFlip();
-
+        Bazooka();
+        ~Bazooka();
         virtual void update(float dt) override;
-
         virtual IO::PlayerInput moveRight(Worm &w) override;
         virtual IO::PlayerInput moveLeft(Worm &w) override;
         virtual IO::PlayerInput stopMove(Worm &w) override;
@@ -28,7 +25,7 @@ namespace Worm {
         virtual IO::PlayerInput pointUp(Worm &w) override;
         virtual IO::PlayerInput pointDown(Worm &w) override;
     };
-}  // namespace Worm
+}
 
 
-#endif //__WORM_END_BACKFLIP_H__
+#endif //__WormStateBazooka_H__

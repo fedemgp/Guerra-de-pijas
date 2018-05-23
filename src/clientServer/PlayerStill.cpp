@@ -40,3 +40,12 @@ void Worms::Still::jump(Worms::Player &p) {
 void Worms::Still::backFlip(Worms::Player &p) {
     p.setState(Worm::StateID::StartBackFlip);
 }
+
+void Worms::Still::bazooka(Worms::Player &p) {
+    p.setState(Worm::StateID::Bazooka);
+}
+
+void Worms::Still::pointUp(Worms::Player &p){}
+
+void Worms::Still::pointDown(Worms::Player &p){}
+

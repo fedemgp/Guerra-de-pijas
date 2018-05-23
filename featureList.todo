@@ -1,16 +1,16 @@
 Gusanos:
     Movimiento:
        ☐ No empuja a otro mientras se desplaza
-       ☐ Se mueve a 2m/s
+       ✔ Se mueve a 2m/s @done (18-05-21 22:31)
     Salto:
-       ☐ Apretando enter
-       ☐ salta 1m adelante y 0.5m de alto
+       ✔ Apretando enter @done (18-05-21 22:31)
+       ✔ salta 1m adelante y 0.5m de alto @done (18-05-21 22:31)
     Caida:
        ☐ el gusano se daña cuando la caida es mayor a 2 metros
        ☐ daño de 1 punto/m, maximo 25 puntos
     Vuelta atras:
-       ☐ Apretando retroceso
-       ☐ 0.2m atrás y 1.2m de alto
+       ✔ Apretando retroceso @done (18-05-21 22:31)
+       ✔ 0.2m atrás y 1.2m de alto @done (18-05-21 22:31)
     Salto doble(OPCIONAL):
        ☐ Apretando dos veces retroceso
     Eleccion de arma:
@@ -88,7 +88,7 @@ Juego:
     ☐ Pantalla victoria del ganador
 
 Animaciones:
-  ☐ Movimiento del gusano
+  ✔ Movimiento del gusano @done (18-05-21 22:32)
   ☐ vuelo de gusanos
   ☐ movimiento del proyectil
   ☐ explosiones
@@ -99,7 +99,7 @@ Sonidos:
   Gusano:
     ☐ Salta
     ☐ Muere
-  ☐ Si hay muchos eventos, se evitan algunos.+
+  ☐ Si hay muchos eventos, se evitan algunos.
   Musica ambiente:
     ☐ Volumen relativamente bajo (= death metal al palo)
 
@@ -107,7 +107,7 @@ Armas:
   ☐ Usar flechas de arriba y abajo para apuntar
   ☐ Los ángulos van desde -90° a 90°
   ☐ 0° el disparo es horizontal
-  ☐ Con flecha izquierda o derecha cambia la dirección de disparo
+  ✔ Con flecha izquierda o derecha cambia la dirección de disparo @done (18-05-21 22:32)
   Arma cuerpo a cuerpo:
     ☐ El daño es local, al gusano que se encuentra al lado
   Potencia:
@@ -278,4 +278,7 @@ Editor:
     ☐ Daño
     ☐ Vida inicial de gusanos
     ☐ Tiempo del turno
+
+NICE TO HAVE:
+  ☐ Cuando se elige un arma estaría bueno que sedivida en tres sub estados: equiparArma (con su animación correspondiente, el gusano saca el arma, por ejemplo wbazink, o el gusano guarda el arma, wbazbak)
     

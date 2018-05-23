@@ -31,3 +31,15 @@ IO::PlayerInput Worm::EndJump::jump(Worm &w) {
 IO::PlayerInput Worm::EndJump::backFlip(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndJump::bazooka(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::pointUp(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::pointDown(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

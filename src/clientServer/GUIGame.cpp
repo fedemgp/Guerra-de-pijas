@@ -37,6 +37,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+this->texture_mgr.load(GUI::GameTextures::Aim,
+                           "src/clientServer/assets/img/Worms/wbaz.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 }
 
 GUI::Game::~Game() {}
@@ -46,6 +49,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
     try {
         // TODO: remove this
         this->worms.emplace_back(this->texture_mgr);
+        this->worms[0].setActive();
 
         uint32_t prev = SDL_GetTicks();
         IO::GameStateMsg m{1};
@@ -71,6 +75,9 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             this->x = m.positions[0];
             this->y = m.positions[1];
             this->worms[0].setState(m.stateIDs[0]);
+            if (this->worms[0].getState() == Worm::StateID::Bazooka){
+                this->worms[0].setAngle(m.activePlayerAngle);
+            }
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;

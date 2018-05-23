@@ -31,12 +31,18 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body){
     }
 }
 
-void Worms::Jumping::moveRight(Worms::Player &p){}
+void Worms::Jumping::moveRight(Worms::Player &p) {}
 
-void Worms::Jumping::moveLeft(Worms::Player &p){}
+void Worms::Jumping::moveLeft(Worms::Player &p) {}
 
-void Worms::Jumping::jump(Worms::Player &p){}
+void Worms::Jumping::jump(Worms::Player &p) {}
 
-void Worms::Jumping::stopMove(Worms::Player &p){}
+void Worms::Jumping::stopMove(Worms::Player &p) {}
 
 void Worms::Jumping::backFlip(Worms::Player &p) {}
+
+void Worms::Jumping::bazooka(Worms::Player &p) {}
+
+void Worms::Jumping::pointUp(Worms::Player &p){}
+
+void Worms::Jumping::pointDown(Worms::Player &p){}

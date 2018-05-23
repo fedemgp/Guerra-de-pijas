@@ -26,3 +26,9 @@ void Worms::EndBackFlip::jump(Worms::Player &p){}
 void Worms::EndBackFlip::stopMove(Worms::Player &p){}
 
 void Worms::EndBackFlip::backFlip(Worms::Player &p) {}
+
+void Worms::EndBackFlip::bazooka(Worms::Player &p) {}
+
+void Worms::EndBackFlip::pointUp(Worms::Player &p){}
+
+void Worms::EndBackFlip::pointDown(Worms::Player &p){}

@@ -43,3 +43,15 @@ IO::PlayerInput Worm::Walk::backFlip(Worm &w) {
     w.setState(StateID::StartBackFlip);
     return IO::PlayerInput::startBackFlip;
 }
+
+IO::PlayerInput Worm::Walk::bazooka(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Walk::pointUp(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Walk::pointDown(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

@@ -13,13 +13,13 @@ Worm::Still::~Still() {}
 void Worm::Still::update(float dt) {}
 
 IO::PlayerInput Worm::Still::moveRight(Worm &w) {
-    w.setState(::Worm::StateID::Walk);
+    w.setState(StateID::Walk);
     w.direction = ::Worm::Direction::right;
     return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Still::moveLeft(Worm &w) {
-    w.setState(::Worm::StateID::Walk);
+    w.setState(StateID::Walk);
     w.direction = ::Worm::Direction::left;
     return IO::PlayerInput::moveLeft;
 }
@@ -37,3 +37,18 @@ IO::PlayerInput Worm::Still::backFlip(Worm &w) {
     w.setState(StateID::StartBackFlip);
     return IO::PlayerInput::startBackFlip;
 }
+
+IO::PlayerInput Worm::Still::bazooka(Worm &w){
+    w.setState(StateID::Bazooka);
+    return IO::PlayerInput::bazooka;
+}
+
+IO::PlayerInput Worm::Still::pointUp(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Still::pointDown(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+

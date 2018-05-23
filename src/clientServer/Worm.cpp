@@ -4,13 +4,14 @@
  */
 
 #include <SDL2/SDL_system.h>
-#include <iostream>
+#include <cmath>
 
 #include "GameStateMsg.h"
 #include "Worm.h"
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "WormBazooka.h"
 #include "WormBackFlip.h"
 #include "WormJumping.h"
 #include "WormEndJump.h"
@@ -35,6 +36,16 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
+case SDLK_UP:
+            i = this->state->pointUp(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_DOWN:
+            i = this->state->pointDown(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
         case SDLK_RETURN:
             i = this->state->jump(*this);
             if (i != IO::PlayerInput::moveNone)
@@ -45,6 +56,12 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
+        case SDLK_1:
+            i = this->state->bazooka(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+
     }
 }
 
@@ -93,11 +110,14 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         case StateID::EndBackFlip:
         case StateID::EndJump:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
-        case StateID::BackFlipping: {
-            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::BackFlipping)};
+        case StateID::BackFlipping:{
+            GUI::Animation animation{
+                    this->texture_mgr.get(GUI::GameTextures::BackFlipping)};
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Bazooka:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true, BAZOOKA_CENTER_FRAME, false};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
@@ -132,6 +152,24 @@ void Worm::Worm::setState(StateID state) {
             case StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
+            case StateID::Bazooka:
+                this->state = std::shared_ptr<State>(new Bazooka());
+                break;
         }
     }
+}
+
+void Worm::Worm::setActive(){
+    this->active = true;
+}
+/* TODO check if all the weapons has the same number of frames and the same
+ * proportion
+ */
+void Worm::Worm::setAngle(float angle){
+    this->animation.setFrame((int) std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
+
+}
+
+Worm::StateID &Worm::Worm::getState() const{
+    return this->state->getState();
 }

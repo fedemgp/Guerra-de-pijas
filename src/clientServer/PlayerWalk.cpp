@@ -38,3 +38,9 @@ void Worms::Walk::jump(Worms::Player &p) {}
 Worms::Walk::Walk() : State(Worm::StateID::Walk) {}
 
 void Worms::Walk::backFlip(Worms::Player &p) {}
+
+void Worms::Walk::bazooka(Worms::Player &p) {}
+
+void Worms::Walk::pointUp(Worms::Player &p){}
+
+void Worms::Walk::pointDown(Worms::Player &p){}

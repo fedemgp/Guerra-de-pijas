@@ -4,7 +4,6 @@
  */
 
 #include <Box2D/Box2D.h>
-#include <iostream>
 
 #include "Physics.h"
 #include "Player.h"
@@ -13,11 +12,12 @@
 #include "PlayerWalk.h"
 #include "PlayerJumping.h"
 #include "PlayerEndJump.h"
+#include "PlayerBazooka.h"
 #include "PlayerStartBackFlip.h"
 #include "PlayerBackFlipping.h"
 #include "PlayerEndBackFlip.h"
 
-Worms::Player::Player(Physics &physics) {
+Worms::Player::Player(Physics &physics, bool active): active(active) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -72,7 +72,16 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::stopMove:
             this->state->stopMove(*this);
             break;
+        case IO::PlayerInput::bazooka:
+            this->state->bazooka(*this);
+            break;
         case IO::PlayerInput::moveNone:
+            break;
+        case IO::PlayerInput::pointUp:
+            this->state->pointUp(*this);
+            break;
+        case IO::PlayerInput::pointDown:
+            this->state->pointDown(*this);
             break;
     }
 }
@@ -105,6 +114,9 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
+	case Worm::StateID::Bazooka:
+                this->state = std::shared_ptr<State>(new Bazooka());
+                break;
         }
     }
 }
@@ -116,3 +128,26 @@ void Worms::Player::startContact(){
 void Worms::Player::endContact(){
     this->state->endContact();
 }
+
+void Worms::Player::increaseAngle(){
+    this->angle += ANGLE_STEP;
+    if (this->angle > MAX_ANGLE){
+        this->angle = MAX_ANGLE;
+    }
+}
+
+void Worms::Player::decreaseAngle(){
+    this->angle -= ANGLE_STEP;
+    if (this->angle < MIN_ANGLE){
+        this->angle = MIN_ANGLE;
+    }
+}
+
+bool Worms::Player::isActive() const{
+    return this->active;
+}
+
+float Worms::Player::getAngle() const{
+    return this->angle;
+}
+
