@@ -136,6 +136,6 @@ void Worm::Worm::setActive(){
  * proportion
  */
 void Worm::Worm::setAngle(float angle){
-    this->animation.setFrame((int) std::ceil(angle / 5.625f) + 16);
+    this->animation.setFrame((int) std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
 
 }

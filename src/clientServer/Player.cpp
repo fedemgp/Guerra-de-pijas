@@ -115,16 +115,16 @@ void Worms::Player::endContact(){
 }
 
 void Worms::Player::increaseAngle(){
-    this->angle += 5.625f;
-    if (this->angle > 84.37511){
-        this->angle = 84.375;
+    this->angle += ANGLE_STEP;
+    if (this->angle > MAX_ANGLE){
+        this->angle = MAX_ANGLE;
     }
 }
 
 void Worms::Player::decreaseAngle(){
-    this->angle -= 5.625f;
-    if (this->angle < -90){
-        this->angle = -90;
+    this->angle -= ANGLE_STEP;
+    if (this->angle < MIN_ANGLE){
+        this->angle = MIN_ANGLE;
     }
 }
 

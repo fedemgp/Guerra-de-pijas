@@ -7,6 +7,7 @@
 #define __Worm_H__
 
 #define BAZOOKA_CENTER_FRAME 16
+#define ANGLE_STEP 5.625f
 
 #include <SDL2/SDL.h>
 #include <memory>

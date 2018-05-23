@@ -6,6 +6,10 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
+#define MIN_ANGLE -90
+#define MAX_ANGLE 84.375f
+#define ANGLE_STEP 5.625f
+
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
