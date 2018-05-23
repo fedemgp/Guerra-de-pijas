@@ -2,6 +2,7 @@
 // Created by rodrigo on 21/05/18.
 //
 
+#include <iostream>
 #include "PlayerBazooka.h"
 #include "Player.h"
 /*
@@ -28,3 +29,13 @@ void Worms::Bazooka::jump(Worms::Player &p) {}
 void Worms::Bazooka::stopMove(Worms::Player &p) {}
 
 void Worms::Bazooka::bazooka(Worms::Player &p) {}
+
+void Worms::Bazooka::pointUp(Worms::Player &p){
+    p.increaseAngle();
+    std::cout << "increase angle " << p.getAngle() << std::endl;
+}
+
+void Worms::Bazooka::pointDown(Worms::Player &p){
+    p.decreaseAngle();
+    std::cout << "decrease angle " << p.getAngle() << std::endl;
+}

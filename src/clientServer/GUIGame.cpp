@@ -46,6 +46,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
     try {
         // TODO: remove this
         this->worms.emplace_back(this->texture_mgr);
+        this->worms[0].setActive();
 
         uint32_t prev = SDL_GetTicks();
         IO::GameStateMsg m{1};
@@ -71,6 +72,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             this->x = m.positions[0];
             this->y = m.positions[1];
             this->worms[0].setState(m.stateIDs[0]);
+            this->worms[0].setAngle(m.activePlayerAngle);
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;

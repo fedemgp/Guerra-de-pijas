@@ -35,7 +35,7 @@ class Worm {
      * @param dt
      */
     void update(float dt);
-    /**renderizar el gusano
+    /**
      * Render worm in position (x,y)
      * @param x
      * @param y
@@ -54,19 +54,28 @@ class Worm {
      * @param out
      */
     void handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out);
-
     GUI::Animation getAnimation(StateID state) const;
-
     /**
      * Attributte that implements state pattern to change the behavior
      * of the class polymorphically.
      */
     void setState(StateID state);
+    /**
+     * Sets the worm in active mode
+     */
+    void setActive();
+    /**
+     * Update the animation with weapons, depending on the
+     * worm's angle.
+     * @param angle
+     */
+    void setAngle(float angle);
 
    private:
     const GUI::GameTextureManager &texture_mgr;
     std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
+    bool active{false};
 };
 }  // namespace Worm
 

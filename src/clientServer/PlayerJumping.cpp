@@ -40,3 +40,7 @@ void Worms::Jumping::jump(Worms::Player &p) {}
 void Worms::Jumping::stopMove(Worms::Player &p) {}
 
 void Worms::Jumping::bazooka(Worms::Player &p) {}
+
+void Worms::Jumping::pointUp(Worms::Player &p){}
+
+void Worms::Jumping::pointDown(Worms::Player &p){}

@@ -19,6 +19,8 @@ class State {
     virtual void jump(Player &p) = 0;
     virtual void bazooka(Player &p) = 0;
     virtual void stopMove(Player &p) = 0;
+    virtual void pointUp(Player &p) = 0;
+    virtual void pointDown(Player &p) = 0;
     virtual Worm::StateID getState() const;
     virtual void startContact();
     virtual void endContact();

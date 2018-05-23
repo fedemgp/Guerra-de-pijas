@@ -14,6 +14,8 @@ class Walk : public State {
     void jump(Player &p) override;
     void bazooka(Player &p) override;
     void stopMove(Player &p) override;
+    virtual void pointUp(Player &p) override;
+    virtual void pointDown(Player &p) override;
 };
 }
 

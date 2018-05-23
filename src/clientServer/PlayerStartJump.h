@@ -22,6 +22,8 @@ class StartJump : public State {
     void jump(Player &p) override;
     void bazooka(Player &p) override;
     void stopMove(Player &p) override;
+    virtual void pointUp(Player &p) override;
+    virtual void pointDown(Player &p) override;
 
    private:
     float timeElapsed{0.0f};

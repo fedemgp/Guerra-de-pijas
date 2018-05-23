@@ -14,7 +14,7 @@
 #include "PlayerEndJump.h"
 #include "PlayerBazooka.h"
 
-Worms::Player::Player(Physics &physics) {
+Worms::Player::Player(Physics &physics, bool active): active(active) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -72,8 +72,10 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::moveNone:
             break;
         case IO::PlayerInput::pointUp:
+            this->state->pointUp(*this);
             break;
         case IO::PlayerInput::pointDown:
+            this->state->pointDown(*this);
             break;
     }
 }
@@ -111,3 +113,26 @@ void Worms::Player::startContact(){
 void Worms::Player::endContact(){
     this->state->endContact();
 }
+
+void Worms::Player::increaseAngle(){
+    this->angle += 5.625f;
+    if (this->angle > 84.37511){
+        this->angle = 84.375;
+    }
+}
+
+void Worms::Player::decreaseAngle(){
+    this->angle -= 5.625f;
+    if (this->angle < -90){
+        this->angle = -90;
+    }
+}
+
+bool Worms::Player::isActive() const{
+    return this->active;
+}
+
+float Worms::Player::getAngle() const{
+    return this->angle;
+}
+

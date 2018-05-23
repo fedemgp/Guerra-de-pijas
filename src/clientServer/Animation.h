@@ -19,12 +19,15 @@ class Animation {
     Animation(const Texture &texture, bool playReversed);
     Animation(const Texture &texture, bool playReversed, int initialFrame, bool autoUpdate);
     ~Animation();
-
     void update(float dt);
     void render(SDL_Renderer &renderer, int x, int y);
-
     void reset();
     void advanceFrame();
+    /**
+     * Sets frame manually. Commonly used when the worm is aiming with a weapon
+     * @param frame
+     */
+    void setFrame(int frame);
     void setFlip(SDL_RendererFlip flipType);
     SDL_RendererFlip getFlip();
 

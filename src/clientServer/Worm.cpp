@@ -4,6 +4,7 @@
  */
 
 #include <SDL2/SDL_system.h>
+#include <cmath>
 
 #include "GameStateMsg.h"
 #include "Worm.h"
@@ -27,6 +28,16 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             break;
         case SDLK_LEFT:
             i = this->state->moveLeft(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_UP:
+            i = this->state->pointUp(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_DOWN:
+            i = this->state->pointDown(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
@@ -116,4 +127,15 @@ void Worm::Worm::setState(StateID state) {
                 break;
         }
     }
+}
+
+void Worm::Worm::setActive(){
+    this->active = true;
+}
+/* TODO check if all the weapons has the same number of frames and the same
+ * proportion
+ */
+void Worm::Worm::setAngle(float angle){
+    this->animation.setFrame((int) std::ceil(angle / 5.625f) + 16);
+
 }

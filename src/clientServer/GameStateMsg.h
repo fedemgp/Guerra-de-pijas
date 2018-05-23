@@ -22,6 +22,7 @@ struct GameStateMsg {
     char num_worms;
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
+    float activePlayerAngle;
 };
 }  // namesmpace IO
 

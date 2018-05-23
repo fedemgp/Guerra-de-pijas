@@ -83,3 +83,9 @@ void GUI::Animation::setFlip(SDL_RendererFlip flip_type) {
 SDL_RendererFlip GUI::Animation::getFlip() {
     return this->flipType;
 }
+
+void GUI::Animation::setFrame(int frame){
+    assert(frame < this->numFrames);
+    assert(frame >= 0);
+    this->currentFrame = frame;
+}
