@@ -122,11 +122,13 @@ void Worms::Player::setState(Worm::StateID stateID) {
 }
 
 void Worms::Player::startContact(){
-    this->state->startContact();
+    this->numContacts++;
 }
 
 void Worms::Player::endContact(){
-    this->state->endContact();
+    if (this->numContacts > 0){
+        this->numContacts--;
+    }
 }
 
 void Worms::Player::increaseAngle(){
@@ -150,4 +152,9 @@ bool Worms::Player::isActive() const{
 float Worms::Player::getAngle() const{
     return this->angle;
 }
+
+int Worms::Player::getContactCount(){
+    return this->numContacts;
+}
+
 

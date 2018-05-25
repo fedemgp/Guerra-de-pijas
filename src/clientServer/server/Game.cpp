@@ -55,9 +55,9 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 
         while (!quit) {
             std::chrono::high_resolution_clock::time_point current =
-                std::chrono::high_resolution_clock::now();
+                    std::chrono::high_resolution_clock::now();
             double dt =
-                std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
+                    std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
             lag += dt;
 
             IO::PlayerInput pi;
@@ -65,15 +65,15 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 this->players[0].handleState(pi);
             }
 
-            /* updates the actors */
-            for (auto &worm : this->players) {
-                worm.update(dt);
-            }
-
             /* updates the physics engine */
             for (int i = 0; i < 5 && lag > timeStep; i++) {
                 this->physics.update(timeStep);
                 lag -= timeStep;
+            }
+
+            /* updates the actors */
+            for (auto &worm : this->players) {
+                worm.update(dt);
             }
 
             /* sends the current game state */

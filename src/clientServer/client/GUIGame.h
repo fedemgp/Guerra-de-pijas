@@ -10,7 +10,7 @@
 #include "Animation.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
-#include "Stage.h"
+#include "../server/Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
 #include "Window.h"

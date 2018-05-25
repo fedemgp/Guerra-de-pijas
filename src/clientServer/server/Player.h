@@ -13,7 +13,7 @@
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
-#include "Point.h"
+#include "../client/Point.h"
 #include "Stream.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
@@ -37,6 +37,7 @@ class Player {
     void setState(Worm::StateID stateID);
     void increaseAngle();
     void decreaseAngle();
+    int getContactCount();
     void startContact();
     void endContact();
 
@@ -48,6 +49,8 @@ private:
     b2FixtureDef fixture;
     float angle{0};
     bool active{false};
+    int numContacts{0};
+
 };
 }
 

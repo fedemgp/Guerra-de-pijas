@@ -21,7 +21,7 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body){
      * In the y-axis there will be no impulse because its velocity was
      * cancelled because of the collision with the girder.
      */
-    if (this->numContacts > 0){
+    if (p.getContactCount() > 0){
         float32 mass = body->GetMass();
         b2Vec2 previousVel = body->GetLinearVelocity();
         b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};

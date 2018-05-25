@@ -4,7 +4,7 @@
  */
 
 #include "Stage.h"
-#include "Point.h"
+#include "../client/Point.h"
 
 Worms::Stage::Stage() {
     this->playerPositions.emplace_back(Math::Point<float>{0.0f, 20.0f});

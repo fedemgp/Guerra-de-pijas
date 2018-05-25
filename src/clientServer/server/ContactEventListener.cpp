@@ -3,6 +3,7 @@
  *  date: 20/05/18
  */
 
+#include <iostream>
 #include "ContactEventListener.h"
 #include "Player.h"
 
@@ -27,6 +28,7 @@ void ContactEventListener::BeginContact(b2Contact *contact){
 }
 
 void ContactEventListener::EndContact(b2Contact *contact){
+    std::cout << "endContact" << std::endl;
     void *player = contact->GetFixtureA()->GetBody()->GetUserData();
     if (player){
         static_cast<Worms::Player*>(player)->endContact();

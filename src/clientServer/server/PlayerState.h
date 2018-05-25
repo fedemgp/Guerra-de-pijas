@@ -23,13 +23,10 @@ class State {
     virtual void pointUp(Player &p) = 0;
     virtual void pointDown(Player &p) = 0;
     virtual Worm::StateID getState() const;
-    virtual void startContact();
-    virtual void endContact();
 
    protected:
     Worm::StateID stateID;
     std::vector<float> impulses{0.0f, 0.0f};
-    int numContacts{0};
 };
 }
 
