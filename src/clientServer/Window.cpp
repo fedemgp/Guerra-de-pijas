@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 
 #include "Exception.h"
@@ -39,6 +40,11 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
         this->close();
         throw Exception{"Failed initialiing IMG: %s", IMG_GetError()};
     }
+
+    if (TTF_Init() == -1) {
+        this->close();
+        throw Exception{"SDL_ttf could not initialize! SDL_ttf Error: %s", TTF_GetError()};
+    }
 }
 
 GUI::Window::~Window() {
@@ -55,6 +61,8 @@ void GUI::Window::close() {
         SDL_DestroyWindow(this->window);
         this->window = nullptr;
     }
+
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }

@@ -60,7 +60,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             lag += dt;
 
             this->currentTurnElapsed += dt;
-            if (this->currentTurnElapsed >= this->turnLimit) {
+            if (this->currentTurnElapsed >= this->stage.turnTime) {
                 this->players[this->currentWorm].setState(Worm::StateID::Still);
                 this->currentTurnElapsed = 0;
                 this->currentWorm = (this->currentWorm + 1) % this->players.size();

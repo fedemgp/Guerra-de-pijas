@@ -19,9 +19,12 @@ class Camera {
     void setTo(Position coords);
     void moveTo(Position coords);
 
+    SDL_Renderer &getRenderer() const;
+
     void draw(const Texture &texture, Position p);
     void draw(const Texture &texture, Position p, const SDL_Rect &clip);
     void draw(const Texture &texture, Position p, const SDL_Rect &clip, SDL_RendererFlip flip);
+    void drawLocal(const Texture &texture, ScreenPosition p);
     void drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip);
     void drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip,
                    SDL_RendererFlip flip);

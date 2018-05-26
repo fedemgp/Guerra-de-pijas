@@ -25,6 +25,15 @@ bool GUI::Camera::isMoving() const {
 }
 
 /**
+ * @brief Returns the internal renderer.
+ *
+ * @return Renderer.
+ */
+SDL_Renderer &GUI::Camera::getRenderer() const {
+    return this->renderer;
+}
+
+/**
  * @brief Instantly moves the camera to the given coordinates.
  *
  * @param coord Coordinates of the new camera position.
@@ -120,6 +129,18 @@ void GUI::Camera::draw(const Texture &texture, Position p, const SDL_Rect &clip,
 
     /* draws in screen coordinates */
     this->drawLocal(texture, screen_local, clip, flip);
+}
+
+/**
+ * @brief Draws a texture in the screen in camera/screen coordinates.
+ * The texture is fully rendered based in it's dimensions.
+ *
+ * @param texture Texture to draw.
+ * @param p Position where to draw it.
+ */
+void GUI::Camera::drawLocal(const Texture &texture, ScreenPosition p) {
+    SDL_Rect clip = {0, 0, texture.getWidth(), texture.getHeight()};
+    this->drawLocal(texture, p, clip);
 }
 
 /**

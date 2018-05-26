@@ -9,6 +9,7 @@ namespace GUI {
 class Texture {
    public:
     Texture(const std::string &filename, SDL_Renderer &renderer, Color key);
+    Texture(SDL_Texture *texture, int width, int height);
     Texture(Texture &&other);
     ~Texture();
 

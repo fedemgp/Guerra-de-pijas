@@ -6,6 +6,7 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "Animation.h"
 #include "Camera.h"
@@ -37,6 +38,7 @@ class Game {
     Worms::Stage stage;
     IO::GameStateMsg snapshot{0};
     Camera cam;
+    TTF_Font *font;
 };
 }  // namespace GUI
 

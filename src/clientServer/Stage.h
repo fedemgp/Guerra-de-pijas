@@ -6,6 +6,7 @@
 #ifndef __STAGE_H__
 #define __STAGE_H__
 
+#include <cstdint>
 #include <vector>
 #include "Point.h"
 
@@ -13,6 +14,8 @@ namespace Worms {
 
 class Stage {
    public:
+    uint8_t turnTime{10};
+
     Stage();
     ~Stage() = default;
 

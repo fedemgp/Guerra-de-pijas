@@ -10,6 +10,7 @@
 #include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
+#include "Text.h"
 #include "Window.h"
 
 // TODO DEHARDCODE
@@ -17,7 +18,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     : window(w),
       texture_mgr(w.getRenderer()),
       stage(stage),
-      cam(this->scale, w.width, w.height, w.getRenderer()) {
+      cam(this->scale, w.width, w.height, w.getRenderer()),
+      font(TTF_OpenFont("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28)) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk,
                            "src/clientServer/assets/img/Worms/wwalk2.png",
@@ -56,7 +58,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->snapshot.num_worms = num_worms;
 }
 
-GUI::Game::~Game() {}
+GUI::Game::~Game() {
+    TTF_CloseFont(this->font);
+}
 
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                       IO::Stream<IO::PlayerInput> *clientResponse) {
@@ -135,9 +139,17 @@ void GUI::Game::render() {
 
     for (auto &girder : this->stage.getGirderPositions()) {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
-
         this->cam.draw(texture, GUI::Position{girder.x, girder.y});
     }
+
+    /* displays the remaining turn time */
+    int x = this->window.width / 2;
+    int y = 20;
+
+    SDL_Color color = {0, 0, 0};
+    Text text{this->font};
+    text.set(std::to_string(this->stage.turnTime - this->snapshot.elapsedTurnSeconds), color);
+    text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     this->window.render();
 }

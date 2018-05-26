@@ -28,7 +28,6 @@ class Game {
 
    private:
     char currentWorm{0};
-    const int turnLimit{10};
     double currentTurnElapsed{0};
     Physics physics;
     Stage stage;

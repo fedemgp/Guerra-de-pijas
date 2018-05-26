@@ -26,6 +26,13 @@ GUI::Texture::Texture(const std::string &filename, SDL_Renderer &renderer, GUI::
     SDL_FreeSurface(tmp);
 }
 
+GUI::Texture::Texture(SDL_Texture *texture, int width, int height)
+    : height(height), width(width), texture(texture) {
+    if (!texture) {
+        throw Exception{"Texture cannot be NULL"};
+    }
+}
+
 /**
  * @brief Move constructor.
  *
