@@ -15,6 +15,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "Bullet.h"
 
 namespace GUI {
 class Game {
@@ -24,13 +25,14 @@ class Game {
     void start(IO::Stream<IO::GameStateMsg> *serverResponse,
                IO::Stream<IO::PlayerInput> *clientResponse);
     void update(float dt);
-    void render();
+    void render(IO::GameStateMsg msg);
 
    private:
     Window &window;
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
+    std::shared_ptr<Ammo::Bullet> bullet{nullptr};
     float x{0}, y{0};
     float camx{0}, camy{0};
     float scale{15.0f};  // pixels per meter

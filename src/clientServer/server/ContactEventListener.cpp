@@ -8,6 +8,7 @@
 #include "Player.h"
 
 void ContactEventListener::BeginContact(b2Contact *contact){
+    std::cout << "startContact" << std::endl;
     void *player = contact->GetFixtureA()->GetBody()->GetUserData();
     /*
      * If fixture A is a Worm, then call startContact. This will delegate

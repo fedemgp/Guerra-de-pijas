@@ -11,6 +11,7 @@
 #include "GameStateMsg.h"
 #include "Stream.h"
 #include "Window.h"
+#include "Bullet.h"
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
@@ -37,9 +38,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-this->texture_mgr.load(GUI::GameTextures::Aim,
+    this->texture_mgr.load(GUI::GameTextures::Aim,
                            "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Missile,
+                           "src/clientServer/assets/img/Weapons/missile.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb} );
 }
 
 GUI::Game::~Game() {}
@@ -83,7 +87,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             float dt = static_cast<float>(current - prev) / 1000.0f;
             this->update(dt);
             prev = current;
-            this->render();
+            this->render(m);
 
             usleep(5 * 1000);
         }
@@ -100,7 +104,7 @@ void GUI::Game::update(float dt) {
     }
 }
 
-void GUI::Game::render() {
+void GUI::Game::render(IO::GameStateMsg msg) {
     this->window.clear();
 
     /* camera centered in the player */
@@ -112,6 +116,10 @@ void GUI::Game::render() {
         int local_x = (this->x - this->camx) * this->scale;
         int local_y = (this->camy - this->y) * this->scale;
         worm.render(local_x, local_y, this->window.getRenderer());
+    }
+
+    if (this->bullet != nullptr){
+        this->bullet->render(msg.bullet[0], msg.bullet[1], this->window.getRenderer());
     }
 
     for (auto &girder : this->stage.getGirderPositions()) {

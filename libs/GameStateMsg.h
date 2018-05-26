@@ -14,13 +14,14 @@ enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, Ba
 }
 
 namespace IO {
-enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove, startBackFlip, bazooka, pointUp, pointDown };
+enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove, startBackFlip, bazooka, pointUp, pointDown};
 // TODO protocol?
 struct GameStateMsg {
     char num_worms;
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     float activePlayerAngle;
+    int bullet[2];
 };
 }  // namesmpace IO
 
