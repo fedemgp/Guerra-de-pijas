@@ -6,11 +6,30 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
-namespace Ammo{
-    class Bullet{
+#include "Physics.h"
+#include "Point.h"
+#include "Entity.h"
+
+namespace Worms{
+    class Bullet: public Entity{
+    public:
+        Bullet(Math::Point<float> p, Worms::Physics &physics);
+        ~Bullet() = default;
+        void update(float dt);
+        Math::Point<float> getPosition() const;
+
+    private:
+        b2Body *body{nullptr};
+        b2BodyDef bodyDef;
+        b2CircleShape shape;
+        b2FixtureDef fixture;
+        Worms::Physics &physics;
+        float angle{0};
+        int numContacts{0};
+        bool impulseApplied{false};
 
     };
-}//namespace Ammo
+}//namespace Worms
 
 
 #endif //__BULLET_H__

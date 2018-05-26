@@ -21,7 +21,8 @@ struct GameStateMsg {
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     float activePlayerAngle;
-    int bullet[2];
+    bool shoot;
+    float bullet[2];
 };
 }  // namesmpace IO
 

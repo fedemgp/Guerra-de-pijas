@@ -13,15 +13,16 @@
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
-#include "../client/Point.h"
+#include "Point.h"
 #include "Stream.h"
+#include "Bullet.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
 enum class Direction { right, left, up, down };
 
-class Player {
+class Player: public Entity{
    public:
     Direction direction;
     explicit Player(Physics &physics, bool active);
@@ -40,13 +41,17 @@ class Player {
     int getContactCount();
     void startContact();
     void endContact();
+    void shoot();
+    std::shared_ptr<Worms::Bullet> getBullet() const;
 
 private:
-    std::shared_ptr<Worms::State> state;
-    b2Body *body;
+    std::shared_ptr<Worms::State> state{nullptr};
+    b2Body *body{nullptr};
     b2BodyDef bodyDef;
     b2PolygonShape shape;
     b2FixtureDef fixture;
+    Physics &physics;
+    std::shared_ptr<Worms::Bullet> bullet{nullptr};
     float angle{0};
     bool active{false};
     int numContacts{0};

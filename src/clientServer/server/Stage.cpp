@@ -4,10 +4,10 @@
  */
 
 #include "Stage.h"
-#include "../client/Point.h"
+#include "Point.h"
 
 Worms::Stage::Stage() {
-    this->playerPositions.emplace_back(Math::Point<float>{0.0f, 20.0f});
+    this->playerPositions.emplace_back(Math::Point<float>{0.0f, 15.0f});
     this->girderPositions.emplace_back(Math::Point<float>{0.0f, 13.0f});
     this->girderPositions.emplace_back(Math::Point<float>{-5.0f, 10.0f});
     this->girderPositions.emplace_back(Math::Point<float>{-17.0f, 0.0f});

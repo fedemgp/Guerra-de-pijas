@@ -8,8 +8,8 @@
 #include "Player.h"
 
 void ContactEventListener::BeginContact(b2Contact *contact){
-    std::cout << "startContact" << std::endl;
-    void *player = contact->GetFixtureA()->GetBody()->GetUserData();
+    Worms::Entity *playerA = static_cast<Worms::Entity*>(contact->GetFixtureA()->GetBody()->GetUserData());
+    Worms::Entity *playerB = static_cast<Worms::Entity*>(contact->GetFixtureB()->GetBody()->GetUserData());
     /*
      * If fixture A is a Worm, then call startContact. This will delegate
      * the action to the internal state. For example, when a worm jump,
@@ -18,25 +18,50 @@ void ContactEventListener::BeginContact(b2Contact *contact){
      * state to Jumping. The moment the state changes to endJump will be
      * when box2d detects a collision between the worm and the girder.
      */
-    if (player){
-        static_cast<Worms::Player*>(player)->startContact();
+    if (playerA){
+        switch (playerA->getEntityId()){
+            case Worms::EntityID::EtWorm:
+                dynamic_cast<Worms::Player*>(playerA)->startContact();
+                break;
+            case Worms::EntityID::EtBullet:
+                //TODO add logic to destroy bullet
+                break;
+        }
     }
-
-    player = contact->GetFixtureB()->GetBody()->GetUserData();
-    if (player){
-        static_cast<Worms::Player*>(player)->startContact();
+    if (playerB){
+        switch (playerB->getEntityId()){
+            case Worms::EntityID::EtWorm:
+                dynamic_cast<Worms::Player*>(playerB)->startContact();
+                break;
+            case Worms::EntityID::EtBullet:
+                //TODO add logic to destroy bullet
+                break;
+        }
     }
 }
 
 void ContactEventListener::EndContact(b2Contact *contact){
-    std::cout << "endContact" << std::endl;
-    void *player = contact->GetFixtureA()->GetBody()->GetUserData();
-    if (player){
-        static_cast<Worms::Player*>(player)->endContact();
-    }
+    Worms::Entity *playerA = static_cast<Worms::Entity*>(contact->GetFixtureA()->GetBody()->GetUserData());
+    Worms::Entity *playerB = static_cast<Worms::Entity*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
-    player = contact->GetFixtureB()->GetBody()->GetUserData();
-    if (player){
-        static_cast<Worms::Player*>(player)->endContact();
+    if (playerA){
+        switch (playerA->getEntityId()){
+            case Worms::EntityID::EtWorm:
+                dynamic_cast<Worms::Player*>(playerA)->endContact();
+                break;
+            case Worms::EntityID::EtBullet:
+                //TODO add logic to destroy bullet
+                break;
+        }
+    }
+    if (playerB){
+        switch (playerB->getEntityId()){
+            case Worms::EntityID::EtWorm:
+                dynamic_cast<Worms::Player*>(playerB)->endContact();
+                break;
+            case Worms::EntityID::EtBullet:
+                //TODO add logic to destroy bullet
+                break;
+        }
     }
 }

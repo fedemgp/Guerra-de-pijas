@@ -82,6 +82,9 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             if (this->worms[0].getState() == Worm::StateID::Bazooka){
                 this->worms[0].setAngle(m.activePlayerAngle);
             }
+            if (m.shoot){
+                this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+            }
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
@@ -119,7 +122,9 @@ void GUI::Game::render(IO::GameStateMsg msg) {
     }
 
     if (this->bullet != nullptr){
-        this->bullet->render(msg.bullet[0], msg.bullet[1], this->window.getRenderer());
+        int local_x = (msg.bullet[0] - this->camx) * this->scale;
+        int local_y = (this->camy - msg.bullet[1]) * this->scale;
+        this->bullet->render(local_x, local_y, this->window.getRenderer());
     }
 
     for (auto &girder : this->stage.getGirderPositions()) {

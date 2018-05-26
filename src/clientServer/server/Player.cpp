@@ -17,12 +17,14 @@
 #include "PlayerBackFlipping.h"
 #include "PlayerEndBackFlip.h"
 
-Worms::Player::Player(Physics &physics, bool active): active(active) {
+Worms::Player::Player(Physics &physics, bool active): Entity(Worms::EntityID::EtWorm),
+                                                      physics(physics),
+                                                      active(active) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
 
-    this->body = physics.createBody(this->bodyDef);
+    this->body = this->physics.createBody(this->bodyDef);
     const float width = 0.8f;
     const float height = 2.0f;
     this->shape.SetAsBox(width / 2, height / 2);
@@ -40,6 +42,9 @@ Worms::Player::Player(Physics &physics, bool active): active(active) {
 
 void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
+    if (this->bullet != nullptr){
+        this->bullet->update(dt);
+    }
 }
 
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
@@ -114,7 +119,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-	case Worm::StateID::Bazooka:
+	    case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
                 break;
         }
@@ -155,6 +160,14 @@ float Worms::Player::getAngle() const{
 
 int Worms::Player::getContactCount(){
     return this->numContacts;
+}
+
+void Worms::Player::shoot(){
+    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(this->getPosition(), this->physics));
+}
+
+std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const{
+    return this->bullet;
 }
 
 

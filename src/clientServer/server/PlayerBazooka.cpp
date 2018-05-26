@@ -5,14 +5,14 @@
 #include <iostream>
 #include "PlayerBazooka.h"
 #include "Player.h"
+#include "Bullet.h"
+
 /*
  * TODO add previous and finish states of bazooka, using wbazbak.png and wbazink.png
  */
 Worms::Bazooka::Bazooka() : State(Worm::StateID::Bazooka) {}
 
-void Worms::Bazooka::update(Worms::Player &p, float dt, b2Body *body){
-
-}
+void Worms::Bazooka::update(Worms::Player &p, float dt, b2Body *body){}
 
 void Worms::Bazooka::moveRight(Worms::Player &p) {
     p.setState(Worm::StateID::Walk);
@@ -32,12 +32,10 @@ void Worms::Bazooka::bazooka(Worms::Player &p) {}
 
 void Worms::Bazooka::pointUp(Worms::Player &p){
     p.increaseAngle();
-    std::cout << "increase angle " << p.getAngle() << std::endl;
 }
 
 void Worms::Bazooka::pointDown(Worms::Player &p){
     p.decreaseAngle();
-    std::cout << "decrease angle " << p.getAngle() << std::endl;
 }
 
 void Worms::Bazooka::backFlip(Worms::Player &p) {

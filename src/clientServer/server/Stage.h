@@ -7,7 +7,7 @@
 #define __STAGE_H__
 
 #include <vector>
-#include "../client/Point.h"
+#include "Point.h"
 
 namespace Worms {
 

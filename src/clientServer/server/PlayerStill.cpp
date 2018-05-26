@@ -42,6 +42,7 @@ void Worms::Still::backFlip(Worms::Player &p) {
 }
 
 void Worms::Still::bazooka(Worms::Player &p) {
+    p.shoot();
     p.setState(Worm::StateID::Bazooka);
 }
 
