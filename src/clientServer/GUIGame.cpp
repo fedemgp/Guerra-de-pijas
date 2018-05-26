@@ -37,9 +37,20 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-this->texture_mgr.load(GUI::GameTextures::Aim,
-                           "src/clientServer/assets/img/Worms/wbaz.png",
+    this->texture_mgr.load(GUI::GameTextures::Aim, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+
+    /* allocates space in the array to avoid the player addresses from changing */
+    char num_worms = 0;
+    this->worms.reserve(stage.getWormPositions().size());
+    for (const auto &worm_pos : this->stage.getWormPositions()) {
+        this->worms.emplace_back(this->texture_mgr);
+        this->snapshot.positions[num_worms * 2] = worm_pos.x;
+        this->snapshot.positions[num_worms * 2 + 1] = worm_pos.y;
+        num_worms += 1;
+    }
+
+    this->snapshot.num_worms = num_worms;
 }
 
 GUI::Game::~Game() {}
@@ -47,14 +58,12 @@ GUI::Game::~Game() {}
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                       IO::Stream<IO::PlayerInput> *clientResponse) {
     try {
-        // TODO: remove this
-        this->worms.emplace_back(this->texture_mgr);
-        this->worms[0].setActive();
-
         uint32_t prev = SDL_GetTicks();
-        IO::GameStateMsg m{1};
         bool quit = false;
         while (!quit) {
+            *serverResponse >> this->snapshot;
+            Worm::Worm &cur = this->worms[this->snapshot.currentWorm];
+
             /* handle events on queue */
             SDL_Event e;
             while (SDL_PollEvent(&e) != 0) {
@@ -63,20 +72,21 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                         quit = true;
                         break;
                     case SDL_KEYDOWN:
-                        this->worms[0].handleKeyDown(e.key.keysym.sym, clientResponse);
+                        cur.handleKeyDown(e.key.keysym.sym, clientResponse);
                         break;
                     case SDL_KEYUP:
-                        this->worms[0].handleKeyUp(e.key.keysym.sym, clientResponse);
+                        cur.handleKeyUp(e.key.keysym.sym, clientResponse);
                         break;
                 }
             }
 
-            *serverResponse >> m;
-            this->x = m.positions[0];
-            this->y = m.positions[1];
-            this->worms[0].setState(m.stateIDs[0]);
-            if (this->worms[0].getState() == Worm::StateID::Bazooka){
-                this->worms[0].setAngle(m.activePlayerAngle);
+            /* synchronizes the worms states with the server's */
+            for (std::size_t i = 0; i < this->worms.size(); i++) {
+                this->worms[i].setState(this->snapshot.stateIDs[i]);
+            }
+
+            if (cur.getState() == Worm::StateID::Bazooka) {
+                cur.setAngle(this->snapshot.activePlayerAngle);
             }
 
             uint32_t current = SDL_GetTicks();
@@ -103,15 +113,21 @@ void GUI::Game::update(float dt) {
 void GUI::Game::render() {
     this->window.clear();
 
-    /* camera centered in the player */
-    this->camx = this->x - (this->window.width / 2) / this->scale;
-    this->camy = this->y + (this->window.height / 2) / this->scale;
+    float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
+    float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
 
-    for (auto &worm : this->worms) {
+    /* camera centered in the player */
+    this->camx = cur_x - (this->window.width / 2) / this->scale;
+    this->camy = cur_y + (this->window.height / 2) / this->scale;
+
+    for (uint8_t i; i < this->snapshot.num_worms; i++) {
+        cur_x = this->snapshot.positions[i * 2];
+        cur_y = this->snapshot.positions[i * 2 + 1];
+
         /* convert to camera coordinates */
-        int local_x = (this->x - this->camx) * this->scale;
-        int local_y = (this->camy - this->y) * this->scale;
-        worm.render(local_x, local_y, this->window.getRenderer());
+        int local_x = (cur_x - this->camx) * this->scale;
+        int local_y = (this->camy - cur_y) * this->scale;
+        this->worms[i].render(local_x, local_y, this->window.getRenderer());
     }
 
     for (auto &girder : this->stage.getGirderPositions()) {

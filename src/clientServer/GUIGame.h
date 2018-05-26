@@ -31,9 +31,9 @@ class Game {
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
-    float x{0}, y{0};
+    IO::GameStateMsg snapshot{0};
     float camx{0}, camy{0};
-    float scale{15.0f};  // pixels per meter
+    float scale{13.0f};  // pixels per meter
 };
 }  // namespace GUI
 

@@ -8,20 +8,43 @@
 
 #define WORMS_QUANTITY 20
 
+#include <stdint.h>
+
 namespace Worm {
-enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, BackFlipping, EndBackFlip, Bazooka
+enum class StateID {
+    Walk,
+    Still,
+    StartJump,
+    Jumping,
+    EndJump,
+    StartBackFlip,
+    BackFlipping,
+    EndBackFlip,
+    Bazooka
 };
 }
 
 namespace IO {
-enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove, startBackFlip, bazooka, pointUp, pointDown };
+enum class PlayerInput {
+    moveNone,
+    moveRight,
+    moveLeft,
+    startJump,
+    stopMove,
+    startBackFlip,
+    bazooka,
+    pointUp,
+    pointDown
+};
 // TODO protocol?
 struct GameStateMsg {
-    char num_worms;
+    uint8_t elapsedTurnSeconds;
+    uint8_t currentWorm;
+    uint8_t num_worms;
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     float activePlayerAngle;
 };
-}  // namesmpace IO
+}  // namespace IO
 
 #endif  //__GAME_STATE_MSG_H__

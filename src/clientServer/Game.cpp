@@ -13,18 +13,17 @@
 #include "Player.h"
 #include "Stage.h"
 
-Worms::Game::Game(const Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
-    int i{0};
+Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
+    /* reserves the required space to avoid reallocations that may move the worm addresses */
+    this->players.reserve(this->stage.getWormPositions().size());
     for (auto &wormPos : this->stage.getWormPositions()) {
-        /* the first worm is the active player */
-        this->players.emplace_back(this->physics, i == 0);
-        this->players[i].setPosition(wormPos);
-        i++;
+        /* initializes the instances */
+        this->players.emplace_back(this->physics);
+        this->players.back().setPosition(wormPos);
     }
 
     /* sets the girders */
     for (auto &girder : this->stage.getGirderPositions()) {
-        // a static body
         b2PolygonShape poly;
 
         b2BodyDef bdef;
@@ -60,9 +59,16 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
             lag += dt;
 
+            this->currentTurnElapsed += dt;
+            if (this->currentTurnElapsed >= this->turnLimit) {
+                this->players[this->currentWorm].setState(Worm::StateID::Still);
+                this->currentTurnElapsed = 0;
+                this->currentWorm = (this->currentWorm + 1) % this->players.size();
+            }
+
             IO::PlayerInput pi;
             if (playerStream->pop(pi, false)) {
-                this->players[0].handleState(pi);
+                this->players.at(this->currentWorm).handleState(pi);
             }
 
             /* updates the actors */
@@ -86,7 +92,6 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
         output->close();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In Worms::Game::start" << std::endl;
-        ;
     } catch (...) {
         std::cerr << "Unkown error in Worms::Game::start()" << std::endl;
     }
@@ -102,13 +107,14 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     for (const auto &worm : this->players) {
         m.positions[m.num_worms * 2] = worm.getPosition().x + (w / 2.0f);
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
-        // TODO esto da ASCO. Cambiarlo cuando se pueda
-        m.stateIDs[(int)m.num_worms] = worm.getStateId();
-        if (worm.isActive()){
-            m.activePlayerAngle = worm.getAngle();
-        }
+        m.stateIDs[m.num_worms] = worm.getStateId();
         m.num_worms++;
     }
+
+    /* sets the current player's data */
+    m.elapsedTurnSeconds = this->currentTurnElapsed;
+    m.currentWorm = this->currentWorm;
+    m.activePlayerAngle = this->players[this->currentWorm].getAngle();
 
     s << m;
 }

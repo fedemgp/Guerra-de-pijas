@@ -24,10 +24,11 @@ enum class Direction { right, left, up, down };
 class Player {
    public:
     Direction direction;
-    explicit Player(Physics &physics, bool active);
+
+    explicit Player(Physics &physics);
     ~Player() = default;
+
     void update(float dt);
-    bool isActive() const;
     float getAngle() const;
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
@@ -40,8 +41,8 @@ class Player {
     void startContact();
     void endContact();
 
-private:
-    std::shared_ptr<Worms::State> state;
+   private:
+    std::shared_ptr<Worms::State> state{nullptr};
     b2Body *body;
     b2BodyDef bodyDef;
     b2PolygonShape shape;
@@ -49,6 +50,6 @@ private:
     float angle{0};
     bool active{false};
 };
-}
+}  // namespace Worms
 
 #endif  //__PLAYER_H__

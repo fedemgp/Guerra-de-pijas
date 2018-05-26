@@ -15,6 +15,7 @@ class Stage {
    public:
     Stage();
     ~Stage() = default;
+
     const std::vector<Math::Point<float>> &getWormPositions() const;
     const std::vector<Math::Point<float>> &getGirderPositions() const;
 
