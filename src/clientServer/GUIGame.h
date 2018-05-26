@@ -8,6 +8,7 @@
 
 #include <vector>
 #include "Animation.h"
+#include "Camera.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stage.h"
@@ -27,13 +28,15 @@ class Game {
     void render();
 
    private:
+    void render_controls();
+
+    float scale{13.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     IO::GameStateMsg snapshot{0};
-    float camx{0}, camy{0};
-    float scale{13.0f};  // pixels per meter
+    Camera cam;
 };
 }  // namespace GUI
 

@@ -13,7 +13,7 @@
 GUI::Window::Window() : Window(WINDOW_WIDTH, WINDOW_HEIGHT) {}
 
 GUI::Window::Window(int width, int height) : width(width), height(height) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         throw Exception{"SDL could not initialize: %s", SDL_GetError()};
     }
 
@@ -21,8 +21,8 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
         std::cerr << "Warning: Linear texture filtering not enabled!" << std::endl;
     }
 
-    this->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
-                                    SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+    this->window = SDL_CreateWindow("Worms", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                    width, height, SDL_WINDOW_SHOWN);
     if (!this->window) {
         this->close();
         throw Exception{"Window could not be created: %s", SDL_GetError()};

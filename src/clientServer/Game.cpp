@@ -100,12 +100,10 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     assert(this->players.size() <= 20);
 
-    const float w = this->stage.getWidth();
-
     IO::GameStateMsg m;
     m.num_worms = 0;
     for (const auto &worm : this->players) {
-        m.positions[m.num_worms * 2] = worm.getPosition().x + (w / 2.0f);
+        m.positions[m.num_worms * 2] = worm.getPosition().x;
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
         m.stateIDs[m.num_worms] = worm.getStateId();
         m.num_worms++;

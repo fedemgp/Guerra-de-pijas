@@ -14,7 +14,10 @@
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
-    : window(w), texture_mgr(w.getRenderer()), stage(stage) {
+    : window(w),
+      texture_mgr(w.getRenderer()),
+      stage(stage),
+      cam(this->scale, w.width, w.height, w.getRenderer()) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk,
                            "src/clientServer/assets/img/Worms/wwalk2.png",
@@ -91,8 +94,15 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
-            this->update(dt);
             prev = current;
+
+            float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
+            float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+
+            /* move the camera to the current player */
+            this->cam.moveTo(GUI::Position{cur_x, cur_y});
+
+            this->update(dt);
             this->render();
 
             usleep(5 * 1000);
@@ -108,37 +118,33 @@ void GUI::Game::update(float dt) {
     for (auto &worm : this->worms) {
         worm.update(dt);
     }
+
+    this->cam.update(dt);
 }
 
 void GUI::Game::render() {
     this->window.clear();
 
-    float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
-    float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
-
-    /* camera centered in the player */
-    this->camx = cur_x - (this->window.width / 2) / this->scale;
-    this->camy = cur_y + (this->window.height / 2) / this->scale;
-
-    for (uint8_t i; i < this->snapshot.num_worms; i++) {
-        cur_x = this->snapshot.positions[i * 2];
-        cur_y = this->snapshot.positions[i * 2 + 1];
+    for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
+        float cur_x = this->snapshot.positions[i * 2];
+        float cur_y = this->snapshot.positions[i * 2 + 1];
 
         /* convert to camera coordinates */
-        int local_x = (cur_x - this->camx) * this->scale;
-        int local_y = (this->camy - cur_y) * this->scale;
-        this->worms[i].render(local_x, local_y, this->window.getRenderer());
+        this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
     }
 
     for (auto &girder : this->stage.getGirderPositions()) {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
 
-        SDL_Rect dst;
-        dst.x = ((girder.x + this->stage.getWidth() / 2) - this->camx) * this->scale;
-        dst.y = (this->camy - girder.y) * this->scale;
-
-        texture.render(this->window.getRenderer(), dst);
+        this->cam.draw(texture, GUI::Position{girder.x, girder.y});
     }
 
     this->window.render();
+}
+
+/**
+ * @brief Draws the game controls.
+ */
+void GUI::Game::render_controls() {
+    /* draws the remaining time */
 }
