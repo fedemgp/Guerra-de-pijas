@@ -10,7 +10,7 @@ THIRD_PARTY := libs/Box2D
 # compiler parameters
 CC          := g++
 CFLAGS      := -ggdb -std=c++11 -Wall -Wpedantic -Werror -pthread $(shell sdl2-config --cflags)
-LIB         := SDL2 SDL2_image
+LIB         := SDL2 SDL2_image SDL2_ttf
 INC         := libs
 DEFINES     :=
 
