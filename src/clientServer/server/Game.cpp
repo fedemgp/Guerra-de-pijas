@@ -111,11 +111,13 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
                 Math::Point<float> p = worm.getBullet()->getPosition();
                 m.bullet[0] = p.x + (w / 2.0f);
                 m.bullet[1] = p.y;
+                m.bulletAngle = worm.getBullet()->getAngle();std::cout<<"bullet angle "<<m.bulletAngle<<std::endl;
 
             } else {
                 m.shoot = false;
                 m.bullet[0] = 0;
                 m.bullet[1] = 0;
+                m.bulletAngle = 0;
             }
         }
         m.num_worms++;

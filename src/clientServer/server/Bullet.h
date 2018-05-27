@@ -10,13 +10,16 @@
 #include "Point.h"
 #include "Entity.h"
 
+#define PI 3.14159265
+
 namespace Worms{
     class Bullet: public Entity{
     public:
-        Bullet(Math::Point<float> p, Worms::Physics &physics);
+        Bullet(Math::Point<float> p, float angle, Worms::Physics &physics);
         ~Bullet() = default;
         void update(float dt);
         Math::Point<float> getPosition() const;
+        float getAngle() const;
 
     private:
         b2Body *body{nullptr};
@@ -27,7 +30,8 @@ namespace Worms{
         float angle{0};
         int numContacts{0};
         bool impulseApplied{false};
-
+        float radius{0.5f};
+        Math::Point<float> position{0.0f, 0.0f};
     };
 }//namespace Worms
 

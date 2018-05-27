@@ -23,6 +23,7 @@ struct GameStateMsg {
     float activePlayerAngle;
     bool shoot;
     float bullet[2];
+    float bulletAngle;
 };
 }  // namesmpace IO
 

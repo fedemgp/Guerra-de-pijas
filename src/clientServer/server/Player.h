@@ -55,7 +55,8 @@ private:
     float angle{0};
     bool active{false};
     int numContacts{0};
-
+    float width{0};
+    float height{0};
 };
 }
 

@@ -83,7 +83,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 this->worms[0].setAngle(m.activePlayerAngle);
             }
             if (m.shoot){
-                this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+                if (this->bullet == nullptr) {
+                    this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+//                    this->bullet->setAngle(m.activePlayerAngle);
+                }
             }
 
             uint32_t current = SDL_GetTicks();
@@ -105,6 +108,9 @@ void GUI::Game::update(float dt) {
     for (auto &worm : this->worms) {
         worm.update(dt);
     }
+    if (this->bullet != nullptr) {
+        this->bullet->update(dt);
+    }
 }
 
 void GUI::Game::render(IO::GameStateMsg msg) {
@@ -124,6 +130,7 @@ void GUI::Game::render(IO::GameStateMsg msg) {
     if (this->bullet != nullptr){
         int local_x = (msg.bullet[0] - this->camx) * this->scale;
         int local_y = (this->camy - msg.bullet[1]) * this->scale;
+        this->bullet->setAngle(msg.bulletAngle);
         this->bullet->render(local_x, local_y, this->window.getRenderer());
     }
 

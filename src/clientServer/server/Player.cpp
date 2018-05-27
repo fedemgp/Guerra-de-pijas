@@ -25,9 +25,9 @@ Worms::Player::Player(Physics &physics, bool active): Entity(Worms::EntityID::Et
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
-    const float width = 0.8f;
-    const float height = 2.0f;
-    this->shape.SetAsBox(width / 2, height / 2);
+    this->width = 0.8f;
+    this->height = 2.0f;
+    this->shape.SetAsBox(this->width / 2, this->height / 2);
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
     this->fixture.restitution = 0.1f;
@@ -163,7 +163,22 @@ int Worms::Player::getContactCount(){
 }
 
 void Worms::Player::shoot(){
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(this->getPosition(), this->physics));
+    Math::Point<float> position = this->getPosition();
+    float angle = this->getAngle();
+    if (this->direction == Direction::right) {
+        position.x += this->width;
+        if (angle < 0) {
+            angle += 360;
+        }
+    } else {
+        position.x -= this->width;
+        if (angle >= 0) {
+            angle += 90;
+        } else {
+            angle += 270;
+        }
+    }
+    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, angle, this->physics));
 }
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const{
