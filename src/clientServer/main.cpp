@@ -6,12 +6,12 @@
 #include <iostream>
 #include <thread>
 
-#include "GUIGame.h"
-#include "Game.h"
 #include "GameStateMsg.h"
-#include "Stage.h"
 #include "Stream.h"
-#include "Window.h"
+#include "client/GUIGame.h"
+#include "client/Window.h"
+#include "server/Game.h"
+#include "server/Stage.h"
 
 int main(int argc, const char *argv[]) {
     try {
