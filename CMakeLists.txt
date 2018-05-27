@@ -69,4 +69,4 @@ file(GLOB CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*
 add_executable( clientServer
         ${CLIENT_SERVER_SOURCES})
 
-target_link_libraries(clientServer Box2D SDL2 SDL2_image)
+target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)
