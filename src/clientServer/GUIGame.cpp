@@ -12,6 +12,7 @@
 #include "Stream.h"
 #include "Text.h"
 #include "Window.h"
+#include "WrapTexture.h"
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
@@ -136,10 +137,14 @@ void GUI::Game::render() {
         /* convert to camera coordinates */
         this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
     }
-
-    for (auto &girder : this->stage.getGirderPositions()) {
+    for (auto &girder : this->stage.getGirders()) {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
-        this->cam.draw(texture, GUI::Position{girder.x, girder.y});
+
+        int height = int(girder.height * float(this->scale));
+        int width = int(girder.length * float(this->scale));
+
+        GUI::WrapTexture wt{texture, width, height};
+        wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
     }
 
     /* displays the remaining turn time */

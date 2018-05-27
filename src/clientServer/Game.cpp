@@ -23,7 +23,7 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
     }
 
     /* sets the girders */
-    for (auto &girder : this->stage.getGirderPositions()) {
+    for (auto &girder : this->stage.getGirders()) {
         b2PolygonShape poly;
 
         b2BodyDef bdef;
@@ -35,10 +35,7 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
         fixture.density = 1;
         fixture.shape = &poly;
 
-        const float height = 1.33f;
-        const float width = 9.33;
-
-        poly.SetAsBox(width / 2, height / 2, b2Vec2(girder.x, girder.y), 0);  // ground
+        poly.SetAsBox(girder.length / 2, girder.height / 2, b2Vec2(girder.pos.x, girder.pos.y), 0);
         staticBody->CreateFixture(&fixture);
     }
 }
