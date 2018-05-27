@@ -11,19 +11,23 @@ Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip) {}
 void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
     if (this->timeElapsed >= START_BACKFLIP_TIME) {
-        float32 mass = body->GetMass();
-        b2Vec2 impulses = {mass * BACKFLIP_VEL_X, mass * BACKFLIP_VEL_Y};
-        if (p.direction == Direction::left){
-            impulses.x *= -1;
+        if (!this->impulseApplied){
+            float32 mass = body->GetMass();
+            b2Vec2 impulses = {mass * BACKFLIP_VEL_X, mass * BACKFLIP_VEL_Y};
+            if (p.direction == Direction::left){
+                impulses.x *= -1;
+            }
+            /* When the worm jumps, it needs an initial impulse in the y axis
+             * that will never will be applied again. In the x axis, the worms
+             * moves in RUM, so it needs an initial impulse (because his friction
+             * coeficient is 0) and then needs an end impulse, of equal absolute
+             * value and different sign.
+             */
+            body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
+            this->impulseApplied = true;
+        } else if (p.getContactCount() == 0){
+            p.setState(Worm::StateID::BackFlipping);
         }
-        p.setState(Worm::StateID::BackFlipping);
-        /* When the worm jumps, it needs an initial impulse in the y axis
-         * that will never will be applied again. In the x axis, the worms
-         * moves in RUM, so it needs an initial impulse (because his friction
-         * coeficient is 0) and then needs an end impulse, of equal absolute
-         * value and different sign.
-         */
-        body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
     }
 }
 

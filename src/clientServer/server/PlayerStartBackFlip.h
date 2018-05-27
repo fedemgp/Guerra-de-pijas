@@ -32,6 +32,7 @@ namespace Worms {
 
     private:
         float timeElapsed{0.0f};
+        bool impulseApplied{false};
     };
 }
 

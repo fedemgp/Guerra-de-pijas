@@ -8,7 +8,7 @@
 #include "Player.h"
 
 #define START_JUMP_TIME 0.6f
-#define JUMP_VEL_X 3.0f
+#define JUMP_VEL_X 1.0f
 #define JUMP_VEL_Y 6.0f
 
 namespace Worms {
@@ -29,6 +29,7 @@ class StartJump : public State {
 
    private:
     float timeElapsed{0.0f};
+    bool impulseApplied{false};
 };
 }// namespace Worms
 
