@@ -43,6 +43,9 @@ void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
     if (this->bullet != nullptr){
         this->bullet->update(dt);
+        if (this->bullet->madeImpact()) {
+            this->bullet = nullptr;
+        }
     }
 }
 
@@ -165,17 +168,16 @@ int Worms::Player::getContactCount(){
 
 void Worms::Player::shoot(int shotPower) {
     Math::Point<float> position = this->getPosition();
+    float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
     float angle = this->getAngle();
     if (this->direction == Direction::right) {
-        position.x += PLAYER_WIDTH;
         if (angle < 0.0f) {
             angle += 360.0f;
         }
     } else {
-        position.x -= PLAYER_WIDTH;
         angle = 180.0f - angle;
     }
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, angle, shotPower, this->physics));
+    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, safeNonContactDistance, angle, shotPower, this->physics));
 }
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const{

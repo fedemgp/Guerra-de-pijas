@@ -15,11 +15,14 @@
 namespace Worms{
     class Bullet: public Entity{
     public:
-        Bullet(Math::Point<float> p, float angle, int power, Worms::Physics &physics);
-        ~Bullet() = default;
+        Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power, Worms::Physics &physics);
+        ~Bullet();
         void update(float dt);
         Math::Point<float> getPosition() const;
         float getAngle() const;
+        void startContact();
+        void endContact();
+        bool madeImpact();
 
     private:
         b2Body *body{nullptr};

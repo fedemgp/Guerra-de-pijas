@@ -7,10 +7,13 @@
 #include <iostream>
 #include "Bullet.h"
 
-Worms::Bullet::Bullet(Math::Point<float> p, float angle, int power, Worms::Physics &physics) : Entity(Worms::EntityID::EtBullet),
-                                                                                               physics(physics){
+Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
+                      Worms::Physics &physics)
+        : Entity(Worms::EntityID::EtBullet),
+          physics(physics){
+    float distance = safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(p.x, p.y);
+    this->bodyDef.position.Set(p.x + distance * cos(angle * PI / 180.0f), p.y + distance * sin(angle * PI / 180.0f));
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
@@ -53,5 +56,23 @@ Math::Point<float> Worms::Bullet::getPosition() const{
 
 float Worms::Bullet::getAngle() const {
     return (this->angle >= 0 && this->angle < 90) ? this->angle + 360.0f : this->angle;
+}
+
+void Worms::Bullet::startContact() {
+    this->numContacts++;
+}
+
+void Worms::Bullet::endContact() {
+    if (this->numContacts > 0){
+        this->numContacts--;
+    }
+}
+
+Worms::Bullet::~Bullet() {
+    this->body->GetWorld()->DestroyBody(this->body);
+}
+
+bool Worms::Bullet::madeImpact() {
+    return this->numContacts > 0;
 }
 

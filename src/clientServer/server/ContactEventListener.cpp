@@ -24,7 +24,7 @@ void ContactEventListener::BeginContact(b2Contact *contact){
                 dynamic_cast<Worms::Player*>(playerA)->startContact();
                 break;
             case Worms::EntityID::EtBullet:
-                //TODO add logic to destroy bullet
+                dynamic_cast<Worms::Bullet*>(playerA)->startContact();
                 break;
         }
     }
@@ -34,7 +34,7 @@ void ContactEventListener::BeginContact(b2Contact *contact){
                 dynamic_cast<Worms::Player*>(playerB)->startContact();
                 break;
             case Worms::EntityID::EtBullet:
-                //TODO add logic to destroy bullet
+                dynamic_cast<Worms::Bullet*>(playerB)->startContact();
                 break;
         }
     }
@@ -50,7 +50,7 @@ void ContactEventListener::EndContact(b2Contact *contact){
                 dynamic_cast<Worms::Player*>(playerA)->endContact();
                 break;
             case Worms::EntityID::EtBullet:
-                //TODO add logic to destroy bullet
+                dynamic_cast<Worms::Bullet*>(playerA)->endContact();
                 break;
         }
     }
@@ -60,7 +60,7 @@ void ContactEventListener::EndContact(b2Contact *contact){
                 dynamic_cast<Worms::Player*>(playerB)->endContact();
                 break;
             case Worms::EntityID::EtBullet:
-                //TODO add logic to destroy bullet
+                dynamic_cast<Worms::Bullet*>(playerB)->endContact();
                 break;
         }
     }

@@ -58,7 +58,6 @@ class Player: public Entity {
     Physics &physics;
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
     float angle{0};
-    bool active{false};
     int numContacts{0};
 };
 }  // namespace Worms
