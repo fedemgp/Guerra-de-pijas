@@ -8,15 +8,15 @@
 
 #include "GameStateMsg.h"
 #include "Worm.h"
+#include "WormBackFlip.h"
+#include "WormBackFlipping.h"
+#include "WormBazooka.h"
+#include "WormEndBackFlip.h"
+#include "WormEndJump.h"
+#include "WormJumping.h"
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "WormBazooka.h"
-#include "WormBackFlip.h"
-#include "WormJumping.h"
-#include "WormEndJump.h"
-#include "WormBackFlipping.h"
-#include "WormEndBackFlip.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -115,18 +115,18 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         case StateID::StartJump:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::StartJump), true};
         case StateID::Jumping:
-            return GUI::Animation {this->texture_mgr.get(GUI::GameTextures::Jumping)};
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Jumping)};
         case StateID::EndBackFlip:
         case StateID::EndJump:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
-        case StateID::BackFlipping:{
-            GUI::Animation animation{
-                    this->texture_mgr.get(GUI::GameTextures::BackFlipping)};
+        case StateID::BackFlipping: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::BackFlipping)};
             animation.setAnimateOnce();
             return animation;
         }
         case StateID::Bazooka:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true, BAZOOKA_CENTER_FRAME, false};
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true,
+                                  BAZOOKA_CENTER_FRAME, false};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
@@ -168,17 +168,17 @@ void Worm::Worm::setState(StateID state) {
     }
 }
 
-void Worm::Worm::setActive(){
+void Worm::Worm::setActive() {
     this->active = true;
 }
-/* TODO check if all the weapons has the same number of frames and the same
+/*
+ * TODO check if all the weapons has the same number of frames and the same
  * proportion
  */
-void Worm::Worm::setAngle(float angle){
-    this->animation.setFrame((int) std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
-
+void Worm::Worm::setAngle(float angle) {
+    this->animation.setFrame((int)std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
 }
 
-Worm::StateID &Worm::Worm::getState() const{
+Worm::StateID &Worm::Worm::getState() const {
     return this->state->getState();
 }

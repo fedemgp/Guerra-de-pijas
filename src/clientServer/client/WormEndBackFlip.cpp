@@ -3,7 +3,6 @@
  *  date: 21/05/18
  */
 
-
 #include "WormEndBackFlip.h"
 
 Worm::EndBackFlip::EndBackFlip() : State(StateID::EndBackFlip) {}
@@ -32,15 +31,15 @@ IO::PlayerInput Worm::EndBackFlip::backFlip(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndBackFlip::bazooka(Worm &w){
+IO::PlayerInput Worm::EndBackFlip::bazooka(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndBackFlip::pointUp(Worm &w){
+IO::PlayerInput Worm::EndBackFlip::pointUp(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndBackFlip::pointDown(Worm &w){
+IO::PlayerInput Worm::EndBackFlip::pointDown(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

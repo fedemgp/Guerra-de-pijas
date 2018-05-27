@@ -7,13 +7,13 @@
 #include <unistd.h>
 #include <iostream>
 
+#include "Bullet.h"
 #include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
+#include "Text.h"
 #include "Window.h"
 #include "WrapTexture.h"
-#include "Bullet.h"
-#include "Text.h"
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
@@ -44,12 +44,11 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Aim,
-                           "src/clientServer/assets/img/Worms/wbaz.png",
+    this->texture_mgr.load(GUI::GameTextures::Aim, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Missile,
                            "src/clientServer/assets/img/Weapons/missile.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb} );
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     char num_worms = 0;
@@ -102,9 +101,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 cur.setAngle(this->snapshot.activePlayerAngle);
             }
 
-            if (this->snapshot.shoot){
+            if (this->snapshot.shoot) {
                 if (this->bullet == nullptr) {
-                    this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+                    this->bullet =
+                        std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
                 }
             } else {
                 this->bullet = nullptr;
@@ -165,7 +165,7 @@ void GUI::Game::render() {
         wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
     }
 
-    if (this->bullet != nullptr){
+    if (this->bullet != nullptr) {
         float local_x = this->snapshot.bullet[0];
         float local_y = this->snapshot.bullet[1];
         this->bullet->setAngle(this->snapshot.bulletAngle);

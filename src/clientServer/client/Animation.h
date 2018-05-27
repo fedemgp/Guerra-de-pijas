@@ -8,11 +8,10 @@
 
 #include <SDL2/SDL.h>
 
-
+#include "Camera.h"
 #include "Color.h"
 #include "Exception.h"
 #include "Texture.h"
-#include "Camera.h"
 
 namespace GUI {
 class Animation {

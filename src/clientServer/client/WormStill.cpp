@@ -38,16 +38,16 @@ IO::PlayerInput Worm::Still::backFlip(Worm &w) {
     return IO::PlayerInput::startBackFlip;
 }
 
-IO::PlayerInput Worm::Still::bazooka(Worm &w){
+IO::PlayerInput Worm::Still::bazooka(Worm &w) {
     w.setState(StateID::Bazooka);
     return IO::PlayerInput::bazooka;
 }
 
-IO::PlayerInput Worm::Still::pointUp(Worm &w){
+IO::PlayerInput Worm::Still::pointUp(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Still::pointDown(Worm &w){
+IO::PlayerInput Worm::Still::pointDown(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
@@ -58,5 +58,3 @@ IO::PlayerInput Worm::Still::startShot(Worm &w) {
 IO::PlayerInput Worm::Still::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
-
-

@@ -3,17 +3,17 @@
  *  date: 26/05/18
  */
 
+#include "Bullet.h"
 #include <cmath>
 #include <iostream>
-#include "Bullet.h"
 
 Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
                       Worms::Physics &physics)
-        : PhysicsEntity(Worms::EntityID::EtBullet),
-          physics(physics){
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
     float distance = safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(p.x + distance * cos(angle * PI / 180.0f), p.y + distance * sin(angle * PI / 180.0f));
+    this->bodyDef.position.Set(p.x + distance * cos(angle * PI / 180.0f),
+                               p.y + distance * sin(angle * PI / 180.0f));
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
@@ -33,10 +33,13 @@ Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float 
     this->power = power;
 }
 
-void Worms::Bullet::update(float dt){
-    if (!this->impulseApplied){
-        float32 mass = this->body->GetMass();//std::cout<<"first bullet angle "<<this->angle<<" "<<cos(this->angle * PI / 180.0f)<<" "<<sin(this->angle * PI / 180.0f)<<std::endl;
-        b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)), mass * float32(this->power * sin(this->angle * PI / 180.0f))};
+void Worms::Bullet::update(float dt) {
+    if (!this->impulseApplied) {
+        float32 mass = this->body->GetMass();  // std::cout<<"first bullet angle "<<this->angle<<"
+                                               // "<<cos(this->angle * PI / 180.0f)<<"
+                                               // "<<sin(this->angle * PI / 180.0f)<<std::endl;
+        b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
+                           mass * float32(this->power * sin(this->angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->impulseApplied = true;
@@ -49,7 +52,7 @@ void Worms::Bullet::update(float dt){
     }
 }
 
-Math::Point<float> Worms::Bullet::getPosition() const{
+Math::Point<float> Worms::Bullet::getPosition() const {
     b2Vec2 p = this->body->GetPosition();
     return Math::Point<float>(p.x, p.y);
 }
@@ -63,7 +66,7 @@ void Worms::Bullet::startContact() {
 }
 
 void Worms::Bullet::endContact() {
-    if (this->numContacts > 0){
+    if (this->numContacts > 0) {
         this->numContacts--;
     }
 }
@@ -75,4 +78,3 @@ Worms::Bullet::~Bullet() {
 bool Worms::Bullet::madeImpact() {
     return this->numContacts > 0;
 }
-

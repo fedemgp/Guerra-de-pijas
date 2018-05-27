@@ -3,7 +3,6 @@
  *  date: 21/05/18
  */
 
-
 #include "WormEndJump.h"
 
 Worm::EndJump::EndJump() : State(StateID::EndJump) {}
@@ -32,15 +31,15 @@ IO::PlayerInput Worm::EndJump::backFlip(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndJump::bazooka(Worm &w){
+IO::PlayerInput Worm::EndJump::bazooka(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndJump::pointUp(Worm &w){
+IO::PlayerInput Worm::EndJump::pointUp(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndJump::pointDown(Worm &w){
+IO::PlayerInput Worm::EndJump::pointDown(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

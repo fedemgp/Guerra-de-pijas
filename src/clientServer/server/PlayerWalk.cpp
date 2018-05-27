@@ -1,12 +1,12 @@
 
 #include "Player.h"
-#include <memory>
 #include <iostream>
+#include <memory>
 #include "Player.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-void Worms::Walk::update(Player &p, float dt, b2Body *body){
+void Worms::Walk::update(Player &p, float dt, b2Body *body) {
     float final_vel{0.0f};
     float32 mass = body->GetMass();
     b2Vec2 vel = body->GetLinearVelocity();
@@ -17,8 +17,7 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body){
         final_vel = 3.0f;
     }
     this->impulses[0] = mass * (final_vel - vel.x);
-    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
-                                   body->GetWorldCenter(), true);
+    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {
@@ -41,9 +40,9 @@ void Worms::Walk::backFlip(Worms::Player &p) {}
 
 void Worms::Walk::bazooka(Worms::Player &p) {}
 
-void Worms::Walk::pointUp(Worms::Player &p){}
+void Worms::Walk::pointUp(Worms::Player &p) {}
 
-void Worms::Walk::pointDown(Worms::Player &p){}
+void Worms::Walk::pointDown(Worms::Player &p) {}
 
 void Worms::Walk::startShot(Worms::Player &p) {}
 

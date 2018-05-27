@@ -3,13 +3,12 @@
  *  date: 21/05/18
  */
 
-
 #include "PlayerBackFlipping.h"
 #include "Player.h"
 
-Worms::BackFlipping::BackFlipping(): State(Worm::StateID::BackFlipping){}
+Worms::BackFlipping::BackFlipping() : State(Worm::StateID::BackFlipping) {}
 
-void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body){
+void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
     /*
      * when the worm lands (there was a collision between the worm and the
      * girder) it has to changes its state to endJump, and take an impulse
@@ -29,13 +28,13 @@ void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body){
     }
 }
 
-void Worms::BackFlipping::moveRight(Worms::Player &p){}
+void Worms::BackFlipping::moveRight(Worms::Player &p) {}
 
-void Worms::BackFlipping::moveLeft(Worms::Player &p){}
+void Worms::BackFlipping::moveLeft(Worms::Player &p) {}
 
-void Worms::BackFlipping::jump(Worms::Player &p){}
+void Worms::BackFlipping::jump(Worms::Player &p) {}
 
-void Worms::BackFlipping::stopMove(Worms::Player &p){}
+void Worms::BackFlipping::stopMove(Worms::Player &p) {}
 
 void Worms::BackFlipping::backFlip(Worms::Player &p) {}
 

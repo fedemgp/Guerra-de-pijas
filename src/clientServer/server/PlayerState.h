@@ -2,8 +2,8 @@
 #define _PLAYERSTATE_H
 
 #include <Box2D/Common/b2Math.h>
-#include <vector>
 #include <Box2D/Dynamics/b2Body.h>
+#include <vector>
 
 #include "GameStateMsg.h"
 

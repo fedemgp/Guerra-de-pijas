@@ -3,17 +3,15 @@
  *  date: 21/05/18
  */
 
-
 #ifndef __JUMPING_H__
 #define __JUMPING_H__
-
 
 #include "GameStateMsg.h"
 #include "Worm.h"
 
 namespace Worm {
 class Jumping : public State {
-public:
+   public:
     explicit Jumping();
     virtual ~Jumping();
 
@@ -32,5 +30,4 @@ public:
 };
 }  // namespace Worm
 
-
-#endif //__JUMPING_H__
+#endif  //__JUMPING_H__

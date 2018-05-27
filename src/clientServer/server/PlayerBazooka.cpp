@@ -2,17 +2,17 @@
 // Created by rodrigo on 21/05/18.
 //
 
-#include <iostream>
 #include "PlayerBazooka.h"
+#include <iostream>
 #include "Player.h"
 /*
  * TODO add previous and finish states of bazooka, using wbazbak.png and wbazink.png
  */
 Worms::Bazooka::Bazooka() : State(Worm::StateID::Bazooka) {}
 
-void Worms::Bazooka::update(Worms::Player &p, float dt, b2Body *body){
+void Worms::Bazooka::update(Worms::Player &p, float dt, b2Body *body) {
     if (this->increaseShotPower) {
-        if(this->shotPower == MAX_SHOT_POWER) {
+        if (this->shotPower == MAX_SHOT_POWER) {
             this->shotPower = 0;
         } else {
             this->shotPower++;
@@ -40,11 +40,11 @@ void Worms::Bazooka::stopMove(Worms::Player &p) {}
 
 void Worms::Bazooka::bazooka(Worms::Player &p) {}
 
-void Worms::Bazooka::pointUp(Worms::Player &p){
+void Worms::Bazooka::pointUp(Worms::Player &p) {
     p.increaseAngle();
 }
 
-void Worms::Bazooka::pointDown(Worms::Player &p){
+void Worms::Bazooka::pointDown(Worms::Player &p) {
     p.decreaseAngle();
 }
 

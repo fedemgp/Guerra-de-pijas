@@ -5,10 +5,8 @@
 
 #include "PhysicsEntity.h"
 
-Worms::PhysicsEntity::PhysicsEntity(Worms::EntityID id): id(id){}
+Worms::PhysicsEntity::PhysicsEntity(Worms::EntityID id) : id(id) {}
 
-Worms::EntityID Worms::PhysicsEntity::getEntityId(){
+Worms::EntityID Worms::PhysicsEntity::getEntityId() {
     return this->id;
 }
-
-

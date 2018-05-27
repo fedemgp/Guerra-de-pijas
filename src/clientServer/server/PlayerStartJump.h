@@ -32,6 +32,6 @@ class StartJump : public State {
     float timeElapsed{0.0f};
     bool impulseApplied{false};
 };
-}// namespace Worms
+}  // namespace Worms
 
 #endif  // __WORMS_PLAYER_JUMP_RIGHT_H__

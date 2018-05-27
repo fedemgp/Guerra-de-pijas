@@ -3,16 +3,14 @@
  *  date: 21/05/18
  */
 
-
 #ifndef __PLAYER_BACK_FLIPPING_H__
 #define __PLAYER_BACK_FLIPPING_H__
 
-
 #include "PlayerState.h"
 
-namespace Worms{
-class BackFlipping : public State{
-public:
+namespace Worms {
+class BackFlipping : public State {
+   public:
     BackFlipping();
     ~BackFlipping() = default;
     void update(Player &p, float dt, b2Body *body) override;
@@ -27,7 +25,6 @@ public:
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
 };
-}// namespace Worms
+}  // namespace Worms
 
-
-#endif //__PLAYER_BACK_FLIPPING_H__
+#endif  //__PLAYER_BACK_FLIPPING_H__

@@ -2,8 +2,8 @@
 // Created by Gorco on 19/05/18.
 //
 
-#include <memory>
 #include <iostream>
+#include <memory>
 
 #include "Player.h"
 #include "Player.h"
@@ -12,13 +12,12 @@
 
 Worms::Still::Still() : State(Worm::StateID::Still) {}
 
-void Worms::Still::update(Player &p, float dt, b2Body *body){
+void Worms::Still::update(Player &p, float dt, b2Body *body) {
     float32 mass = body->GetMass();
     b2Vec2 vel = body->GetLinearVelocity();
 
     this->impulses[0] = -vel.x * mass;
-    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]),
-                             body->GetWorldCenter(), true);
+    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
 }
 
 void Worms::Still::moveRight(Worms::Player &p) {
@@ -52,4 +51,3 @@ void Worms::Still::pointDown(Worms::Player &p) {}
 void Worms::Still::startShot(Worms::Player &p) {}
 
 void Worms::Still::endShot(Worms::Player &p) {}
-

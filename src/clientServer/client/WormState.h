@@ -35,7 +35,7 @@ class State {
     virtual IO::PlayerInput endShot(Worm &w) = 0;
     virtual IO::PlayerInput backFlip(Worm &w) = 0;
     //        virtual IO::PlayerInput fire(Worm &w) = 0;
-    virtual StateID& getState() {
+    virtual StateID &getState() {
         return this->stateID;
     };
 

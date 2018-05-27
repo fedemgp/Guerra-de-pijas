@@ -17,8 +17,7 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics): PhysicsEntity(Worms::EntityID::EtWorm),
-                                                      physics(physics){
+Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -41,7 +40,7 @@ Worms::Player::Player(Physics &physics): PhysicsEntity(Worms::EntityID::EtWorm),
 
 void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
-    if (this->bullet != nullptr){
+    if (this->bullet != nullptr) {
         this->bullet->update(dt);
         if (this->bullet->madeImpact()) {
             this->bullet = nullptr;
@@ -139,7 +138,7 @@ void Worms::Player::startContact() {
 }
 
 void Worms::Player::endContact() {
-    if (this->numContacts > 0){
+    if (this->numContacts > 0) {
         this->numContacts--;
     }
 }
@@ -162,13 +161,14 @@ float Worms::Player::getAngle() const {
     return this->angle;
 }
 
-int Worms::Player::getContactCount(){
+int Worms::Player::getContactCount() {
     return this->numContacts;
 }
 
 void Worms::Player::shoot(int shotPower) {
     Math::Point<float> position = this->getPosition();
-    float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+    float safeNonContactDistance =
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
     float angle = this->getAngle();
     if (this->direction == Direction::right) {
         if (angle < 0.0f) {
@@ -177,11 +177,10 @@ void Worms::Player::shoot(int shotPower) {
     } else {
         angle = 180.0f - angle;
     }
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, safeNonContactDistance, angle, shotPower, this->physics));
+    this->bullet = std::shared_ptr<Worms::Bullet>(
+        new Worms::Bullet(position, safeNonContactDistance, angle, shotPower, this->physics));
 }
 
-std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const{
+std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
     return this->bullet;
 }
-
-

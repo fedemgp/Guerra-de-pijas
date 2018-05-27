@@ -6,20 +6,20 @@
 #include "PlayerEndJump.h"
 #include "Player.h"
 
-Worms::EndJump::EndJump(): State(Worm::StateID::EndJump){}
+Worms::EndJump::EndJump() : State(Worm::StateID::EndJump) {}
 
-void Worms::EndJump::update(Worms::Player &p, float dt, b2Body *body){
+void Worms::EndJump::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed > JUMP_LAND_TIME){
+    if (this->timeElapsed > JUMP_LAND_TIME) {
         p.setState(Worm::StateID::Still);
     }
 }
 
-void Worms::EndJump::moveRight(Worms::Player &p){}
+void Worms::EndJump::moveRight(Worms::Player &p) {}
 
-void Worms::EndJump::moveLeft(Worms::Player &p){}
+void Worms::EndJump::moveLeft(Worms::Player &p) {}
 
-void Worms::EndJump::jump(Worms::Player &p){}
+void Worms::EndJump::jump(Worms::Player &p) {}
 
 void Worms::EndJump::stopMove(Worms::Player &p) {}
 
@@ -34,6 +34,3 @@ void Worms::EndJump::backFlip(Worms::Player &p) {}
 void Worms::EndJump::startShot(Worms::Player &p) {}
 
 void Worms::EndJump::endShot(Worms::Player &p) {}
-
-
-

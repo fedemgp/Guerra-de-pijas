@@ -3,7 +3,6 @@
  *  date: 21/05/18
  */
 
-
 #include "WormJumping.h"
 
 Worm::Jumping::Jumping() : State(StateID::Jumping) {}
@@ -32,15 +31,15 @@ IO::PlayerInput Worm::Jumping::backFlip(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Jumping::bazooka(Worm &w){
+IO::PlayerInput Worm::Jumping::bazooka(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Jumping::pointUp(Worm &w){
+IO::PlayerInput Worm::Jumping::pointUp(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Jumping::pointDown(Worm &w){
+IO::PlayerInput Worm::Jumping::pointDown(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

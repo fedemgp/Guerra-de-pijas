@@ -14,19 +14,19 @@
 
 #define PLAYER_HEIGHT 2.0f
 
+#include "Bullet.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
-#include "Bullet.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
 enum class Direction { right, left, up, down };
 
-class Player: public PhysicsEntity {
+class Player : public PhysicsEntity {
    public:
     Direction direction;
 

@@ -3,9 +3,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "Texture.h"
 #include "Point.h"
-
+#include "Texture.h"
 
 namespace GUI {
 using Position = Math::Point<float>;

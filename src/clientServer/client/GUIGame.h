@@ -8,16 +8,16 @@
 
 #include <SDL2/SDL_ttf.h>
 #include <vector>
+#include "../server/Stage.h"
 #include "Animation.h"
+#include "Bullet.h"
 #include "Camera.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
-#include "../server/Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
-#include "Bullet.h"
 
 namespace GUI {
 class Game {

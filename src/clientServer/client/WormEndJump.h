@@ -3,17 +3,15 @@
  *  date: 21/05/18
  */
 
-
 #ifndef __END_JUMP_H__
 #define __END_JUMP_H__
-
 
 #include "GameStateMsg.h"
 #include "WormState.h"
 
 namespace Worm {
 class EndJump : public State {
-public:
+   public:
     EndJump();
     ~EndJump();
 
@@ -32,5 +30,4 @@ public:
 };
 }  // namespace Worm
 
-
-#endif //__END_JUMP_H__
+#endif  //__END_JUMP_H__

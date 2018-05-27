@@ -5,13 +5,13 @@
 
 #include "WormBazooka.h"
 
-Worm::Bazooka::Bazooka(): State(StateID::Bazooka){}
+Worm::Bazooka::Bazooka() : State(StateID::Bazooka) {}
 
-Worm::Bazooka::~Bazooka(){}
+Worm::Bazooka::~Bazooka() {}
 
-void Worm::Bazooka::update(float dt){}
+void Worm::Bazooka::update(float dt) {}
 
-IO::PlayerInput Worm::Bazooka::moveRight(Worm &w){
+IO::PlayerInput Worm::Bazooka::moveRight(Worm &w) {
     w.direction = ::Worm::Direction::right;
     return IO::PlayerInput::moveRight;
 }
@@ -34,15 +34,15 @@ IO::PlayerInput Worm::Bazooka::backFlip(Worm &w) {
     return IO::PlayerInput::startBackFlip;
 }
 
-IO::PlayerInput Worm::Bazooka::bazooka(Worm &w){
+IO::PlayerInput Worm::Bazooka::bazooka(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Bazooka::pointUp(Worm &w){
+IO::PlayerInput Worm::Bazooka::pointUp(Worm &w) {
     return IO::PlayerInput::pointUp;
 }
 
-IO::PlayerInput Worm::Bazooka::pointDown(Worm &w){
+IO::PlayerInput Worm::Bazooka::pointDown(Worm &w) {
     return IO::PlayerInput::pointDown;
 }
 

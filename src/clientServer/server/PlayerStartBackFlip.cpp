@@ -3,7 +3,6 @@
  *  date: 20/05/18
  */
 
-
 #include "PlayerStartBackFlip.h"
 
 Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip) {}
@@ -11,10 +10,10 @@ Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip) {}
 void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
     if (this->timeElapsed >= START_BACKFLIP_TIME) {
-        if (!this->impulseApplied){
+        if (!this->impulseApplied) {
             float32 mass = body->GetMass();
             b2Vec2 impulses = {mass * BACKFLIP_VEL_X, mass * BACKFLIP_VEL_Y};
-            if (p.direction == Direction::left){
+            if (p.direction == Direction::left) {
                 impulses.x *= -1;
             }
             /* When the worm jumps, it needs an initial impulse in the y axis
@@ -25,7 +24,7 @@ void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
              */
             body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
             this->impulseApplied = true;
-        } else if (p.getContactCount() == 0){
+        } else if (p.getContactCount() == 0) {
             p.setState(Worm::StateID::BackFlipping);
         }
     }

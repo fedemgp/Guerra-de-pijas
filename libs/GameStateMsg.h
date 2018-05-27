@@ -34,7 +34,7 @@ enum class PlayerInput {
     bazooka,
     pointUp,
     pointDown,
-    startShot, 
+    startShot,
     endShot
 };
 // TODO protocol?

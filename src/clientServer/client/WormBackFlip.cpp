@@ -3,7 +3,6 @@
  *  date: 20/05/18
  */
 
-
 #include "WormBackFlip.h"
 
 Worm::BackFlip::BackFlip() : State(StateID::StartBackFlip) {}
@@ -32,15 +31,15 @@ IO::PlayerInput Worm::BackFlip::backFlip(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::BackFlip::bazooka(Worm &w){
+IO::PlayerInput Worm::BackFlip::bazooka(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::BackFlip::pointUp(Worm &w){
+IO::PlayerInput Worm::BackFlip::pointUp(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::BackFlip::pointDown(Worm &w){
+IO::PlayerInput Worm::BackFlip::pointDown(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

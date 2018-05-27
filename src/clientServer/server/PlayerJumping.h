@@ -9,9 +9,9 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include "PlayerState.h"
 
-namespace Worms{
-class Jumping: public State{
-public:
+namespace Worms {
+class Jumping : public State {
+   public:
     Jumping();
     ~Jumping() = default;
     void update(Player &p, float dt, b2Body *body) override;
@@ -26,6 +26,6 @@ public:
     virtual void pointUp(Player &p) override;
     virtual void pointDown(Player &p) override;
 };
-}// namespace Worms
+}  // namespace Worms
 
-#endif //__PLAYER_JUMPING_H__
+#endif  //__PLAYER_JUMPING_H__
