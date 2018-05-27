@@ -8,6 +8,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "Camera.h"
 #include "Color.h"
 #include "Exception.h"
 #include "Texture.h"
@@ -20,7 +21,7 @@ class Animation {
     Animation(const Texture &texture, bool playReversed, int initialFrame, bool autoUpdate);
     ~Animation();
     void update(float dt);
-    void render(SDL_Renderer &renderer, int x, int y);
+    void render(GUI::Position p, GUI::Camera &cam);
     void reset();
     void advanceFrame();
     /**
@@ -33,7 +34,7 @@ class Animation {
 
     void setAnimateOnce();
 
-private:
+   private:
     /** SDL texture of the raw image. */
     const Texture *texture;
     /**

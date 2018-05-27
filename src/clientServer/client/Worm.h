@@ -12,6 +12,7 @@
 #include <SDL2/SDL.h>
 #include <memory>
 #include "Animation.h"
+#include "Camera.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
@@ -41,7 +42,7 @@ class Worm {
      * @param x
      * @param y
      */
-    void render(int x, int y, SDL_Renderer &renderer);
+    void render(GUI::Position p, GUI::Camera &cam);
     /**
      * Using a state pattern, change its state depending on the input, and
      * sends it to the server
@@ -61,7 +62,7 @@ class Worm {
      * of the class polymorphically.
      */
     void setState(StateID state);
-    StateID& getState() const;
+    StateID &getState() const;
     /**
      * Sets the worm in active mode
      */

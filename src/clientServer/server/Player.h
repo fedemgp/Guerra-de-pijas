@@ -22,13 +22,14 @@ enum class PlayerState { movingRight, movingLeft, still };
 namespace Worms {
 enum class Direction { right, left, up, down };
 
-class Player: public Entity{
+class Player: public Entity {
    public:
     Direction direction;
-    explicit Player(Physics &physics, bool active);
+
+    explicit Player(Physics &physics);
     ~Player() = default;
+
     void update(float dt);
-    bool isActive() const;
     float getAngle() const;
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
@@ -38,13 +39,10 @@ class Player: public Entity{
     void setState(Worm::StateID stateID);
     void increaseAngle();
     void decreaseAngle();
-    int getContactCount();
     void startContact();
     void endContact();
-    void shoot(int shotPower);
-    std::shared_ptr<Worms::Bullet> getBullet() const;
 
-private:
+   private:
     std::shared_ptr<Worms::State> state{nullptr};
     b2Body *body{nullptr};
     b2BodyDef bodyDef;
@@ -55,9 +53,7 @@ private:
     float angle{0};
     bool active{false};
     int numContacts{0};
-    float width{0};
-    float height{0};
 };
-}
+}  // namespace Worms
 
 #endif  //__PLAYER_H__

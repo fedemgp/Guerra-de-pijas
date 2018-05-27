@@ -26,6 +26,13 @@ GUI::Texture::Texture(const std::string &filename, SDL_Renderer &renderer, GUI::
     SDL_FreeSurface(tmp);
 }
 
+GUI::Texture::Texture(SDL_Texture *texture, int width, int height)
+    : height(height), width(width), texture(texture) {
+    if (!texture) {
+        throw Exception{"Texture cannot be NULL"};
+    }
+}
+
 /**
  * @brief Move constructor.
  *
@@ -44,36 +51,6 @@ GUI::Texture::~Texture() {
 }
 
 /**
- * @brief Renders a texture's portion.
- *
- * @param renderer The renderer instance.
- * @param clip Portion of the texture to render.
- * @param dst Position where the texture will be rendered.
- * @param flip Texture flip type.
- */
-void GUI::Texture::render(SDL_Renderer &renderer, SDL_Rect clip, SDL_Rect dst,
-                          SDL_RendererFlip flip) const {
-    /* set rendering space and render to screen */
-    dst.x -= clip.w / 2;
-    dst.y -= clip.h / 2;
-    SDL_RenderCopyEx(&renderer, this->texture, &clip, &dst, 0, nullptr, flip);
-}
-
-/**
- * @brief Renders the complete texture.
- *
- * @param renderer Renderer.
- * @param dst Position where texture will be rendered.
- */
-void GUI::Texture::render(SDL_Renderer &renderer, SDL_Rect dst) const {
-    dst.w = this->width;
-    dst.h = this->height;
-    dst.x -= this->width / 2;
-    dst.y -= this->height / 2;
-    SDL_RenderCopy(&renderer, this->texture, NULL, &dst);
-}
-
-/**
  * @brief Gets the texture's width.
  *
  * @return int width.
@@ -89,4 +66,13 @@ int GUI::Texture::getWidth() const {
  */
 int GUI::Texture::getHeight() const {
     return this->height;
+}
+
+/**
+ * @brief Returns the internal SDL texture.
+ *
+ * @return SDL texture.
+ */
+SDL_Texture *GUI::Texture::get() const {
+    return this->texture;
 }

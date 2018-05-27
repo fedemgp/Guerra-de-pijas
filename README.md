@@ -14,6 +14,13 @@ SDL2-image is a library that allows to load (among others) PNG images using SDL2
     sudo apt-get install libsdl2-image-dev
 
 
+### SDL ttf
+
+A library to render text from SDL.
+
+    sudo apt-get install libsdl2-ttf-dev
+
+
 ### clang-format (optional)
 
 `clang-format` is used to format all the source code files. It requires `clang-format` installed:

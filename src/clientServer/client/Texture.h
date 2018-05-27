@@ -9,14 +9,13 @@ namespace GUI {
 class Texture {
    public:
     Texture(const std::string &filename, SDL_Renderer &renderer, Color key);
+    Texture(SDL_Texture *texture, int width, int height);
     Texture(Texture &&other);
     ~Texture();
 
     int getWidth() const;
     int getHeight() const;
-
-    void render(SDL_Renderer &renderer, SDL_Rect clip, SDL_Rect dst, SDL_RendererFlip flip) const;
-    void render(SDL_Renderer &renderer, SDL_Rect dst) const;
+    SDL_Texture *get() const;
 
    private:
     int height{0}, width{0};

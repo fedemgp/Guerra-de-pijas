@@ -3,17 +3,15 @@
  *  date: 20/05/18
  */
 
-
 #ifndef __WORM_BACK_FLIP_H__
 #define __WORM_BACK_FLIP_H__
-
 
 #include "GameStateMsg.h"
 #include "WormState.h"
 
 namespace Worm {
 class BackFlip : public State {
-public:
+   public:
     explicit BackFlip();
     virtual ~BackFlip();
 
@@ -32,5 +30,4 @@ public:
 };
 }  // namespace Worm
 
-
-#endif //__WORM_BACK_FLIP_H__
+#endif  //__WORM_BACK_FLIP_H__

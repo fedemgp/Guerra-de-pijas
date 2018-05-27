@@ -17,7 +17,7 @@ class Game {
    public:
     std::atomic<bool> quit{false};
 
-    Game(const Stage &&stage);
+    Game(Stage &&stage);
     ~Game() {}
 
     Game(Game &&other) = delete;
@@ -27,6 +27,8 @@ class Game {
     void exit();
 
    private:
+    char currentWorm{0};
+    double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
     std::vector<Player> players;

@@ -24,9 +24,9 @@ GUI::Animation::Animation(const Texture &texture, bool playReversed) : Animation
     this->playReversed = playReversed;
 }
 
-GUI::Animation::Animation(const GUI::Texture &texture, bool playReversed,
-                          int initialFrame, bool autoUpdate):
-                                Animation(texture, playReversed){
+GUI::Animation::Animation(const GUI::Texture &texture, bool playReversed, int initialFrame,
+                          bool autoUpdate)
+    : Animation(texture, playReversed) {
     assert(this->numFrames > initialFrame);
     this->currentFrame = initialFrame;
     this->autoUpdate = autoUpdate;
@@ -35,7 +35,7 @@ GUI::Animation::Animation(const GUI::Texture &texture, bool playReversed,
 GUI::Animation::~Animation() {}
 
 void GUI::Animation::update(float dt) {
-    if (this->autoUpdate){
+    if (this->autoUpdate) {
         this->elapsed += dt;
         /* checks if the frame should be updated based on the time elapsed since the last update */
         while (this->elapsed > this->frameRate) {
@@ -52,10 +52,9 @@ void GUI::Animation::update(float dt) {
  * @param x X coordinate.
  * @param y Y corrdinate.
  */
-void GUI::Animation::render(SDL_Renderer &renderer, int x, int y) {
+void GUI::Animation::render(GUI::Position p, GUI::Camera &cam) {
     SDL_Rect clip = {0, this->size * this->currentFrame, this->size, this->size};
-    SDL_Rect dst = {x, y, this->size, this->size};
-    this->texture->render(renderer, clip, dst, this->flipType);
+    cam.draw(*this->texture, p, clip, this->flipType);
 }
 
 /**
@@ -74,7 +73,8 @@ void GUI::Animation::advanceFrame() {
             this->step = -1;
         }
     }
-    if (!(this->playOnce && this->currentFrame == this->numFrames - 1)) {   // Por ahora ignora el playReversed
+    if (!(this->playOnce &&
+          this->currentFrame == this->numFrames - 1)) {  // Por ahora ignora el playReversed
         this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
     }
 }
@@ -87,7 +87,7 @@ SDL_RendererFlip GUI::Animation::getFlip() {
     return this->flipType;
 }
 
-void GUI::Animation::setFrame(int frame){
+void GUI::Animation::setFrame(int frame) {
     assert(frame < this->numFrames);
     assert(frame >= 0);
     this->currentFrame = frame;

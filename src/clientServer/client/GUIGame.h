@@ -6,8 +6,10 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "Animation.h"
+#include "Camera.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "../server/Stage.h"
@@ -25,17 +27,20 @@ class Game {
     void start(IO::Stream<IO::GameStateMsg> *serverResponse,
                IO::Stream<IO::PlayerInput> *clientResponse);
     void update(float dt);
-    void render(IO::GameStateMsg msg);
+    void render();
 
    private:
+    void render_controls();
+
+    float scale{13.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::shared_ptr<Ammo::Bullet> bullet{nullptr};
-    float x{0}, y{0};
-    float camx{0}, camy{0};
-    float scale{15.0f};  // pixels per meter
+    IO::GameStateMsg snapshot{0};
+    Camera cam;
+    TTF_Font *font;
 };
 }  // namespace GUI
 

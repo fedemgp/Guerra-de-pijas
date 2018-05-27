@@ -11,8 +11,8 @@
 #include "Player.h"
 
 #define START_BACKFLIP_TIME 0.6f
-#define BACKFLIP_VEL_X -0.2f
-#define BACKFLIP_VEL_Y 7.4f
+#define BACKFLIP_VEL_X -1.2f
+#define BACKFLIP_VEL_Y 9.4f
 
 namespace Worms {
     class StartBackFlip : public State {

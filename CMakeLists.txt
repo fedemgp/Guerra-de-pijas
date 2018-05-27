@@ -69,4 +69,4 @@ file(GLOB_RECURSE CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client
 add_executable( clientServer
         ${CLIENT_SERVER_SOURCES} src/clientServer/server/Entity.cpp src/clientServer/server/Entity.h)
 
-target_link_libraries(clientServer Box2D SDL2 SDL2_image)
+target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)

@@ -7,19 +7,18 @@
 
 #include "Physics.h"
 #include "Player.h"
+#include "PlayerBackFlipping.h"
+#include "PlayerBazooka.h"
+#include "PlayerEndBackFlip.h"
+#include "PlayerEndJump.h"
+#include "PlayerJumping.h"
+#include "PlayerStartBackFlip.h"
 #include "PlayerStartJump.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
-#include "PlayerJumping.h"
-#include "PlayerEndJump.h"
-#include "PlayerBazooka.h"
-#include "PlayerStartBackFlip.h"
-#include "PlayerBackFlipping.h"
-#include "PlayerEndBackFlip.h"
 
 Worms::Player::Player(Physics &physics, bool active): Entity(Worms::EntityID::EtWorm),
-                                                      physics(physics),
-                                                      active(active) {
+                                                      physics(physics){
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -38,6 +37,8 @@ Worms::Player::Player(Physics &physics, bool active): Entity(Worms::EntityID::Et
 
     this->state = std::shared_ptr<State>(new Still());
     this->direction = Direction::left;
+
+    this->setState(Worm::StateID::Still);
 }
 
 void Worms::Player::update(float dt) {
@@ -128,39 +129,35 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
                 break;
-            }
+        }
     }
 }
 
-void Worms::Player::startContact(){
+void Worms::Player::startContact() {
     this->numContacts++;
 }
 
-void Worms::Player::endContact(){
+void Worms::Player::endContact() {
     if (this->numContacts > 0){
         this->numContacts--;
     }
 }
 
-void Worms::Player::increaseAngle(){
+void Worms::Player::increaseAngle() {
     this->angle += ANGLE_STEP;
-    if (this->angle > MAX_ANGLE){
+    if (this->angle > MAX_ANGLE) {
         this->angle = MAX_ANGLE;
     }
 }
 
-void Worms::Player::decreaseAngle(){
+void Worms::Player::decreaseAngle() {
     this->angle -= ANGLE_STEP;
-    if (this->angle < MIN_ANGLE){
+    if (this->angle < MIN_ANGLE) {
         this->angle = MIN_ANGLE;
     }
 }
 
-bool Worms::Player::isActive() const{
-    return this->active;
-}
-
-float Worms::Player::getAngle() const{
+float Worms::Player::getAngle() const {
     return this->angle;
 }
 

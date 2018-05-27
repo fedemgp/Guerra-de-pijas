@@ -6,24 +6,33 @@
 #ifndef __STAGE_H__
 #define __STAGE_H__
 
+#include <cstdint>
 #include <vector>
 #include "Point.h"
 
 namespace Worms {
+struct Girder {
+    float length;
+    float height;
+    Math::Point<float> pos;
+};
 
 class Stage {
    public:
+    uint8_t turnTime{10};
+
     Stage();
     ~Stage() = default;
+
     const std::vector<Math::Point<float>> &getWormPositions() const;
-    const std::vector<Math::Point<float>> &getGirderPositions() const;
+    const std::vector<Girder> &getGirders() const;
 
     float getHeight() const;
     float getWidth() const;
 
    private:
     std::vector<Math::Point<float>> playerPositions;
-    std::vector<Math::Point<float>> girderPositions;
+    std::vector<Girder> girders;
     float width{30.0f}, height{30.0f};
 };
 }  // namespace Worms

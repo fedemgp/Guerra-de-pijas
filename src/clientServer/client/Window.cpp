@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <iostream>
 
 #include "Exception.h"
@@ -13,7 +14,7 @@
 GUI::Window::Window() : Window(WINDOW_WIDTH, WINDOW_HEIGHT) {}
 
 GUI::Window::Window(int width, int height) : width(width), height(height) {
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         throw Exception{"SDL could not initialize: %s", SDL_GetError()};
     }
 
@@ -21,8 +22,8 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
         std::cerr << "Warning: Linear texture filtering not enabled!" << std::endl;
     }
 
-    this->window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED,
-                                    SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+    this->window = SDL_CreateWindow("Worms", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                    width, height, SDL_WINDOW_SHOWN);
     if (!this->window) {
         this->close();
         throw Exception{"Window could not be created: %s", SDL_GetError()};
@@ -38,6 +39,11 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
     if ((!IMG_Init(IMG_INIT_PNG)) & IMG_INIT_PNG) {
         this->close();
         throw Exception{"Failed initialiing IMG: %s", IMG_GetError()};
+    }
+
+    if (TTF_Init() == -1) {
+        this->close();
+        throw Exception{"SDL_ttf could not initialize! SDL_ttf Error: %s", TTF_GetError()};
     }
 }
 
@@ -55,6 +61,8 @@ void GUI::Window::close() {
         SDL_DestroyWindow(this->window);
         this->window = nullptr;
     }
+
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
