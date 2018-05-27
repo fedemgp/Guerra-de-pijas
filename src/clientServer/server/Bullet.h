@@ -8,20 +8,20 @@
 
 #include "Physics.h"
 #include "Point.h"
-#include "Entity.h"
+#include "PhysicsEntity.h"
 
 #define PI 3.14159265
 
 namespace Worms{
-    class Bullet: public Entity{
+    class Bullet: public PhysicsEntity{
     public:
         Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power, Worms::Physics &physics);
         ~Bullet();
         void update(float dt);
         Math::Point<float> getPosition() const;
         float getAngle() const;
-        void startContact();
-        void endContact();
+        virtual void startContact() override;
+        virtual void endContact() override;
         bool madeImpact();
 
     private:

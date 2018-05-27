@@ -9,7 +9,7 @@
 
 Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
                       Worms::Physics &physics)
-        : Entity(Worms::EntityID::EtBullet),
+        : PhysicsEntity(Worms::EntityID::EtBullet),
           physics(physics){
     float distance = safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;

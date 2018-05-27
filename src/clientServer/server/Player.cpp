@@ -17,7 +17,7 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics): Entity(Worms::EntityID::EtWorm),
+Worms::Player::Player(Physics &physics): PhysicsEntity(Worms::EntityID::EtWorm),
                                                       physics(physics){
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);

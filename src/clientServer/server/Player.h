@@ -26,7 +26,7 @@ enum class PlayerState { movingRight, movingLeft, still };
 namespace Worms {
 enum class Direction { right, left, up, down };
 
-class Player: public Entity {
+class Player: public PhysicsEntity {
    public:
     Direction direction;
 
@@ -44,8 +44,8 @@ class Player: public Entity {
     void increaseAngle();
     void decreaseAngle();
     int getContactCount();
-    void startContact();
-    void endContact();
+    virtual void startContact() override;
+    virtual void endContact() override;
     void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
 

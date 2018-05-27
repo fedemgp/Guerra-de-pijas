@@ -8,10 +8,12 @@
 
 namespace Worms{
     enum EntityID{EtWorm, EtBullet};
-class Entity{
+class PhysicsEntity{
 public:
-    explicit Entity(EntityID id);
+    explicit PhysicsEntity(EntityID id);
     virtual EntityID getEntityId();
+    virtual void startContact() = 0;
+    virtual void endContact() = 0;
 
 private:
     EntityID id;
