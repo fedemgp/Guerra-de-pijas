@@ -3,8 +3,8 @@
 
 namespace Worms {
 class TouchListener {
-    public:
-        virtual void touched();
+   public:
+    virtual void touched();
 };
 
 class TouchSensor {
