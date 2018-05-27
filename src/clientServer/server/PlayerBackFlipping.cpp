@@ -4,7 +4,6 @@
  */
 
 
-#include <iostream>
 #include "PlayerBackFlipping.h"
 #include "Player.h"
 
@@ -20,7 +19,6 @@ void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body){
      * In the y-axis there will be no impulse because its velocity was
      * cancelled because of the collision with the girder.
      */
-    std::cout << "backfliping" << std::endl;
     if (p.getContactCount() > 0){
         float32 mass = body->GetMass();
         b2Vec2 previousVel = body->GetLinearVelocity();
@@ -43,6 +41,8 @@ void Worms::BackFlipping::backFlip(Worms::Player &p) {}
 
 void Worms::BackFlipping::bazooka(Worms::Player &p) {}
 
-void Worms::BackFlipping::pointUp(Worms::Player &p){}
+void Worms::BackFlipping::pointUp(Worms::Player &p) {}
 
-void Worms::BackFlipping::pointDown(Worms::Player &p){}
+void Worms::BackFlipping::pointDown(Worms::Player &p) {}
+
+void Worms::BackFlipping::startShot(Worms::Player &p) {}

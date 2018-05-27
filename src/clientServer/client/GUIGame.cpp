@@ -85,7 +85,6 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             if (m.shoot){
                 if (this->bullet == nullptr) {
                     this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
-//                    this->bullet->setAngle(m.activePlayerAngle);
                 }
             }
 

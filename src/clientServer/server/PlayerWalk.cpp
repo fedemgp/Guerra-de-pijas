@@ -44,3 +44,5 @@ void Worms::Walk::bazooka(Worms::Player &p) {}
 void Worms::Walk::pointUp(Worms::Player &p){}
 
 void Worms::Walk::pointDown(Worms::Player &p){}
+
+void Worms::Walk::startShot(Worms::Player &p) {}

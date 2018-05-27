@@ -17,8 +17,7 @@ void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
             impulses.x *= -1;
         }
         p.setState(Worm::StateID::BackFlipping);
-        /*
-         * When the worm jumps, it needs an initial impulse in the y axis
+        /* When the worm jumps, it needs an initial impulse in the y axis
          * that will never will be applied again. In the x axis, the worms
          * moves in RUM, so it needs an initial impulse (because his friction
          * coeficient is 0) and then needs an end impulse, of equal absolute
@@ -40,6 +39,8 @@ void Worms::StartBackFlip::stopMove(Worms::Player &p) {}
 
 void Worms::StartBackFlip::bazooka(Worms::Player &p) {}
 
-void Worms::StartBackFlip::pointUp(Worms::Player &p){}
+void Worms::StartBackFlip::pointUp(Worms::Player &p) {}
 
-void Worms::StartBackFlip::pointDown(Worms::Player &p){}
+void Worms::StartBackFlip::pointDown(Worms::Player &p) {}
+
+void Worms::StartBackFlip::startShot(Worms::Player &p) {}

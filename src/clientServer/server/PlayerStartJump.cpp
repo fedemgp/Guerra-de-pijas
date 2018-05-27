@@ -38,6 +38,8 @@ void Worms::StartJump::backFlip(Worms::Player &p) {}
 
 void Worms::StartJump::bazooka(Worms::Player &p) {}
 
-void Worms::StartJump::pointUp(Worms::Player &p){}
+void Worms::StartJump::pointUp(Worms::Player &p) {}
 
-void Worms::StartJump::pointDown(Worms::Player &p){}
+void Worms::StartJump::pointDown(Worms::Player &p) {}
+
+void Worms::StartJump::startShot(Worms::Player &p) {}

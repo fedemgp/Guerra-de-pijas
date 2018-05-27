@@ -55,3 +55,7 @@ IO::PlayerInput Worm::Walk::pointUp(Worm &w){
 IO::PlayerInput Worm::Walk::pointDown(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::startShot(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

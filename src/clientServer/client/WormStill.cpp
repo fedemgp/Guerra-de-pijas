@@ -51,4 +51,8 @@ IO::PlayerInput Worm::Still::pointDown(Worm &w){
     return IO::PlayerInput::moveNone;
 }
 
+IO::PlayerInput Worm::Still::startShot(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
 

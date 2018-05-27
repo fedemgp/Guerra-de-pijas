@@ -43,3 +43,7 @@ IO::PlayerInput Worm::Jumping::pointUp(Worm &w){
 IO::PlayerInput Worm::Jumping::pointDown(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jumping::startShot(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

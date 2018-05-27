@@ -55,3 +55,7 @@ IO::PlayerInput Worm::Bazooka::pointUp(Worm &w){
 IO::PlayerInput Worm::Bazooka::pointDown(Worm &w){
     return IO::PlayerInput::pointDown;
 }
+
+IO::PlayerInput Worm::Bazooka::startShot(Worm::Worm &w) {
+    return IO::PlayerInput::startShot;
+}

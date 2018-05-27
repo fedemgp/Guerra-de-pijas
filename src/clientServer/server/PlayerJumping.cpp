@@ -46,3 +46,5 @@ void Worms::Jumping::bazooka(Worms::Player &p) {}
 void Worms::Jumping::pointUp(Worms::Player &p){}
 
 void Worms::Jumping::pointDown(Worms::Player &p){}
+
+void Worms::Jumping::startShot(Worms::Player &p) {}

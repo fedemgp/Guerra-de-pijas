@@ -43,3 +43,7 @@ IO::PlayerInput Worm::EndBackFlip::pointUp(Worm &w){
 IO::PlayerInput Worm::EndBackFlip::pointDown(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndBackFlip::startShot(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

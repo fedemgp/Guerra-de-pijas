@@ -119,10 +119,12 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-	    case Worm::StateID::Bazooka:
+            case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
                 break;
-        }
+            case Worm::StateID::StartShot:
+                break;
+            }
     }
 }
 

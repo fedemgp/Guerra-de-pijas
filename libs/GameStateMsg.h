@@ -9,7 +9,8 @@
 #define WORMS_QUANTITY 20
 
 namespace Worm {
-enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, BackFlipping, EndBackFlip, Bazooka
+enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, BackFlipping, EndBackFlip, Bazooka,
+    StartShot
 };
 }
 

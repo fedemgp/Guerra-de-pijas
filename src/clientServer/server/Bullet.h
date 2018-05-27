@@ -31,7 +31,6 @@ namespace Worms{
         int numContacts{0};
         bool impulseApplied{false};
         float radius{0.5f};
-        Math::Point<float> position{0.0f, 0.0f};
     };
 }//namespace Worms
 

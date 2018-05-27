@@ -25,11 +25,13 @@ void Worms::EndJump::stopMove(Worms::Player &p) {}
 
 void Worms::EndJump::bazooka(Worms::Player &p) {}
 
-void Worms::EndJump::pointUp(Worms::Player &p){}
+void Worms::EndJump::pointUp(Worms::Player &p) {}
 
-void Worms::EndJump::pointDown(Worms::Player &p){}
+void Worms::EndJump::pointDown(Worms::Player &p) {}
 
 void Worms::EndJump::backFlip(Worms::Player &p) {}
+
+void Worms::EndJump::startShot(Worms::Player &p) {}
 
 
 
