@@ -18,7 +18,7 @@ namespace Ammo{
         explicit Bullet(const GUI::GameTextureManager &texture_mgr);
         ~Bullet() = default;
         void update(float dt);
-        void render(int x, int y, SDL_Renderer &renderer);
+        void render(GUI::Position p, GUI::Camera &cam);
         void setAngle(float angle);
     private:
         const GUI::GameTextureManager &texture_mgr;

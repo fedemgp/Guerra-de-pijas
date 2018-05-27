@@ -10,6 +10,10 @@
 #define MAX_ANGLE 84.375f
 #define ANGLE_STEP 5.625f
 
+#define PLAYER_WIDTH 0.8f
+
+#define PLAYER_HEIGHT 2.0f
+
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
@@ -39,8 +43,11 @@ class Player: public Entity {
     void setState(Worm::StateID stateID);
     void increaseAngle();
     void decreaseAngle();
+    int getContactCount();
     void startContact();
     void endContact();
+    void shoot(int shotPower);
+    std::shared_ptr<Worms::Bullet> getBullet() const;
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};

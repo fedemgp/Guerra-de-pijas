@@ -15,14 +15,14 @@ void Ammo::Bullet::update(float dt){
     this->animation.update(dt);
 }
 
-void Ammo::Bullet::render(int x, int y, SDL_Renderer &renderer){
+void Ammo::Bullet::render(GUI::Position p, GUI::Camera &cam) {
 //    if (this->direction == Direction::left) {
 //        this->animation.setFlip(SDL_FLIP_NONE);
 //    } else {
 //        this->animation.setFlip(SDL_FLIP_HORIZONTAL);
 //    }
     this->animation.setFlip(SDL_FLIP_HORIZONTAL);
-    this->animation.render(renderer, x, y);
+    this->animation.render(p, cam);
 }
 
 void Ammo::Bullet::setAngle(float angle) {//std::cout<<"bullet angle "<<angle<<std::endl;

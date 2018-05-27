@@ -2,11 +2,12 @@
  * Created by Federico Manuel Gomez Peter
  * Date: 17/05/18.
  */
-
 #ifndef __GAME_STATE_MSG_H__
 #define __GAME_STATE_MSG_H__
 
 #define WORMS_QUANTITY 20
+
+#include <stdint.h>
 
 namespace Worm {
 enum class StateID {
@@ -32,7 +33,7 @@ enum class PlayerInput {
     startBackFlip,
     bazooka,
     pointUp,
-    pointDown
+    pointDown,
     startShot, 
     endShot
 };

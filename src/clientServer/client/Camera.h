@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 
-#include "client/Texture.h"
+#include "Texture.h"
 #include "Point.h"
 
 

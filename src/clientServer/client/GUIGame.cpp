@@ -13,6 +13,7 @@
 #include "Window.h"
 #include "WrapTexture.h"
 #include "Bullet.h"
+#include "Text.h"
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
@@ -101,7 +102,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 cur.setAngle(this->snapshot.activePlayerAngle);
             }
 
-            if (m.shoot){
+            if (this->snapshot.shoot){
                 if (this->bullet == nullptr) {
                     this->bullet = std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
                 }
@@ -163,10 +164,10 @@ void GUI::Game::render() {
     }
 
     if (this->bullet != nullptr){
-        int local_x = this->snapshot.bullet[0];
-        int local_y = this->snapshot.bullet[1];
+        float local_x = this->snapshot.bullet[0];
+        float local_y = this->snapshot.bullet[1];
         this->bullet->setAngle(this->snapshot.bulletAngle);
-        this->bullet->render(GUI::Position{local_x, local_y}, this->window.getRenderer());
+        this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
     }
 
     /* displays the remaining turn time */

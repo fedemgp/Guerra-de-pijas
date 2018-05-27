@@ -17,16 +17,14 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics, bool active): Entity(Worms::EntityID::EtWorm),
+Worms::Player::Player(Physics &physics): Entity(Worms::EntityID::EtWorm),
                                                       physics(physics){
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
-    this->width = 0.8f;
-    this->height = 2.0f;
-    this->shape.SetAsBox(this->width / 2, this->height / 2);
+    this->shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
     this->fixture.restitution = 0.1f;
@@ -169,12 +167,12 @@ void Worms::Player::shoot(int shotPower) {
     Math::Point<float> position = this->getPosition();
     float angle = this->getAngle();
     if (this->direction == Direction::right) {
-        position.x += this->width;
+        position.x += PLAYER_WIDTH;
         if (angle < 0.0f) {
             angle += 360.0f;
         }
     } else {
-        position.x -= this->width;
+        position.x -= PLAYER_WIDTH;
         angle = 180.0f - angle;
     }
     this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, angle, shotPower, this->physics));

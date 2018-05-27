@@ -113,7 +113,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
             if (this->players[this->currentWorm].getBullet() != nullptr){
                 m.shoot = true;
                 Math::Point<float> p = this->players[this->currentWorm].getBullet()->getPosition();
-                m.bullet[0] = p.x + (w / 2.0f);
+                m.bullet[0] = p.x;
                 m.bullet[1] = p.y;
                 m.bulletAngle = this->players[this->currentWorm].getBullet()->getAngle();
 

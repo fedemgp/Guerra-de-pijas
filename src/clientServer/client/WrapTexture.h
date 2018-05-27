@@ -2,7 +2,7 @@
 #define WRAP_TEXTURE_H_
 
 #include "Camera.h"
-#include "client/Texture.h"
+#include "Texture.h"
 
 namespace GUI {
 class WrapTexture {
