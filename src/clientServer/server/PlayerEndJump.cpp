@@ -33,5 +33,7 @@ void Worms::EndJump::backFlip(Worms::Player &p) {}
 
 void Worms::EndJump::startShot(Worms::Player &p) {}
 
+void Worms::EndJump::endShot(Worms::Player &p) {}
+
 
 

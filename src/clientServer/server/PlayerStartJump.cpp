@@ -47,3 +47,5 @@ void Worms::StartJump::pointUp(Worms::Player &p) {}
 void Worms::StartJump::pointDown(Worms::Player &p) {}
 
 void Worms::StartJump::startShot(Worms::Player &p) {}
+
+void Worms::StartJump::endShot(Worms::Player &p) {}

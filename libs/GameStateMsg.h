@@ -9,13 +9,14 @@
 #define WORMS_QUANTITY 20
 
 namespace Worm {
-enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, BackFlipping, EndBackFlip, Bazooka,
-    StartShot
+enum class StateID { Walk, Still, StartJump, Jumping, EndJump, StartBackFlip, BackFlipping, EndBackFlip, Bazooka
 };
 }
 
 namespace IO {
-enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove, startBackFlip, bazooka, pointUp, pointDown};
+enum class PlayerInput { moveNone, moveRight, moveLeft, startJump, stopMove, startBackFlip, bazooka, pointUp, pointDown,
+    startShot, endShot
+};
 // TODO protocol?
 struct GameStateMsg {
     char num_worms;

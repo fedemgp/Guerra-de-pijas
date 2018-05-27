@@ -4,6 +4,7 @@
  */
 
 #include <cmath>
+#include <iostream>
 #include "Bullet.h"
 
 Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr):
@@ -24,6 +25,6 @@ void Ammo::Bullet::render(int x, int y, SDL_Renderer &renderer){
     this->animation.render(renderer, x, y);
 }
 
-void Ammo::Bullet::setAngle(float angle) {
-    this->animation.setFrame((int) std::ceil((angle - 90) / MISSILE_ANGLE_STEP));
+void Ammo::Bullet::setAngle(float angle) {//std::cout<<"bullet angle "<<angle<<std::endl;
+    this->animation.setFrame((int) std::floor((angle - 90) / MISSILE_ANGLE_STEP));
 }

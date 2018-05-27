@@ -34,3 +34,5 @@ void Worms::EndBackFlip::pointUp(Worms::Player &p){}
 void Worms::EndBackFlip::pointDown(Worms::Player &p){}
 
 void Worms::EndBackFlip::startShot(Worms::Player &p) {}
+
+void Worms::EndBackFlip::endShot(Worms::Player &p) {}

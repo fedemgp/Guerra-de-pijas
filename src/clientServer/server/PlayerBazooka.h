@@ -8,6 +8,8 @@
 
 #include "PlayerState.h"
 
+#define MAX_SHOT_POWER 50
+
 namespace Worms{
     class Bazooka : public State{
     public:
@@ -19,10 +21,15 @@ namespace Worms{
         void jump(Player &p) override;
         void bazooka(Player &p) override;
         void startShot(Player &p) override;
+        void endShot(Player &p) override;
         void stopMove(Player &p) override;
         void pointUp(Player &p) override;
         void pointDown(Player &p) override;
         void backFlip(Player &p) override;
+
+    private:
+        bool increaseShotPower{false};
+        int shotPower{0};
     };
 }// namespace Worms
 

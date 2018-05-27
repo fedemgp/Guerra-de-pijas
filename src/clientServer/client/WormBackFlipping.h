@@ -26,6 +26,7 @@ namespace Worm {
         virtual IO::PlayerInput backFlip(Worm &w) override;
         virtual IO::PlayerInput bazooka(Worm &w) override;
         virtual IO::PlayerInput startShot(Worm &w) override;
+        virtual IO::PlayerInput endShot(Worm &w) override;
         virtual IO::PlayerInput pointUp(Worm &w) override;
         virtual IO::PlayerInput pointDown(Worm &w) override;
     };

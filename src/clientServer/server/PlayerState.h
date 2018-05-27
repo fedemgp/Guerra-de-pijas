@@ -19,6 +19,7 @@ class State {
     virtual void jump(Player &p) = 0;
     virtual void bazooka(Player &p) = 0;
     virtual void startShot(Player &p) = 0;
+    virtual void endShot(Player &p) = 0;
     virtual void backFlip(Player &p) = 0;
     virtual void stopMove(Player &p) = 0;
     virtual void pointUp(Player &p) = 0;

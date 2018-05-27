@@ -23,6 +23,7 @@ public:
     void stopMove(Player &p) override;
     void bazooka(Player &p) override;
     void startShot(Player &p) override;
+    void endShot(Player &p) override;
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
 };

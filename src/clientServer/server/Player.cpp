@@ -88,6 +88,12 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::pointDown:
             this->state->pointDown(*this);
             break;
+        case IO::PlayerInput::startShot:
+            this->state->startShot(*this);
+            break;
+        case IO::PlayerInput::endShot:
+            this->state->endShot(*this);
+            break;
     }
 }
 
@@ -121,8 +127,6 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
-                break;
-            case Worm::StateID::StartShot:
                 break;
             }
     }
@@ -164,23 +168,19 @@ int Worms::Player::getContactCount(){
     return this->numContacts;
 }
 
-void Worms::Player::shoot(){
+void Worms::Player::shoot(int shotPower) {
     Math::Point<float> position = this->getPosition();
     float angle = this->getAngle();
     if (this->direction == Direction::right) {
         position.x += this->width;
-        if (angle < 0) {
-            angle += 360;
+        if (angle < 0.0f) {
+            angle += 360.0f;
         }
     } else {
         position.x -= this->width;
-        if (angle >= 0) {
-            angle += 90;
-        } else {
-            angle += 270;
-        }
+        angle = 180.0f - angle;
     }
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, angle, this->physics));
+    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(position, angle, shotPower, this->physics));
 }
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const{

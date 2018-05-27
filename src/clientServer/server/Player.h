@@ -41,7 +41,7 @@ class Player: public Entity{
     int getContactCount();
     void startContact();
     void endContact();
-    void shoot();
+    void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
 
 private:

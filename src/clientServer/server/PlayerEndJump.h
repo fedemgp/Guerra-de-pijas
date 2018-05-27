@@ -21,6 +21,7 @@ namespace Worms{
         void jump(Player &p) override;
         void bazooka(Player &p) override;
         void startShot(Player &p) override;
+        void endShot(Player &p) override;
         void backFlip(Player &p) override;
         void stopMove(Player &p) override;
         virtual void pointUp(Player &p) override;

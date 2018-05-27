@@ -61,11 +61,11 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
-//        case SDLK_SPACE:
-//            i = this->state->startShot(*this);
-//            if (i != IO::PlayerInput::moveNone)
-//                *out << i;
-//            break;
+        case SDLK_SPACE:
+            i = this->state->startShot(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
     }
 }
 
@@ -79,6 +79,11 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
             break;
         case SDLK_LEFT:
             i = this->state->stopMove(*this);
+            if (i != IO::PlayerInput::moveNone)
+                *out << i;
+            break;
+        case SDLK_SPACE:
+            i = this->state->endShot(*this);
             if (i != IO::PlayerInput::moveNone)
                 *out << i;
             break;
@@ -122,17 +127,13 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         }
         case StateID::Bazooka:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true, BAZOOKA_CENTER_FRAME, false};
-        case StateID::StartShot:
-            break;
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
 
 void Worm::Worm::setState(StateID state) {
     if (this->state == nullptr || this->state->getState() != state) {
-        if (state != StateID::StartShot) {
-            this->animation = this->getAnimation(state);
-        }
+        this->animation = this->getAnimation(state);
 
         /* creates the right state type */
         switch (state) {
@@ -162,8 +163,6 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
-                break;
-            case StateID::StartShot:
                 break;
         }
     }

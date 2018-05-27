@@ -4,10 +4,11 @@
  */
 
 #include <cmath>
+#include <iostream>
 #include "Bullet.h"
 
-Worms::Bullet::Bullet(Math::Point<float> p, float angle, Worms::Physics &physics) : Entity(Worms::EntityID::EtBullet),
-                                                                                    physics(physics){
+Worms::Bullet::Bullet(Math::Point<float> p, float angle, int power, Worms::Physics &physics) : Entity(Worms::EntityID::EtBullet),
+                                                                                               physics(physics){
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(p.x, p.y);
     this->bodyDef.fixedRotation = true;
@@ -24,12 +25,15 @@ Worms::Bullet::Bullet(Math::Point<float> p, float angle, Worms::Physics &physics
     this->body->SetUserData(this);
 
     this->body->SetTransform(this->body->GetPosition(), angle);
+
+    this->angle = angle;
+    this->power = power;
 }
 
 void Worms::Bullet::update(float dt){
     if (!this->impulseApplied){
-        float32 mass = this->body->GetMass();
-        b2Vec2 impulses = {mass * 5.0f, mass * 5.0f};
+        float32 mass = this->body->GetMass();//std::cout<<"first bullet angle "<<this->angle<<" "<<cos(this->angle * PI / 180.0f)<<" "<<sin(this->angle * PI / 180.0f)<<std::endl;
+        b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)), mass * float32(this->power * sin(this->angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->impulseApplied = true;

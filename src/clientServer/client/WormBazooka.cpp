@@ -12,23 +12,13 @@ Worm::Bazooka::~Bazooka(){}
 void Worm::Bazooka::update(float dt){}
 
 IO::PlayerInput Worm::Bazooka::moveRight(Worm &w){
-    if (w.direction != Direction::right){
-        w.direction = ::Worm::Direction::right;
-        return IO::PlayerInput::moveNone;
-    } else{
-        w.setState(StateID::Walk);
-        return IO::PlayerInput::moveRight;
-    }
+    w.direction = ::Worm::Direction::right;
+    return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Bazooka::moveLeft(Worm &w) {
-    if (w.direction != Direction::left){
-        w.direction = ::Worm::Direction::left;
-        return IO::PlayerInput::moveNone;
-    } else{
-        w.setState(StateID::Walk);
-        return IO::PlayerInput::moveLeft;
-    }
+    w.direction = ::Worm::Direction::left;
+    return IO::PlayerInput::moveLeft;
 }
 
 IO::PlayerInput Worm::Bazooka::stopMove(Worm &w) {
@@ -57,5 +47,9 @@ IO::PlayerInput Worm::Bazooka::pointDown(Worm &w){
 }
 
 IO::PlayerInput Worm::Bazooka::startShot(Worm &w) {
-    return IO::PlayerInput::moveNone;
+    return IO::PlayerInput::startShot;
+}
+
+IO::PlayerInput Worm::Bazooka::endShot(Worm &w) {
+    return IO::PlayerInput::endShot;
 }

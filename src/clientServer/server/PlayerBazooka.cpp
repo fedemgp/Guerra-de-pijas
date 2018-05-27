@@ -11,16 +11,26 @@
 Worms::Bazooka::Bazooka() : State(Worm::StateID::Bazooka) {}
 
 void Worms::Bazooka::update(Worms::Player &p, float dt, b2Body *body){
-
+    if (this->increaseShotPower) {
+        if(this->shotPower == MAX_SHOT_POWER) {
+            this->shotPower = 0;
+        } else {
+            this->shotPower++;
+        }
+    }
 }
 
 void Worms::Bazooka::moveRight(Worms::Player &p) {
-    p.setState(Worm::StateID::Walk);
+    if (p.direction == Direction::right) {
+        p.setState(Worm::StateID::Walk);
+    }
     p.direction = Direction::right;
 }
 
 void Worms::Bazooka::moveLeft(Worms::Player &p) {
-    p.setState(Worm::StateID::Walk);
+    if (p.direction == Direction::left) {
+        p.setState(Worm::StateID::Walk);
+    }
     p.direction = Direction::left;
 }
 
@@ -43,5 +53,11 @@ void Worms::Bazooka::backFlip(Worms::Player &p) {
 }
 
 void Worms::Bazooka::startShot(Worms::Player &p) {
+    this->increaseShotPower = true;
+}
 
+void Worms::Bazooka::endShot(Worms::Player &p) {
+    this->increaseShotPower = false;
+    p.shoot(this->shotPower);
+    p.setState(Worm::StateID::Still);
 }

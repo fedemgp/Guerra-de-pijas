@@ -15,7 +15,7 @@
 namespace Worms{
     class Bullet: public Entity{
     public:
-        Bullet(Math::Point<float> p, float angle, Worms::Physics &physics);
+        Bullet(Math::Point<float> p, float angle, int power, Worms::Physics &physics);
         ~Bullet() = default;
         void update(float dt);
         Math::Point<float> getPosition() const;
@@ -31,6 +31,7 @@ namespace Worms{
         int numContacts{0};
         bool impulseApplied{false};
         float radius{0.5f};
+        int power{0};
     };
 }//namespace Worms
 
