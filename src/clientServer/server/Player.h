@@ -29,6 +29,7 @@ enum class Direction { right, left, up, down };
 class Player : public PhysicsEntity {
    public:
     Direction direction;
+    uint16_t health{0};
 
     explicit Player(Physics &physics);
     ~Player() = default;

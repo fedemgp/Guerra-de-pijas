@@ -2,17 +2,19 @@
 #define TEXT_H_
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
 #include "Camera.h"
+#include "Font.h"
 
 namespace GUI {
 class Text {
    public:
-    Text(TTF_Font *font);
+    Text(Font &font);
     ~Text();
 
     void set(const std::string &text, SDL_Color color);
+    void set(const std::string &text, SDL_Color color, int size);
+    void setBackground(SDL_Color color);
 
     void render(Position p, Camera &camera);
     void renderFixed(ScreenPosition p, Camera &camera);
@@ -20,6 +22,8 @@ class Text {
    private:
     void createTexture(SDL_Renderer *renderer);
 
+    bool hasBackground{false};
+    SDL_Color background;
     /* internal texture to represent the text in screen. */
     Texture *texture{nullptr};
     /* text content to render. */
@@ -27,8 +31,9 @@ class Text {
     /* whether the texture should be rendered. */
     bool needs_render{true};
     /* the font to use. */
-    TTF_Font *font{nullptr};
+    Font &font;
     SDL_Color color;
+    int size;
 };
 }  // namespace GUI
 

@@ -21,6 +21,7 @@
 
 namespace Worm {
 enum class Direction { right, left, up, down };
+using ID = char;
 
 class Worm {
     /**
@@ -29,8 +30,10 @@ class Worm {
      */
    public:
     Direction direction{Direction::left};
+    uint16_t health{0};
+    const ID id;
 
-    explicit Worm(const GUI::GameTextureManager &texture_mgr);
+    explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr);
     ~Worm() {}
     /**
      * Calls State::update to change frame of animation

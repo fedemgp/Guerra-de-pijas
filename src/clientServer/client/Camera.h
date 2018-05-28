@@ -20,6 +20,8 @@ class Camera {
     void setTo(Position coords);
     void moveTo(Position coords);
 
+    ScreenPosition globalToScreen(Position);
+
     SDL_Renderer &getRenderer() const;
 
     void draw(const Texture &texture, Position p);

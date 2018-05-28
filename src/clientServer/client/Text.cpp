@@ -1,7 +1,7 @@
 #include "Text.h"
 #include "Exception.h"
 
-GUI::Text::Text(TTF_Font* font) : font(font) {}
+GUI::Text::Text(GUI::Font& font) : font(font) {}
 
 GUI::Text::~Text() {
     if (this->texture) {
@@ -9,7 +9,18 @@ GUI::Text::~Text() {
     }
 }
 
+void GUI::Text::setBackground(SDL_Color color) {
+    this->hasBackground = true;
+    this->background = color;
+    this->needs_render = true;
+}
+
 void GUI::Text::set(const std::string& text, SDL_Color color) {
+    this->set(text, color, this->font.size);
+}
+
+void GUI::Text::set(const std::string& text, SDL_Color color, int size) {
+    this->size = size;
     this->text = text;
     this->color = color;
     this->needs_render = true;
@@ -19,6 +30,22 @@ void GUI::Text::render(GUI::Position p, GUI::Camera& camera) {
     if (this->needs_render) {
         this->createTexture(&camera.getRenderer());
         this->needs_render = false;
+    }
+
+    if (this->hasBackground) {
+        GUI::ScreenPosition sp = camera.globalToScreen(p);
+
+        SDL_Renderer& renderer = camera.getRenderer();
+        SDL_SetRenderDrawColor(&renderer, this->background.r, this->background.g,
+                               this->background.b, 255);
+
+        SDL_Rect r = {};
+        r.x = sp.x - this->texture->getWidth() / 2;
+        r.y = sp.y - this->texture->getHeight() / 2;
+        r.w = this->texture->getWidth();
+        r.h = this->texture->getHeight();
+
+        SDL_RenderFillRect(&renderer, &r);
     }
 
     camera.draw(*this->texture, p);
@@ -50,7 +77,7 @@ void GUI::Text::createTexture(SDL_Renderer* renderer) {
     }
 
     /* render text surface */
-    SDL_Surface* surface = TTF_RenderText_Solid(this->font, text.c_str(), color);
+    SDL_Surface* surface = TTF_RenderText_Solid(this->font.get(), text.c_str(), color);
     if (surface == NULL) {
         throw Exception{"Failed rendering text surface: %s", TTF_GetError()};
     }

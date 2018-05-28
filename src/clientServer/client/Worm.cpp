@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "GameStateMsg.h"
+#include "Text.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
@@ -18,8 +19,8 @@
 #include "WormStill.h"
 #include "WormWalk.h"
 
-Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
-    : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
+Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
+    : id(id), texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
     this->setState(::Worm::StateID::Still);
 }
 

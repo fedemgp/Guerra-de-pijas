@@ -42,6 +42,7 @@ struct GameStateMsg {
     uint8_t elapsedTurnSeconds;
     uint8_t currentWorm;
     uint8_t num_worms;
+    uint16_t wormsHealth[WORMS_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     float activePlayerAngle;

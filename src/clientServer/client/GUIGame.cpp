@@ -21,7 +21,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
       texture_mgr(w.getRenderer()),
       stage(stage),
       cam(this->scale, w.width, w.height, w.getRenderer()),
-      font(TTF_OpenFont("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28)) {
+      font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk,
                            "src/clientServer/assets/img/Worms/wwalk2.png",
@@ -51,21 +51,20 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
-    char num_worms = 0;
-    this->worms.reserve(stage.getWormPositions().size());
-    for (const auto &worm_pos : this->stage.getWormPositions()) {
-        this->worms.emplace_back(this->texture_mgr);
-        this->snapshot.positions[num_worms * 2] = worm_pos.x;
-        this->snapshot.positions[num_worms * 2 + 1] = worm_pos.y;
+    int num_worms = 0;
+    this->worms.reserve(stage.getWorms().size());
+    for (const auto &wormData : this->stage.getWorms()) {
+        this->worms.emplace_back(num_worms, this->texture_mgr);
+        this->snapshot.positions[num_worms * 2] = wormData.position.x;
+        this->snapshot.positions[num_worms * 2 + 1] = wormData.position.y;
+        this->snapshot.wormsHealth[num_worms] = wormData.health;
         num_worms += 1;
     }
 
     this->snapshot.num_worms = num_worms;
 }
 
-GUI::Game::~Game() {
-    TTF_CloseFont(this->font);
-}
+GUI::Game::~Game() {}
 
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                       IO::Stream<IO::PlayerInput> *clientResponse) {
@@ -134,6 +133,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 
 void GUI::Game::update(float dt) {
     for (auto &worm : this->worms) {
+        worm.health = this->snapshot.wormsHealth[static_cast<int>(worm.id)];
         worm.update(dt);
     }
 
@@ -151,8 +151,12 @@ void GUI::Game::render() {
         float cur_x = this->snapshot.positions[i * 2];
         float cur_y = this->snapshot.positions[i * 2 + 1];
 
-        /* convert to camera coordinates */
         this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
+
+        Text health{this->font};
+        health.setBackground(SDL_Color{0, 0, 0});
+        health.set(std::to_string(this->worms[i].health), SDL_Color{0xFF, 0xFF, 0xFF}, 20);
+        health.render(GUI::Position{cur_x, cur_y + 2.5f}, this->cam);
     }
 
     for (auto &girder : this->stage.getGirders()) {
