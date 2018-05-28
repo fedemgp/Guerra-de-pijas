@@ -19,7 +19,7 @@ struct Girder {
 
 class Stage {
    public:
-    uint8_t turnTime{10};
+    uint8_t turnTime{3};
 
     Stage();
     ~Stage() = default;

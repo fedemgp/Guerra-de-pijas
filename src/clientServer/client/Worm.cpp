@@ -20,6 +20,7 @@
 #include "Hit.h"
 #include "Die.h"
 #include "Dead.h"
+#include "NoWeapons.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -132,6 +133,8 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         case StateID::Bazooka:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true,
                                   BAZOOKA_CENTER_FRAME, false};
+        case StateID::NoWeapons:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
         case StateID::Hit:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   FLY_CENTER_FRAME, false};
@@ -178,6 +181,9 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
+                break;
+            case StateID::NoWeapons:
+                this->state = std::shared_ptr<State>(new NoWeapons());
                 break;
             case StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());

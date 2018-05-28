@@ -20,6 +20,7 @@
 #include "Hit.h"
 #include "Die.h"
 #include "Dead.h"
+#include "NoWeapons.h"
 
 Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -129,6 +130,9 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
+                break;
+            case Worm::StateID::NoWeapons:
+                this->state = std::shared_ptr<State>(new NoWeapons());
                 break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());

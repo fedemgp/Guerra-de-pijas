@@ -22,7 +22,8 @@ enum class StateID {
     Bazooka,
     Hit,
     Die,
-    Dead
+    Dead,
+    NoWeapons
 };
 }
 
@@ -53,6 +54,7 @@ struct GameStateMsg {
     float bulletAngle;
     float life[WORMS_QUANTITY];
     bool processingInputs;
+    float currentPlayerTurnTime;
 };
 }  // namespace IO
 

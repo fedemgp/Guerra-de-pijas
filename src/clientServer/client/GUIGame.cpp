@@ -184,19 +184,15 @@ void GUI::Game::render() {
     }
 
     /* displays the remaining turn time */
-    double turnTime = this->stage.turnTime;
-    if (this->snapshot.shoot) {
-        turnTime = 3.0f;
-    }
-    double timeTurnLeft = turnTime - this->snapshot.elapsedTurnSeconds;
-    timeTurnLeft = (timeTurnLeft < 0.0f) ? 0.0f : timeTurnLeft;
+    double turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
+    turnTimeLeft = (turnTimeLeft < 0.0f) ? 0.0f : turnTimeLeft;
 
     int x = this->window.width / 2;
     int y = 20;
 
     SDL_Color color = {0, 0, 0};
     Text text{this->font};
-    text.set(std::to_string(timeTurnLeft), color);
+    text.set(std::to_string(turnTimeLeft), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     this->window.render();
