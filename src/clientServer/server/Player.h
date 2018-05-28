@@ -20,6 +20,7 @@
 #include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
+#include "Weapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
@@ -48,6 +49,8 @@ class Player : public PhysicsEntity {
     virtual void endContact() override;
     void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
+    Worm::WeaponID getWeaponID() const;
+    void setWeaponID(const Worm::WeaponID &id);
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};
@@ -57,6 +60,7 @@ class Player : public PhysicsEntity {
     b2FixtureDef fixture;
     Physics &physics;
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
+    Weapon weapon;
     float angle{0};
     int numContacts{0};
 };

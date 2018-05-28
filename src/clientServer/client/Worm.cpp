@@ -20,7 +20,8 @@
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr),
-      animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
+      animation(texture_mgr.get(GUI::GameTextures::WormIdle)),
+      weapon(texture_mgr) {
     this->setState(::Worm::StateID::Still);
 }
 
@@ -91,20 +92,26 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
     }
 }
 
-void Worm::Worm::render(GUI::Position p, GUI::Camera &cam) {
-    this->animation.render(p, cam, this->direction == Direction::left ?
-                                   SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL);
+void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
+    SDL_RendererFlip flipType = this->direction == Direction::left ?
+                                SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    if (this->state->getState() != StateID::Still || this->weapon.getWeaponID() == WeaponID::WNone){
+        this->animation.render(p, cam, flipType);
+    } else {
+        this->weapon.render(p, cam, flipType);
+    }
 }
 
 void Worm::Worm::update(float dt) {
     this->state->update(dt);
     this->animation.update(dt);
+    this->weapon.update(dt);
 }
 
 GUI::Animation Worm::Worm::getAnimation(StateID state) const {
     switch (state) {
         case StateID::Still:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
+            break;
         case StateID::Walk:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormWalk)};
         case StateID::StartBackFlip:
@@ -121,10 +128,9 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             return animation;
         }
         case StateID::Bazooka:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true,
-                                  BAZOOKA_CENTER_FRAME, false};
+           break;
     }
-    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
+    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
 
 void Worm::Worm::setState(StateID state) {
@@ -177,4 +183,8 @@ void Worm::Worm::setAngle(float angle) {
 
 Worm::StateID &Worm::Worm::getState() const {
     return this->state->getState();
+}
+
+void Worm::Worm::setWeapon(WeaponID &id){
+    this->weapon.setWeapon(id);
 }

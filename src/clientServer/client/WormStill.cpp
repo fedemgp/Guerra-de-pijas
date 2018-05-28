@@ -39,7 +39,6 @@ IO::PlayerInput Worm::Still::backFlip(Worm &w) {
 }
 
 IO::PlayerInput Worm::Still::bazooka(Worm &w) {
-    w.setState(StateID::Bazooka);
     return IO::PlayerInput::bazooka;
 }
 

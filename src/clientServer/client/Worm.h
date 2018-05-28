@@ -18,6 +18,7 @@
 #include "Stream.h"
 #include "WormState.h"
 #include "utils.h"
+#include "Weapon.h"
 
 namespace Worm {
 enum class Direction { right, left, up, down };
@@ -42,7 +43,7 @@ class Worm {
      * @param x
      * @param y
      */
-    void render(GUI::Position p, GUI::Camera &cam);
+    void render(GUI::Position &p, GUI::Camera &cam);
     /**
      * Using a state pattern, change its state depending on the input, and
      * sends it to the server
@@ -73,11 +74,17 @@ class Worm {
      * @param angle
      */
     void setAngle(float angle);
+    /**
+     * Update the used weapon
+     * @param id
+     */
+    void setWeapon(WeaponID &id);
 
    private:
     const GUI::GameTextureManager &texture_mgr;
     std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
+    Weapon weapon;
     bool active{false};
 };
 }  // namespace Worm

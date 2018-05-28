@@ -184,3 +184,11 @@ void Worms::Player::shoot(int shotPower) {
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
     return this->bullet;
 }
+
+Worm::WeaponID Worms::Player::getWeaponID() const{
+    return this->weapon.getWeaponID();
+}
+
+void Worms::Player::setWeaponID(const Worm::WeaponID &id){
+    this->weapon.setWeaponID(id);
+}
