@@ -73,6 +73,21 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 worm.update(dt);
             }
 
+            if (this->players.at(this->currentWorm).getBullet() != nullptr) {
+                if (this->players.at(this->currentWorm).getBullet()->madeImpact()) {
+                    DamageInfo damageInfo = this->players.at(this->currentWorm).getBullet()->getDamageInfo();
+                    for (auto &worm : this->players) {
+                        worm.acknowledgeDamage(damageInfo, this->players.at(this->currentWorm).getBullet()->getPosition());
+                    }
+                    this->players[this->currentWorm].destroyBullet();
+                    if(this->players[this->currentWorm].getBullet() = nullptr){
+                        std::cout<<"null\n";
+                    } else {
+                        std::cout<<"not null\n";
+                    }
+                }
+            }
+
             /* updates the physics engine */
             for (int i = 0; i < 5 && lag > timeStep; i++) {
                 this->physics.update(timeStep);
@@ -116,7 +131,6 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
         m.bullet[0] = p.x;
         m.bullet[1] = p.y;
         m.bulletAngle = this->players[this->currentWorm].getBullet()->getAngle();
-
     } else {
         m.shoot = false;
         m.bullet[0] = 0;

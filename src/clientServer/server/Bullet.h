@@ -11,8 +11,15 @@
 #include "Point.h"
 
 #define PI 3.14159265
+#define DAMAGE 50.0f
+#define DAMAGE_RADIUS 2.0f
 
 namespace Worms {
+struct DamageInfo {
+    float damage;
+    float radius;
+};
+
 class Bullet : public PhysicsEntity {
    public:
     Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
@@ -24,6 +31,7 @@ class Bullet : public PhysicsEntity {
     virtual void startContact() override;
     virtual void endContact() override;
     bool madeImpact();
+    DamageInfo getDamageInfo();
 
    private:
     b2Body *body{nullptr};
@@ -36,6 +44,7 @@ class Bullet : public PhysicsEntity {
     bool impulseApplied{false};
     float radius{0.5f};
     int power{0};
+    DamageInfo damageInfo;
 };
 }  // namespace Worms
 

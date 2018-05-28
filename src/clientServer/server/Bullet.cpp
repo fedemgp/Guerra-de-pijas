@@ -31,6 +31,8 @@ Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float 
 
     this->angle = angle;
     this->power = power;
+    this->damageInfo.damage = DAMAGE;
+    this->damageInfo.radius = DAMAGE_RADIUS;
 }
 
 void Worms::Bullet::update(float dt) {
@@ -77,4 +79,8 @@ Worms::Bullet::~Bullet() {
 
 bool Worms::Bullet::madeImpact() {
     return this->numContacts > 0;
+}
+
+Worms::DamageInfo Worms::Bullet::getDamageInfo() {
+    return this->damageInfo;
 }

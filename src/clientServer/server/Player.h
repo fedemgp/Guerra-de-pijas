@@ -48,6 +48,8 @@ class Player : public PhysicsEntity {
     virtual void endContact() override;
     void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
+    void destroyBullet();
+    void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};
@@ -59,6 +61,7 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
     float angle{0};
     int numContacts{0};
+    float life{100.0f};
 };
 }  // namespace Worms
 

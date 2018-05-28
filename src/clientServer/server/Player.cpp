@@ -4,6 +4,7 @@
  */
 
 #include <Box2D/Box2D.h>
+#include <iostream>
 
 #include "Physics.h"
 #include "Player.h"
@@ -42,9 +43,6 @@ void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
     if (this->bullet != nullptr) {
         this->bullet->update(dt);
-        if (this->bullet->madeImpact()) {
-            this->bullet = nullptr;
-        }
     }
 }
 
@@ -183,4 +181,16 @@ void Worms::Player::shoot(int shotPower) {
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
     return this->bullet;
+}
+
+void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
+    double distanceToEpicenter = this->getPosition().distance(epicenter);std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout << "distance to epicenter " << distanceToEpicenter << std::endl;
+    if (distanceToEpicenter <= damageInfo.radius) {
+        this->life -= (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
+        this->life = (this->life < 0) ? 0.0f : this->life;std::cout << "life " << this->life << std::endl;
+    }
+}
+
+void Worms::Player::destroyBullet() {
+    this->bullet = nullptr;
 }
