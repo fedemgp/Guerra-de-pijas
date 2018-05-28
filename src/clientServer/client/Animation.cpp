@@ -52,7 +52,8 @@ void GUI::Animation::update(float dt) {
  * @param x X coordinate.
  * @param y Y corrdinate.
  */
-void GUI::Animation::render(GUI::Position p, GUI::Camera &cam) {
+void GUI::Animation::render(Position p, Camera &cam, SDL_RendererFlip flipType){
+    this->setFlip(flipType);
     SDL_Rect clip = {0, this->size * this->currentFrame, this->size, this->size};
     cam.draw(*this->texture, p, clip, this->flipType);
 }

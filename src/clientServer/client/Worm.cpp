@@ -19,7 +19,8 @@
 #include "WormWalk.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
-    : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
+    : texture_mgr(texture_mgr),
+      animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
     this->setState(::Worm::StateID::Still);
 }
 
@@ -91,13 +92,8 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
 }
 
 void Worm::Worm::render(GUI::Position p, GUI::Camera &cam) {
-    if (this->direction == Direction::left) {
-        this->animation.setFlip(SDL_FLIP_NONE);
-    } else {
-        this->animation.setFlip(SDL_FLIP_HORIZONTAL);
-    }
-
-    this->animation.render(p, cam);
+    this->animation.render(p, cam, this->direction == Direction::left ?
+                                   SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL);
 }
 
 void Worm::Worm::update(float dt) {
