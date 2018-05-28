@@ -17,6 +17,9 @@
 #include "PlayerStartJump.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
+#include "Hit.h"
+#include "Die.h"
+#include "Dead.h"
 
 Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -127,6 +130,15 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
                 break;
+            case Worm::StateID::Hit:
+                this->state = std::shared_ptr<State>(new Hit());
+                break;
+            case Worm::StateID::Die:
+                this->state = std::shared_ptr<State>(new Die());
+                break;
+            case Worm::StateID::Dead:
+                this->state = std::shared_ptr<State>(new Dead());
+                break;
         }
     }
 }
@@ -184,13 +196,28 @@ std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
 }
 
 void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
-    double distanceToEpicenter = this->getPosition().distance(epicenter);std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout << "distance to epicenter " << distanceToEpicenter << std::endl;
+    double distanceToEpicenter = this->getPosition().distance(epicenter);//std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout << "distance to epicenter " << distanceToEpicenter << std::endl;
     if (distanceToEpicenter <= damageInfo.radius) {
-        this->life -= (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
+        double inflictedDamage = (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
+        this->life -= inflictedDamage;
+
+        Math::Point<float> positionToEpicenter = this->getPosition() - epicenter;
+        float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
+        float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
+        float32 mass = this->body->GetMass();
+        b2Vec2 impulses = {mass * float32(inflictedDamage) * xImpactDirection,
+                           mass * float32(inflictedDamage) * yImpactDirection};
+        b2Vec2 position = this->body->GetWorldCenter();
+        this->body->ApplyLinearImpulse(impulses, position, true);
+        this->setState(Worm::StateID::Hit);
         this->life = (this->life < 0) ? 0.0f : this->life;std::cout << "life " << this->life << std::endl;
     }
 }
 
 void Worms::Player::destroyBullet() {
     this->bullet = nullptr;
+}
+
+float Worms::Player::getLife() const {
+    return this->life;
 }

@@ -67,6 +67,6 @@ target_link_libraries(SDLTest SDL2 SDL2_image)
 
 file(GLOB_RECURSE CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES})
+        ${CLIENT_SERVER_SOURCES} src/clientServer/server/Hit.cpp src/clientServer/server/Hit.h src/clientServer/client/Hit.cpp src/clientServer/client/Hit.h src/clientServer/server/Die.cpp src/clientServer/server/Die.h src/clientServer/server/Dead.cpp src/clientServer/server/Dead.h src/clientServer/client/Die.cpp src/clientServer/client/Die.h src/clientServer/client/Dead.cpp src/clientServer/client/Dead.h)
 
 target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)

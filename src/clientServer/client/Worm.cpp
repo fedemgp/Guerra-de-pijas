@@ -17,6 +17,9 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "Hit.h"
+#include "Die.h"
+#include "Dead.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
     : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -97,7 +100,9 @@ void Worm::Worm::render(GUI::Position p, GUI::Camera &cam) {
         this->animation.setFlip(SDL_FLIP_HORIZONTAL);
     }
 
-    this->animation.render(p, cam);
+    if (this->getState() != StateID::Dead) {
+        this->animation.render(p, cam);
+    }
 }
 
 void Worm::Worm::update(float dt) {
@@ -127,6 +132,16 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         case StateID::Bazooka:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true,
                                   BAZOOKA_CENTER_FRAME, false};
+        case StateID::Hit:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
+                                  FLY_CENTER_FRAME, false};
+        case StateID::Die: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::Die)};
+            animation.setAnimateOnce();
+            return animation;
+        }
+        case StateID::Dead:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
 }
@@ -163,6 +178,15 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Bazooka:
                 this->state = std::shared_ptr<State>(new Bazooka());
+                break;
+            case StateID::Hit:
+                this->state = std::shared_ptr<State>(new Hit());
+                break;
+            case StateID::Die:
+                this->state = std::shared_ptr<State>(new Die());
+                break;
+            case StateID::Dead:
+                this->state = std::shared_ptr<State>(new Dead());
                 break;
         }
     }

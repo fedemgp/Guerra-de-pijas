@@ -50,6 +50,7 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    float getLife() const;
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};

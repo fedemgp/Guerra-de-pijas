@@ -19,7 +19,10 @@ enum class StateID {
     StartBackFlip,
     BackFlipping,
     EndBackFlip,
-    Bazooka
+    Bazooka,
+    Hit,
+    Die,
+    Dead
 };
 }
 
@@ -48,6 +51,8 @@ struct GameStateMsg {
     bool shoot;
     float bullet[2];
     float bulletAngle;
+    float life[WORMS_QUANTITY];
+    bool processingInputs;
 };
 }  // namespace IO
 

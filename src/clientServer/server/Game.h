@@ -32,6 +32,10 @@ class Game {
     Physics physics;
     Stage stage;
     std::vector<Player> players;
+    bool impactOnCourse{false};
+    bool shotOnCourse{false};
+    double currentPlayerTurnTime{0};
+    bool processingClientInputs{true};
 };
 }  // namespace Worms
 

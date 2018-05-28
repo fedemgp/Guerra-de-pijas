@@ -46,6 +46,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Aim, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Fly, "src/clientServer/assets/img/Worms/wfly1.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Die, "src/clientServer/assets/img/Worms/wdie.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Dead, "src/clientServer/assets/img/Misc/grave4.png",
+                           GUI::Color{0xC0, 0xC0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::Missile,
                            "src/clientServer/assets/img/Weapons/missile.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
@@ -61,6 +67,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     }
 
     this->snapshot.num_worms = num_worms;
+//    this->snapshot.processingInputs = true;
 }
 
 GUI::Game::~Game() {
@@ -84,10 +91,14 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                         quit = true;
                         break;
                     case SDL_KEYDOWN:
-                        cur.handleKeyDown(e.key.keysym.sym, clientResponse);
+                        if (this->snapshot.processingInputs) {
+                            cur.handleKeyDown(e.key.keysym.sym, clientResponse);
+                        }
                         break;
                     case SDL_KEYUP:
-                        cur.handleKeyUp(e.key.keysym.sym, clientResponse);
+                        if (this->snapshot.processingInputs) {
+                            cur.handleKeyUp(e.key.keysym.sym, clientResponse);
+                        }
                         break;
                 }
             }
@@ -173,12 +184,19 @@ void GUI::Game::render() {
     }
 
     /* displays the remaining turn time */
+    double turnTime = this->stage.turnTime;
+    if (this->snapshot.shoot) {
+        turnTime = 3.0f;
+    }
+    double timeTurnLeft = turnTime - this->snapshot.elapsedTurnSeconds;
+    timeTurnLeft = (timeTurnLeft < 0.0f) ? 0.0f : timeTurnLeft;
+
     int x = this->window.width / 2;
     int y = 20;
 
     SDL_Color color = {0, 0, 0};
     Text text{this->font};
-    text.set(std::to_string(this->stage.turnTime - this->snapshot.elapsedTurnSeconds), color);
+    text.set(std::to_string(timeTurnLeft), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     this->window.render();
