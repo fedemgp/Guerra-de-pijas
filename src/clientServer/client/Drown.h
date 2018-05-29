@@ -1,21 +1,23 @@
-//
-// Created by rodrigo on 28/05/18.
-//
-
-#ifndef INC_4_WORMS_NOWEAPONS_H
-#define INC_4_WORMS_NOWEAPONS_H
+/*
+ *  Created by Rodrigo.
+ *  date: 29/05/18
+ */
 
 
-#include "GameStateMsg.h"
-#include "Worm.h"
+#ifndef __Drown_H__
+#define __Drown_H__
+
+
 #include "WormState.h"
 
 namespace Worm {
-    class NoWeapons : public State {
+    class Drown : public State {
     public:
-        NoWeapons();
-        ~NoWeapons();
+        Drown();
+        ~Drown();
+
         virtual void update(float dt) override;
+
         virtual IO::PlayerInput moveRight(Worm &w) override;
         virtual IO::PlayerInput moveLeft(Worm &w) override;
         virtual IO::PlayerInput stopMove(Worm &w) override;
@@ -29,4 +31,5 @@ namespace Worm {
     };
 }  // namespace Worm
 
-#endif //INC_4_WORMS_NOWEAPONS_H
+
+#endif //__Drown_H__

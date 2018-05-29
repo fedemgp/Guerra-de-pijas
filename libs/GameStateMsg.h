@@ -22,7 +22,7 @@ enum class StateID {
     Hit,
     Die,
     Dead,
-    NoWeapons
+    Drown
 };
 enum WeaponID { WNone, WBazooka };
 }  // namespace Worm

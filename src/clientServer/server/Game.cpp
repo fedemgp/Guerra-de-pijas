@@ -67,7 +67,13 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 this->shotOnCourse = true;
             }
             if (this->currentTurnElapsed >= this->currentPlayerTurnTime) {
-                if (!this->shotOnCourse) {
+                bool anyWormDrowning = false;
+                for (auto &worm : this->players) {
+                    if (worm.getStateId() == Worm::StateID::Drown) {
+                        anyWormDrowning = true;
+                    }
+                }
+                if (!this->shotOnCourse && !anyWormDrowning) {
                     Worm::StateID currentWormState = this->players[this->currentWorm].getStateId();
                     if (currentWormState != Worm::StateID::Dead) {
                         this->players[this->currentWorm].setState(Worm::StateID::Still);

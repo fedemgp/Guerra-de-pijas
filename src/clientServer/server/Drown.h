@@ -1,18 +1,20 @@
-//
-// Created by rodrigo on 28/05/18.
-//
+/*
+ *  Created by Rodrigo.
+ *  date: 29/05/18
+ */
 
-#ifndef INC_4_WORMS_NOWEAPONS_H
-#define INC_4_WORMS_NOWEAPONS_H
+
+#ifndef __Drown_H__
+#define __Drown_H__
 
 
 #include "PlayerState.h"
 
 namespace Worms {
-    class NoWeapons : public State {
+    class Drown : public State {
     public:
-        NoWeapons();
-        ~NoWeapons() = default;
+        Drown();
+        ~Drown() = default;
         void update(Player &p, float dt, b2Body *body) override;
         void moveRight(Player &p) override;
         void moveLeft(Player &p) override;
@@ -24,8 +26,10 @@ namespace Worms {
         void endShot(Player &p) override;
         void pointUp(Player &p) override;
         void pointDown(Player &p) override;
+
+        float timeElapsed{0.0f};
     };
 }  // namespace Worms
 
 
-#endif //INC_4_WORMS_NOWEAPONS_H
+#endif //__Drown_H__

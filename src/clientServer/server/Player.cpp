@@ -19,7 +19,7 @@
 #include "Hit.h"
 #include "Die.h"
 #include "Dead.h"
-#include "NoWeapons.h"
+#include "Drown.h"
 
 Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -50,6 +50,15 @@ void Worms::Player::update(float dt) {
 //        if (this->bullet->madeImpact()) {
 //            this->bullet = nullptr;
 //        }
+        if (this->bullet->getPosition().y < -2) {
+            this->bullet = nullptr;
+        }
+    }
+    if (this->getPosition().y <= -2 && this->numContacts == 0
+        && this->getStateId() != Worm::StateID::Dead
+        && this->getStateId() != Worm::StateID::Drown) {
+        this->health = 0.0f;
+        this->setState(Worm::StateID::Drown);
     }
 }
 
@@ -131,14 +140,14 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case Worm::StateID::NoWeapons:
-                this->state = std::shared_ptr<State>(new NoWeapons());
-                break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case Worm::StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
+                break;
+            case Worm::StateID::Drown:
+                this->state = std::shared_ptr<State>(new Drown());
                 break;
             case Worm::StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
