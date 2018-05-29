@@ -95,13 +95,13 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             /* synchronizes the worms states with the server's */
             for (std::size_t i = 0; i < this->worms.size(); i++) {
                 this->worms[i].setState(this->snapshot.stateIDs[i]);
-                this->worms[i].setWeapon( (i != this->snapshot.currentWorm) ?
-                                          Worm::WeaponID::WNone :
-                                          this->snapshot.activePlayerWeapon);
+                this->worms[i].setWeapon((i != this->snapshot.currentWorm)
+                                             ? Worm::WeaponID::WNone
+                                             : this->snapshot.activePlayerWeapon);
             }
 
             if (cur.getState() == Worm::StateID::Still &&
-                    cur.getWeaponID() != Worm::WeaponID::WNone) {
+                cur.getWeaponID() != Worm::WeaponID::WNone) {
                 cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
 

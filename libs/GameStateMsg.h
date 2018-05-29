@@ -20,8 +20,8 @@ enum class StateID {
     BackFlipping,
     EndBackFlip
 };
-    enum WeaponID {WNone, WBazooka};
-} // namespace Worm
+enum WeaponID { WNone, WBazooka };
+}  // namespace Worm
 
 namespace IO {
 enum class PlayerInput {

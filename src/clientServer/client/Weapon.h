@@ -17,10 +17,9 @@
 #define BAZOOKA_CENTER_FRAME 16
 #define ANGLE_STEP 5.625f
 
-namespace Worm{
+namespace Worm {
 class Weapon {
-public:
-
+   public:
     explicit Weapon(const GUI::GameTextureManager &tex);
     ~Weapon() = default;
     /**
@@ -40,14 +39,14 @@ public:
      * @param id
      */
     void setWeapon(const WeaponID &id);
-    const WeaponID &getWeaponID()const;
+    const WeaponID &getWeaponID() const;
     /**
      * updates animations' frame depending on the angle.
      * @param angle
      */
     void setAngle(float angle);
 
-private:
+   private:
     const GUI::GameTextureManager &textureMgr;
     WeaponID current{WeaponID::WNone};
     /**
@@ -56,8 +55,7 @@ private:
      */
     std::list<GUI::Animation> animations;
     GUI::Animation *weaponAnimation{nullptr};
-
 };
-} // namespace Weapon
+}  // namespace Weapon
 
-#endif //__Weapon_H__
+#endif  //__Weapon_H__

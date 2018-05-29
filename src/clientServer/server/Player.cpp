@@ -164,30 +164,30 @@ std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
     return this->bullet;
 }
 
-float Worms::Player::getWeaponAngle() const{
+float Worms::Player::getWeaponAngle() const {
     return this->weapon.getAngle();
 }
 
-const Worm::WeaponID &Worms::Player::getWeaponID() const{
+const Worm::WeaponID &Worms::Player::getWeaponID() const {
     return this->weapon.getWeaponID();
 }
 
-void Worms::Player::setWeaponID(const Worm::WeaponID &id){
+void Worms::Player::setWeaponID(const Worm::WeaponID &id) {
     this->weapon.setWeaponID(id);
 }
 
-void Worms::Player::increaseWeaponAngle(){
+void Worms::Player::increaseWeaponAngle() {
     this->weapon.increaseAngle();
 }
 
-void Worms::Player::decreaseWeaponAngle(){
+void Worms::Player::decreaseWeaponAngle() {
     this->weapon.decreaseAngle();
 }
 
-void Worms::Player::startShot(){
+void Worms::Player::startShot() {
     this->weapon.startShot();
 }
 
-void Worms::Player::endShot(){
+void Worms::Player::endShot() {
     this->weapon.endShot(*this);
 }

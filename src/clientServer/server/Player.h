@@ -21,7 +21,7 @@
 enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
-    enum class Direction { right, left, up, down };
+enum class Direction { right, left, up, down };
 
 class Player : public PhysicsEntity {
    public:

@@ -16,9 +16,9 @@
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
+#include "Weapon.h"
 #include "WormState.h"
 #include "utils.h"
-#include "Weapon.h"
 
 namespace Worm {
 enum class Direction { right, left, up, down };

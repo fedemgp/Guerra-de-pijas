@@ -92,9 +92,10 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
 }
 
 void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
-    SDL_RendererFlip flipType = this->direction == Direction::left ?
-                                SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-    if (this->state->getState() != StateID::Still || this->weapon.getWeaponID() == WeaponID::WNone){
+    SDL_RendererFlip flipType =
+        this->direction == Direction::left ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    if (this->state->getState() != StateID::Still ||
+        this->weapon.getWeaponID() == WeaponID::WNone) {
         this->animation.render(p, cam, flipType);
     } else {
         this->weapon.render(p, cam, flipType);
@@ -168,14 +169,14 @@ Worm::StateID &Worm::Worm::getState() const {
     return this->state->getState();
 }
 
-void Worm::Worm::setWeapon(const WeaponID &id){
+void Worm::Worm::setWeapon(const WeaponID &id) {
     this->weapon.setWeapon(id);
 }
 
-const Worm::WeaponID &Worm::Worm::getWeaponID() const{
+const Worm::WeaponID &Worm::Worm::getWeaponID() const {
     return this->weapon.getWeaponID();
 }
 
-void Worm::Worm::setWeaponAngle(float angle){
+void Worm::Worm::setWeaponAngle(float angle) {
     this->weapon.setAngle(angle);
 }
