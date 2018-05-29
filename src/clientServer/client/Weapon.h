@@ -24,7 +24,7 @@ public:
     ~Weapon() = default;
     void update(float dt);
     void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip);
-    void setWeapon(WeaponID &id);
+    void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID()const;
 
 private:

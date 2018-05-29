@@ -78,7 +78,7 @@ class Worm {
      * Update the used weapon
      * @param id
      */
-    void setWeapon(WeaponID &id);
+    void setWeapon(const WeaponID &id);
 
    private:
     const GUI::GameTextureManager &texture_mgr;

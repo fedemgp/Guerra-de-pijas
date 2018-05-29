@@ -185,6 +185,6 @@ Worm::StateID &Worm::Worm::getState() const {
     return this->state->getState();
 }
 
-void Worm::Worm::setWeapon(WeaponID &id){
+void Worm::Worm::setWeapon(const WeaponID &id){
     this->weapon.setWeapon(id);
 }

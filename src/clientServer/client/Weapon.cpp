@@ -22,7 +22,7 @@ void Worm::Weapon::render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &
     }
 }
 
-void Worm::Weapon::setWeapon(WeaponID &id){
+void Worm::Weapon::setWeapon(const WeaponID &id){
     if (id != this->current){
         // Clean previous animation
         this->current = id;
