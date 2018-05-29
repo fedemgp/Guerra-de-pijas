@@ -7,9 +7,9 @@
 #include "Point.h"
 
 Worms::Stage::Stage() {
-    this->playerPositions.emplace_back(Math::Point<float>{0.0f, 20.0f});
-    this->playerPositions.emplace_back(Math::Point<float>{-3.0f, 20.0f});
-    this->playerPositions.emplace_back(Math::Point<float>{-8.0f, 15.0f});
+    this->players.push_back(Worms::WormData{100, Math::Point<float>{0.0f, 20.0f}});
+    this->players.push_back(Worms::WormData{100, Math::Point<float>{-3.0f, 20.0f}});
+    this->players.push_back(Worms::WormData{100, Math::Point<float>{-8.0f, 15.0f}});
 
     this->girders.push_back(Girder{10, 1.36f, Math::Point<float>{0.0f, 13.0f}});
     this->girders.push_back(Girder{4, 1.36f, Math::Point<float>{-5.0f, 10.0f}});
@@ -20,8 +20,8 @@ Worms::Stage::Stage() {
     this->girders.push_back(Girder{13.4f, 1.36f, Math::Point<float>{11.0f, 0.0f}});
 }
 
-const std::vector<Math::Point<float>>& Worms::Stage::getWormPositions() const {
-    return this->playerPositions;
+const std::vector<Worms::WormData>& Worms::Stage::getWorms() const {
+    return this->players;
 }
 
 const std::vector<Worms::Girder>& Worms::Stage::getGirders() const {

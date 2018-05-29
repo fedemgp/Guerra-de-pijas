@@ -65,6 +65,21 @@ void GUI::Camera::moveTo(GUI::Position coord) {
 }
 
 /**
+ * @brief Converts some global coordinates to screen coordinates.
+ *
+ * @param global Global coordinates.
+ * @return Corresponding screen coordinates.
+ */
+GUI::ScreenPosition GUI::Camera::globalToScreen(GUI::Position global) {
+    /* converts from global to local/camera coordinates */
+    Position local = (global - this->cur);
+    local.y *= -1;
+
+    /* calculates the screen coordinates */
+    return ScreenPosition{int(local.x * this->scale), int(local.y * this->scale)};
+}
+
+/**
  * @brief Updates the camera according to the elapsed time since the last update.
  *
  * @param dt Seconds elapsed since the last update.

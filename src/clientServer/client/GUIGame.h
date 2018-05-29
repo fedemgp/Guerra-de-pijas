@@ -6,12 +6,12 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
-#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include "../server/Stage.h"
 #include "Animation.h"
 #include "Bullet.h"
 #include "Camera.h"
+#include "Font.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
@@ -40,7 +40,7 @@ class Game {
     std::shared_ptr<Ammo::Bullet> bullet{nullptr};
     IO::GameStateMsg snapshot{0};
     Camera cam;
-    TTF_Font *font;
+    Font font;
 };
 }  // namespace GUI
 

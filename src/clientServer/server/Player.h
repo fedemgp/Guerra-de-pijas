@@ -26,6 +26,7 @@ enum class Direction { right, left, up, down };
 class Player : public PhysicsEntity {
    public:
     Direction direction;
+    float health{0};
 
     explicit Player(Physics &physics);
     ~Player() = default;
@@ -51,7 +52,6 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
-    float getLife() const;
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};
@@ -63,7 +63,6 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
     Worms::Weapon weapon;
     int numContacts{0};
-    float life{100.0f};
 };
 }  // namespace Worms
 

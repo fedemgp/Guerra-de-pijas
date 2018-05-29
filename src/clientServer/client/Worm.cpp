@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "GameStateMsg.h"
+#include "Text.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
@@ -21,10 +22,11 @@
 #include "Dead.h"
 #include "NoWeapons.h"
 
-Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
-    : texture_mgr(texture_mgr),
+Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
+    : id(id),
+      texture_mgr(texture_mgr),
       animation(texture_mgr.get(GUI::GameTextures::WormIdle)),
-      weapon(texture_mgr) {
+      weapon(texture_mgr){
     this->setState(::Worm::StateID::Still);
 }
 

@@ -46,6 +46,7 @@ struct GameStateMsg {
     uint8_t elapsedTurnSeconds;
     uint8_t currentWorm;
     uint8_t num_worms;
+    float wormsHealth[WORMS_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     Worm::WeaponID activePlayerWeapon;
@@ -53,7 +54,6 @@ struct GameStateMsg {
     bool shoot;
     float bullet[2];
     float bulletAngle;
-    float life[WORMS_QUANTITY];
     bool processingInputs;
     float currentPlayerTurnTime;
 };

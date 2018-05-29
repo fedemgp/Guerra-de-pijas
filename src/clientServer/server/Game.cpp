@@ -15,11 +15,12 @@
 
 Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
     /* reserves the required space to avoid reallocations that may move the worm addresses */
-    this->players.reserve(this->stage.getWormPositions().size());
-    for (auto &wormPos : this->stage.getWormPositions()) {
+    this->players.reserve(this->stage.getWorms().size());
+    for (auto &wormData : this->stage.getWorms()) {
         /* initializes the instances */
         this->players.emplace_back(this->physics);
-        this->players.back().setPosition(wormPos);
+        this->players.back().setPosition(wormData.position);
+        this->players.back().health = wormData.health;
     }
 
     /* sets the girders */
@@ -139,7 +140,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 if (!this->impactOnCourse) {
                     for (auto &worm : this->players) {
                         Worm::StateID wormState = worm.getStateId();
-                        if (worm.getLife() == 0.0f) {
+                        if (worm.health == 0) {
                             if (wormState != Worm::StateID::Die
                                 && wormState != Worm::StateID::Dead) {
                                 worm.setState(Worm::StateID::Die);
@@ -177,7 +178,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
         m.positions[m.num_worms * 2] = worm.getPosition().x;
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
         m.stateIDs[m.num_worms] = worm.getStateId();
-        m.life[m.num_worms] = worm.getLife();
+        m.wormsHealth[m.num_worms] = worm.health;
         m.num_worms++;
     }
 

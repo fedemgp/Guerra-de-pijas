@@ -186,7 +186,7 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
     double distanceToEpicenter = this->getPosition().distance(epicenter);//std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout << "distance to epicenter " << distanceToEpicenter << std::endl;
     if (distanceToEpicenter <= damageInfo.radius) {
         double inflictedDamage = (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
-        this->life -= inflictedDamage;
+        this->health -= inflictedDamage;
 
         Math::Point<float> positionToEpicenter = this->getPosition() - epicenter;
         float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
@@ -197,16 +197,12 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->setState(Worm::StateID::Hit);
-        this->life = (this->life < 0) ? 0.0f : this->life;std::cout << "life " << this->life << std::endl;
+        this->health = (this->health < 0) ? 0 : this->health;//std::cout << "life " << this->health << std::endl;
     }
 }
 
 void Worms::Player::destroyBullet() {
     this->bullet = nullptr;
-}
-
-float Worms::Player::getLife() const {
-    return this->life;
 }
 
 float Worms::Player::getWeaponAngle() const {
