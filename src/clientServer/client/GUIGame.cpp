@@ -166,7 +166,8 @@ void GUI::Game::render() {
         float cur_x = this->snapshot.positions[i * 2];
         float cur_y = this->snapshot.positions[i * 2 + 1];
 
-        this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
+        GUI::Position p{cur_x, cur_y};
+        this->worms[i].render(p, this->cam);
     }
 
     for (auto &girder : this->stage.getGirders()) {
