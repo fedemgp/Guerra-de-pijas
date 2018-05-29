@@ -19,13 +19,13 @@ enum class StateID {
     StartBackFlip,
     BackFlipping,
     EndBackFlip,
-    Bazooka,
     Hit,
     Die,
     Dead,
     NoWeapons
 };
-}
+enum WeaponID { WNone, WBazooka };
+}  // namespace Worm
 
 namespace IO {
 enum class PlayerInput {
@@ -48,6 +48,7 @@ struct GameStateMsg {
     uint8_t num_worms;
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
+    Worm::WeaponID activePlayerWeapon;
     float activePlayerAngle;
     bool shoot;
     float bullet[2];

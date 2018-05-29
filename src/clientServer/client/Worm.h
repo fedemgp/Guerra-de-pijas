@@ -17,6 +17,7 @@
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
+#include "Weapon.h"
 #include "WormState.h"
 #include "utils.h"
 
@@ -43,7 +44,7 @@ class Worm {
      * @param x
      * @param y
      */
-    void render(GUI::Position p, GUI::Camera &cam);
+    void render(GUI::Position &p, GUI::Camera &cam);
     /**
      * Using a state pattern, change its state depending on the input, and
      * sends it to the server
@@ -65,20 +66,23 @@ class Worm {
     void setState(StateID state);
     StateID &getState() const;
     /**
-     * Sets the worm in active mode
-     */
-    void setActive();
-    /**
      * Update the animation with weapons, depending on the
      * worm's angle.
      * @param angle
      */
-    void setAngle(float angle);
+    void setWeaponAngle(float angle);
+    /**
+     * Update the used weapon
+     * @param id
+     */
+    void setWeapon(const WeaponID &id);
+    const WeaponID &getWeaponID() const;
 
    private:
     const GUI::GameTextureManager &texture_mgr;
     std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
+    Weapon weapon;
     bool active{false};
 };
 }  // namespace Worm

@@ -41,13 +41,21 @@ void Worms::Still::backFlip(Worms::Player &p) {
 }
 
 void Worms::Still::bazooka(Worms::Player &p) {
-    p.setState(Worm::StateID::Bazooka);
+    p.setWeaponID(Worm::WeaponID::WBazooka);
 }
 
-void Worms::Still::pointUp(Worms::Player &p) {}
+void Worms::Still::pointUp(Worms::Player &p) {
+    p.increaseWeaponAngle();
+}
 
-void Worms::Still::pointDown(Worms::Player &p) {}
+void Worms::Still::pointDown(Worms::Player &p) {
+    p.decreaseWeaponAngle();
+}
 
-void Worms::Still::startShot(Worms::Player &p) {}
+void Worms::Still::startShot(Worms::Player &p) {
+    p.startShot();
+}
 
-void Worms::Still::endShot(Worms::Player &p) {}
+void Worms::Still::endShot(Worms::Player &p) {
+    p.endShot();
+}

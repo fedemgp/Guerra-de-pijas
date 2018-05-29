@@ -10,7 +10,6 @@
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
-#include "WormBazooka.h"
 #include "WormEndBackFlip.h"
 #include "WormEndJump.h"
 #include "WormJumping.h"
@@ -23,7 +22,9 @@
 #include "NoWeapons.h"
 
 Worm::Worm::Worm(const GUI::GameTextureManager &texture_mgr)
-    : texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
+    : texture_mgr(texture_mgr),
+      animation(texture_mgr.get(GUI::GameTextures::WormIdle)),
+      weapon(texture_mgr) {
     this->setState(::Worm::StateID::Still);
 }
 
@@ -94,27 +95,27 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
     }
 }
 
-void Worm::Worm::render(GUI::Position p, GUI::Camera &cam) {
-    if (this->direction == Direction::left) {
-        this->animation.setFlip(SDL_FLIP_NONE);
+void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
+    SDL_RendererFlip flipType =
+        this->direction == Direction::left ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    if (this->state->getState() != StateID::Still ||
+        this->weapon.getWeaponID() == WeaponID::WNone) {
+        this->animation.render(p, cam, flipType);
     } else {
-        this->animation.setFlip(SDL_FLIP_HORIZONTAL);
-    }
-
-    if (this->getState() != StateID::Dead) {
-        this->animation.render(p, cam);
+        this->weapon.render(p, cam, flipType);
     }
 }
 
 void Worm::Worm::update(float dt) {
     this->state->update(dt);
     this->animation.update(dt);
+    this->weapon.update(dt);
 }
 
 GUI::Animation Worm::Worm::getAnimation(StateID state) const {
     switch (state) {
         case StateID::Still:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
+            break;
         case StateID::Walk:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormWalk)};
         case StateID::StartBackFlip:
@@ -130,9 +131,6 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
-        case StateID::Bazooka:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Aim), true,
-                                  BAZOOKA_CENTER_FRAME, false};
         case StateID::NoWeapons:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
         case StateID::Hit:
@@ -146,7 +144,7 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
         case StateID::Dead:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
     }
-    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle)};
+    return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
 
 void Worm::Worm::setState(StateID state) {
@@ -179,9 +177,6 @@ void Worm::Worm::setState(StateID state) {
             case StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case StateID::Bazooka:
-                this->state = std::shared_ptr<State>(new Bazooka());
-                break;
             case StateID::NoWeapons:
                 this->state = std::shared_ptr<State>(new NoWeapons());
                 break;
@@ -198,17 +193,18 @@ void Worm::Worm::setState(StateID state) {
     }
 }
 
-void Worm::Worm::setActive() {
-    this->active = true;
-}
-/*
- * TODO check if all the weapons has the same number of frames and the same
- * proportion
- */
-void Worm::Worm::setAngle(float angle) {
-    this->animation.setFrame((int)std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
-}
-
 Worm::StateID &Worm::Worm::getState() const {
     return this->state->getState();
+}
+
+void Worm::Worm::setWeapon(const WeaponID &id) {
+    this->weapon.setWeapon(id);
+}
+
+const Worm::WeaponID &Worm::Worm::getWeaponID() const {
+    return this->weapon.getWeaponID();
+}
+
+void Worm::Worm::setWeaponAngle(float angle) {
+    this->weapon.setAngle(angle);
 }

@@ -6,10 +6,6 @@
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
-#define MIN_ANGLE -90
-#define MAX_ANGLE 84.375f
-#define ANGLE_STEP 5.625f
-
 #define PLAYER_WIDTH 0.8f
 
 #define PLAYER_HEIGHT 2.0f
@@ -20,6 +16,7 @@
 #include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
+#include "Weapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
@@ -34,18 +31,22 @@ class Player : public PhysicsEntity {
     ~Player() = default;
 
     void update(float dt);
-    float getAngle() const;
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
     void handleState(IO::PlayerInput pi);
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
-    void increaseAngle();
-    void decreaseAngle();
     int getContactCount();
-    virtual void startContact() override;
-    virtual void endContact() override;
+    void startContact() override;
+    void endContact() override;
+    float getWeaponAngle() const;
+    const Worm::WeaponID &getWeaponID() const;
+    void setWeaponID(const Worm::WeaponID &id);
+    void increaseWeaponAngle();
+    void decreaseWeaponAngle();
+    void startShot();
+    void endShot();
     void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
@@ -60,7 +61,7 @@ class Player : public PhysicsEntity {
     b2FixtureDef fixture;
     Physics &physics;
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
-    float angle{0};
+    Worms::Weapon weapon;
     int numContacts{0};
     float life{100.0f};
 };

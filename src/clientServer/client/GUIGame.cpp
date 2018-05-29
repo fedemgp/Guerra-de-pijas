@@ -106,10 +106,14 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             /* synchronizes the worms states with the server's */
             for (std::size_t i = 0; i < this->worms.size(); i++) {
                 this->worms[i].setState(this->snapshot.stateIDs[i]);
+                this->worms[i].setWeapon((i != this->snapshot.currentWorm)
+                                             ? Worm::WeaponID::WNone
+                                             : this->snapshot.activePlayerWeapon);
             }
 
-            if (cur.getState() == Worm::StateID::Bazooka) {
-                cur.setAngle(this->snapshot.activePlayerAngle);
+            if (cur.getState() == Worm::StateID::Still &&
+                cur.getWeaponID() != Worm::WeaponID::WNone) {
+                cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
 
             if (this->snapshot.shoot) {
@@ -163,7 +167,8 @@ void GUI::Game::render() {
         float cur_y = this->snapshot.positions[i * 2 + 1];
 
         /* convert to camera coordinates */
-        this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
+        GUI::Position p{cur_x, cur_y};
+        this->worms[i].render(p, this->cam);
     }
 
     for (auto &girder : this->stage.getGirders()) {

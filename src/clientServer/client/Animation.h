@@ -21,7 +21,7 @@ class Animation {
     Animation(const Texture &texture, bool playReversed, int initialFrame, bool autoUpdate);
     ~Animation();
     void update(float dt);
-    void render(GUI::Position p, GUI::Camera &cam);
+    void render(Position &p, Camera &cam, const SDL_RendererFlip &flipType);
     void reset();
     void advanceFrame();
     /**

@@ -22,8 +22,7 @@ void Ammo::Bullet::render(GUI::Position p, GUI::Camera &cam) {
     //    } else {
     //        this->animation.setFlip(SDL_FLIP_HORIZONTAL);
     //    }
-    this->animation.setFlip(SDL_FLIP_HORIZONTAL);
-    this->animation.render(p, cam);
+    this->animation.render(p, cam, SDL_FLIP_HORIZONTAL);
 }
 
 void Ammo::Bullet::setAngle(float angle) {  // std::cout<<"bullet angle "<<angle<<std::endl;
