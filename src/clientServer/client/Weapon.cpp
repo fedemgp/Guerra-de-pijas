@@ -3,6 +3,7 @@
  *  date: 27/05/18
  */
 
+#include <cmath>
 #include "GameStateMsg.h"
 #include "Weapon.h"
 
@@ -31,6 +32,7 @@ void Worm::Weapon::setWeapon(const WeaponID &id){
             case WeaponID::WBazooka:
                 this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Aim), true,
                                               BAZOOKA_CENTER_FRAME, false);
+                this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WNone:
                 break;
@@ -40,5 +42,9 @@ void Worm::Weapon::setWeapon(const WeaponID &id){
 
 const Worm::WeaponID &Worm::Weapon::getWeaponID() const{
     return this->current;
+}
+
+void Worm::Weapon::setAngle(float angle){
+    this->weaponAnimation->setFrame((int)std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
 }
 

@@ -65,20 +65,17 @@ class Worm {
     void setState(StateID state);
     StateID &getState() const;
     /**
-     * Sets the worm in active mode
-     */
-    void setActive();
-    /**
      * Update the animation with weapons, depending on the
      * worm's angle.
      * @param angle
      */
-    void setAngle(float angle);
+    void setWeaponAngle(float angle);
     /**
      * Update the used weapon
      * @param id
      */
     void setWeapon(const WeaponID &id);
+    const WeaponID &getWeaponID() const;
 
    private:
     const GUI::GameTextureManager &texture_mgr;

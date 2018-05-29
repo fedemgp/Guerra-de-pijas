@@ -8,7 +8,6 @@
 #include "Physics.h"
 #include "Player.h"
 #include "PlayerBackFlipping.h"
-#include "PlayerBazooka.h"
 #include "PlayerEndBackFlip.h"
 #include "PlayerEndJump.h"
 #include "PlayerJumping.h"
@@ -40,6 +39,7 @@ Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm)
 
 void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
+    this->weapon.update(dt);
     if (this->bullet != nullptr) {
         this->bullet->update(dt);
         if (this->bullet->madeImpact()) {
@@ -126,9 +126,6 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case Worm::StateID::Bazooka:
-                this->state = std::shared_ptr<State>(new Bazooka());
-                break;
         }
     }
 }
@@ -143,24 +140,6 @@ void Worms::Player::endContact() {
     }
 }
 
-void Worms::Player::increaseAngle() {
-    this->angle += ANGLE_STEP;
-    if (this->angle > MAX_ANGLE) {
-        this->angle = MAX_ANGLE;
-    }
-}
-
-void Worms::Player::decreaseAngle() {
-    this->angle -= ANGLE_STEP;
-    if (this->angle < MIN_ANGLE) {
-        this->angle = MIN_ANGLE;
-    }
-}
-
-float Worms::Player::getAngle() const {
-    return this->angle;
-}
-
 int Worms::Player::getContactCount() {
     return this->numContacts;
 }
@@ -169,7 +148,7 @@ void Worms::Player::shoot(int shotPower) {
     Math::Point<float> position = this->getPosition();
     float safeNonContactDistance =
         sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    float angle = this->getAngle();
+    float angle = this->weapon.getAngle();
     if (this->direction == Direction::right) {
         if (angle < 0.0f) {
             angle += 360.0f;
@@ -185,10 +164,30 @@ std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
     return this->bullet;
 }
 
-Worm::WeaponID Worms::Player::getWeaponID() const{
+float Worms::Player::getWeaponAngle() const{
+    return this->weapon.getAngle();
+}
+
+const Worm::WeaponID &Worms::Player::getWeaponID() const{
     return this->weapon.getWeaponID();
 }
 
 void Worms::Player::setWeaponID(const Worm::WeaponID &id){
     this->weapon.setWeaponID(id);
+}
+
+void Worms::Player::increaseWeaponAngle(){
+    this->weapon.increaseAngle();
+}
+
+void Worms::Player::decreaseWeaponAngle(){
+    this->weapon.decreaseAngle();
+}
+
+void Worms::Player::startShot(){
+    this->weapon.startShot();
+}
+
+void Worms::Player::endShot(){
+    this->weapon.endShot(*this);
 }

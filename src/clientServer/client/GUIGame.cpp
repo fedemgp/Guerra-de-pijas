@@ -100,8 +100,9 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                                           this->snapshot.activePlayerWeapon);
             }
 
-            if (cur.getState() == Worm::StateID::Bazooka) {
-                cur.setAngle(this->snapshot.activePlayerAngle);
+            if (cur.getState() == Worm::StateID::Still &&
+                    cur.getWeaponID() != Worm::WeaponID::WNone) {
+                cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
 
             if (this->snapshot.shoot) {

@@ -10,7 +10,6 @@
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
-#include "WormBazooka.h"
 #include "WormEndBackFlip.h"
 #include "WormEndJump.h"
 #include "WormJumping.h"
@@ -127,8 +126,6 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
-        case StateID::Bazooka:
-           break;
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
@@ -163,22 +160,8 @@ void Worm::Worm::setState(StateID state) {
             case StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case StateID::Bazooka:
-                this->state = std::shared_ptr<State>(new Bazooka());
-                break;
         }
     }
-}
-
-void Worm::Worm::setActive() {
-    this->active = true;
-}
-/*
- * TODO check if all the weapons has the same number of frames and the same
- * proportion
- */
-void Worm::Worm::setAngle(float angle) {
-    this->animation.setFrame((int)std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
 }
 
 Worm::StateID &Worm::Worm::getState() const {
@@ -187,4 +170,12 @@ Worm::StateID &Worm::Worm::getState() const {
 
 void Worm::Worm::setWeapon(const WeaponID &id){
     this->weapon.setWeapon(id);
+}
+
+const Worm::WeaponID &Worm::Worm::getWeaponID() const{
+    return this->weapon.getWeaponID();
+}
+
+void Worm::Worm::setWeaponAngle(float angle){
+    this->weapon.setAngle(angle);
 }

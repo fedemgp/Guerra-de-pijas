@@ -27,6 +27,8 @@ public:
     void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID()const;
 
+    void setAngle(float angle);
+
 private:
     const GUI::GameTextureManager &textureMgr;
     WeaponID current{WeaponID::WNone};
@@ -35,6 +37,7 @@ private:
      * and the power animation
      */
     std::list<GUI::Animation> animations;
+    GUI::Animation *weaponAnimation{nullptr};
 
 };
 } // namespace Weapon

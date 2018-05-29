@@ -18,8 +18,7 @@ enum class StateID {
     EndJump,
     StartBackFlip,
     BackFlipping,
-    EndBackFlip,
-    Bazooka
+    EndBackFlip
 };
     enum WeaponID {WNone, WBazooka};
 } // namespace Worm

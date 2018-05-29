@@ -109,7 +109,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     /* sets the current player's data */
     m.elapsedTurnSeconds = this->currentTurnElapsed;
     m.currentWorm = this->currentWorm;
-    m.activePlayerAngle = this->players[this->currentWorm].getAngle();
+    m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
     if (this->players[this->currentWorm].getBullet() != nullptr) {
         m.shoot = true;

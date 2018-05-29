@@ -24,8 +24,8 @@ class Still : public State {
     void endShot(Player &p) override;
     void backFlip(Player &p) override;
     void stopMove(Player &p) override;
-    virtual void pointUp(Player &p) override;
-    virtual void pointDown(Player &p) override;
+    void pointUp(Player &p) override;
+    void pointDown(Player &p) override;
 };
 }
 
