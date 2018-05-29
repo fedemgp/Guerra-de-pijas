@@ -156,7 +156,7 @@ void GUI::Game::render() {
         Text health{this->font};
         health.setBackground(SDL_Color{0, 0, 0});
         health.set(std::to_string(this->worms[i].health), SDL_Color{0xFF, 0xFF, 0xFF}, 20);
-        health.render(GUI::Position{cur_x, cur_y + 2.5f}, this->cam);
+        health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
     }
 
     for (auto &girder : this->stage.getGirders()) {

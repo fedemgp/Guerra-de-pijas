@@ -33,7 +33,7 @@ class Text {
     /* the font to use. */
     Font &font;
     SDL_Color color;
-    int size;
+    int size{-1};
 };
 }  // namespace GUI
 

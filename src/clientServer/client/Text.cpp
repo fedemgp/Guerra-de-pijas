@@ -41,14 +41,16 @@ void GUI::Text::render(GUI::Position p, GUI::Camera& camera) {
 
         SDL_Rect r = {};
         r.x = sp.x - this->texture->getWidth() / 2;
-        r.y = sp.y - this->texture->getHeight() / 2;
+        r.y = sp.y - (this->texture->getHeight() - 10) / 2;
         r.w = this->texture->getWidth();
-        r.h = this->texture->getHeight();
+        r.h = this->texture->getHeight() - 10;
 
         SDL_RenderFillRect(&renderer, &r);
     }
 
-    camera.draw(*this->texture, p);
+    SDL_Rect clip = {0, 0, this->texture->getWidth(), this->texture->getHeight()};
+    float scale = float(this->size) / float(this->font.size);
+    camera.draw(*this->texture, p, clip, SDL_FLIP_NONE, scale);
 }
 
 /**

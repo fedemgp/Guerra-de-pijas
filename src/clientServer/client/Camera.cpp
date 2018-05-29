@@ -129,9 +129,10 @@ void GUI::Camera::draw(const Texture &texture, Position p, const SDL_Rect &clip)
  * @param p Position where to draw the texture (global coordinates).
  * @param clip Portion of the texture to render.
  * @param flip Flip mode.
+ * @param scale Scale factor of the final rendered texture size.
  */
 void GUI::Camera::draw(const Texture &texture, Position p, const SDL_Rect &clip,
-                       SDL_RendererFlip flip) {
+                       SDL_RendererFlip flip, float scale) {
     /* converts from global to local/camera coordinates */
     Position local = (p - this->cur);
     local.y *= -1;
@@ -140,7 +141,7 @@ void GUI::Camera::draw(const Texture &texture, Position p, const SDL_Rect &clip,
     ScreenPosition screen_local{int(local.x * this->scale), int(local.y * this->scale)};
 
     /* draws in screen coordinates */
-    this->drawLocal(texture, screen_local, clip, flip);
+    this->drawLocal(texture, screen_local, clip, flip, scale);
 }
 
 /**
@@ -173,14 +174,19 @@ void GUI::Camera::drawLocal(const Texture &texture, ScreenPosition p, const SDL_
  * @param p Position where to draw the texture (camera coordinates).
  * @param clip Portion of the texture to render.
  * @param flip Flip mode.
+ * @param scale Scale factor of the final texture size.
  */
 void GUI::Camera::drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip,
-                            SDL_RendererFlip flip) {
+                            SDL_RendererFlip flip, float scale) {
+    /* calculates the scaled size */
+    int w = int(clip.w * scale);
+    int h = int(clip.h * scale);
+
     SDL_Rect dst = {};
-    dst.x = p.x - clip.w / 2;
-    dst.y = p.y - clip.h / 2;
-    dst.w = clip.w;
-    dst.h = clip.h;
+    dst.x = p.x - w / 2;
+    dst.y = p.y - h / 2;
+    dst.w = w;
+    dst.h = h;
 
     SDL_RenderCopyEx(&this->renderer, texture.get(), &clip, &dst, 0, nullptr, flip);
 }
