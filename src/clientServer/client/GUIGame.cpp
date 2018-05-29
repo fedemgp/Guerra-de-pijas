@@ -152,11 +152,6 @@ void GUI::Game::render() {
         float cur_y = this->snapshot.positions[i * 2 + 1];
 
         this->worms[i].render(GUI::Position{cur_x, cur_y}, this->cam);
-
-        Text health{this->font};
-        health.setBackground(SDL_Color{0, 0, 0});
-        health.set(std::to_string(this->worms[i].health), SDL_Color{0xFF, 0xFF, 0xFF}, 20);
-        health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
     }
 
     for (auto &girder : this->stage.getGirders()) {
@@ -174,6 +169,17 @@ void GUI::Game::render() {
         float local_y = this->snapshot.bullet[1];
         this->bullet->setAngle(this->snapshot.bulletAngle);
         this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
+    }
+
+    /* health bars are renderer after the worms so they appear on top */
+    for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
+        float cur_x = this->snapshot.positions[i * 2];
+        float cur_y = this->snapshot.positions[i * 2 + 1];
+
+        Text health{this->font};
+        health.setBackground(SDL_Color{0, 0, 0});
+        health.set(std::to_string(this->worms[i].health), SDL_Color{0xFF, 0xFF, 0xFF}, 20);
+        health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
     }
 
     /* displays the remaining turn time */
