@@ -20,13 +20,31 @@
 namespace Worm{
 class Weapon {
 public:
+
     explicit Weapon(const GUI::GameTextureManager &tex);
     ~Weapon() = default;
+    /**
+     * updates all its animations.
+     * @param dt
+     */
     void update(float dt);
+    /**
+     * renders all its animations.
+     * @param p
+     * @param cam
+     * @param flip
+     */
     void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip);
+    /**
+     * changes its animations depending on the weapon to use.
+     * @param id
+     */
     void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID()const;
-
+    /**
+     * updates animations' frame depending on the angle.
+     * @param angle
+     */
     void setAngle(float angle);
 
 private:
