@@ -81,6 +81,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     this->currentTurnElapsed = 0;
                     do {
                         this->currentWorm = (this->currentWorm + 1) % this->players.size();
+                        this->currentWormToFollow = this->currentWorm;
                         currentWormState = this->players[this->currentWorm].getStateId();
                     } while (currentWormState == Worm::StateID::Dead);
 
@@ -135,12 +136,13 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             if (this->impactOnCourse) {
                 this->impactOnCourse = false;
                 this->shotOnCourse = false;
-                for (auto &worm : this->players) {
-                    Worm::StateID wormState = worm.getStateId();
+                for (size_t i = 0; i < this->players.size(); i++) {
+                    Worm::StateID wormState = this->players[i].getStateId();
                     if (wormState != Worm::StateID::Still
                         && wormState != Worm::StateID::Dead) {
                         this->impactOnCourse = true;
                         this->shotOnCourse = true;
+                        this->currentWormToFollow = i;
                     }
                 }
                 if (!this->impactOnCourse) {
@@ -192,6 +194,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     m.elapsedTurnSeconds = this->currentTurnElapsed;
     m.currentPlayerTurnTime = this->currentPlayerTurnTime;
     m.currentWorm = this->currentWorm;
+    m.currentWormToFollow = this->currentWormToFollow;
     m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
     if (this->players[this->currentWorm].getBullet() != nullptr) {

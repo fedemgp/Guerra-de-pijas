@@ -128,11 +128,11 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             float dt = static_cast<float>(current - prev) / 1000.0f;
             prev = current;
 
-            float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
-            float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+            float cur_follow_x = this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
+            float cur_follow_y = this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
 
             /* move the camera to the current player */
-            this->cam.moveTo(GUI::Position{cur_x, cur_y});
+            this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
 
             this->update(dt);
             this->render();

@@ -36,6 +36,7 @@ class Game {
     bool shotOnCourse{false};
     double currentPlayerTurnTime{0};
     bool processingClientInputs{true};
+    char currentWormToFollow{0};
 };
 }  // namespace Worms
 
