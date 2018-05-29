@@ -122,9 +122,6 @@ void GUI::Camera::draw(const Texture &texture, Position p, const SDL_Rect &clip,
     local.y *= -1;
 
     /* calculates the screen coordinates */
-    // dst.x = (p.x - this->cur.x) * this->scale - texture.getWidth() / 2;
-    // dst.y = (this->cur.y - p.y) * this->scale - texture.getHeight() / 2;
-
     ScreenPosition screen_local{int(local.x * this->scale), int(local.y * this->scale)};
 
     /* draws in screen coordinates */
