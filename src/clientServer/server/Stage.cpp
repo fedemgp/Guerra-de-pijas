@@ -7,17 +7,18 @@
 #include "Point.h"
 
 Worms::Stage::Stage() {
-    this->players.push_back(Worms::WormData{100, Math::Point<float>{0.0f, 20.0f}});
+    this->players.push_back(Worms::WormData{100, Math::Point<float>{31.0f, 20.0f}});
     this->players.push_back(Worms::WormData{100, Math::Point<float>{-3.0f, 20.0f}});
-    this->players.push_back(Worms::WormData{100, Math::Point<float>{-8.0f, 15.0f}});
+    this->players.push_back(Worms::WormData{100, Math::Point<float>{-10.0f, 15.0f}});
 
     this->girders.push_back(Girder{10, 1.36f, Math::Point<float>{0.0f, 13.0f}});
-    this->girders.push_back(Girder{4, 1.36f, Math::Point<float>{-5.0f, 10.0f}});
-    this->girders.push_back(Girder{8, 1.36f, Math::Point<float>{-17.0f, 0.0f}});
+    this->girders.push_back(Girder{4, 1.36f, Math::Point<float>{-5.0f, 9.5f}});
+    this->girders.push_back(Girder{8, 1.36f, Math::Point<float>{-17.0f, 2.0f}});
     this->girders.push_back(Girder{14, 1.36f, Math::Point<float>{-11.0f, 5.0f}});
-    this->girders.push_back(Girder{2.5f, 1.36f, Math::Point<float>{-3.0f, 0.0f}});
-    this->girders.push_back(Girder{7, 1.36f, Math::Point<float>{5.0f, 0.0f}});
-    this->girders.push_back(Girder{13.4f, 1.36f, Math::Point<float>{11.0f, 0.0f}});
+    this->girders.push_back(Girder{2.5f, 1.36f, Math::Point<float>{-3.0f, 2.0f}});
+    this->girders.push_back(Girder{7, 1.36f, Math::Point<float>{5.0f, 2.0f}});
+    this->girders.push_back(Girder{13.4f, 1.36f, Math::Point<float>{30.0f, 15.0f}});
+    this->girders.push_back(Girder{13.4f, 1.36f, Math::Point<float>{11.0f, 2.0f}});
 }
 
 const std::vector<Worms::WormData>& Worms::Stage::getWorms() const {

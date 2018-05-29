@@ -49,6 +49,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Missile,
                            "src/clientServer/assets/img/Weapons/missile.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::StaticBackground,
+                           "src/clientServer/assets/img/background/static.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -145,7 +148,7 @@ void GUI::Game::update(float dt) {
 }
 
 void GUI::Game::render() {
-    this->window.clear();
+    this->renderBackground();
 
     for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
         float cur_x = this->snapshot.positions[i * 2];
@@ -157,8 +160,8 @@ void GUI::Game::render() {
     for (auto &girder : this->stage.getGirders()) {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
 
-        int height = int(girder.height * float(this->scale));
-        int width = int(girder.length * float(this->scale));
+        int height = int(girder.height * this->cam.getScale());
+        int width = int(girder.length * this->cam.getScale());
 
         GUI::WrapTexture wt{texture, width, height};
         wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
@@ -193,6 +196,16 @@ void GUI::Game::render() {
 
     this->window.render();
 }
+
+void GUI::Game::renderBackground() {
+    this->window.clear(this->backgroundColor);
+
+    /* draws a static image in the background */
+    const Texture &staticBgTex = this->texture_mgr.get(GameTextures::StaticBackground);
+    WrapTexture staticBg{staticBgTex, 20000, staticBgTex.getHeight()};
+    staticBg.render(Position{-100, (staticBgTex.getHeight() / this->cam.getScale()) / 2}, this->cam);
+}
+
 /**
  * @brief Draws the game controls.
  */

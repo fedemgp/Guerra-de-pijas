@@ -16,7 +16,8 @@ enum class GameTextures {
     EndJump,
     BackFlipping,
     Aim,
-    Missile
+    Missile,
+    StaticBackground
 };
 
 /** Specialized TextureManager class. */

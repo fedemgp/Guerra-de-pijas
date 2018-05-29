@@ -20,6 +20,7 @@ class Window {
     Window(int width, int height);
     ~Window();
     void clear();
+    void clear(SDL_Color color);
     void render();
     SDL_Renderer &getRenderer();
 
