@@ -7,7 +7,7 @@
 #include "Die.h"
 #include "Player.h"
 
-#define DYING_TIME 3.0f
+#define DYING_TIME 2.6f
 
 Worms::Die::Die() : State(Worm::StateID::Die) {}
 
