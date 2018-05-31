@@ -52,6 +52,15 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::StaticBackground,
                            "src/clientServer/assets/img/background/static.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Background1,
+                           "src/clientServer/assets/img/background/bg1.png",
+                           GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::Background2,
+                           "src/clientServer/assets/img/background/bg2.png",
+                           GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::Background3,
+                           "src/clientServer/assets/img/background/bg3.png",
+                           GUI::Color{0xff, 0xff, 0xff});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -160,10 +169,7 @@ void GUI::Game::render() {
     for (auto &girder : this->stage.getGirders()) {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
 
-        int height = int(girder.height * this->cam.getScale());
-        int width = int(girder.length * this->cam.getScale());
-
-        GUI::WrapTexture wt{texture, width, height};
+        GUI::WrapTexture wt{texture, girder.length, girder.height};
         wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
     }
 
@@ -191,19 +197,51 @@ void GUI::Game::render() {
 
     SDL_Color color = {0, 0, 0};
     Text text{this->font};
-    text.set(std::to_string(this->stage.turnTime - this->snapshot.elapsedTurnSeconds), color);
+    text.set(std::to_string(this->stage.turnTime - this->snapshot.elapsedTurnSeconds), color, 40);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     this->window.render();
 }
 
+/**
+ * @brief Renders the background images using a parallax effect.
+ *
+ */
 void GUI::Game::renderBackground() {
     this->window.clear(this->backgroundColor);
 
-    /* draws a static image in the background */
+    /* draws a static image in the background (this image doesn't move) */
     const Texture &staticBgTex = this->texture_mgr.get(GameTextures::StaticBackground);
-    WrapTexture staticBg{staticBgTex, 20000, staticBgTex.getHeight()};
-    staticBg.render(Position{-100, (staticBgTex.getHeight() / this->cam.getScale()) / 2}, this->cam);
+    WrapTexture staticBg{staticBgTex, 500.0f, 40.0f};  // TODO: use screen size
+    staticBg.render(Position{0.0f, (staticBgTex.getHeight() / this->cam.getScale()) / 2},
+                    this->cam);
+
+    /* draws moving image further in the background */
+    const Texture &Bg1Tex = this->texture_mgr.get(GameTextures::Background1);
+    // TODO: use the stage size
+    WrapTexture bg1{Bg1Tex, 500.0f, Bg1Tex.getHeight() / this->cam.getScale()};
+
+    Position pos{0.0f, (Bg1Tex.getHeight() / this->cam.getScale()) / 2};
+    pos.x += this->cam.getPosition().x * 0.8f;
+    bg1.render(pos, this->cam);
+
+    /* draws a moving image in the background at intermediate distance */
+    const Texture &Bg2Tex = this->texture_mgr.get(GameTextures::Background2);
+    // TODO: use the stage size
+    WrapTexture bg2{Bg2Tex, 500.0f, Bg2Tex.getHeight() / this->cam.getScale()};
+
+    pos = {0.0f, (Bg2Tex.getHeight() / this->cam.getScale()) / 2};
+    pos.x += this->cam.getPosition().x * 0.6f;
+    bg2.render(pos, this->cam);
+
+    /* draws a moving image in the background at a closer distance */
+    const Texture &Bg3Tex = this->texture_mgr.get(GameTextures::Background3);
+    // TODO: use the stage size
+    WrapTexture bg3{Bg3Tex, 500.0f, Bg3Tex.getHeight() / this->cam.getScale()};
+
+    pos = {0.0f, (Bg3Tex.getHeight() / this->cam.getScale()) / 2};
+    pos.x += this->cam.getPosition().x * 0.25f;
+    bg3.render(pos, this->cam);
 }
 
 /**

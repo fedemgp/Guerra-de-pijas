@@ -1,6 +1,6 @@
 #include "WrapTexture.h"
 
-GUI::WrapTexture::WrapTexture(const GUI::Texture& texture, int width, int height)
+GUI::WrapTexture::WrapTexture(const GUI::Texture& texture, float width, float height)
     : texture(texture), width(width), height(height) {}
 
 GUI::WrapTexture::~WrapTexture() {}
@@ -12,48 +12,55 @@ GUI::WrapTexture::~WrapTexture() {}
  * @param camera Camera.
  */
 void GUI::WrapTexture::render(GUI::Position p, Camera& camera) {
-    int cols = this->width / this->texture.getWidth();
-    int rows = this->height / this->texture.getHeight();
+    int width = this->width * camera.getScale();
+    int height = this->height * camera.getScale();
 
-    int x_remainder = this->width % this->texture.getWidth();
-    int y_remainder = this->height % this->texture.getHeight();
+    int cols = width / this->texture.getWidth();
+    int rows = height / this->texture.getHeight();
+
+    int x_remainder = width % this->texture.getWidth();
+    int y_remainder = height % this->texture.getHeight();
 
     ScreenPosition sp = camera.globalToScreen(p);
-    sp.x -= this->width / 2;
-    int x_offset = this->texture.getWidth() / 2 + x_remainder / 2;
+    sp.x -= width / 2;
+    sp.y -= height / 2;
+
+    SDL_Renderer* renderer = &camera.getRenderer();
+    int tw = this->texture.getWidth();
+    int th = this->texture.getHeight();
 
     for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
-            ScreenPosition pos{sp.x + this->texture.getWidth() * i - x_offset,
-                               sp.y + this->texture.getHeight() * j};
-            camera.drawLocal(this->texture, pos);
+            ScreenPosition pos{sp.x + tw * i, sp.y - th * j};
+
+            SDL_Rect dst = {pos.x, pos.y, tw, th};
+            SDL_RenderCopy(renderer, this->texture.get(), NULL, &dst);
         }
 
         if (y_remainder) {
-            ScreenPosition pos{sp.x + this->texture.getWidth() * i + x_offset,
-                               sp.y + this->texture.getHeight() * rows};
-            SDL_Rect clip = {0, 0, this->width, y_remainder};
+            ScreenPosition pos{sp.x + tw * i, sp.y - th * rows};
 
-            camera.drawLocal(this->texture, pos, clip);
+            SDL_Rect clip = {0, 0, tw, y_remainder};
+            SDL_Rect dst = {pos.x, pos.y, tw, y_remainder};
+            SDL_RenderCopy(renderer, this->texture.get(), &clip, &dst);
         }
     }
 
-    x_offset = x_remainder / 2;
     if (x_remainder > 0) {
         for (int i = 0; i < rows; i++) {
-            ScreenPosition pos{sp.x + this->texture.getWidth() * cols + x_offset,
-                               sp.y + this->texture.getHeight() * i};
-            SDL_Rect clip = {0, 0, x_remainder, this->height};
+            ScreenPosition pos{sp.x + tw * cols, sp.y - th * i};
 
-            camera.drawLocal(this->texture, pos, clip);
+            SDL_Rect clip = {0, 0, x_remainder, th};
+            SDL_Rect dst = {pos.x, pos.y, x_remainder, th};
+            SDL_RenderCopy(renderer, this->texture.get(), &clip, &dst);
         }
 
         if (y_remainder) {
-            ScreenPosition pos{sp.x + this->texture.getWidth() * cols + x_offset,
-                               sp.y + this->texture.getHeight() * rows};
-            SDL_Rect clip = {0, 0, x_remainder, y_remainder};
+            ScreenPosition pos{sp.x + tw * cols, sp.y - th * rows};
 
-            camera.drawLocal(this->texture, pos, clip);
+            SDL_Rect clip = {0, 0, x_remainder, y_remainder};
+            SDL_Rect dst = {pos.x, pos.y, x_remainder, y_remainder};
+            SDL_RenderCopy(renderer, this->texture.get(), &clip, &dst);
         }
     }
 }

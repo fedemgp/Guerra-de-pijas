@@ -23,6 +23,7 @@ class Camera {
     ScreenPosition globalToScreen(Position);
 
     float getScale() const;
+    Position getPosition() const;
     SDL_Renderer &getRenderer() const;
 
     void draw(const Texture &texture, Position p);

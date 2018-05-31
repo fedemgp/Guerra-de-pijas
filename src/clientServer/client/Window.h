@@ -8,8 +8,8 @@
 
 #include <SDL2/SDL.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1200
+#define WINDOW_HEIGHT 800
 
 namespace GUI {
 class Window {

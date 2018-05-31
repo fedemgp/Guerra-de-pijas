@@ -45,6 +45,15 @@ float GUI::Camera::getScale() const {
 }
 
 /**
+ * @brief Returns the camera position in global coordinates.
+ *
+ * @return Position Camera position.
+ */
+GUI::Position GUI::Camera::getPosition() const {
+    return this->cur;
+}
+
+/**
  * @brief Instantly moves the camera to the given coordinates.
  *
  * @param coord Coordinates of the new camera position.
