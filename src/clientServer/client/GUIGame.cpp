@@ -80,7 +80,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     }
 
     this->snapshot.num_worms = num_worms;
-//    this->snapshot.processingInputs = true;
+    //    this->snapshot.processingInputs = true;
 }
 
 GUI::Game::~Game() {}
@@ -140,11 +140,18 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             float dt = static_cast<float>(current - prev) / 1000.0f;
             prev = current;
 
-            float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
-            float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
-
             /* move the camera to the current player */
-            this->cam.moveTo(GUI::Position{cur_x, cur_y});
+            if (this->snapshot.shoot) {
+                float cur_x = this->snapshot.bullet[0];
+                float cur_y = this->snapshot.bullet[1];
+
+                this->cam.moveTo(GUI::Position{cur_x, cur_y});
+            } else {
+                float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
+                float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+
+                this->cam.moveTo(GUI::Position{cur_x, cur_y});
+            }
 
             this->update(dt);
             this->render();
