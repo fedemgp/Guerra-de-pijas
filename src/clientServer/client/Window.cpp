@@ -68,7 +68,11 @@ void GUI::Window::close() {
 }
 
 void GUI::Window::clear() {
-    SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    this->clear({0xFF, 0xFF, 0xFF, 0xFF});
+}
+
+void GUI::Window::clear(SDL_Color color) {
+    SDL_SetRenderDrawColor(this->renderer, color.r, color.g, color.b, color.a);
     SDL_RenderClear(this->renderer);
 }
 

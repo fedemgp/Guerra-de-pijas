@@ -19,7 +19,11 @@ enum class GameTextures {
     Missile,
     Fly,
     Die,
-    Dead
+    Dead,
+    StaticBackground,
+    Background1,
+    Background2,
+    Background3,
 };
 
 /** Specialized TextureManager class. */

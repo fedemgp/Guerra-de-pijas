@@ -7,14 +7,14 @@
 namespace GUI {
 class WrapTexture {
    public:
-    WrapTexture(const Texture &texture, int width, int height);
+    WrapTexture(const Texture &texture, float width, float height);
     ~WrapTexture();
 
     void render(Position p, Camera &camera);
 
    private:
     const Texture &texture;
-    int width, height;
+    float width, height;
 };
 }  // namespace GUI
 

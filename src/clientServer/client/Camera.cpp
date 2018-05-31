@@ -13,7 +13,9 @@ GUI::Camera::Camera(float scale, int width, int height, SDL_Renderer &renderer)
       scale(scale),
       width(width),
       height(height),
-      renderer(renderer) {}
+      renderer(renderer) {
+    this->setTo(Position{0, float(this->height) / this->scale / 2.0f});
+}
 
 GUI::Camera::~Camera() {}
 
@@ -34,12 +36,33 @@ SDL_Renderer &GUI::Camera::getRenderer() const {
 }
 
 /**
+ * @brief Returns the pixel/meters scale.
+ *
+ * @return Scale.
+ */
+float GUI::Camera::getScale() const {
+    return this->scale;
+}
+
+/**
+ * @brief Returns the camera position in global coordinates.
+ *
+ * @return Position Camera position.
+ */
+GUI::Position GUI::Camera::getPosition() const {
+    return this->cur;
+}
+
+/**
  * @brief Instantly moves the camera to the given coordinates.
  *
  * @param coord Coordinates of the new camera position.
  */
 void GUI::Camera::setTo(GUI::Position coord) {
     this->elapsed = 0.0f;
+
+    /* avoids the camera from going below the zero */
+    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2);
 
     coord.x -= (this->width / 2) / this->scale;
     coord.y += (this->height / 2) / this->scale;
@@ -52,6 +75,9 @@ void GUI::Camera::setTo(GUI::Position coord) {
  * @param coord Coordinates of the final camera position.
  */
 void GUI::Camera::moveTo(GUI::Position coord) {
+    /* avoids the camera from going below the zero */
+    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2);
+
     if (this->dst == coord) {
         return;
     }

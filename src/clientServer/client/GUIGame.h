@@ -31,6 +31,7 @@ class Game {
 
    private:
     void render_controls();
+    void renderBackground();
 
     float scale{13.0f};  // pixels per meter
     Window &window;
@@ -41,6 +42,7 @@ class Game {
     IO::GameStateMsg snapshot{0};
     Camera cam;
     Font font;
+    SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
 };
 }  // namespace GUI
 
