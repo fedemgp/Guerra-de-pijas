@@ -60,21 +60,30 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             lag += dt;
 
             this->currentTurnElapsed += dt;
-            if (this->players[this->currentWorm].getBullet() != nullptr
-                && !this->shotOnCourse) {
+            if (this->players[this->currentWorm].getBullet() != nullptr &&
+                !this->currentPlayerShot) {
                 this->currentPlayerTurnTime = 3.0f;
                 this->currentTurnElapsed = 0.0f;
                 this->shotOnCourse = true;
+                this->currentPlayerShot = true;
             }
             if (this->currentTurnElapsed >= this->currentPlayerTurnTime) {
-                if (!this->shotOnCourse) {
+                bool anyWormDrowning = false;
+                for (auto &worm : this->players) {
+                    if (worm.getStateId() == Worm::StateID::Drown) {
+                        anyWormDrowning = true;
+                    }
+                }
+                if (!this->shotOnCourse && !anyWormDrowning) {
                     Worm::StateID currentWormState = this->players[this->currentWorm].getStateId();
                     if (currentWormState != Worm::StateID::Dead) {
                         this->players[this->currentWorm].setState(Worm::StateID::Still);
                     }
                     this->currentTurnElapsed = 0;
+                    this->currentPlayerShot = false;
                     do {
                         this->currentWorm = (this->currentWorm + 1) % this->players.size();
+                        this->currentWormToFollow = this->currentWorm;
                         currentWormState = this->players[this->currentWorm].getStateId();
                     } while (currentWormState == Worm::StateID::Dead);
 
@@ -82,14 +91,20 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     this->currentPlayerTurnTime = this->stage.turnTime;
                 } else {
                     this->processingClientInputs = false;
-//                    this->players[this->currentWorm].setState(Worm::StateID::Still);
+                    //                    this->players[this->currentWorm].setState(Worm::StateID::Still);
                 }
             }
 
             IO::PlayerInput pi;
             if (playerStream->pop(pi, false)) {
                 if (this->processingClientInputs) {
-                    this->players.at(this->currentWorm).handleState(pi);
+                    if (this->currentPlayerShot) {
+                        if (pi != IO::PlayerInput::startShot && pi != IO::PlayerInput::endShot) {
+                            this->players.at(this->currentWorm).handleState(pi);
+                        }
+                    } else {
+                        this->players.at(this->currentWorm).handleState(pi);
+                    }
                 }
             }
 
@@ -100,19 +115,23 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 
             if (this->players.at(this->currentWorm).getBullet() != nullptr) {
                 if (this->players.at(this->currentWorm).getBullet()->madeImpact()) {
-                    DamageInfo damageInfo = this->players.at(this->currentWorm).getBullet()->getDamageInfo();
+                    DamageInfo damageInfo =
+                        this->players.at(this->currentWorm).getBullet()->getDamageInfo();
                     for (auto &worm : this->players) {
-                        worm.acknowledgeDamage(damageInfo, this->players.at(this->currentWorm).getBullet()->getPosition());
+                        worm.acknowledgeDamage(
+                            damageInfo,
+                            this->players.at(this->currentWorm).getBullet()->getPosition());
                         if (worm.getStateId() == Worm::StateID::Hit) {
                             this->impactOnCourse = true;
                         }
                     }
                     this->players[this->currentWorm].destroyBullet();
-//                    if(this->players[this->currentWorm].getBullet() = nullptr){
-//                        std::cout<<"null\n";
-//                    } else {
-//                        std::cout<<"not null\n";
-//                    }
+                    //                    if(this->players[this->currentWorm].getBullet() =
+                    //                    nullptr){
+                    //                        std::cout<<"null\n";
+                    //                    } else {
+                    //                        std::cout<<"not null\n";
+                    //                    }
                 }
             } else {
                 if (!this->impactOnCourse) {
@@ -129,20 +148,20 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             if (this->impactOnCourse) {
                 this->impactOnCourse = false;
                 this->shotOnCourse = false;
-                for (auto &worm : this->players) {
-                    Worm::StateID wormState = worm.getStateId();
-                    if (wormState != Worm::StateID::Still
-                        && wormState != Worm::StateID::Dead) {
+                for (size_t i = 0; i < this->players.size(); i++) {
+                    Worm::StateID wormState = this->players[i].getStateId();
+                    if (wormState != Worm::StateID::Still && wormState != Worm::StateID::Dead) {
                         this->impactOnCourse = true;
                         this->shotOnCourse = true;
+                        this->currentWormToFollow = i;
                     }
                 }
                 if (!this->impactOnCourse) {
                     for (auto &worm : this->players) {
                         Worm::StateID wormState = worm.getStateId();
                         if (worm.health == 0) {
-                            if (wormState != Worm::StateID::Die
-                                && wormState != Worm::StateID::Dead) {
+                            if (wormState != Worm::StateID::Die &&
+                                wormState != Worm::StateID::Dead) {
                                 worm.setState(Worm::StateID::Die);
                             }
                             if (wormState != Worm::StateID::Dead) {
@@ -186,6 +205,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     m.elapsedTurnSeconds = this->currentTurnElapsed;
     m.currentPlayerTurnTime = this->currentPlayerTurnTime;
     m.currentWorm = this->currentWorm;
+    m.currentWormToFollow = this->currentWormToFollow;
     m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
     if (this->players[this->currentWorm].getBullet() != nullptr) {

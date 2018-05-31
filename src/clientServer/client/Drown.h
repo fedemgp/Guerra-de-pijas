@@ -1,18 +1,18 @@
 /*
  *  Created by Rodrigo.
- *  date: 28/05/18
+ *  date: 29/05/18
  */
 
-#ifndef __Dead_H__
-#define __Dead_H__
+#ifndef __Drown_H__
+#define __Drown_H__
 
 #include "WormState.h"
 
 namespace Worm {
-class Dead : public State {
+class Drown : public State {
    public:
-    Dead();
-    ~Dead();
+    Drown();
+    ~Drown();
 
     virtual void update(float dt) override;
 
@@ -29,4 +29,4 @@ class Dead : public State {
 };
 }  // namespace Worm
 
-#endif  //__Dead_H__
+#endif  //__Drown_H__

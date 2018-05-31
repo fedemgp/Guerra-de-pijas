@@ -8,6 +8,7 @@
 
 #define BAZOOKA_CENTER_FRAME 16
 #define FLY_CENTER_FRAME 16
+#define DROWN_CENTER_FRAME 0
 #define ANGLE_STEP 5.625f
 
 #include <SDL2/SDL.h>

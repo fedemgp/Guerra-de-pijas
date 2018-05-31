@@ -22,7 +22,7 @@ enum class StateID {
     Hit,
     Die,
     Dead,
-    NoWeapons
+    Drown
 };
 enum WeaponID { WNone, WBazooka };
 }  // namespace Worm
@@ -45,6 +45,7 @@ enum class PlayerInput {
 struct GameStateMsg {
     uint8_t elapsedTurnSeconds;
     uint8_t currentWorm;
+    uint8_t currentWormToFollow;
     uint8_t num_worms;
     float wormsHealth[WORMS_QUANTITY];
     float positions[WORMS_QUANTITY * 2];

@@ -6,6 +6,10 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
+#include "Dead.h"
+#include "Die.h"
+#include "Drown.h"
+#include "Hit.h"
 #include "Physics.h"
 #include "Player.h"
 #include "PlayerBackFlipping.h"
@@ -16,10 +20,6 @@
 #include "PlayerStartJump.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
-#include "Hit.h"
-#include "Die.h"
-#include "Dead.h"
-#include "NoWeapons.h"
 
 Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
     this->bodyDef.type = b2_dynamicBody;
@@ -47,9 +47,17 @@ void Worms::Player::update(float dt) {
     this->weapon.update(dt);
     if (this->bullet != nullptr) {
         this->bullet->update(dt);
-//        if (this->bullet->madeImpact()) {
-//            this->bullet = nullptr;
-//        }
+        //        if (this->bullet->madeImpact()) {
+        //            this->bullet = nullptr;
+        //        }
+        if (this->bullet->getPosition().y < WATER_LEVEL) {
+            this->bullet = nullptr;
+        }
+    }
+    if (this->getPosition().y <= WATER_LEVEL && this->numContacts == 0 &&
+        this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {
+        this->health = 0.0f;
+        this->setState(Worm::StateID::Drown);
     }
 }
 
@@ -131,14 +139,14 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case Worm::StateID::NoWeapons:
-                this->state = std::shared_ptr<State>(new NoWeapons());
-                break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case Worm::StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
+                break;
+            case Worm::StateID::Drown:
+                this->state = std::shared_ptr<State>(new Drown());
                 break;
             case Worm::StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
@@ -183,9 +191,13 @@ std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
 }
 
 void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
-    double distanceToEpicenter = this->getPosition().distance(epicenter);//std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout << "distance to epicenter " << distanceToEpicenter << std::endl;
+    double distanceToEpicenter = this->getPosition().distance(
+        epicenter);  // std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position
+                     // "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout
+                     // << "distance to epicenter " << distanceToEpicenter << std::endl;
     if (distanceToEpicenter <= damageInfo.radius) {
-        double inflictedDamage = (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
+        double inflictedDamage =
+            (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
         this->health -= inflictedDamage;
 
         Math::Point<float> positionToEpicenter = this->getPosition() - epicenter;
@@ -197,7 +209,9 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->setState(Worm::StateID::Hit);
-        this->health = (this->health < 0) ? 0 : this->health;//std::cout << "life " << this->health << std::endl;
+        this->health = (this->health < 0)
+                           ? 0
+                           : this->health;  // std::cout << "life " << this->health << std::endl;
     }
 }
 

@@ -147,10 +147,13 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 
                 this->cam.moveTo(GUI::Position{cur_x, cur_y});
             } else {
-                float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
-                float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+                float cur_follow_x =
+                    this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
+                float cur_follow_y =
+                    this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
 
-                this->cam.moveTo(GUI::Position{cur_x, cur_y});
+                /* move the camera to the current player */
+                this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
             }
 
             this->update(dt);
@@ -179,8 +182,8 @@ void GUI::Game::update(float dt) {
 }
 
 void GUI::Game::render() {
-//    this->renderBackground();
-    this->window.clear(this->backgroundColor);
+    this->renderBackground();
+    //    this->window.clear(this->backgroundColor);
 
     for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
         float cur_x = this->snapshot.positions[i * 2];
@@ -212,7 +215,8 @@ void GUI::Game::render() {
         if (this->worms[i].getState() != Worm::StateID::Dead) {
             Text health{this->font};
             health.setBackground(SDL_Color{0, 0, 0});
-            health.set(std::to_string(this->worms[i].health), SDL_Color{0xFF, 0xFF, 0xFF}, 20);
+            health.set(std::to_string(static_cast<int>(this->worms[i].health)),
+                       SDL_Color{0xFF, 0xFF, 0xFF}, 20);
             health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
         }
     }

@@ -10,6 +10,8 @@
 
 #define PLAYER_HEIGHT 2.0f
 
+#define WATER_LEVEL (-2)
+
 #include "Bullet.h"
 #include "GameStateMsg.h"
 #include "Physics.h"

@@ -3,16 +3,15 @@
  *  date: 28/05/18
  */
 
-
-#include <iostream>
 #include "Dead.h"
+#include <iostream>
 
 Worm::Dead::Dead() : State(StateID::Dead) {}
 
 Worm::Dead::~Dead() {}
 
 void Worm::Dead::update(float dt) {
-//    std::cout<<"dead ";
+    //    std::cout<<"dead ";
 }
 
 IO::PlayerInput Worm::Dead::moveRight(Worm &w) {

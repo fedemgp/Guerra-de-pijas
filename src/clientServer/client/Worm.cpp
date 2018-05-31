@@ -6,7 +6,11 @@
 #include <SDL2/SDL_system.h>
 #include <cmath>
 
+#include "Dead.h"
+#include "Die.h"
+#include "Drown.h"
 #include "GameStateMsg.h"
+#include "Hit.h"
 #include "Text.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
@@ -17,16 +21,12 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "Hit.h"
-#include "Die.h"
-#include "Dead.h"
-#include "NoWeapons.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     : id(id),
       texture_mgr(texture_mgr),
       animation(texture_mgr.get(GUI::GameTextures::WormIdle)),
-      weapon(texture_mgr){
+      weapon(texture_mgr) {
     this->setState(::Worm::StateID::Still);
 }
 
@@ -133,8 +133,6 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
-        case StateID::NoWeapons:
-            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
         case StateID::Hit:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   FLY_CENTER_FRAME, false};
@@ -143,6 +141,9 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Drown:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
+                                  DROWN_CENTER_FRAME, false};
         case StateID::Dead:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
     }
@@ -179,14 +180,14 @@ void Worm::Worm::setState(StateID state) {
             case StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
-            case StateID::NoWeapons:
-                this->state = std::shared_ptr<State>(new NoWeapons());
-                break;
             case StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
+                break;
+            case StateID::Drown:
+                this->state = std::shared_ptr<State>(new Drown());
                 break;
             case StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());

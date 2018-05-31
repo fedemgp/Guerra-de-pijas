@@ -3,7 +3,6 @@
  *  date: 28/05/18
  */
 
-
 #include "Hit.h"
 
 Worm::Hit::Hit() : State(StateID::Hit) {}

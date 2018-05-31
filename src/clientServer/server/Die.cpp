@@ -3,7 +3,6 @@
  *  date: 28/05/18
  */
 
-
 #include "Die.h"
 #include "Player.h"
 

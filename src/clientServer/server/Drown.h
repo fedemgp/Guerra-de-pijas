@@ -1,18 +1,18 @@
 /*
  *  Created by Rodrigo.
- *  date: 28/05/18
+ *  date: 29/05/18
  */
 
-#ifndef __Dead_H__
-#define __Dead_H__
+#ifndef __Drown_H__
+#define __Drown_H__
 
 #include "PlayerState.h"
 
 namespace Worms {
-class Dead : public State {
+class Drown : public State {
    public:
-    Dead();
-    ~Dead() = default;
+    Drown();
+    ~Drown() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
@@ -24,7 +24,9 @@ class Dead : public State {
     void endShot(Player &p) override;
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
+
+    float timeElapsed{0.0f};
 };
 }  // namespace Worms
 
-#endif  //__Dead_H__
+#endif  //__Drown_H__
