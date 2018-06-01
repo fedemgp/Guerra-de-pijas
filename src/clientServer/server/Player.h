@@ -57,6 +57,8 @@ class Player : public PhysicsEntity {
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
     uint8_t getTeam() const;
+    void setId(uint8_t id);
+    uint8_t getId() const;
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};
@@ -69,6 +71,7 @@ class Player : public PhysicsEntity {
     Worms::Weapon weapon;
     int numContacts{0};
     uint8_t team;
+    uint8_t id;
 };
 }  // namespace Worms
 

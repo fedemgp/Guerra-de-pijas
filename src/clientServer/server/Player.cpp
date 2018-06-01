@@ -258,3 +258,11 @@ void Worms::Player::increaseHealth(float percentage) {
 uint8_t Worms::Player::getTeam() const {
     return this->team;
 }
+
+void Worms::Player::setId(uint8_t id) {
+    this->id = id;
+}
+
+uint8_t Worms::Player::getId() const {
+    return this->id;
+}

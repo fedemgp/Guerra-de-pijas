@@ -40,7 +40,7 @@ private:
     std::vector<WormData> players;
     std::vector<Girder> girders;
     float width{30.0f}, height{30.0f};
-    uint8_t numTeams{3};
+    uint8_t numTeams{2};
 };
 }  // namespace Worms
 

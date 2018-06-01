@@ -13,6 +13,10 @@
 #include "Stage.h"
 
 namespace Worms {
+struct Team {
+    std::vector<uint8_t> players;
+    uint8_t currentPlayer;
+};
 
 class Game {
    public:
@@ -42,7 +46,7 @@ class Game {
     bool processingClientInputs{true};
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
-    std::unordered_map<uint8_t, std::vector<Player *>> teams;
+    std::vector<Team> teams;
 };
 }  // namespace Worms
 
