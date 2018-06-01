@@ -34,7 +34,6 @@ class Stage {
 
     float getHeight() const;
     float getWidth() const;
-
     uint8_t getNumTeams();
 
 private:

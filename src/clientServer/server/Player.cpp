@@ -254,3 +254,7 @@ void Worms::Player::setTeam(uint8_t team) {
 void Worms::Player::increaseHealth(float percentage) {
     this->health += (percentage / 100.0f) * this->health;
 }
+
+uint8_t Worms::Player::getTeam() const {
+    return this->team;
+}

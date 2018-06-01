@@ -26,36 +26,7 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
         this->players.back().health = wormData.health;
     }
 
-    uint8_t numPlayers = this->players.size();
-    uint8_t numTeams = this->stage.getNumTeams();
-
-    std::vector<uint8_t> playersNum(numPlayers);
-    for (uint8_t i = 0; i < numPlayers; i++) {
-        playersNum.emplace_back(i);
-    }
-
-    std::random_device rnd_device;
-    std::mt19937 mersenne_engine(rnd_device());
-
-    std::shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
-
-    uint8_t maxTeamPlayers = (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
-    std::vector<uint8_t> numPlayersPerTeam(this->stage.getNumTeams());
-    for (uint8_t i = 0; i < numPlayersPerTeam.size(); i++) {
-        numPlayersPerTeam[i] = numPlayers / numTeams;
-        numPlayers -= numPlayersPerTeam[i];
-        numTeams--;
-    }
-    for (uint8_t i = 0, currentTeam = 0; i < numPlayers; i++) {
-        this->teams[currentTeam].emplace_back(&this->players[playersNum[i]]);
-        this->players[playersNum[i]].setTeam(currentTeam);
-        if (numPlayersPerTeam[currentTeam] < maxTeamPlayers) {
-            this->players[playersNum[i]].increaseHealth(25.0f);
-        }
-        if (this->teams[currentTeam].size() == numPlayersPerTeam[currentTeam]) {
-            currentTeam++;
-        }
-    }
+    this->makeTeams();
 
     /* sets the girders */
     for (auto &girder : this->stage.getGirders()) {
@@ -75,6 +46,39 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
     }
 
     this->currentPlayerTurnTime = this->stage.turnTime;
+}
+
+void Worms::Game::makeTeams() {
+    uint8_t numPlayers = this->players.size();
+    uint8_t numTeams = this->stage.getNumTeams();
+
+    std::vector<uint8_t> playersNum(numPlayers);
+    for (uint8_t i = 0; i < numPlayers; i++) {
+        playersNum[i] = i;
+    }
+
+    std::random_device rnd_device;
+    std::mt19937 mersenne_engine(rnd_device());
+
+    shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
+
+    uint8_t maxTeamPlayers = (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
+    std::vector<uint8_t> numPlayersPerTeam(this->stage.getNumTeams());
+    for (uint8_t i = 0, nP = numPlayers, nT = numTeams; i < numPlayersPerTeam.size(); i++) {
+        numPlayersPerTeam[i] = nP / nT;
+        nP -= numPlayersPerTeam[i];
+        nT--;
+    }
+    for (uint8_t i = 0, currentTeam = 0; i < numPlayers; i++) {
+        this->teams[currentTeam].emplace_back(&this->players[playersNum[i]]);
+        this->players[playersNum[i]].setTeam(currentTeam);
+        if (numPlayersPerTeam[currentTeam] < maxTeamPlayers) {
+            this->players[playersNum[i]].increaseHealth(25.0f);
+        }
+        if (this->teams[currentTeam].size() == numPlayersPerTeam[currentTeam]) {
+            currentTeam++;
+        }
+    }
 }
 
 void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
@@ -233,6 +237,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
         m.stateIDs[m.num_worms] = worm.getStateId();
         m.wormsHealth[m.num_worms] = worm.health;
+        m.wormsTeam[m.num_worms] = worm.getTeam();
         m.num_worms++;
     }
 

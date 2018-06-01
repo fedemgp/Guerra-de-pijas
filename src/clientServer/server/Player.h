@@ -56,6 +56,7 @@ class Player : public PhysicsEntity {
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
+    uint8_t getTeam() const;
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};

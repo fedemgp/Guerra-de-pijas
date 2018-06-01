@@ -28,6 +28,8 @@ class Game {
     void exit();
 
    private:
+    void makeTeams();
+
     char currentWorm{0};
     char currentTeam{0};
     double currentTurnElapsed{0};

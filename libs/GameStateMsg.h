@@ -47,6 +47,7 @@ struct GameStateMsg {
     uint8_t currentWorm;
     uint8_t currentWormToFollow;
     uint8_t num_worms;
+    uint8_t wormsTeam[WORMS_QUANTITY];
     float wormsHealth[WORMS_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
