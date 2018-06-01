@@ -39,3 +39,7 @@ float Worms::Stage::getHeight() const {
 float Worms::Stage::getWidth() const {
     return this->width;
 }
+
+uint8_t Worms::Stage::getNumTeams() {
+    return this->numTeams;
+}

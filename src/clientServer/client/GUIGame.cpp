@@ -81,6 +81,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
 
     this->snapshot.num_worms = num_worms;
     //    this->snapshot.processingInputs = true;
+
+    this->teamColors.push_back(SDL_Color{0, 0, 0});
+    this->teamColors.push_back(SDL_Color{1, 0, 0});
+    this->teamColors.push_back(SDL_Color{0, 1, 0});
 }
 
 GUI::Game::~Game() {}
@@ -182,8 +186,8 @@ void GUI::Game::update(float dt) {
 }
 
 void GUI::Game::render() {
-    this->renderBackground();
-    //    this->window.clear(this->backgroundColor);
+//    this->renderBackground();
+        this->window.clear(this->backgroundColor);
 
     for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
         float cur_x = this->snapshot.positions[i * 2];
@@ -214,7 +218,7 @@ void GUI::Game::render() {
 
         if (this->worms[i].getState() != Worm::StateID::Dead) {
             Text health{this->font};
-            health.setBackground(SDL_Color{0, 0, 0});
+            health.setBackground(this->teamColors[this->snapshot.currentTeam]);
             health.set(std::to_string(static_cast<int>(this->worms[i].health)),
                        SDL_Color{0xFF, 0xFF, 0xFF}, 20);
             health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);

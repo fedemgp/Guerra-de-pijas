@@ -7,6 +7,7 @@
 #define __GAME_H__
 
 #include <atomic>
+#include <unordered_map>
 
 #include "Player.h"
 #include "Stage.h"
@@ -28,6 +29,7 @@ class Game {
 
    private:
     char currentWorm{0};
+    char currentTeam{0};
     double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
@@ -38,6 +40,7 @@ class Game {
     bool processingClientInputs{true};
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
+    std::unordered_map<uint8_t, std::vector<Player *>> teams;
 };
 }  // namespace Worms
 

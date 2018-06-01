@@ -8,6 +8,9 @@
 #include <atomic>
 #include <chrono>
 #include <iostream>
+#include <random>
+#include <functional>
+#include <algorithm>
 
 #include "Game.h"
 #include "Player.h"
@@ -21,6 +24,37 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
         this->players.emplace_back(this->physics);
         this->players.back().setPosition(wormData.position);
         this->players.back().health = wormData.health;
+    }
+
+    uint8_t numPlayers = this->players.size();
+    uint8_t numTeams = this->stage.getNumTeams();
+
+    std::vector<uint8_t> playersNum(numPlayers);
+    for (uint8_t i = 0; i < numPlayers; i++) {
+        playersNum.emplace_back(i);
+    }
+
+    std::random_device rnd_device;
+    std::mt19937 mersenne_engine(rnd_device());
+
+    std::shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
+
+    uint8_t maxTeamPlayers = (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
+    std::vector<uint8_t> numPlayersPerTeam(this->stage.getNumTeams());
+    for (uint8_t i = 0; i < numPlayersPerTeam.size(); i++) {
+        numPlayersPerTeam[i] = numPlayers / numTeams;
+        numPlayers -= numPlayersPerTeam[i];
+        numTeams--;
+    }
+    for (uint8_t i = 0, currentTeam = 0; i < numPlayers; i++) {
+        this->teams[currentTeam].emplace_back(&this->players[playersNum[i]]);
+        this->players[playersNum[i]].setTeam(currentTeam);
+        if (numPlayersPerTeam[currentTeam] < maxTeamPlayers) {
+            this->players[playersNum[i]].increaseHealth(25.0f);
+        }
+        if (this->teams[currentTeam].size() == numPlayersPerTeam[currentTeam]) {
+            currentTeam++;
+        }
     }
 
     /* sets the girders */
@@ -84,6 +118,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     do {
                         this->currentWorm = (this->currentWorm + 1) % this->players.size();
                         this->currentWormToFollow = this->currentWorm;
+                        this->currentTeam = (this->currentTeam + 1) % this->stage.getNumTeams();
                         currentWormState = this->players[this->currentWorm].getStateId();
                     } while (currentWormState == Worm::StateID::Dead);
 
@@ -206,6 +241,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     m.currentPlayerTurnTime = this->currentPlayerTurnTime;
     m.currentWorm = this->currentWorm;
     m.currentWormToFollow = this->currentWormToFollow;
+    m.currentTeam = this->currentTeam;
     m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
     if (this->players[this->currentWorm].getBullet() != nullptr) {

@@ -57,6 +57,7 @@ struct GameStateMsg {
     float bulletAngle;
     bool processingInputs;
     float currentPlayerTurnTime;
+    char currentTeam;
 };
 }  // namespace IO
 

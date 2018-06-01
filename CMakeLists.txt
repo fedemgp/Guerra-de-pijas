@@ -37,9 +37,9 @@ add_executable(	server
 target_link_libraries(server Box2D)
 
 
-add_executable( Box2DTest
-                src/box2DTest/test.cpp)
-target_link_libraries(Box2DTest Box2D)
+#add_executable( Box2DTest
+#                src/box2DTest/test.cpp)
+#target_link_libraries(Box2DTest Box2D)
 
 #add_executable( prototype
 #                src/prototype/main.cpp
@@ -55,15 +55,15 @@ target_link_libraries(Box2DTest Box2D)
 #        libs/Exception.h )
 #target_link_libraries(prototype Box2D SDL2 SDL2_image)
 
-add_executable( SDLTest
-        libs/Exception.cpp
-        libs/Exception.h
-        src/SDLTest/main.cpp
-        src/SDLTest/View.cpp
-        src/SDLTest/View.h
-        src/SDLTest/Texture.cpp
-        src/SDLTest/Texture.h)
-target_link_libraries(SDLTest SDL2 SDL2_image)
+#add_executable( SDLTest
+#        libs/Exception.cpp
+#        libs/Exception.h
+#        src/SDLTest/main.cpp
+#        src/SDLTest/View.cpp
+#        src/SDLTest/View.h
+#        src/SDLTest/Texture.cpp
+#        src/SDLTest/Texture.h)
+#target_link_libraries(SDLTest SDL2 SDL2_image)
 
 file(GLOB_RECURSE CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer

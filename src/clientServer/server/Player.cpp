@@ -246,3 +246,11 @@ void Worms::Player::startShot() {
 void Worms::Player::endShot() {
     this->weapon.endShot(*this);
 }
+
+void Worms::Player::setTeam(uint8_t team) {
+    this->team = team;
+}
+
+void Worms::Player::increaseHealth(float percentage) {
+    this->health += (percentage / 100.0f) * this->health;
+}
