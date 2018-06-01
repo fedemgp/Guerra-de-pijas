@@ -8,8 +8,8 @@
 
 #include "GameStateMsg.h"
 #include "Stream.h"
+#include "Window.h"
 #include "client/GUIGame.h"
-#include "client/Window.h"
 #include "server/Game.h"
 #include "server/Stage.h"
 
