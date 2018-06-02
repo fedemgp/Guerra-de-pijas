@@ -12,9 +12,9 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
     b2Vec2 vel = body->GetLinearVelocity();
 
     if (p.direction == Direction::left) {
-        final_vel = -3.0f;
+        final_vel = -this->walkVelocity;
     } else {
-        final_vel = 3.0f;
+        final_vel = this->walkVelocity;
     }
     this->impulses[0] = mass * (final_vel - vel.x);
     body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
@@ -34,7 +34,9 @@ void Worms::Walk::stopMove(Worms::Player &p) {
 
 void Worms::Walk::jump(Worms::Player &p) {}
 
-Worms::Walk::Walk() : State(Worm::StateID::Walk) {}
+Worms::Walk::Walk() : State(Worm::StateID::Walk),
+                      walkVelocity(Game::Config::getInstance()
+                                           .getWalkVelocity()) {}
 
 void Worms::Walk::backFlip(Worms::Player &p) {}
 

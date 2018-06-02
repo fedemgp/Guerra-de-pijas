@@ -6,6 +6,7 @@
 #ifndef __Drown_H__
 #define __Drown_H__
 
+#include "Config.h"
 #include "PlayerState.h"
 
 namespace Worms {
@@ -26,6 +27,7 @@ class Drown : public State {
     void pointDown(Player &p) override;
 
     float timeElapsed{0.0f};
+    float drowningTime;
 };
 }  // namespace Worms
 

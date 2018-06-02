@@ -7,10 +7,7 @@
 #define __PLAYER_START_BACK_FLIP_H__
 
 #include "Player.h"
-
-#define START_BACKFLIP_TIME 0.6f
-#define BACKFLIP_VEL_X -1.2f
-#define BACKFLIP_VEL_Y 9.4f
+#include "Config.h"
 
 namespace Worms {
 class StartBackFlip : public State {
@@ -32,6 +29,8 @@ class StartBackFlip : public State {
    private:
     float timeElapsed{0.0f};
     bool impulseApplied{false};
+    const Math::Vector backflipVelocity;
+    const float startJumpTime;
 };
 }
 

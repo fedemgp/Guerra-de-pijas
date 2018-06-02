@@ -6,12 +6,15 @@
 #include "PlayerEndBackFlip.h"
 #include "Player.h"
 #include "PlayerState.h"
+#include "Config.h"
 
-Worms::EndBackFlip::EndBackFlip() : State(Worm::StateID::EndBackFlip) {}
+Worms::EndBackFlip::EndBackFlip() : State(Worm::StateID::EndBackFlip),
+                                    landTime(Game::Config::getInstance()
+                                                     .getLandTime()) {}
 
 void Worms::EndBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed > BACK_FLIP_LAND_TIME) {
+    if (this->timeElapsed > this->landTime) {
         p.setState(Worm::StateID::Still);
     }
 }

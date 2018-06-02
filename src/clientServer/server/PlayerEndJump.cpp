@@ -3,14 +3,17 @@
  *  date: 20/05/18
  */
 
+#include "Config.h"
 #include "PlayerEndJump.h"
 #include "Player.h"
 
-Worms::EndJump::EndJump() : State(Worm::StateID::EndJump) {}
+Worms::EndJump::EndJump() : State(Worm::StateID::EndJump),
+                            landTime(Game::Config::getInstance()
+                                             .getLandTime()) {}
 
 void Worms::EndJump::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed > JUMP_LAND_TIME) {
+    if (this->timeElapsed > this->landTime) {
         p.setState(Worm::StateID::Still);
     }
 }

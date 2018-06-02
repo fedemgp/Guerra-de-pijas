@@ -6,13 +6,14 @@
 #include "Drown.h"
 #include "Player.h"
 
-#define DROWNING_TIME 2.6f
 
-Worms::Drown::Drown() : State(Worm::StateID::Drown) {}
+Worms::Drown::Drown() : State(Worm::StateID::Drown),
+                        drowningTime(Game::Config::getInstance()
+                                             .getDrowningTime()){}
 
 void Worms::Drown::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed >= DROWNING_TIME) {
+    if (this->timeElapsed >= this->drowningTime) {
         p.setState(Worm::StateID::Dead);
     }
 }

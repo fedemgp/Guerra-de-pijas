@@ -3,16 +3,22 @@
 //
 
 #include "PlayerStartJump.h"
+#include "Config.h"
 #include <iostream>
 
-Worms::StartJump::StartJump() : State(Worm::StateID::StartJump) {}
+Worms::StartJump::StartJump() : State(Worm::StateID::StartJump),
+                                jumpTime(Game::Config::getInstance()
+                                                      .getStartJumpTime()),
+                                jumpVelocity(Game::Config::getInstance()
+                                                     .getJumpVelocity()){}
 
 void Worms::StartJump::update(Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed >= START_JUMP_TIME) {
+    if (this->timeElapsed >= this->jumpTime) {
         if (!this->impulseApplied) {
             float32 mass = body->GetMass();
-            b2Vec2 impulses = {mass * JUMP_VEL_X, mass * JUMP_VEL_Y};
+            b2Vec2 impulses = {mass * this->jumpVelocity.x,
+                               mass * this->jumpVelocity.y};
             if (p.direction == Direction::left) {
                 impulses.x *= -1;
             }

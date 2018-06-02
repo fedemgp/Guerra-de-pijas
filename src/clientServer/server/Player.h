@@ -10,8 +10,6 @@
 
 #define PLAYER_HEIGHT 2.0f
 
-#define WATER_LEVEL (-2)
-
 #include "Bullet.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
@@ -62,6 +60,7 @@ class Player : public PhysicsEntity {
     b2PolygonShape shape;
     b2FixtureDef fixture;
     Physics &physics;
+    const int waterLevel;
     std::shared_ptr<Worms::Bullet> bullet{nullptr};
     Worms::Weapon weapon;
     int numContacts{0};
