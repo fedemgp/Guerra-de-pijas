@@ -4,7 +4,10 @@
  */
 
 #include "Config.h"
-
+/**
+ * Meyer's singleton implementation.
+ * @return
+ */
 Game::Config &Game::Config::getInstance(){
     static Config instance;
     return instance;
