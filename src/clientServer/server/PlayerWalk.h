@@ -2,6 +2,7 @@
 #define _PLAYERWALKLEFT_H
 
 #include "PlayerState.h"
+#include "Config.h"
 
 namespace Worms {
 class Walk : public State {
@@ -19,6 +20,9 @@ class Walk : public State {
     void stopMove(Player &p) override;
     virtual void pointUp(Player &p) override;
     virtual void pointDown(Player &p) override;
+
+private:
+    const float walkVelocity;
 };
 }
 

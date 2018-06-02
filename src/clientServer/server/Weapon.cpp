@@ -5,6 +5,15 @@
 
 #include "Weapon.h"
 #include "Player.h"
+#include "Config.h"
+
+Worms::Weapon::Weapon(): minAngle(Game::Config::getInstance().getMinAngle()),
+                         maxAngle(Game::Config::getInstance().getMaxAngle()),
+                         angleStep(Game::Config::getInstance().getAngleStep()),
+                         maxPowerShot(Game::Config::getInstance()
+                                              .getMaxShotPower()){
+
+}
 
 const Worm::WeaponID &Worms::Weapon::getWeaponID() const {
     return this->id;
@@ -12,8 +21,8 @@ const Worm::WeaponID &Worms::Weapon::getWeaponID() const {
 
 void Worms::Weapon::update(float dt) {
     if (this->increaseShotPower) {
-        if (this->shotPower >= MAX_SHOT_POWER) {
-            this->shotPower = MAX_SHOT_POWER;
+        if (this->shotPower >= this->maxPowerShot) {
+            this->shotPower = this->maxPowerShot;
         } else {
             this->shotPower++;
         }
@@ -25,16 +34,16 @@ void Worms::Weapon::setWeaponID(const Worm::WeaponID &id) {
 }
 
 void Worms::Weapon::decreaseAngle() {
-    this->angle -= ANGLE_STEP;
-    if (this->angle < MIN_ANGLE) {
-        this->angle = MIN_ANGLE;
+    this->angle -= this->angleStep;
+    if (this->angle < this->minAngle) {
+        this->angle = this->minAngle;
     }
 }
 
 void Worms::Weapon::increaseAngle() {
-    this->angle += ANGLE_STEP;
-    if (this->angle > MAX_ANGLE) {
-        this->angle = MAX_ANGLE;
+    this->angle += this->angleStep;
+    if (this->angle > this->maxAngle) {
+        this->angle = this->maxAngle;
     }
 }
 

@@ -41,6 +41,7 @@ class Game {
     Physics physics;
     Stage stage;
     std::vector<Player> players;
+    const double maxTurnTime;
     bool impactOnCourse{false};
     bool shotOnCourse{false};
     double currentPlayerTurnTime{0};

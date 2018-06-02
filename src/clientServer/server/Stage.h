@@ -8,6 +8,8 @@
 
 #include <cstdint>
 #include <vector>
+
+#include "Config.h"
 #include "Point.h"
 
 namespace Worms {
@@ -24,7 +26,7 @@ struct WormData {
 
 class Stage {
    public:
-    uint8_t turnTime{3};
+    uint8_t turnTime{Game::Config::getInstance().getTurnTime()};
 
     Stage();
     ~Stage() = default;
@@ -39,8 +41,9 @@ class Stage {
    private:
     std::vector<WormData> players;
     std::vector<Girder> girders;
-    float width{30.0f}, height{30.0f};
-    uint8_t numTeams{2};
+    float width{Game::Config::getInstance().getGameWidth()};
+    float height{Game::Config::getInstance().getGameHeight()};
+    uint8_t numTeams{Game::Config::getInstance().getNumTeams()};
 };
 }  // namespace Worms
 

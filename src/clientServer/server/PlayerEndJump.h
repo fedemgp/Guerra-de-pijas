@@ -8,8 +8,6 @@
 
 #include "PlayerState.h"
 
-#define JUMP_LAND_TIME 0.3f
-
 namespace Worms {
 class EndJump : public State {
    public:
@@ -29,6 +27,7 @@ class EndJump : public State {
 
    private:
     float timeElapsed{0.0f};
+    const float landTime;
 };
 }  // namespace Worms
 

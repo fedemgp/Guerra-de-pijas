@@ -11,8 +11,6 @@
 #include "Point.h"
 
 #define PI 3.14159265
-#define DAMAGE 50.0f
-#define DAMAGE_RADIUS 2.0f
 
 namespace Worms {
 struct DamageInfo {

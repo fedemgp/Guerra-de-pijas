@@ -8,8 +8,6 @@
 
 #include "PlayerState.h"
 
-#define BACK_FLIP_LAND_TIME 0.4f
-
 namespace Worms {
 class EndBackFlip : public State {
    public:
@@ -29,6 +27,7 @@ class EndBackFlip : public State {
 
    private:
     float timeElapsed{0.0f};
+    float landTime;
 };
 }  // namespace Worms
 

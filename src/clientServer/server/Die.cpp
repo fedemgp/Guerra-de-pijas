@@ -6,13 +6,11 @@
 #include "Die.h"
 #include "Player.h"
 
-#define DYING_TIME 2.6f
-
 Worms::Die::Die() : State(Worm::StateID::Die) {}
 
 void Worms::Die::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed >= DYING_TIME) {
+    if (this->timeElapsed >= this->dyingTime) {
         p.setState(Worm::StateID::Dead);
     }
 }

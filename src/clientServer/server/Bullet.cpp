@@ -4,6 +4,7 @@
  */
 
 #include "Bullet.h"
+#include "Config.h"
 #include <cmath>
 #include <iostream>
 
@@ -31,15 +32,14 @@ Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float 
 
     this->angle = angle;
     this->power = power;
-    this->damageInfo.damage = DAMAGE;
-    this->damageInfo.radius = DAMAGE_RADIUS;
+    this->damageInfo.damage = ::Game::Config::getInstance().getBazookaDmg();
+    this->damageInfo.radius = ::Game::Config::getInstance()
+            .getBazookaDmgRadius();
 }
 
 void Worms::Bullet::update(float dt) {
     if (!this->impulseApplied) {
-        float32 mass = this->body->GetMass();  // std::cout<<"first bullet angle "<<this->angle<<"
-                                               // "<<cos(this->angle * PI / 180.0f)<<"
-                                               // "<<sin(this->angle * PI / 180.0f)<<std::endl;
+        float32 mass = this->body->GetMass();  
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
                            mass * float32(this->power * sin(this->angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();

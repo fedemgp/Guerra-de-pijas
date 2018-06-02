@@ -3,9 +3,10 @@
  *  date: 28/05/18
  */
 
-#ifndef __Die_H__
-#define __Die_H__
+#ifndef __DIE_H__
+#define __DIE_H__
 
+#include "Config.h"
 #include "PlayerState.h"
 
 namespace Worms {
@@ -25,8 +26,10 @@ class Die : public State {
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
 
+private:
     float timeElapsed{0.0f};
+    float dyingTime{Game::Config::getInstance().getDyingTime()};
 };
 }  // namespace Worms
 
-#endif  //__Die_H__
+#endif  //__DIE_H__

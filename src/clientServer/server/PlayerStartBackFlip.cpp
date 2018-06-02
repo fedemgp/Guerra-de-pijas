@@ -5,14 +5,17 @@
 
 #include "PlayerStartBackFlip.h"
 
-Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip) {}
+Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip),
+                                        backflipVelocity(Game::Config::getInstance().getBackflipVelocity()),
+                                        startJumpTime(Game::Config::getInstance().getStartJumpTime()){}
 
 void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed >= START_BACKFLIP_TIME) {
+    if (this->timeElapsed >= this->startJumpTime) {
         if (!this->impulseApplied) {
             float32 mass = body->GetMass();
-            b2Vec2 impulses = {mass * BACKFLIP_VEL_X, mass * BACKFLIP_VEL_Y};
+            b2Vec2 impulses = {mass * this->backflipVelocity.x,
+                               mass * this->backflipVelocity.y};
             if (p.direction == Direction::left) {
                 impulses.x *= -1;
             }

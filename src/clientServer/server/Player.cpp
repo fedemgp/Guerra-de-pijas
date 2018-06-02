@@ -21,7 +21,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics) {
+Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm),
+                                          physics(physics),
+                                          waterLevel(Game::Config::getInstance()
+                                                             .getWaterLevel()) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -50,11 +53,11 @@ void Worms::Player::update(float dt) {
         //        if (this->bullet->madeImpact()) {
         //            this->bullet = nullptr;
         //        }
-        if (this->bullet->getPosition().y < WATER_LEVEL) {
+        if (this->bullet->getPosition().y < this->waterLevel) {
             this->bullet = nullptr;
         }
     }
-    if (this->getPosition().y <= WATER_LEVEL && this->numContacts == 0 &&
+    if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
         this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {
         this->health = 0.0f;
         this->setState(Worm::StateID::Drown);

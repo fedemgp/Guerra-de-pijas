@@ -8,17 +8,11 @@
 
 #include <GameStateMsg.h>
 
-#define MIN_ANGLE -90
-#define MAX_ANGLE 84.375f
-#define ANGLE_STEP 5.625f
-
-#define MAX_SHOT_POWER 50
-
 namespace Worms {
 class Player;
 class Weapon {
    public:
-    Weapon() = default;
+    Weapon();
     ~Weapon() = default;
 
     const Worm::WeaponID &getWeaponID() const;
@@ -47,6 +41,10 @@ class Weapon {
     int shotPower{0};
     Worm::WeaponID id{Worm::WeaponID::WBazooka};
     float angle{0};
+    const float minAngle;
+    const float maxAngle;
+    const float angleStep;
+    const uint16_t maxPowerShot;
 };
 }  // namespace Worms
 

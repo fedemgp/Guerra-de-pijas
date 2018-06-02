@@ -16,7 +16,10 @@
 #include "Player.h"
 #include "Stage.h"
 
-Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::move(stage)) {
+Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}),
+                                   stage(std::move(stage)),
+                                   maxTurnTime(::Game::Config::getInstance()
+                                                       .getExtraTurnTime()){
     /* reserves the required space to avoid reallocations that may move the worm addresses */
     this->players.reserve(this->stage.getWorms().size());
     uint8_t id = 0;
@@ -117,7 +120,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             this->currentTurnElapsed += dt;
             if (this->players[this->currentWorm].getBullet() != nullptr &&
                 !this->currentPlayerShot) {
-                this->currentPlayerTurnTime = 3.0f;
+                this->currentPlayerTurnTime = this->maxTurnTime;
                 this->currentTurnElapsed = 0.0f;
                 this->shotOnCourse = true;
                 this->currentPlayerShot = true;
