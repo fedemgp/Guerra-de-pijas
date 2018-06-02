@@ -186,8 +186,8 @@ void GUI::Game::update(float dt) {
 }
 
 void GUI::Game::render() {
-//    this->renderBackground();
-        this->window.clear(this->backgroundColor);
+    this->renderBackground();
+    //    this->window.clear(this->backgroundColor);
 
     for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
         float cur_x = this->snapshot.positions[i * 2];

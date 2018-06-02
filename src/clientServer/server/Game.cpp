@@ -5,12 +5,12 @@
 
 #include <Box2D/Box2D.h>
 #include <zconf.h>
+#include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <functional>
 #include <iostream>
 #include <random>
-#include <functional>
-#include <algorithm>
 
 #include "Game.h"
 #include "Player.h"
@@ -50,6 +50,7 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
 
     this->currentTeam = 0;
     this->currentWorm = this->teams[this->currentTeam].players[0];
+    this->currentWormToFollow = this->currentWorm;
 
     this->currentPlayerTurnTime = this->stage.turnTime;
 }
@@ -58,9 +59,9 @@ void Worms::Game::makeTeams() {
     uint8_t numPlayers = this->players.size();
     uint8_t numTeams = this->stage.getNumTeams();
 
-//    for (uint8_t i = 0; i < numTeams; i++) {
-//        this->teams.emplace_back(Team{std::vector<uint8_t>, 0})
-//    }
+    //    for (uint8_t i = 0; i < numTeams; i++) {
+    //        this->teams.emplace_back(Team{std::vector<uint8_t>, 0})
+    //    }
 
     std::vector<uint8_t> playersNum(numPlayers);
     for (uint8_t i = 0; i < numPlayers; i++) {
@@ -72,7 +73,8 @@ void Worms::Game::makeTeams() {
 
     shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
 
-    uint8_t maxTeamPlayers = (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
+    uint8_t maxTeamPlayers =
+        (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
     std::vector<uint8_t> numPlayersPerTeam(this->stage.getNumTeams());
     for (uint8_t i = 0, nP = numPlayers, nT = numTeams; i < numPlayersPerTeam.size(); i++) {
         numPlayersPerTeam[i] = nP / nT;
@@ -81,7 +83,7 @@ void Worms::Game::makeTeams() {
     }
     std::vector<uint8_t> players;
     for (uint8_t i = 0, currentTeam = 0; i < numPlayers; i++) {
-//        this->teams[currentTeam].players.emplace_back(this->players[playersNum[i]].getId());
+        //        this->teams[currentTeam].players.emplace_back(this->players[playersNum[i]].getId());
         players.emplace_back(this->players[playersNum[i]].getId());
         this->players[playersNum[i]].setTeam(currentTeam);
         if (numPlayersPerTeam[currentTeam] < maxTeamPlayers) {
@@ -105,6 +107,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
         float32 timeStep = 1.0f / 60.0f;
 
         while (!quit) {
+            std::cout << this->currentWorm << std::endl;
             std::chrono::high_resolution_clock::time_point current =
                 std::chrono::high_resolution_clock::now();
             double dt =
@@ -308,7 +311,8 @@ void Worms::Game::newCurrentPlayerAndTeam() {
         currentTeamPlayer = (currentTeamPlayer + 1) % this->teams[this->currentTeam].players.size();
         this->teams[this->currentTeam].currentPlayer = currentTeamPlayer;
         this->currentWorm = this->teams[this->currentTeam].players[currentTeamPlayer];
-//                        this->currentWorm = (this->currentWorm + 1) % this->players.size();
+        //                        this->currentWorm = (this->currentWorm + 1) %
+        //                        this->players.size();
         this->currentWormToFollow = this->currentWorm;
     } while (this->players[this->currentWorm].getStateId() == Worm::StateID::Dead);
 }

@@ -36,7 +36,7 @@ class Stage {
     float getWidth() const;
     uint8_t getNumTeams();
 
-private:
+   private:
     std::vector<WormData> players;
     std::vector<Girder> girders;
     float width{30.0f}, height{30.0f};
