@@ -16,6 +16,7 @@ namespace Worms {
 struct Team {
     std::vector<uint8_t> players;
     uint8_t currentPlayer;
+    bool alive;
 };
 
 class Game {
@@ -34,8 +35,8 @@ class Game {
    private:
     void makeTeams();
 
-    char currentWorm{0};
-    char currentTeam{0};
+    char currentWorm;
+    char currentTeam;
     double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
@@ -47,6 +48,12 @@ class Game {
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
     std::vector<Team> teams;
+
+    void checkTeams();
+
+    std::vector<uint8_t> deadTeams;
+
+    void newCurrentPlayerAndTeam();
 };
 }  // namespace Worms
 

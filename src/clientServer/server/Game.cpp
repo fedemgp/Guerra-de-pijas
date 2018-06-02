@@ -48,6 +48,9 @@ Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}), stage(std::mov
         staticBody->CreateFixture(&fixture);
     }
 
+    this->currentTeam = 0;
+    this->currentWorm = this->teams[this->currentTeam].players[0];
+
     this->currentPlayerTurnTime = this->stage.turnTime;
 }
 
@@ -85,7 +88,7 @@ void Worms::Game::makeTeams() {
             this->players[playersNum[i]].increaseHealth(25.0f);
         }
         if (players.size() == numPlayersPerTeam[currentTeam]) {
-            this->teams.push_back(Team{players, players[0]});
+            this->teams.push_back(Team{players, 0, true});
             players.clear();
             currentTeam++;
         }
@@ -124,22 +127,13 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     }
                 }
                 if (!this->shotOnCourse && !anyWormDrowning) {
-                    Worm::StateID currentWormState = this->players[this->currentWorm].getStateId();
-                    if (currentWormState != Worm::StateID::Dead) {
+                    if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
                         this->players[this->currentWorm].setState(Worm::StateID::Still);
                     }
                     this->currentTurnElapsed = 0;
                     this->currentPlayerShot = false;
-                    do {
-//                        this->currentTeam = (this->currentTeam + 1) % this->teams.size();
-//                        uint8_t currentTeamPlayer = this->teams[this->currentTeam].currentPlayer;
-//                        currentTeamPlayer = (currentTeamPlayer + 1) % this->teams[this->currentTeam].players.size();
-//                        this->teams[this->currentTeam].currentPlayer = currentTeamPlayer;
-//                        this->currentWorm = currentTeamPlayer;
-                        this->currentWorm = (this->currentWorm + 1) % this->players.size();
-                        this->currentWormToFollow = this->currentWorm;
-                        currentWormState = this->players[this->currentWorm].getStateId();
-                    } while (currentWormState == Worm::StateID::Dead);
+                    this->checkTeams();
+                    this->newCurrentPlayerAndTeam();
 
                     this->processingClientInputs = true;
                     this->currentPlayerTurnTime = this->stage.turnTime;
@@ -284,4 +278,37 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
 
 void Worms::Game::exit() {
     this->quit = true;
+}
+
+void Worms::Game::checkTeams() {
+    uint8_t numTeam = 0;
+    for (auto &team : this->teams) {
+        if (team.alive) {
+            bool teamAlive = false;
+            for (auto teamPlayer : this->teams[numTeam].players) {
+                if (this->players[teamPlayer].getStateId() != Worm::StateID::Dead) {
+                    teamAlive = true;
+                }
+            }
+            if (!teamAlive) {
+                this->deadTeams.emplace_back(numTeam);
+                team.alive = false;
+            }
+        }
+        numTeam++;
+    }
+}
+
+void Worms::Game::newCurrentPlayerAndTeam() {
+    do {
+        this->currentTeam = (this->currentTeam + 1) % this->teams.size();
+    } while (!this->teams[this->currentTeam].alive);
+    do {
+        uint8_t currentTeamPlayer = this->teams[this->currentTeam].currentPlayer;
+        currentTeamPlayer = (currentTeamPlayer + 1) % this->teams[this->currentTeam].players.size();
+        this->teams[this->currentTeam].currentPlayer = currentTeamPlayer;
+        this->currentWorm = this->teams[this->currentTeam].players[currentTeamPlayer];
+//                        this->currentWorm = (this->currentWorm + 1) % this->players.size();
+        this->currentWormToFollow = this->currentWorm;
+    } while (this->players[this->currentWorm].getStateId() == Worm::StateID::Dead);
 }
