@@ -29,7 +29,9 @@ enum class GameTextures {
     WormCluster,
     Cluster,
     Mortar,
-    Bazooka2
+    Bazooka2,
+    WormBanana,
+    Banana
 };
 
 /** Specialized TextureManager class. */
