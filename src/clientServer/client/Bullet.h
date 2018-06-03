@@ -10,6 +10,7 @@
 
 #include "Animation.h"
 #include "GameTextures.h"
+#include "Explosion.h"
 
 #define MISSILE_0_DEG_FRAME 8
 #define MISSILE_ANGLE_STEP 11.25f
@@ -22,12 +23,20 @@ class Bullet {
     void update(float dt);
     void render(GUI::Position p, GUI::Camera &cam);
     void setAngle(float angle);
+    void setPosition(GUI::Position p);
+    GUI::Position getPosition();
+    void madeImpact();
+    bool exploding();
+    bool exploded();
 
    private:
     float angle{0};
     bool updateManually{true};
     const GUI::GameTextureManager &texture_mgr;
     GUI::Animation animation;
+    GUI::Position position{0, 0};
+    Worm::Explosion explosion;
+    bool explode{false};
 };
 }
 

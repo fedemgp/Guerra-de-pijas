@@ -76,10 +76,17 @@ void GUI::Animation::advanceFrame() {
             this->step = -1;
         }
     }
-    if (!(this->playOnce &&
-          this->currentFrame == this->numFrames - 1)) {  // Por ahora ignora el playReversed
+//    if (!(this->playOnce &&
+//          this->currentFrame == this->numFrames - 1)) {  // Por ahora ignora el playReversed
+//        this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
+//    }
+    if (this->playOnce &&
+          this->currentFrame == this->numFrames - 1) {  // Por ahora ignora el playReversed
+        this->animationFinished = true;
+    }
+    if (!this->animationFinished) {
         this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
-    }  // std::cout<<this->elapsed<<" "<<this->currentFrame<<std::endl;
+    }
 }
 
 void GUI::Animation::setFlip(SDL_RendererFlip flip_type) {
@@ -98,4 +105,8 @@ void GUI::Animation::setFrame(int frame) {
 
 void GUI::Animation::setAnimateOnce() {
     this->playOnce = true;
+}
+
+bool GUI::Animation::finished() {
+    return this->animationFinished;
 }

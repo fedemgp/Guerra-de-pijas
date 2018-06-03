@@ -33,7 +33,10 @@ enum class GameTextures {
     WormBanana,
     Banana,
     WormHoly,
-    Holy
+    Holy,
+    Explosion,
+    Flame,
+    Smoke
 };
 
 /** Specialized TextureManager class. */

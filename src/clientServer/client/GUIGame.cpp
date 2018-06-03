@@ -55,6 +55,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Missile,
                            "src/clientServer/assets/img/Weapons/missile.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Explosion, "src/clientServer/assets/img/Effects/circle25.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Flame, "src/clientServer/assets/img/Effects/flame1.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Smoke, "src/clientServer/assets/img/Effects/smkdrk20.png",
+                           GUI::Color{0xC0, 0xC0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::StaticBackground,
                            "src/clientServer/assets/img/background/static.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
@@ -168,7 +174,9 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 }
                 this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {
-                this->bullet = nullptr;
+                if (this->bullet != nullptr) {
+                        this->bullet->madeImpact();
+                }
             }
 
             uint32_t current = SDL_GetTicks();
@@ -225,6 +233,7 @@ void GUI::Game::render() {
         float cur_y = this->snapshot.positions[i * 2 + 1];
 
         GUI::Position p{cur_x, cur_y};
+        this->worms[i].setPosition(p);
         this->worms[i].render(p, this->cam);
     }
 
@@ -238,7 +247,14 @@ void GUI::Game::render() {
     if (this->bullet != nullptr) {
         float local_x = this->snapshot.bullet[0];
         float local_y = this->snapshot.bullet[1];
+        if (!this->bullet->exploding()) {
+            this->bullet->setAngle(this->snapshot.bulletAngle);
+            this->bullet->setPosition(GUI::Position{local_x, local_y});
+        }
         this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
+        if (this->bullet->exploded()) {
+            this->bullet = nullptr;
+        }
     }
 
     /* health bars are renderer after the worms so they appear on top */
