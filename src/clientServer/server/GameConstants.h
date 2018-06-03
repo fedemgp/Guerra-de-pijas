@@ -45,6 +45,11 @@
 #define MORTAR_RADIUS 2.0f
 #define MORTAR_MIN_ANGLE -90
 #define MORTAR_MAX_ANGLE 84.375f
+//Mortar
+#define BANANA_DAMAGE 70
+#define BANANA_RADIUS 4.0f
+#define BANANA_MIN_ANGLE -78.75f
+#define BANANA_MAX_ANGLE 95.625f
 
 #define ANGLE_STEP 5.625f
 #define MAX_SHOT_POWER 50

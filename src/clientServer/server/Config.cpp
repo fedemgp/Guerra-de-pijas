@@ -90,4 +90,8 @@ const Game::Weapon::Config &Game::Config::getMortarConfig() const{
     return this->mortar;
 }
 
+const Game::Weapon::Config &Game::Config::getBananaConfig() const{
+    return this->banana;
+}
+
 

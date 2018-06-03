@@ -32,6 +32,11 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID 
                     this->texture_mgr.get(GUI::GameTextures::Mortar), false,
                     MISSILE_0_DEG_FRAME, false);
             break;
+        case Worm::WeaponID::WBanana:
+            this->animation = GUI::Animation(
+                    this->texture_mgr.get(GUI::GameTextures::Banana), false,
+                    MISSILE_0_DEG_FRAME, false);
+            break;
         case Worm::WeaponID::WNone:
             break;
     }

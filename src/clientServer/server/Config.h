@@ -56,6 +56,7 @@ namespace Game{
         const Weapon::Config &getGreenGrenadeConfig() const;
         const Weapon::Config &getClusterConfig() const;
         const Weapon::Config &getMortarConfig() const;
+        const Weapon::Config &getBananaConfig() const;
     private:
         /**
          * Constructor hidden because is a singleton.
@@ -96,6 +97,9 @@ namespace Game{
         Weapon::Config mortar{MORTAR_DAMAGE, MORTAR_RADIUS,
                               MORTAR_MIN_ANGLE, MORTAR_MAX_ANGLE, ANGLE_STEP,
                                MAX_SHOT_POWER};
+        Weapon::Config banana{BANANA_DAMAGE, BANANA_RADIUS,
+                              BANANA_MIN_ANGLE, BANANA_MAX_ANGLE, ANGLE_STEP,
+                              MAX_SHOT_POWER};
     };
 } // namespace Game
 

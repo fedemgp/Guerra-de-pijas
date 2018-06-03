@@ -28,6 +28,7 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
         // Clean previous animation
         this->current = id;
         this->animations.erase(this->animations.begin(), this->animations.end());
+        this->weaponAnimation = nullptr;
         switch (id) {
             case WeaponID::WBazooka:
                 this->centerFrame = BAZOOKA_CENTER_FRAME;
@@ -53,6 +54,13 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
                                               this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
+            case WeaponID::WBanana:
+                this->centerFrame = BANANA_CENTER_FRAME;
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormBanana), true,
+                                              this->centerFrame, false);
+                this->weaponAnimation = &this->animations.back();
+                break;
+
             case WeaponID::WNone:
                 break;
         }
