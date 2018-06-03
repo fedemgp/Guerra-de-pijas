@@ -20,7 +20,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     : window(w),
       texture_mgr(w.getRenderer()),
       stage(stage),
-      cam(this->scale, w.width, w.height, w.getRenderer()),
+      cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
       font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk,
@@ -229,7 +229,7 @@ void GUI::Game::render() {
     double turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
     turnTimeLeft = (turnTimeLeft < 0.0f) ? 0.0f : turnTimeLeft;
 
-    int x = this->window.width / 2;
+    int x = this->window.getWidth() / 2;
     int y = 20;
 
     SDL_Color color = {0, 0, 0};
