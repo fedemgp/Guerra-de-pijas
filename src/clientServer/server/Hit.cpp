@@ -51,3 +51,5 @@ void Worms::Hit::endShot(Worms::Player &p) {}
 void Worms::Hit::grenade(Worms::Player &p){}
 
 void Worms::Hit::cluster(Worms::Player &p){}
+
+void Worms::Hit::mortar(Worms::Player &p){}

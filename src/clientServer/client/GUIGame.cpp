@@ -84,7 +84,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::Bazooka2,
                            "src/clientServer/assets/img/Worms/wbaz2.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
+                           GUI::Color{0xc0, 0xc0, 0x80});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;

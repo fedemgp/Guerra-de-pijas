@@ -58,3 +58,7 @@ IO::PlayerInput Worm::BackFlip::grenade(Worm &w){
 IO::PlayerInput Worm::BackFlip::cluster(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::mortar(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

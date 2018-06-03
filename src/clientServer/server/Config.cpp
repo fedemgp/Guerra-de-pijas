@@ -86,4 +86,8 @@ const Game::Weapon::Config &Game::Config::getClusterConfig() const{
     return this->cluster;
 }
 
+const Game::Weapon::Config &Game::Config::getMortarConfig() const{
+    return this->mortar;
+}
+
 

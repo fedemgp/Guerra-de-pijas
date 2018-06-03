@@ -65,3 +65,7 @@ IO::PlayerInput Worm::Still::grenade(Worm &w){
 IO::PlayerInput Worm::Still::cluster(Worm &w){
     return IO::PlayerInput::cluster;
 }
+
+IO::PlayerInput Worm::Still::mortar(Worm &w){
+    return IO::PlayerInput::mortar;
+}

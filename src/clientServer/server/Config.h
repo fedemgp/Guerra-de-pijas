@@ -55,6 +55,7 @@ namespace Game{
         const Weapon::Config &getBazookaConfig() const;
         const Weapon::Config &getGreenGrenadeConfig() const;
         const Weapon::Config &getClusterConfig() const;
+        const Weapon::Config &getMortarConfig() const;
     private:
         /**
          * Constructor hidden because is a singleton.
@@ -91,6 +92,9 @@ namespace Game{
                                MAX_SHOT_POWER};
         Weapon::Config cluster{CLUSTER_DAMAGE, CLUSTER_RADIUS,
                                CLUSTER_MIN_ANGLE, CLUSTER_MAX_ANGLE, ANGLE_STEP,
+                               MAX_SHOT_POWER};
+        Weapon::Config mortar{MORTAR_DAMAGE, MORTAR_RADIUS,
+                              MORTAR_MIN_ANGLE, MORTAR_MAX_ANGLE, ANGLE_STEP,
                                MAX_SHOT_POWER};
     };
 } // namespace Game

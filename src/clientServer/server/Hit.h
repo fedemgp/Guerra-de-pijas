@@ -23,6 +23,7 @@ class Hit : public State {
     void bazooka(Player &p) override;
     void grenade(Player &p) override;
     void cluster(Player &p) override;
+    void mortar(Player &p) override;
 
     void startShot(Player &p) override;
     void endShot(Player &p) override;

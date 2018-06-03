@@ -58,3 +58,7 @@ IO::PlayerInput Worm::Hit::grenade(Worm &w){
 IO::PlayerInput Worm::Hit::cluster(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Hit::mortar(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

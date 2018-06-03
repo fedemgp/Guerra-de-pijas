@@ -67,3 +67,7 @@ void Worms::Still::grenade(Worms::Player &p){
 void Worms::Still::cluster(Worms::Player &p){
     p.setWeaponID(Worm::WeaponID::WCluster);
 }
+
+void Worms::Still::mortar(Worms::Player &p){
+    p.setWeaponID(Worm::WeaponID::WMortar);
+}

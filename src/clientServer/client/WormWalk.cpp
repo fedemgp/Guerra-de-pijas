@@ -71,3 +71,7 @@ IO::PlayerInput Worm::Walk::grenade(Worm &w){
 IO::PlayerInput Worm::Walk::cluster(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::mortar(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

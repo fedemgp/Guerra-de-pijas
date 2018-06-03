@@ -46,6 +46,13 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
                 this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormCluster), true,
                                               this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
+                break;
+            case WeaponID::WMortar:
+                this->centerFrame = BAZOOKA_CENTER_FRAME;
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka2), true,
+                                              this->centerFrame, false);
+                this->weaponAnimation = &this->animations.back();
+                break;
             case WeaponID::WNone:
                 break;
         }

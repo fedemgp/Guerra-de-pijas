@@ -24,7 +24,7 @@ enum class StateID {
     Dead,
     Drown
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster};
+enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar};
 }  // namespace Worm
 
 namespace IO {
@@ -41,7 +41,8 @@ enum class PlayerInput {
     startShot,
     endShot,
     grenade,
-    cluster
+    cluster,
+    mortar
 };
 // TODO protocol?
 struct GameStateMsg {
