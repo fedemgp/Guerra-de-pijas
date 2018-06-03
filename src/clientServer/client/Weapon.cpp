@@ -60,7 +60,12 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
                                               this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
-
+            case WeaponID::WHoly:
+                this->centerFrame = HOLY_CENTER_FRAME;
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormHoly), true,
+                                              this->centerFrame, false);
+                this->weaponAnimation = &this->animations.back();
+                break;
             case WeaponID::WNone:
                 break;
         }

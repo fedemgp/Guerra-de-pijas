@@ -50,6 +50,11 @@
 #define BANANA_RADIUS 4.0f
 #define BANANA_MIN_ANGLE -78.75f
 #define BANANA_MAX_ANGLE 95.625f
+//Grenade
+#define HOLY_DAMAGE 110
+#define HOLY_RADIUS 8.0f
+#define HOLY_MIN_ANGLE -84.375f
+#define HOLY_MAX_ANGLE 90
 
 #define ANGLE_STEP 5.625f
 #define MAX_SHOT_POWER 50

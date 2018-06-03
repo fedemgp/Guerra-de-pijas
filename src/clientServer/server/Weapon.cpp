@@ -54,6 +54,9 @@ void Worms::Weapon::setWeapon(const Worm::WeaponID &id) {
             case Worm::WeaponID::WBanana:
                 this->config = Game::Config::getInstance().getBananaConfig();
                 break;
+            case Worm::WeaponID::WHoly:
+                this->config = Game::Config::getInstance().getHolyConfig();
+                break;
             case Worm::WeaponID::WNone:
                 break;
         }

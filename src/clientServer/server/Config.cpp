@@ -94,4 +94,8 @@ const Game::Weapon::Config &Game::Config::getBananaConfig() const{
     return this->banana;
 }
 
+const Game::Weapon::Config &Game::Config::getHolyConfig() const{
+    return this->holy;
+}
+
 

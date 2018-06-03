@@ -57,6 +57,7 @@ namespace Game{
         const Weapon::Config &getClusterConfig() const;
         const Weapon::Config &getMortarConfig() const;
         const Weapon::Config &getBananaConfig() const;
+        const Weapon::Config &getHolyConfig() const;
     private:
         /**
          * Constructor hidden because is a singleton.
@@ -99,6 +100,9 @@ namespace Game{
                                MAX_SHOT_POWER};
         Weapon::Config banana{BANANA_DAMAGE, BANANA_RADIUS,
                               BANANA_MIN_ANGLE, BANANA_MAX_ANGLE, ANGLE_STEP,
+                              MAX_SHOT_POWER};
+        Weapon::Config holy{HOLY_DAMAGE, HOLY_RADIUS, HOLY_MIN_ANGLE,
+                            HOLY_MAX_ANGLE, ANGLE_STEP,
                               MAX_SHOT_POWER};
     };
 } // namespace Game

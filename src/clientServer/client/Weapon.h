@@ -17,6 +17,7 @@
 #define BAZOOKA_CENTER_FRAME 16
 #define GRENADE_CENTER_FRAME 15
 #define BANANA_CENTER_FRAME 14
+#define HOLY_CENTER_FRAME 15
 #define ANGLE_STEP 5.625f
 
 namespace Worm {
