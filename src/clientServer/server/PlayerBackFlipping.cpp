@@ -53,3 +53,5 @@ void Worms::BackFlipping::grenade(Worms::Player &p){}
 void Worms::BackFlipping::cluster(Worms::Player &p){}
 
 void Worms::BackFlipping::mortar(Worms::Player &p){}
+
+void Worms::BackFlipping::banana(Worms::Player &p){}

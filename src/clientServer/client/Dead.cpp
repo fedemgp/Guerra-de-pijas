@@ -65,3 +65,7 @@ IO::PlayerInput Worm::Dead::cluster(Worm &w){
 IO::PlayerInput Worm::Dead::mortar(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::banana(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

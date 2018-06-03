@@ -62,3 +62,7 @@ IO::PlayerInput Worm::StartJump::cluster(Worm &w){
 IO::PlayerInput Worm::StartJump::mortar(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::StartJump::banana(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

@@ -69,3 +69,7 @@ IO::PlayerInput Worm::Still::cluster(Worm &w){
 IO::PlayerInput Worm::Still::mortar(Worm &w){
     return IO::PlayerInput::mortar;
 }
+
+IO::PlayerInput Worm::Still::banana(Worm &w){
+    return IO::PlayerInput::banana;
+}

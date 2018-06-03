@@ -56,3 +56,5 @@ void Worms::Jumping::grenade(Worms::Player &p){}
 void Worms::Jumping::cluster(Worms::Player &p){}
 
 void Worms::Jumping::mortar(Worms::Player &p){}
+
+void Worms::Jumping::banana(Worms::Player &p){}

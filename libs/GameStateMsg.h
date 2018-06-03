@@ -43,7 +43,8 @@ enum class PlayerInput {
     endShot,
     grenade,
     cluster,
-    mortar
+    mortar,
+    banana
 };
 // TODO protocol?
 struct GameStateMsg {

@@ -35,3 +35,5 @@ void Worms::Dead::grenade(Worms::Player &p){}
 void Worms::Dead::cluster(Worms::Player &p){}
 
 void Worms::Dead::mortar(Worms::Player &p){}
+
+void Worms::Dead::banana(Worms::Player &p){}

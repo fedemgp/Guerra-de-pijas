@@ -43,3 +43,5 @@ void Worms::EndJump::grenade(Worms::Player &p){}
 void Worms::EndJump::cluster(Worms::Player &p){}
 
 void Worms::EndJump::mortar(Worms::Player &p){}
+
+void Worms::EndJump::banana(Worms::Player &p){}

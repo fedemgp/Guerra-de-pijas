@@ -30,6 +30,7 @@ class Walk : public State {
     virtual IO::PlayerInput grenade(Worm &w) override;
     virtual IO::PlayerInput cluster(Worm &w) override;
     virtual IO::PlayerInput mortar(Worm &w) override;
+    virtual IO::PlayerInput banana(Worm &w) override;
 
     virtual IO::PlayerInput startShot(Worm &w) override;
     virtual IO::PlayerInput endShot(Worm &w) override;

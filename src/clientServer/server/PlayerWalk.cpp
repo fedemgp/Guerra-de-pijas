@@ -55,3 +55,5 @@ void Worms::Walk::grenade(Worms::Player &p){}
 void Worms::Walk::cluster(Worms::Player &p){}
 
 void Worms::Walk::mortar(Worms::Player &p){}
+
+void Worms::Walk::banana(Worms::Player &p){}

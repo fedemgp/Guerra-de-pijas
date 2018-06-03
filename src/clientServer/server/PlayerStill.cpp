@@ -71,3 +71,7 @@ void Worms::Still::cluster(Worms::Player &p){
 void Worms::Still::mortar(Worms::Player &p){
     p.setWeaponID(Worm::WeaponID::WMortar);
 }
+
+void Worms::Still::banana(Worms::Player &p){
+    p.setWeaponID(Worm::WeaponID::WBanana);
+}

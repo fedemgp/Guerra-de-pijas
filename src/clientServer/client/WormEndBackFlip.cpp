@@ -62,3 +62,7 @@ IO::PlayerInput Worm::EndBackFlip::cluster(Worm &w){
 IO::PlayerInput Worm::EndBackFlip::mortar(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndBackFlip::banana(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
