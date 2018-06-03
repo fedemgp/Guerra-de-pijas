@@ -3,18 +3,18 @@
  *  date: 26/05/18
  */
 
-#include "Bullet.h"
-#include "Config.h"
 #include <cmath>
 #include <iostream>
 
-Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
-                      Worms::Physics &physics)
+#include "Config.h"
+#include "Bullet.h"
+
+Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
-    float distance = safeNonContactDistance + this->radius;
+    float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(p.x + distance * cos(angle * PI / 180.0f),
-                               p.y + distance * sin(angle * PI / 180.0f));
+    this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
+                               info.point.y + distance * sin(info.angle * PI / 180.0f));
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
@@ -28,18 +28,16 @@ Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
 
-    this->body->SetTransform(this->body->GetPosition(), angle);
+    this->body->SetTransform(this->body->GetPosition(), info.angle);
 
-    this->angle = angle;
-    this->power = power;
-    this->damageInfo.damage = ::Game::Config::getInstance().getBazookaDmg();
-    this->damageInfo.radius = ::Game::Config::getInstance()
-            .getBazookaDmgRadius();
+    this->angle = info.angle;
+    this->power = info.power;
+    this->damageInfo = info.dmgInfo;
 }
 
 void Worms::Bullet::update(float dt) {
     if (!this->impulseApplied) {
-        float32 mass = this->body->GetMass();  
+        float32 mass = this->body->GetMass();
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
                            mass * float32(this->power * sin(this->angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();

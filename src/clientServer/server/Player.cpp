@@ -21,10 +21,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm),
-                                          physics(physics),
-                                          waterLevel(Game::Config::getInstance()
-                                                             .getWaterLevel()) {
+Worms::Player::Player(Physics &physics)
+    : PhysicsEntity(Worms::EntityID::EtWorm),
+      physics(physics),
+      waterLevel(Game::Config::getInstance().getWaterLevel()) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -48,15 +48,6 @@ Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm)
 void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
     this->weapon.update(dt);
-    if (this->bullet != nullptr) {
-        this->bullet->update(dt);
-        //        if (this->bullet->madeImpact()) {
-        //            this->bullet = nullptr;
-        //        }
-        if (this->bullet->getPosition().y < this->waterLevel) {
-            this->bullet = nullptr;
-        }
-    }
     if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
         this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {
         this->health = 0.0f;
@@ -96,6 +87,21 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
             break;
         case IO::PlayerInput::bazooka:
             this->state->bazooka(*this);
+            break;
+        case IO::PlayerInput::grenade:
+            this->state->grenade(*this);
+            break;
+        case IO::PlayerInput::cluster:
+            this->state->cluster(*this);
+            break;
+        case IO::PlayerInput::mortar:
+            this->state->mortar(*this);
+            break;
+        case IO::PlayerInput::banana:
+            this->state->banana(*this);
+            break;
+        case IO::PlayerInput::holy:
+            this->state->holy(*this);
             break;
         case IO::PlayerInput::moveNone:
             break;
@@ -173,24 +179,8 @@ int Worms::Player::getContactCount() {
     return this->numContacts;
 }
 
-void Worms::Player::shoot(int shotPower) {
-    Math::Point<float> position = this->getPosition();
-    float safeNonContactDistance =
-        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    float angle = this->weapon.getAngle();
-    if (this->direction == Direction::right) {
-        if (angle < 0.0f) {
-            angle += 360.0f;
-        }
-    } else {
-        angle = 180.0f - angle;
-    }
-    this->bullet = std::shared_ptr<Worms::Bullet>(
-        new Worms::Bullet(position, safeNonContactDistance, angle, shotPower, this->physics));
-}
-
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
-    return this->bullet;
+    return this->weapon.getBullet();
 }
 
 void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
@@ -222,7 +212,7 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
 }
 
 void Worms::Player::destroyBullet() {
-    this->bullet = nullptr;
+    this->weapon.destroyBullet();
 }
 
 float Worms::Player::getWeaponAngle() const {
@@ -234,7 +224,7 @@ const Worm::WeaponID &Worms::Player::getWeaponID() const {
 }
 
 void Worms::Player::setWeaponID(const Worm::WeaponID &id) {
-    this->weapon.setWeaponID(id);
+    this->weapon.setWeapon(id);
 }
 
 void Worms::Player::increaseWeaponAngle() {
@@ -250,7 +240,7 @@ void Worms::Player::startShot() {
 }
 
 void Worms::Player::endShot() {
-    this->weapon.endShot(*this);
+    this->weapon.endShot(*this, this->physics);
 }
 
 void Worms::Player::setTeam(uint8_t team) {

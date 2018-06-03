@@ -50,3 +50,23 @@ IO::PlayerInput Worm::Jumping::startShot(Worm &w) {
 IO::PlayerInput Worm::Jumping::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jumping::grenade(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jumping::cluster(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jumping::mortar(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jumping::banana(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jumping::holy(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

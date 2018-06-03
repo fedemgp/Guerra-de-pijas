@@ -2,8 +2,9 @@
  *  Created by Federico Manuel Gomez Peter.
  *  date: 20/05/18
  */
-#include "PlayerState.h"
+
 #include "GameStateMsg.h"
+#include "PlayerState.h"
 
 Worms::State::State(Worm::StateID id) : stateID(id) {}
 

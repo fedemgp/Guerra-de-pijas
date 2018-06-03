@@ -3,8 +3,9 @@
  *  date: 20/05/18
  */
 
-#include "ContactEventListener.h"
 #include <iostream>
+
+#include "ContactEventListener.h"
 #include "Player.h"
 
 void ContactEventListener::BeginContact(b2Contact *contact) {

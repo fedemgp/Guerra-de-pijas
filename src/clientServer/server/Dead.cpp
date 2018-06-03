@@ -29,3 +29,13 @@ void Worms::Dead::pointDown(Worms::Player &p) {}
 void Worms::Dead::startShot(Worms::Player &p) {}
 
 void Worms::Dead::endShot(Worms::Player &p) {}
+
+void Worms::Dead::grenade(Worms::Player &p) {}
+
+void Worms::Dead::cluster(Worms::Player &p) {}
+
+void Worms::Dead::mortar(Worms::Player &p) {}
+
+void Worms::Dead::banana(Worms::Player &p) {}
+
+void Worms::Dead::holy(Worms::Player &p) {}

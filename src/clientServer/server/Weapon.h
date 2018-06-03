@@ -7,6 +7,10 @@
 #define __WEAPON_H__
 
 #include <GameStateMsg.h>
+#include <memory>
+
+#include "Bullet.h"
+#include "Config.h"
 
 namespace Worms {
 class Player;
@@ -16,7 +20,7 @@ class Weapon {
     ~Weapon() = default;
 
     const Worm::WeaponID &getWeaponID() const;
-    void setWeaponID(const Worm::WeaponID &id);
+    void setWeapon(const Worm::WeaponID &id);
     /**
      * If was an event of startShot, then increase its power shot until
      * reach its limit.
@@ -33,18 +37,27 @@ class Weapon {
      * calls Player::shoot(float powerShot) to instante a bullet.
      * @param p
      */
-    void endShot(Player &p);
+    void endShot(Player &p, Physics &physics);
     float getAngle() const;
+    /**
+     * sets bullet_ptr to null, and free its resources
+     */
+    void destroyBullet();
+
+    std::shared_ptr<Bullet> getBullet() const;
 
    private:
+    /**
+     * When weapons change, their own limit angles may crash the game.
+     * To avoid this, this function checks and correct angles between changes.
+     */
+    void checkBoundaryAngles();
     bool increaseShotPower{false};
-    int shotPower{0};
+    uint16_t shotPower{0};
     Worm::WeaponID id{Worm::WeaponID::WBazooka};
     float angle{0};
-    const float minAngle;
-    const float maxAngle;
-    const float angleStep;
-    const uint16_t maxPowerShot;
+    Game::Weapon::Config config;
+    std::shared_ptr<Bullet> bullet{nullptr};
 };
 }  // namespace Worms
 

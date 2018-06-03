@@ -15,6 +15,9 @@
 #include "TextureManager.h"
 
 #define BAZOOKA_CENTER_FRAME 16
+#define GRENADE_CENTER_FRAME 15
+#define BANANA_CENTER_FRAME 14
+#define HOLY_CENTER_FRAME 15
 #define ANGLE_STEP 5.625f
 
 namespace Worm {
@@ -55,6 +58,7 @@ class Weapon {
      */
     std::list<GUI::Animation> animations;
     GUI::Animation *weaponAnimation{nullptr};
+    uint16_t centerFrame{BAZOOKA_CENTER_FRAME};
 };
 }  // namespace Weapon
 

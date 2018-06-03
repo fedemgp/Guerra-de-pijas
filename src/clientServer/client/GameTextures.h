@@ -15,7 +15,7 @@ enum class GameTextures {
     Jumping,
     EndJump,
     BackFlipping,
-    Aim,
+    Bazooka,
     Missile,
     Fly,
     Die,
@@ -24,6 +24,16 @@ enum class GameTextures {
     Background1,
     Background2,
     Background3,
+    WormGrenade,
+    Grenade,
+    WormCluster,
+    Cluster,
+    Mortar,
+    Bazooka2,
+    WormBanana,
+    Banana,
+    WormHoly,
+    Holy
 };
 
 /** Specialized TextureManager class. */

@@ -6,10 +6,8 @@
 #include "Drown.h"
 #include "Player.h"
 
-
-Worms::Drown::Drown() : State(Worm::StateID::Drown),
-                        drowningTime(Game::Config::getInstance()
-                                             .getDrowningTime()){}
+Worms::Drown::Drown()
+    : State(Worm::StateID::Drown), drowningTime(Game::Config::getInstance().getDrowningTime()) {}
 
 void Worms::Drown::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
@@ -37,3 +35,13 @@ void Worms::Drown::pointDown(Worms::Player &p) {}
 void Worms::Drown::startShot(Worms::Player &p) {}
 
 void Worms::Drown::endShot(Worms::Player &p) {}
+
+void Worms::Drown::grenade(Worms::Player &p) {}
+
+void Worms::Drown::cluster(Worms::Player &p) {}
+
+void Worms::Drown::mortar(Worms::Player &p) {}
+
+void Worms::Drown::banana(Worms::Player &p) {}
+
+void Worms::Drown::holy(Worms::Player &p) {}

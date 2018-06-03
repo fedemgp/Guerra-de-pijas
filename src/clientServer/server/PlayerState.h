@@ -17,7 +17,14 @@ class State {
     virtual void moveRight(Player &p) = 0;
     virtual void moveLeft(Player &p) = 0;
     virtual void jump(Player &p) = 0;
+
     virtual void bazooka(Player &p) = 0;
+    virtual void grenade(Player &p) = 0;
+    virtual void cluster(Player &p) = 0;
+    virtual void mortar(Player &p) = 0;
+    virtual void banana(Player &p) = 0;
+    virtual void holy(Player &p) = 0;
+
     virtual void startShot(Player &p) = 0;
     virtual void endShot(Player &p) = 0;
     virtual void backFlip(Player &p) = 0;

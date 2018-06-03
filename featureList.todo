@@ -11,37 +11,35 @@ Gusanos:
     Vuelta atras:
        ✔ Apretando retroceso @done (18-05-21 22:31)
        ✔ 0.2m atrás y 1.2m de alto @done (18-05-21 22:31)
-    Salto doble(OPCIONAL):
-       ☐ Apretando dos veces retroceso
     Eleccion de arma:
        ☐ Click derecho muestra arsenal ?
     Muerte:
-       ☐ Cuando llega a 0pts
-       ☐ Muerte animada
-    ☐ Sale disparado por explosión si está en el rango
-    ☐ adquiere fuerza y velocidad
+       ✔ Cuando llega a 0pts @done (18-06-03 03:12)
+       ✔ Muerte animada @done (18-06-03 03:12)
+    ✔ Sale disparado por explosión si está en el rango @done (18-06-03 03:12)
+    ✔ adquiere fuerza y velocidad @done (18-06-03 03:12)
     ☐ puede rebotar contra las paredes
-    ☐ sufre daño por explosiones
+    ✔ sufre daño por explosiones @done (18-06-03 03:13)
 
 Escenarios:
   Vigas:
-    ☐ 2 longitudes: 6m y 3m de largo
-    ☐ ancho fijo de 0.8m
+    ✔ 2 longitudes: 6m y 3m de largo @done (18-06-03 03:13)
+    ✔ ancho fijo de 0.8m @done (18-06-03 03:13)
     ☐ si pendiente > 45° gusano cae
   Agua:
-    ☐ mata gusano.
+    ✔ mata gusano. @done (18-06-03 03:13)
   Fondo:
-    ☐ Imagen solo estétic
+    ✔ Imagen solo estétic @done (18-06-03 03:13)
 
 Cámara:
   Se enfoca nuevamente al gusano activo por:
       ☐ desplazamiento
       ☐ disparo
-  ☐ Muestra porción del escenario
-  ☐ centrada en el gusano activo
-  ☐ Sigue al gusano en desplazamiento
+  ✔ Muestra porción del escenario @done (18-06-03 03:13)
+  ✔ centrada en el gusano activo @done (18-06-03 03:13)
+  ✔ Sigue al gusano en desplazamiento @done (18-06-03 03:13)
   ☐ Camara se mueve con el mouse para ver otras partes del escenario
-  ☐ Sigue al proyectil hasta el impacto
+  ✔ Sigue al proyectil hasta el impacto @done (18-06-03 03:13)
   Sigue al gusano en movimiento tras el impacto:
       ☐ hasta que termine de moverse
       ☐ hasta que muera
@@ -49,25 +47,25 @@ Cámara:
       ☐ continua hasta que estén todos quietos
 
 Turno:
-  ☐ 1 gusano activo por turno
-  ☐ se elige de forma ciclica
+  ✔ 1 gusano activo por turno @done (18-06-03 03:14)
+  ✔ se elige de forma ciclica @done (18-06-03 03:14)
   termina cuando:
     ☐ gusano sufre daño
     gusano realiza accion:
-      ☐ gusano dispara
+      ✔ gusano dispara @done (18-06-03 03:14)
       ☐ gusano usa herramienta
-      ☐ tiene 3 segundos adicionales para moverse luego de la acción
-    ☐ pasan mas de 60s
-  ☐ Siguiente turno arranca cuando todos los proyectiles impactan y los gusanos están quietos
+      ✔ tiene 3 segundos adicionales para moverse luego de la acción @done (18-06-03 03:14)
+    ✔ pasan mas de 60s @done (18-06-03 03:14)
+  ✔ Siguiente turno arranca cuando todos los proyectiles impactan y los gusanos están quietos @done (18-06-03 03:14)
 
 Jugador:
-  ☐ con un color
+  ✔ con un color @done (18-06-03 03:14)
   vida:
-    ☐ encima de cada gusano
-    ☐ del color del equipo
+    ✔ encima de cada gusano @done (18-06-03 03:14)
+    ✔ del color del equipo @done (18-06-03 03:14)
     ☐ se muestra la suma total de las vidas de los gusanos del equipo
   Juega en turnos:
-    ☐ Ve lo que muestra la camara
+    ✔ Ve lo que muestra la camara @done (18-06-03 03:15)
     ☐ selecciona arma o herramienta
   Cuando pierde:
     ☐ Es salteado de la ronda
@@ -78,19 +76,19 @@ Jugador:
 
 Juego:
   Empieza:
-    ☐ Asigna gusanos al azar
+    ✔ Asigna gusanos al azar @done (18-06-03 03:15)
   Rondas:
-    ☐ Todos los jugadores juegan un turno
-    ☐ Siempre mismo orden
-    ☐ gusano cambia ciclicamente
+    ✔ Todos los jugadores juegan un turno @done (18-06-03 03:15)
+    ✔ Siempre mismo orden @done (18-06-03 03:15)
+    ✔ gusano cambia ciclicamente @done (18-06-03 03:15)
   Termina:
     ☐ Jugador gana (o hay empate?)
     ☐ Pantalla victoria del ganador
 
 Animaciones:
   ✔ Movimiento del gusano @done (18-05-21 22:32)
-  ☐ vuelo de gusanos
-  ☐ movimiento del proyectil
+  ✔ vuelo de gusanos @done (18-06-03 03:15)
+  ✔ movimiento del proyectil @done (18-06-03 03:15)
   ☐ explosiones
 
 Sonidos:
@@ -104,17 +102,17 @@ Sonidos:
     ☐ Volumen relativamente bajo (= death metal al palo)
 
 Armas:
-  ☐ Usar flechas de arriba y abajo para apuntar
-  ☐ Los ángulos van desde -90° a 90°
-  ☐ 0° el disparo es horizontal
+  ✔ Usar flechas de arriba y abajo para apuntar @done (18-06-03 03:15)
+  ✔ Los ángulos van desde -90° a 90° @done (18-06-03 03:16)
+  ✔ 0° el disparo es horizontal @done (18-06-03 03:16)
   ✔ Con flecha izquierda o derecha cambia la dirección de disparo @done (18-05-21 22:32)
   Arma cuerpo a cuerpo:
     ☐ El daño es local, al gusano que se encuentra al lado
   Potencia:
-    ☐ Potencia ajustable.
-    ☐ Presionando Espacio ajusta la potencia, de modo creciente.
+    ✔ Potencia ajustable. @done (18-06-03 03:16)
+    ✔ Presionando Espacio ajusta la potencia, de modo creciente. @done (18-06-03 03:16)
     ☐ Si se llega a un límite de potencia o si suelto espacio, disparo
-    ☐ La velocidad de disparo es proporcional a la potencia usada
+    ✔ La velocidad de disparo es proporcional a la potencia usada @done (18-06-03 03:16)
   Cuenta regresiva:
     ☐ Proyectiles que no explotan al momento del impacto
     ☐ Tiempo de la cuenta ajustable
@@ -140,76 +138,76 @@ Armas:
     ☐ Valor fijado por EQUIPO y por ARMA
     ☐ Cantidad de veces que el gusano puede usar el arma
   Daño:
-    ☐ Causado a todos los gusanos en la cercanía
-    ☐ Inversamente proporcional al rango de explosión
-    ☐ Armas tienen rango  y daño maximo propio
-    ☐ Gusano adquiere velocidad inversamente proporcional al rango
-    ☐ Gusano adquiere dirección por la explosión
-      ☐ Depende de la distancia y dirección al epicentro
+    ✔ Causado a todos los gusanos en la cercanía @done (18-06-03 03:17)
+    ✔ Inversamente proporcional al rango de explosión @done (18-06-03 03:17)
+    ✔ Armas tienen rango  y daño maximo propio @done (18-06-03 03:17)
+    ✔ Gusano adquiere velocidad inversamente proporcional al rango @done (18-06-03 03:17)
+    ✔ Gusano adquiere dirección por la explosión @done (18-06-03 03:17)
+      ✔ Depende de la distancia y dirección al epicentro @done (18-06-03 03:17)
     ☐ Gusano puede rebotar contra las paredes cuando vuela
 
 Tipos de armas:
   Bazooka:
     ☐ Mira SI
-    ☐ Cuerpo a cuerpo NO
-    ☐ Potencia variable SI
-    ☐ Cuenta regresiva NO
-    ☐ Teledirigido NO
+    ✔ Cuerpo a cuerpo NO @done (18-06-03 03:17)
+    ✔ Potencia variable SI @done (18-06-03 03:17)
+    ✔ Cuenta regresiva NO @done (18-06-03 03:17)
+    ✔ Teledirigido NO @done (18-06-03 03:17)
     ☐ Trayectoria afectada por el viento SI
     ☐ Municiones Infinitas
-    ☐ Daño: 50 (epicentro); 2mts radio
+    ✔ Daño: 50 (epicentro); 2mts radio @done (18-06-03 03:18)
   Mortero:
     ☐ Mira: SI
     ☐ Cuerpo a cuerpo: NO
-    ☐ Potencia variable: SI
-    ☐ Cuenta regresiva: NO
-    ☐ Teledirigido: NO
+    ✔ Potencia variable: SI @done (18-06-03 03:18)
+    ✔ Cuenta regresiva: NO @done (18-06-03 03:18)
+    ✔ Teledirigido: NO @done (18-06-03 03:18)
     ☐ Afectado por el viento: SI
     ☐ Municiones: 10
     Daño:   
-      ☐ (principal) 50 pts epicentro; 2mts radio
+      ✔ (principal) 50 pts epicentro; 2mts radio @done (18-06-03 03:18)
       ☐ (cada fragmento) 10pts epicentro; 2mts radio
       ☐ Cantidad de fragmentos: 6
   Granada verde:
     ☐ Mira: SI
-    ☐ Cuerpo a cuerpo:  no
-    ☐ Disparo con potencia variable: SI
+    ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
+    ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
     ☐ Cuenta regresiva: SI
-    ☐ Teledirigido NO
-    ☐ Viento: NO
-    ☐ Municiones: Infinitas
-    ☐ Daño: 30pts centro, 2 mts radio
+    ✔ Teledirigido NO @done (18-06-03 03:18)
+    ✔ Viento: NO @done (18-06-03 03:18)
+    ✔ Municiones: Infinitas @done (18-06-03 03:18)
+    ✔ Daño: 30pts centro, 2 mts radio @done (18-06-03 03:18)
   Granada roja:
     ☐ Mira SI
-    ☐ Cuerpo a cuerpo NO
-    ☐ Potencia variable: SI
+    ✔ Cuerpo a cuerpo NO @done (18-06-03 03:18)
+    ✔ Potencia variable: SI @done (18-06-03 03:18)
     ☐ Cuenta regresiva: SI
-    ☐ Teledirigido NO
-    ☐ Viento NO
+    ✔ Teledirigido NO @done (18-06-03 03:18)
+    ✔ Viento NO @done (18-06-03 03:18)
     ☐ Municiones 10
     Daño:  
-      ☐ (principal) 30 pts centro, 2mts radio
+      ✔ (principal) 30 pts centro, 2mts radio @done (18-06-03 03:18)
       ☐ (fragmento) 10pts centro, 2mts radio
       ☐ Fragmentos: 6
   Banana:
     ☐ Mira: SI
-    ☐ Cuerpo a cuerpo:  no
-    ☐ Disparo con potencia variable: SI
+    ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
+    ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
     ☐ Cuenta regresiva: SI
-    ☐ Teledirigido NO
-    ☐ Viento: NO
+    ✔ Teledirigido NO @done (18-06-03 03:18)
+    ✔ Viento: NO @done (18-06-03 03:18)
     ☐ Municiones: 5
-    ☐ Daño: 70pts centro, 4 mts radio
+    ✔ Daño: 70pts centro, 4 mts radio @done (18-06-03 03:18)
     ☐ Rebote: alto ? (debe ser elastico)
   La HOLY:
     ☐ Mira: SI
-    ☐ Cuerpo a cuerpo:  no
-    ☐ Disparo con potencia variable: SI
+    ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:19)
+    ✔ Disparo con potencia variable: SI @done (18-06-03 03:19)
     ☐ Cuenta regresiva: SI
-    ☐ Teledirigido NO
-    ☐ Viento: NO
+    ✔ Teledirigido NO @done (18-06-03 03:19)
+    ✔ Viento: NO @done (18-06-03 03:19)
     ☐ Municiones: 2
-    ☐ Daño: 110pts centro, 8 mts radio (Daaaaaaaaaamn)
+    ✔ Daño: 110pts centro, 8 mts radio (Daaaaaaaaaamn) @done (18-06-03 03:19)
     SI NO PONEMOS “ALELUYA” CUANDO EXPLOTA BOICOTEO EL JUEGO
   TNT:
     ☐ Mira: NO
@@ -258,15 +256,15 @@ Configuración:
   ☐ Soporte a múltiples partidas en simultáneo
   ☐ Salas?
   ☐ Indicar escenarios disponibles, partidas creadas etc.
-  ☐ Asignar de forma aleatoria los gusanos del escenario a cada jugador
+  ✔ Asignar de forma aleatoria los gusanos del escenario a cada jugador @done (18-06-03 03:19)
   ☐ La cantidad de gusanos en el mapa se configura en el editor, con una cantidad máxima
-  ☐ Si no es divisible por la cantidad de jugadores-> +25 de vida para el perjudicado
+  ✔ Si no es divisible por la cantidad de jugadores-> +25 de vida para el perjudicado @done (18-06-03 03:19)
   Atributos configurables por archivo:
-    ☐ Velocidad
-    ☐ Altura del salto
-    ☐ Distancia recorrida por el salto
-    ☐ Daño de las armas
-    ☐ Rango de las armas
+    ✔ Velocidad @done (18-06-03 03:19)
+    ✔ Altura del salto @done (18-06-03 03:19)
+    ✔ Distancia recorrida por el salto @done (18-06-03 03:19)
+    ✔ Daño de las armas @done (18-06-03 03:19)
+    ✔ Rango de las armas @done (18-06-03 03:19)
     ☐ Elasticidad
     Si se afecta con el viento?
 

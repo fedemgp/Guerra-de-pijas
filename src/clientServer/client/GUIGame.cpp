@@ -3,9 +3,9 @@
  * Date: 17/05/18.
  */
 
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <unistd.h>
-#include <iostream>
 
 #include "Bullet.h"
 #include "GUIGame.h"
@@ -44,7 +44,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Aim, "src/clientServer/assets/img/Worms/wbaz.png",
+    this->texture_mgr.load(GUI::GameTextures::Bazooka, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Fly, "src/clientServer/assets/img/Worms/wfly1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
@@ -67,6 +67,36 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Background3,
                            "src/clientServer/assets/img/background/bg3.png",
                            GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::WormGrenade,
+                           "src/clientServer/assets/img/Worms/wthrgrn.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Grenade,
+                           "src/clientServer/assets/img/Weapons/grenade.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormCluster,
+                           "src/clientServer/assets/img/Worms/wthrcls.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Cluster,
+                           "src/clientServer/assets/img/Weapons/cluster.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Mortar,
+                           "src/clientServer/assets/img/Weapons/mortar.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Bazooka2,
+                           "src/clientServer/assets/img/Worms/wbaz2.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Banana,
+                           "src/clientServer/assets/img/Weapons/banana.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBanana,
+                           "src/clientServer/assets/img/Worms/wthrban.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Holy,
+                           "src/clientServer/assets/img/Weapons/hgrenade.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormHoly,
+                           "src/clientServer/assets/img/Worms/wthrhgrd.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -133,9 +163,10 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 
             if (this->snapshot.shoot) {
                 if (this->bullet == nullptr) {
-                    this->bullet =
-                        std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+                    this->bullet = std::shared_ptr<Ammo::Bullet>(
+                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
                 }
+                this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {
                 this->bullet = nullptr;
             }
@@ -207,7 +238,6 @@ void GUI::Game::render() {
     if (this->bullet != nullptr) {
         float local_x = this->snapshot.bullet[0];
         float local_y = this->snapshot.bullet[1];
-        this->bullet->setAngle(this->snapshot.bulletAngle);
         this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
     }
 

@@ -50,3 +50,23 @@ IO::PlayerInput Worm::BackFlip::startShot(Worm &w) {
 IO::PlayerInput Worm::BackFlip::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::grenade(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::cluster(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::mortar(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::banana(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::holy(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
