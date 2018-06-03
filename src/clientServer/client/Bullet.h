@@ -3,8 +3,10 @@
  *  date: 26/05/18
  */
 
-#ifndef __Bullet_H__
-#define __Bullet_H__
+#ifndef __Bullet_h__
+#define __Bullet_h__
+
+#include <GameStateMsg.h>
 
 #include "Animation.h"
 #include "GameTextures.h"
@@ -22,6 +24,8 @@ class Bullet {
     void setAngle(float angle);
 
    private:
+    float angle{0};
+    bool updateManually{true};
     const GUI::GameTextureManager &texture_mgr;
     GUI::Animation animation;
 };
