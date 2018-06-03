@@ -17,7 +17,7 @@
 namespace Ammo {
 class Bullet {
    public:
-    explicit Bullet(const GUI::GameTextureManager &texture_mgr);
+    explicit Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID id);
     ~Bullet() = default;
     void update(float dt);
     void render(GUI::Position p, GUI::Camera &cam);

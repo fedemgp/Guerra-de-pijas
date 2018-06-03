@@ -44,7 +44,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Aim, "src/clientServer/assets/img/Worms/wbaz.png",
+    this->texture_mgr.load(GUI::GameTextures::Bazooka, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Fly, "src/clientServer/assets/img/Worms/wfly1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
@@ -67,6 +67,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Background3,
                            "src/clientServer/assets/img/background/bg3.png",
                            GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::WormGrenade,
+                           "src/clientServer/assets/img/Worms/wthrgrn.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Grenade,
+                           "src/clientServer/assets/img/Weapons/grenade.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -130,8 +136,11 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             if (this->snapshot.shoot) {
                 if (this->bullet == nullptr) {
                     this->bullet =
-                        std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(this->texture_mgr));
+                        std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(
+                                this->texture_mgr,
+                                this->snapshot.activePlayerWeapon));
                 }
+                this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {
                 this->bullet = nullptr;
             }
@@ -203,7 +212,6 @@ void GUI::Game::render() {
     if (this->bullet != nullptr) {
         float local_x = this->snapshot.bullet[0];
         float local_y = this->snapshot.bullet[1];
-        this->bullet->setAngle(this->snapshot.bulletAngle);
         this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
     }
 

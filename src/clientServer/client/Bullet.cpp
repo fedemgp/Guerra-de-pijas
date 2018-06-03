@@ -7,11 +7,25 @@
 #include <cmath>
 #include <iostream>
 
-Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr)
-    : texture_mgr(texture_mgr),
-      animation(this->texture_mgr.get(GUI::GameTextures::Missile), true, MISSILE_0_DEG_FRAME,
-                false) {}
-
+Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID id)
+    : texture_mgr(texture_mgr), animation(
+        this->texture_mgr.get(GUI::GameTextures::Missile), true,
+        MISSILE_0_DEG_FRAME, false){
+    switch (id){
+        case Worm::WeaponID::WBazooka:
+            this->animation = GUI::Animation(
+                    this->texture_mgr.get(GUI::GameTextures::Missile), true,
+                    MISSILE_0_DEG_FRAME, false);
+            break;
+        case Worm::WeaponID::WGrenade:
+            this->animation = GUI::Animation(
+                    this->texture_mgr.get(GUI::GameTextures::Grenade), false,
+                    MISSILE_0_DEG_FRAME, false);
+            break;
+        case Worm::WeaponID::WNone:
+            break;
+    }
+}
 
 void Ammo::Bullet::update(float dt) {
     if (this->updateManually){

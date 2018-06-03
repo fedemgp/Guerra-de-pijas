@@ -30,10 +30,14 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
         this->animations.erase(this->animations.begin(), this->animations.end());
         switch (id) {
             case WeaponID::WBazooka:
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Aim), true,
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka), true,
                                               BAZOOKA_CENTER_FRAME, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
+            case WeaponID::WGrenade:
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormGrenade), true,
+                                              BAZOOKA_CENTER_FRAME, false);
+                this->weaponAnimation = &this->animations.back();
             case WeaponID::WNone:
                 break;
         }
