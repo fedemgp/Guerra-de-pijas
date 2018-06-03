@@ -9,8 +9,8 @@
 #include <GameStateMsg.h>
 
 #include "Animation.h"
-#include "GameTextures.h"
 #include "Explosion.h"
+#include "GameTextures.h"
 
 #define MISSILE_0_DEG_FRAME 8
 #define MISSILE_ANGLE_STEP 11.25f

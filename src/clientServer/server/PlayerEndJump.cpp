@@ -3,8 +3,8 @@
  *  date: 20/05/18
  */
 
-#include "Config.h"
 #include "Player.h"
+#include "Config.h"
 #include "PlayerEndJump.h"
 
 Worms::EndJump::EndJump()

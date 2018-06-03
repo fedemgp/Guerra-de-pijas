@@ -3,8 +3,8 @@
  *  date: 20/05/18
  */
 
-#include "GameStateMsg.h"
 #include "PlayerState.h"
+#include "GameStateMsg.h"
 
 Worms::State::State(Worm::StateID id) : stateID(id) {}
 

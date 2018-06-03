@@ -3,8 +3,8 @@
  *  date: 21/05/18
  */
 
-#include "Config.h"
 #include "Player.h"
+#include "Config.h"
 #include "PlayerEndBackFlip.h"
 #include "PlayerState.h"
 

@@ -3,14 +3,14 @@
  *  date: 18/05/18
  */
 
+#include <Box2D/Box2D.h>
+#include <zconf.h>
 #include <algorithm>
 #include <atomic>
-#include <Box2D/Box2D.h>
 #include <chrono>
 #include <functional>
 #include <iostream>
 #include <random>
-#include <zconf.h>
 
 #include "Game.h"
 #include "Player.h"

@@ -6,9 +6,11 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
+#include "Bazooka.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drown.h"
+#include "Grenade.h"
 #include "Hit.h"
 #include "Physics.h"
 #include "Player.h"
@@ -20,6 +22,11 @@
 #include "PlayerStartJump.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
+#include "Weapon.h"
+#include "Cluster.h"
+#include "Mortar.h"
+#include "Banana.h"
+#include "Holy.h"
 
 Worms::Player::Player(Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtWorm),
@@ -43,11 +50,13 @@ Worms::Player::Player(Physics &physics)
     this->direction = Direction::left;
 
     this->setState(Worm::StateID::Still);
+    this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
 }
 
 void Worms::Player::update(float dt) {
     this->state->update(*this, dt, this->body);
-    this->weapon.update(dt);
+    this->weapon->update(dt);
+
     if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
         this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {
         this->health = 0.0f;
@@ -180,7 +189,7 @@ int Worms::Player::getContactCount() {
 }
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
-    return this->weapon.getBullet();
+    return this->weapon->getBullet();
 }
 
 void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
@@ -212,53 +221,85 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
 }
 
 void Worms::Player::destroyBullet() {
-    this->weapon.destroyBullet();
+    this->weapon->destroyBullet();
 }
 
 float Worms::Player::getWeaponAngle() const {
-    return this->weapon.getAngle();
+    return this->weapon->getAngle();
 }
 
 const Worm::WeaponID &Worms::Player::getWeaponID() const {
-    return this->weapon.getWeaponID();
+    return this->weapon->getWeaponID();
+}
+// TODO add creation time in Team, and in this method ask for it. So that the
+// team tracks weapons quantity
+void Worms::Player::setWeapon(const Worm::WeaponID &id){
+    if (this->weapon->getWeaponID() != id){
+        //keep the last angle
+        float lastAngle = this->weapon->getAngle();
+        switch (id){
+            case Worm::WeaponID::WBazooka:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Bazooka(lastAngle));
+                break;
+            case Worm::WeaponID::WGrenade:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Grenade(lastAngle));
+                break;
+            case Worm::WeaponID::WCluster:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Cluster(lastAngle));
+                break;
+            case Worm::WeaponID::WMortar:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Mortar(lastAngle));
+                break;
+            case Worm::WeaponID::WBanana:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Banana(lastAngle));
+                break;
+            case Worm::WeaponID::WHoly:
+                this->weapon = std::shared_ptr<Worms::Weapon>(
+                        new ::Weapon::Holy(lastAngle));
+                break;
+            case Worm::WeaponID::WNone:
+                break;
+        }
+    }
 }
 
-void Worms::Player::setWeaponID(const Worm::WeaponID &id) {
-    this->weapon.setWeapon(id);
-}
+    void Worms::Player::increaseWeaponAngle() {
+        this->weapon->increaseAngle();
+    }
 
-void Worms::Player::increaseWeaponAngle() {
-    this->weapon.increaseAngle();
-}
+    void Worms::Player::decreaseWeaponAngle() {
+        this->weapon->decreaseAngle();
+    }
 
-void Worms::Player::decreaseWeaponAngle() {
-    this->weapon.decreaseAngle();
-}
+    void Worms::Player::startShot() {
+        this->weapon->startShot();
+    }
 
-void Worms::Player::startShot() {
-    this->weapon.startShot();
-}
+    void Worms::Player::endShot() {
+        this->weapon->endShot(*this, this->physics);
+    }
 
-void Worms::Player::endShot() {
-    this->weapon.endShot(*this, this->physics);
-}
+    void Worms::Player::setTeam(uint8_t team) {
+        this->team = team;
+    }
 
-void Worms::Player::setTeam(uint8_t team) {
-    this->team = team;
-}
+    void Worms::Player::increaseHealth(float percentage) {
+        this->health += (percentage / 100.0f) * this->health;
+    }
 
-void Worms::Player::increaseHealth(float percentage) {
-    this->health += (percentage / 100.0f) * this->health;
-}
+    uint8_t Worms::Player::getTeam() const {
+        return this->team;
+    }
 
-uint8_t Worms::Player::getTeam() const {
-    return this->team;
-}
+    void Worms::Player::setId(uint8_t id) {
+        this->id = id;
+    }
 
-void Worms::Player::setId(uint8_t id) {
-    this->id = id;
-}
-
-uint8_t Worms::Player::getId() const {
-    return this->id;
-}
+    uint8_t Worms::Player::getId() const {
+        return this->id;
+    }

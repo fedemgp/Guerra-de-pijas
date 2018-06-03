@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include "Point.h"
 #include "Stage.h"
+#include "Point.h"
 
 Worms::Stage::Stage() {
     uint16_t health = Game::Config::getInstance().getWormHealth();

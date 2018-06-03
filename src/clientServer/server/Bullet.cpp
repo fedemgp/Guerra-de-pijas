@@ -55,7 +55,6 @@ void Worms::Bullet::update(float dt, Weapon &w) {
     if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
         w.destroyBullet();
     }
-
 }
 
 Math::Point<float> Worms::Bullet::getPosition() const {

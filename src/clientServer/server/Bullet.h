@@ -24,9 +24,9 @@ struct BulletInfo {
     Math::Point<float> point;
     float safeNonContactDistance;
 };
-    /**
-     * forward declaration of weapon.
-     */
+/**
+ * forward declaration of weapon.
+ */
 class Weapon;
 class Bullet : public PhysicsEntity {
    public:

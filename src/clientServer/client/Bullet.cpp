@@ -65,7 +65,7 @@ void Ammo::Bullet::render(GUI::Position p, GUI::Camera &cam) {
         this->animation.render(p, cam, SDL_FLIP_HORIZONTAL);
     } else {
         this->explosion.render(cam);
-//        this->explode = !this->explosion.finished();
+        //        this->explode = !this->explosion.finished();
     }
 }
 

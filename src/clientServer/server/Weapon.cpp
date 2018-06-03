@@ -3,63 +3,38 @@
  *  date: 28/05/18
  */
 
+#include "Weapon.h"
 #include "Config.h"
 #include "Player.h"
-#include "Weapon.h"
 
-Worms::Weapon::Weapon() : config(Game::Config::getInstance().getBazookaConfig()) {}
+Worms::Weapon::Weapon(const Game::Weapon::Config &config, Worm::WeaponID id,
+                      float angle) : config(config), id(id), angle(angle){
+    this->angle = angle;
+    /*
+     * Because the limit angles between weapons are
+     * differents, it is necesary to check boundaries angles.
+     * If not, the game could crash in rendering time.
+     */
+    this->checkBoundaryAngles();
+}
 
 const Worm::WeaponID &Worms::Weapon::getWeaponID() const {
     return this->id;
 }
 
-void Worms::Weapon::update(float dt) {
-    if (this->increaseShotPower) {
-        if (this->shotPower >= this->config.maxShotPower) {
-            this->shotPower = this->config.maxShotPower;
-        } else {
-            this->shotPower++;
-        }
-    }
-
-    if (this->bullet != nullptr) {
-        this->bullet->update(dt, *this);
-    }
-}
-
-void Worms::Weapon::setWeapon(const Worm::WeaponID &id) {
-    if (this->id != id) {
-        this->id = id;
-        switch (id) {
-            case Worm::WeaponID::WBazooka:
-                this->config = Game::Config::getInstance().getBazookaConfig();
-                break;
-            case Worm::WeaponID::WGrenade:
-                this->config = Game::Config::getInstance().getGreenGrenadeConfig();
-                break;
-            case Worm::WeaponID::WCluster:
-                this->config = Game::Config::getInstance().getClusterConfig();
-                break;
-            case Worm::WeaponID::WMortar:
-                this->config = Game::Config::getInstance().getMortarConfig();
-                break;
-            case Worm::WeaponID::WBanana:
-                this->config = Game::Config::getInstance().getBananaConfig();
-                break;
-            case Worm::WeaponID::WHoly:
-                this->config = Game::Config::getInstance().getHolyConfig();
-                break;
-            case Worm::WeaponID::WNone:
-                break;
-        }
-        /*
-         * Because the limit angles between weapons are
-         * differents, it is necesary to check boundaries angles.
-         * If not, the game could crash in rendering time.
-         */
-        this->checkBoundaryAngles();
-    }
-}
+// void Worms::Weapon::update(float dt) {
+//    if (this->increaseShotPower) {
+//        if (this->shotPower >= this->config.maxShotPower) {
+//            this->shotPower = this->config.maxShotPower;
+//        } else {
+//            this->shotPower++;
+//        }
+//    }
+//
+//    if (this->bullet != nullptr) {
+//        this->bullet->update(dt, *this);
+//    }
+//}
 
 void Worms::Weapon::decreaseAngle() {
     this->angle -= this->config.angleStep;

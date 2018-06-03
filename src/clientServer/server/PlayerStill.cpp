@@ -40,7 +40,7 @@ void Worms::Still::backFlip(Worms::Player &p) {
 }
 
 void Worms::Still::bazooka(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WBazooka);
+    p.setWeapon(Worm::WeaponID::WBazooka);
 }
 
 void Worms::Still::pointUp(Worms::Player &p) {
@@ -60,21 +60,21 @@ void Worms::Still::endShot(Worms::Player &p) {
 }
 
 void Worms::Still::grenade(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WGrenade);
+    p.setWeapon(Worm::WeaponID::WGrenade);
 }
 
 void Worms::Still::cluster(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WCluster);
+    p.setWeapon(Worm::WeaponID::WCluster);
 }
 
 void Worms::Still::mortar(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WMortar);
+    p.setWeapon(Worm::WeaponID::WMortar);
 }
 
 void Worms::Still::banana(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WBanana);
+    p.setWeapon(Worm::WeaponID::WBanana);
 }
 
 void Worms::Still::holy(Worms::Player &p) {
-    p.setWeaponID(Worm::WeaponID::WHoly);
+    p.setWeapon(Worm::WeaponID::WHoly);
 }

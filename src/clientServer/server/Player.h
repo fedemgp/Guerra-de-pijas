@@ -43,7 +43,7 @@ class Player : public PhysicsEntity {
     void endContact() override;
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
-    void setWeaponID(const Worm::WeaponID &id);
+    void setWeapon(const Worm::WeaponID &id);
     void increaseWeaponAngle();
     void decreaseWeaponAngle();
     void startShot();
@@ -59,13 +59,13 @@ class Player : public PhysicsEntity {
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};
+    std::shared_ptr<Worms::Weapon> weapon{nullptr};
     b2Body *body{nullptr};
     b2BodyDef bodyDef;
     b2PolygonShape shape;
     b2FixtureDef fixture;
     Physics &physics;
     const int waterLevel;
-    Worms::Weapon weapon;
     int numContacts{0};
     uint8_t team;
     uint8_t id;
