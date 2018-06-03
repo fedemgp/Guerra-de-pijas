@@ -5,17 +5,17 @@
 
 #include "PlayerStartBackFlip.h"
 
-Worms::StartBackFlip::StartBackFlip() : State(Worm::StateID::StartBackFlip),
-                                        backflipVelocity(Game::Config::getInstance().getBackflipVelocity()),
-                                        startJumpTime(Game::Config::getInstance().getStartJumpTime()){}
+Worms::StartBackFlip::StartBackFlip()
+    : State(Worm::StateID::StartBackFlip),
+      backflipVelocity(Game::Config::getInstance().getBackflipVelocity()),
+      startJumpTime(Game::Config::getInstance().getStartJumpTime()) {}
 
 void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
     if (this->timeElapsed >= this->startJumpTime) {
         if (!this->impulseApplied) {
             float32 mass = body->GetMass();
-            b2Vec2 impulses = {mass * this->backflipVelocity.x,
-                               mass * this->backflipVelocity.y};
+            b2Vec2 impulses = {mass * this->backflipVelocity.x, mass * this->backflipVelocity.y};
             if (p.direction == Direction::left) {
                 impulses.x *= -1;
             }
@@ -53,12 +53,12 @@ void Worms::StartBackFlip::startShot(Worms::Player &p) {}
 
 void Worms::StartBackFlip::endShot(Worms::Player &p) {}
 
-void Worms::StartBackFlip::grenade(Worms::Player &p){}
+void Worms::StartBackFlip::grenade(Worms::Player &p) {}
 
-void Worms::StartBackFlip::cluster(Worms::Player &p){}
+void Worms::StartBackFlip::cluster(Worms::Player &p) {}
 
-void Worms::StartBackFlip::mortar(Worms::Player &p){}
+void Worms::StartBackFlip::mortar(Worms::Player &p) {}
 
-void Worms::StartBackFlip::banana(Worms::Player &p){}
+void Worms::StartBackFlip::banana(Worms::Player &p) {}
 
-void Worms::StartBackFlip::holy(Worms::Player &p){}
+void Worms::StartBackFlip::holy(Worms::Player &p) {}

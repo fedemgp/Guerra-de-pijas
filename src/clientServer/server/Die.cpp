@@ -35,12 +35,12 @@ void Worms::Die::startShot(Worms::Player &p) {}
 
 void Worms::Die::endShot(Worms::Player &p) {}
 
-void Worms::Die::grenade(Worms::Player &p){}
+void Worms::Die::grenade(Worms::Player &p) {}
 
-void Worms::Die::cluster(Worms::Player &p){}
+void Worms::Die::cluster(Worms::Player &p) {}
 
-void Worms::Die::mortar(Worms::Player &p){}
+void Worms::Die::mortar(Worms::Player &p) {}
 
-void Worms::Die::banana(Worms::Player &p){}
+void Worms::Die::banana(Worms::Player &p) {}
 
-void Worms::Die::holy(Worms::Player &p){}
+void Worms::Die::holy(Worms::Player &p) {}

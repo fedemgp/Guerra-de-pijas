@@ -3,8 +3,9 @@
  *  date: 28/05/18
  */
 
-#include "Dead.h"
 #include <iostream>
+
+#include "Dead.h"
 
 Worm::Dead::Dead() : State(StateID::Dead) {}
 
@@ -54,22 +55,22 @@ IO::PlayerInput Worm::Dead::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Dead::grenade(Worm &w){
+IO::PlayerInput Worm::Dead::grenade(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Dead::cluster(Worm &w){
+IO::PlayerInput Worm::Dead::cluster(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Dead::mortar(Worm &w){
+IO::PlayerInput Worm::Dead::mortar(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Dead::banana(Worm &w){
+IO::PlayerInput Worm::Dead::banana(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Dead::holy(Worm &w){
+IO::PlayerInput Worm::Dead::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

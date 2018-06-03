@@ -3,9 +3,9 @@
  * Date: 17/05/18.
  */
 
+#include <iostream>
 #include <SDL2/SDL.h>
 #include <unistd.h>
-#include <iostream>
 
 #include "Bullet.h"
 #include "GUIGame.h"
@@ -163,10 +163,8 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 
             if (this->snapshot.shoot) {
                 if (this->bullet == nullptr) {
-                    this->bullet =
-                        std::shared_ptr<Ammo::Bullet>(new Ammo::Bullet(
-                                this->texture_mgr,
-                                this->snapshot.activePlayerWeapon));
+                    this->bullet = std::shared_ptr<Ammo::Bullet>(
+                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
                 }
                 this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {

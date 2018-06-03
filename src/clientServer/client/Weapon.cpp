@@ -3,9 +3,10 @@
  *  date: 27/05/18
  */
 
-#include "Weapon.h"
 #include <cmath>
+
 #include "GameStateMsg.h"
+#include "Weapon.h"
 
 Worm::Weapon::Weapon(const GUI::GameTextureManager &tex) : textureMgr(tex) {
     //    this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormIdle), true);
@@ -32,38 +33,38 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
         switch (id) {
             case WeaponID::WBazooka:
                 this->centerFrame = BAZOOKA_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WGrenade:
                 this->centerFrame = GRENADE_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormGrenade), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormGrenade),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WCluster:
                 this->centerFrame = GRENADE_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormCluster), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormCluster),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WMortar:
                 this->centerFrame = BAZOOKA_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka2), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka2),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WBanana:
                 this->centerFrame = BANANA_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormBanana), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormBanana),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WHoly:
                 this->centerFrame = HOLY_CENTER_FRAME;
-                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormHoly), true,
-                                              this->centerFrame, false);
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormHoly),
+                                              true, this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WNone:

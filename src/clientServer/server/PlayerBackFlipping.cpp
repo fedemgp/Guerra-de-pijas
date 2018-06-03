@@ -3,8 +3,8 @@
  *  date: 21/05/18
  */
 
-#include "PlayerBackFlipping.h"
 #include "Player.h"
+#include "PlayerBackFlipping.h"
 
 Worms::BackFlipping::BackFlipping() : State(Worm::StateID::BackFlipping) {}
 
@@ -48,12 +48,12 @@ void Worms::BackFlipping::startShot(Worms::Player &p) {}
 
 void Worms::BackFlipping::endShot(Worms::Player &p) {}
 
-void Worms::BackFlipping::grenade(Worms::Player &p){}
+void Worms::BackFlipping::grenade(Worms::Player &p) {}
 
-void Worms::BackFlipping::cluster(Worms::Player &p){}
+void Worms::BackFlipping::cluster(Worms::Player &p) {}
 
-void Worms::BackFlipping::mortar(Worms::Player &p){}
+void Worms::BackFlipping::mortar(Worms::Player &p) {}
 
-void Worms::BackFlipping::banana(Worms::Player &p){}
+void Worms::BackFlipping::banana(Worms::Player &p) {}
 
-void Worms::BackFlipping::holy(Worms::Player &p){}
+void Worms::BackFlipping::holy(Worms::Player &p) {}

@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include "WormStill.h"
 #include "Texture.h"
+#include "WormStill.h"
 
 Worm::Still::Still() : State(StateID::Still) {}
 
@@ -58,22 +58,22 @@ IO::PlayerInput Worm::Still::endShot(Worm &w) {
     return IO::PlayerInput::endShot;
 }
 
-IO::PlayerInput Worm::Still::grenade(Worm &w){
+IO::PlayerInput Worm::Still::grenade(Worm &w) {
     return IO::PlayerInput::grenade;
 }
 
-IO::PlayerInput Worm::Still::cluster(Worm &w){
+IO::PlayerInput Worm::Still::cluster(Worm &w) {
     return IO::PlayerInput::cluster;
 }
 
-IO::PlayerInput Worm::Still::mortar(Worm &w){
+IO::PlayerInput Worm::Still::mortar(Worm &w) {
     return IO::PlayerInput::mortar;
 }
 
-IO::PlayerInput Worm::Still::banana(Worm &w){
+IO::PlayerInput Worm::Still::banana(Worm &w) {
     return IO::PlayerInput::banana;
 }
 
-IO::PlayerInput Worm::Still::holy(Worm &w){
+IO::PlayerInput Worm::Still::holy(Worm &w) {
     return IO::PlayerInput::holy;
 }

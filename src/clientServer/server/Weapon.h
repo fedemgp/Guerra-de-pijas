@@ -46,7 +46,7 @@ class Weapon {
 
     std::shared_ptr<Bullet> getBullet() const;
 
-private:
+   private:
     /**
      * When weapons change, their own limit angles may crash the game.
      * To avoid this, this function checks and correct angles between changes.

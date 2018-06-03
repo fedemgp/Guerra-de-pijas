@@ -33,7 +33,7 @@ class Die : public State {
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
 
-private:
+   private:
     float timeElapsed{0.0f};
     float dyingTime{Game::Config::getInstance().getDyingTime()};
 };

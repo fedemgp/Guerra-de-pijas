@@ -3,10 +3,11 @@
  *  date: 26/05/18
  */
 
-#include "Bullet.h"
-#include "Config.h"
 #include <cmath>
 #include <iostream>
+
+#include "Config.h"
+#include "Bullet.h"
 
 Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
@@ -36,7 +37,7 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
 
 void Worms::Bullet::update(float dt) {
     if (!this->impulseApplied) {
-        float32 mass = this->body->GetMass();  
+        float32 mass = this->body->GetMass();
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
                            mass * float32(this->power * sin(this->angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();

@@ -51,22 +51,22 @@ IO::PlayerInput Worm::Hit::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::grenade(Worm &w){
+IO::PlayerInput Worm::Hit::grenade(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::cluster(Worm &w){
+IO::PlayerInput Worm::Hit::cluster(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::mortar(Worm &w){
+IO::PlayerInput Worm::Hit::mortar(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::banana(Worm &w){
+IO::PlayerInput Worm::Hit::banana(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::holy(Worm &w){
+IO::PlayerInput Worm::Hit::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

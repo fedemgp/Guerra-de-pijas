@@ -4,12 +4,11 @@
  */
 
 #include "Config.h"
-#include "PlayerEndJump.h"
 #include "Player.h"
+#include "PlayerEndJump.h"
 
-Worms::EndJump::EndJump() : State(Worm::StateID::EndJump),
-                            landTime(Game::Config::getInstance()
-                                             .getLandTime()) {}
+Worms::EndJump::EndJump()
+    : State(Worm::StateID::EndJump), landTime(Game::Config::getInstance().getLandTime()) {}
 
 void Worms::EndJump::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
@@ -38,12 +37,12 @@ void Worms::EndJump::startShot(Worms::Player &p) {}
 
 void Worms::EndJump::endShot(Worms::Player &p) {}
 
-void Worms::EndJump::grenade(Worms::Player &p){}
+void Worms::EndJump::grenade(Worms::Player &p) {}
 
-void Worms::EndJump::cluster(Worms::Player &p){}
+void Worms::EndJump::cluster(Worms::Player &p) {}
 
-void Worms::EndJump::mortar(Worms::Player &p){}
+void Worms::EndJump::mortar(Worms::Player &p) {}
 
-void Worms::EndJump::banana(Worms::Player &p){}
+void Worms::EndJump::banana(Worms::Player &p) {}
 
-void Worms::EndJump::holy(Worms::Player &p){}
+void Worms::EndJump::holy(Worms::Player &p) {}

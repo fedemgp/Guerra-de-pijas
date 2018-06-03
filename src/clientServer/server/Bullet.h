@@ -17,13 +17,13 @@ struct DamageInfo {
     uint16_t damage;
     float radius;
 };
-    struct BulletInfo {
-        DamageInfo dmgInfo;
-        float angle;
-        uint16_t power;
-        Math::Point<float> point;
-        float safeNonContactDistance;
-    };
+struct BulletInfo {
+    DamageInfo dmgInfo;
+    float angle;
+    uint16_t power;
+    Math::Point<float> point;
+    float safeNonContactDistance;
+};
 
 class Bullet : public PhysicsEntity {
    public:

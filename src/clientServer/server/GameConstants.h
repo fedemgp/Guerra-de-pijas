@@ -25,32 +25,32 @@
 #define WATER_LEVEL (-2)
 #define WORM_HEALTH 100
 // Weapons
-//Bazooka
+// Bazooka
 #define BAZOOKA_DAMAGE 50
 #define BAZOOKA_DAMAGE_RADIUS 2.0f
 #define BAZOOKA_MIN_ANGLE -90
 #define BAZOOKA_MAX_ANGLE 84.375f
-//Grenade
+// Grenade
 #define GRENADE_DAMAGE 30
 #define GRENADE_RADIUS 2.0f
 #define GRENADE_MIN_ANGLE -84.375f
 #define GRENADE_MAX_ANGLE 90
-//Cluster
+// Cluster
 #define CLUSTER_DAMAGE 30
 #define CLUSTER_RADIUS 2.0f
 #define CLUSTER_MIN_ANGLE -84.375f
 #define CLUSTER_MAX_ANGLE 90
-//Mortar
+// Mortar
 #define MORTAR_DAMAGE 50
 #define MORTAR_RADIUS 2.0f
 #define MORTAR_MIN_ANGLE -90
 #define MORTAR_MAX_ANGLE 84.375f
-//Mortar
+// Mortar
 #define BANANA_DAMAGE 70
 #define BANANA_RADIUS 4.0f
 #define BANANA_MIN_ANGLE -78.75f
 #define BANANA_MAX_ANGLE 95.625f
-//Grenade
+// Grenade
 #define HOLY_DAMAGE 110
 #define HOLY_RADIUS 8.0f
 #define HOLY_MIN_ANGLE -84.375f
@@ -59,5 +59,4 @@
 #define ANGLE_STEP 5.625f
 #define MAX_SHOT_POWER 50
 
-
-#endif //__GAMECONSTANTS_H__
+#endif  //__GAMECONSTANTS_H__

@@ -7,7 +7,8 @@
 #define __GUIGame_H__
 
 #include <vector>
-#include "../server/Stage.h"
+
+#include "../server/Stage.h" //TODO check this
 #include "Animation.h"
 #include "Bullet.h"
 #include "Camera.h"

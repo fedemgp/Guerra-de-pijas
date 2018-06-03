@@ -3,11 +3,12 @@
  *  date: 20/05/18
  */
 
-#include "PlayerJumping.h"
 #include <Box2D/Dynamics/b2Body.h>
 #include <iostream>
 #include <vector>
+
 #include "Player.h"
+#include "PlayerJumping.h"
 
 Worms::Jumping::Jumping() : State(Worm::StateID::Jumping) {}
 
@@ -51,12 +52,12 @@ void Worms::Jumping::startShot(Worms::Player &p) {}
 
 void Worms::Jumping::endShot(Worms::Player &p) {}
 
-void Worms::Jumping::grenade(Worms::Player &p){}
+void Worms::Jumping::grenade(Worms::Player &p) {}
 
-void Worms::Jumping::cluster(Worms::Player &p){}
+void Worms::Jumping::cluster(Worms::Player &p) {}
 
-void Worms::Jumping::mortar(Worms::Player &p){}
+void Worms::Jumping::mortar(Worms::Player &p) {}
 
-void Worms::Jumping::banana(Worms::Player &p){}
+void Worms::Jumping::banana(Worms::Player &p) {}
 
-void Worms::Jumping::holy(Worms::Player &p){}
+void Worms::Jumping::holy(Worms::Player &p) {}

@@ -3,44 +3,39 @@
  *  date: 26/05/18
  */
 
-#include "Bullet.h"
 #include <cmath>
 #include <iostream>
 
+#include "Bullet.h"
+
 Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID id)
-    : texture_mgr(texture_mgr), animation(
-        this->texture_mgr.get(GUI::GameTextures::Missile), true,
-        MISSILE_0_DEG_FRAME, false){
-    switch (id){
+    : texture_mgr(texture_mgr),
+      animation(this->texture_mgr.get(GUI::GameTextures::Missile), true, MISSILE_0_DEG_FRAME,
+                false) {
+    switch (id) {
         case Worm::WeaponID::WBazooka:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Missile), true,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Missile),
+                                             true, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WGrenade:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Grenade), false,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Grenade),
+                                             false, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WCluster:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Cluster), false,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Cluster),
+                                             false, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WMortar:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Mortar), false,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Mortar),
+                                             false, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WBanana:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Banana), false,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Banana),
+                                             false, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WHoly:
-            this->animation = GUI::Animation(
-                    this->texture_mgr.get(GUI::GameTextures::Holy), false,
-                    MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Holy), false,
+                                             MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WNone:
             break;
@@ -48,7 +43,7 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID 
 }
 
 void Ammo::Bullet::update(float dt) {
-    if (this->updateManually){
+    if (this->updateManually) {
         this->animation.setFrame((int)std::floor((this->angle - 90) / MISSILE_ANGLE_STEP));
     } else {
         this->animation.update(dt);

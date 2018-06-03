@@ -3,12 +3,11 @@
  *  date: 28/05/18
  */
 
-#include "Weapon.h"
-#include "Player.h"
 #include "Config.h"
+#include "Player.h"
+#include "Weapon.h"
 
-Worms::Weapon::Weapon(): config(Game::Config::getInstance().getBazookaConfig()){
-}
+Worms::Weapon::Weapon() : config(Game::Config::getInstance().getBazookaConfig()) {}
 
 const Worm::WeaponID &Worms::Weapon::getWeaponID() const {
     return this->id;
@@ -28,17 +27,16 @@ void Worms::Weapon::update(float dt) {
         //        if (this->bullet->madeImpact()) {
         //            this->bullet = nullptr;
         //        }
-        if (this->bullet->getPosition().y <
-                Game::Config::getInstance().getWaterLevel()) {
+        if (this->bullet->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
             this->bullet = nullptr;
         }
     }
 }
 
 void Worms::Weapon::setWeapon(const Worm::WeaponID &id) {
-    if (this->id != id){
+    if (this->id != id) {
         this->id = id;
-        switch (id){
+        switch (id) {
             case Worm::WeaponID::WBazooka:
                 this->config = Game::Config::getInstance().getBazookaConfig();
                 break;
@@ -66,7 +64,6 @@ void Worms::Weapon::setWeapon(const Worm::WeaponID &id) {
          * If not, the game could crash in rendering time.
          */
         this->checkBoundaryAngles();
-
     }
 }
 
@@ -96,7 +93,7 @@ void Worms::Weapon::endShot(Worms::Player &p, Physics &physics) {
     this->increaseShotPower = false;
     Math::Point<float> position = p.getPosition();
     float safeNonContactDistance =
-            sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
     float angle = this->angle;
     if (p.direction == Direction::right) {
         if (angle < 0.0f) {
@@ -105,26 +102,25 @@ void Worms::Weapon::endShot(Worms::Player &p, Physics &physics) {
     } else {
         angle = 180.0f - angle;
     }
-    this->bullet = std::shared_ptr<Worms::Bullet>(
-            new Worms::Bullet(BulletInfo {
-                    DamageInfo{this->config.damage, this->config.damageRadius},
-                    angle, this->shotPower, p.getPosition(),
-                    safeNonContactDistance}, physics));
+    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
+        BulletInfo{DamageInfo{this->config.damage, this->config.damageRadius}, angle,
+                   this->shotPower, p.getPosition(), safeNonContactDistance},
+        physics));
     this->shotPower = 0;
 }
 
-void Worms::Weapon::destroyBullet(){
+void Worms::Weapon::destroyBullet() {
     this->bullet = nullptr;
 }
 
-std::shared_ptr<Worms::Bullet> Worms::Weapon::getBullet() const{
+std::shared_ptr<Worms::Bullet> Worms::Weapon::getBullet() const {
     return this->bullet;
 }
 
-void Worms::Weapon::checkBoundaryAngles(){
-    if (this->angle > this->config.maxAngle){
+void Worms::Weapon::checkBoundaryAngles() {
+    if (this->angle > this->config.maxAngle) {
         this->angle = this->config.maxAngle;
-    } else if (this->angle < this->config.minAngle){
+    } else if (this->angle < this->config.minAngle) {
         this->angle = this->config.minAngle;
     }
 }

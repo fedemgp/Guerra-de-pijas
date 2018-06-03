@@ -21,10 +21,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
-Worms::Player::Player(Physics &physics) : PhysicsEntity(Worms::EntityID::EtWorm),
-                                          physics(physics),
-                                          waterLevel(Game::Config::getInstance()
-                                                             .getWaterLevel()) {
+Worms::Player::Player(Physics &physics)
+    : PhysicsEntity(Worms::EntityID::EtWorm),
+      physics(physics),
+      waterLevel(Game::Config::getInstance().getWaterLevel()) {
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(0.0f, 0.0f);
     this->bodyDef.fixedRotation = true;
@@ -212,7 +212,7 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
 }
 
 void Worms::Player::destroyBullet() {
-   this->weapon.destroyBullet();
+    this->weapon.destroyBullet();
 }
 
 float Worms::Player::getWeaponAngle() const {

@@ -6,7 +6,6 @@
 #include <memory>
 
 #include "Player.h"
-#include "Player.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 
@@ -60,22 +59,22 @@ void Worms::Still::endShot(Worms::Player &p) {
     p.endShot();
 }
 
-void Worms::Still::grenade(Worms::Player &p){
+void Worms::Still::grenade(Worms::Player &p) {
     p.setWeaponID(Worm::WeaponID::WGrenade);
 }
 
-void Worms::Still::cluster(Worms::Player &p){
+void Worms::Still::cluster(Worms::Player &p) {
     p.setWeaponID(Worm::WeaponID::WCluster);
 }
 
-void Worms::Still::mortar(Worms::Player &p){
+void Worms::Still::mortar(Worms::Player &p) {
     p.setWeaponID(Worm::WeaponID::WMortar);
 }
 
-void Worms::Still::banana(Worms::Player &p){
+void Worms::Still::banana(Worms::Player &p) {
     p.setWeaponID(Worm::WeaponID::WBanana);
 }
 
-void Worms::Still::holy(Worms::Player &p){
+void Worms::Still::holy(Worms::Player &p) {
     p.setWeaponID(Worm::WeaponID::WHoly);
 }

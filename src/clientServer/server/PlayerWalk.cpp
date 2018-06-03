@@ -1,7 +1,7 @@
 
-#include "Player.h"
 #include <iostream>
 #include <memory>
+
 #include "Player.h"
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
@@ -34,9 +34,8 @@ void Worms::Walk::stopMove(Worms::Player &p) {
 
 void Worms::Walk::jump(Worms::Player &p) {}
 
-Worms::Walk::Walk() : State(Worm::StateID::Walk),
-                      walkVelocity(Game::Config::getInstance()
-                                           .getWalkVelocity()) {}
+Worms::Walk::Walk()
+    : State(Worm::StateID::Walk), walkVelocity(Game::Config::getInstance().getWalkVelocity()) {}
 
 void Worms::Walk::backFlip(Worms::Player &p) {}
 
@@ -50,12 +49,12 @@ void Worms::Walk::startShot(Worms::Player &p) {}
 
 void Worms::Walk::endShot(Worms::Player &p) {}
 
-void Worms::Walk::grenade(Worms::Player &p){}
+void Worms::Walk::grenade(Worms::Player &p) {}
 
-void Worms::Walk::cluster(Worms::Player &p){}
+void Worms::Walk::cluster(Worms::Player &p) {}
 
-void Worms::Walk::mortar(Worms::Player &p){}
+void Worms::Walk::mortar(Worms::Player &p) {}
 
-void Worms::Walk::banana(Worms::Player &p){}
+void Worms::Walk::banana(Worms::Player &p) {}
 
-void Worms::Walk::holy(Worms::Player &p){}
+void Worms::Walk::holy(Worms::Player &p) {}

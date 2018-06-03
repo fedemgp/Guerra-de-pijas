@@ -3,23 +3,23 @@
  *  date: 18/05/18
  */
 
-#include <Box2D/Box2D.h>
-#include <zconf.h>
 #include <algorithm>
 #include <atomic>
+#include <Box2D/Box2D.h>
 #include <chrono>
 #include <functional>
 #include <iostream>
 #include <random>
+#include <zconf.h>
 
 #include "Game.h"
 #include "Player.h"
 #include "Stage.h"
 
-Worms::Game::Game(Stage &&stage) : physics(b2Vec2{0.0f, -10.0f}),
-                                   stage(std::move(stage)),
-                                   maxTurnTime(::Game::Config::getInstance()
-                                                       .getExtraTurnTime()){
+Worms::Game::Game(Stage &&stage)
+    : physics(b2Vec2{0.0f, -10.0f}),
+      stage(std::move(stage)),
+      maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()) {
     /* reserves the required space to avoid reallocations that may move the worm addresses */
     this->players.reserve(this->stage.getWorms().size());
     uint8_t id = 0;

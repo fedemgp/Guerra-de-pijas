@@ -7,6 +7,7 @@
 #define __PLAYER_JUMPING_H__
 
 #include <Box2D/Dynamics/b2Body.h>
+
 #include "PlayerState.h"
 
 namespace Worms {

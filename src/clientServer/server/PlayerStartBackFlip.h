@@ -6,8 +6,8 @@
 #ifndef __PLAYER_START_BACK_FLIP_H__
 #define __PLAYER_START_BACK_FLIP_H__
 
-#include "Player.h"
 #include "Config.h"
+#include "Player.h"
 
 namespace Worms {
 class StartBackFlip : public State {

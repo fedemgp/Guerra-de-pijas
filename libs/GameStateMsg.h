@@ -24,8 +24,7 @@ enum class StateID {
     Dead,
     Drown
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly
-};
+enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly };
 }  // namespace Worm
 
 namespace IO {

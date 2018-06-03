@@ -5,8 +5,8 @@
 #ifndef __WORMS_PLAYER_JUMP_RIGHT_H__
 #define __WORMS_PLAYER_JUMP_RIGHT_H__
 
-#include "Player.h"
 #include "Config.h"
+#include "Player.h"
 
 namespace Worms {
 class StartJump : public State {

@@ -64,22 +64,22 @@ IO::PlayerInput Worm::Walk::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Walk::grenade(Worm &w){
+IO::PlayerInput Worm::Walk::grenade(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Walk::cluster(Worm &w){
+IO::PlayerInput Worm::Walk::cluster(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Walk::mortar(Worm &w){
+IO::PlayerInput Worm::Walk::mortar(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Walk::banana(Worm &w){
+IO::PlayerInput Worm::Walk::banana(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Walk::holy(Worm &w){
+IO::PlayerInput Worm::Walk::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

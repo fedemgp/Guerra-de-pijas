@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include <SDL2/SDL_system.h>
 #include <cmath>
+#include <SDL2/SDL_system.h>
 
 #include "Dead.h"
 #include "Die.h"
