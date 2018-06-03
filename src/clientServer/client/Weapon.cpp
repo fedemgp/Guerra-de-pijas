@@ -30,14 +30,17 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
         this->animations.erase(this->animations.begin(), this->animations.end());
         switch (id) {
             case WeaponID::WBazooka:
+                this->centerFrame = BAZOOKA_CENTER_FRAME;
                 this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::Bazooka), true,
-                                              BAZOOKA_CENTER_FRAME, false);
+                                              this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
             case WeaponID::WGrenade:
+                this->centerFrame = GRENADE_CENTER_FRAME;
                 this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormGrenade), true,
-                                              BAZOOKA_CENTER_FRAME, false);
+                                              this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
+                break;
             case WeaponID::WNone:
                 break;
         }
@@ -49,5 +52,5 @@ const Worm::WeaponID &Worm::Weapon::getWeaponID() const {
 }
 
 void Worm::Weapon::setAngle(float angle) {
-    this->weaponAnimation->setFrame((int)std::ceil(angle / ANGLE_STEP) + BAZOOKA_CENTER_FRAME);
+    this->weaponAnimation->setFrame((int)std::ceil(angle / ANGLE_STEP) + this->centerFrame);
 }

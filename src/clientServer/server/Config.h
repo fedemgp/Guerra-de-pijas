@@ -54,6 +54,7 @@ namespace Game{
 
         const Weapon::Config &getBazookaConfig() const;
         const Weapon::Config &getGreenGrenadeConfig() const;
+        const Weapon::Config &getClusterConfig() const;
     private:
         /**
          * Constructor hidden because is a singleton.
@@ -82,10 +83,14 @@ namespace Game{
         int waterLevel{WATER_LEVEL};
         uint16_t wormHealth{WORM_HEALTH};
         // weapons
-        Weapon::Config bazooka{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, MIN_ANGLE,
-                               MAX_ANGLE, ANGLE_STEP, MAX_SHOT_POWER};
-        Weapon::Config greenGrenade{GREEN_GRENADE_DAMAGE, GREEN_GRENADE_RADIUS,
-                               MIN_ANGLE, MAX_ANGLE, ANGLE_STEP,
+        Weapon::Config bazooka{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS,
+                               BAZOOKA_MIN_ANGLE, BAZOOKA_MAX_ANGLE,
+                               ANGLE_STEP, MAX_SHOT_POWER};
+        Weapon::Config greenGrenade{GRENADE_DAMAGE, GRENADE_RADIUS,
+                               GRENADE_MIN_ANGLE, GRENADE_MAX_ANGLE, ANGLE_STEP,
+                               MAX_SHOT_POWER};
+        Weapon::Config cluster{CLUSTER_DAMAGE, CLUSTER_RADIUS,
+                               CLUSTER_MIN_ANGLE, CLUSTER_MAX_ANGLE, ANGLE_STEP,
                                MAX_SHOT_POWER};
     };
 } // namespace Game

@@ -47,6 +47,11 @@ class Weapon {
     std::shared_ptr<Bullet> getBullet() const;
 
 private:
+    /**
+     * When weapons change, their own limit angles may crash the game.
+     * To avoid this, this function checks and correct angles between changes.
+     */
+    void checkBoundaryAngles();
     bool increaseShotPower{false};
     uint16_t shotPower{0};
     Worm::WeaponID id{Worm::WeaponID::WBazooka};

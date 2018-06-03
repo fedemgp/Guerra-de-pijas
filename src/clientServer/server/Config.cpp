@@ -82,4 +82,8 @@ const uint8_t Game::Config::getNumTeams() const {
     return this->numTeams;
 }
 
+const Game::Weapon::Config &Game::Config::getClusterConfig() const{
+    return this->cluster;
+}
+
 
