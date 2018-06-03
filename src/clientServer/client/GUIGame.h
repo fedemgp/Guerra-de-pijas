@@ -18,6 +18,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "Explosion.h"
 
 namespace GUI {
 class Game {

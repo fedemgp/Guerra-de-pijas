@@ -24,6 +24,9 @@ enum class GameTextures {
     Background1,
     Background2,
     Background3,
+    Explosion,
+    Flame,
+    Smoke
 };
 
 /** Specialized TextureManager class. */

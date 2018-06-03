@@ -106,12 +106,21 @@ void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
     } else {
         this->weapon.render(p, cam, flipType);
     }
+    if (this->explosion != nullptr) {
+        this->explosion->render(cam);
+        if (this->explosion->finished()) {
+            this->explosion = nullptr;
+        }
+    }
 }
 
 void Worm::Worm::update(float dt) {
     this->state->update(dt);
     this->animation.update(dt);
     this->weapon.update(dt);
+    if (this->explosion != nullptr) {
+        this->explosion->update(dt);
+    }
 }
 
 GUI::Animation Worm::Worm::getAnimation(StateID state) const {
@@ -191,6 +200,8 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
+                this->explosion = std::shared_ptr<Explosion>(new Explosion(this->texture_mgr));
+                this->explosion->position = this->position;
                 break;
         }
     }
@@ -210,4 +221,8 @@ const Worm::WeaponID &Worm::Worm::getWeaponID() const {
 
 void Worm::Worm::setWeaponAngle(float angle) {
     this->weapon.setAngle(angle);
+}
+
+void Worm::Worm::setPosition(GUI::Position p) {
+    this->position = p;
 }
