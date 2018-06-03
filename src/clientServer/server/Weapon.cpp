@@ -23,13 +23,7 @@ void Worms::Weapon::update(float dt) {
     }
 
     if (this->bullet != nullptr) {
-        this->bullet->update(dt);
-        //        if (this->bullet->madeImpact()) {
-        //            this->bullet = nullptr;
-        //        }
-        if (this->bullet->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
-            this->bullet = nullptr;
-        }
+        this->bullet->update(dt, *this);
     }
 }
 

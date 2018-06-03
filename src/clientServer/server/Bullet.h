@@ -24,12 +24,15 @@ struct BulletInfo {
     Math::Point<float> point;
     float safeNonContactDistance;
 };
-
+    /**
+     * forward declaration of weapon.
+     */
+class Weapon;
 class Bullet : public PhysicsEntity {
    public:
     Bullet(BulletInfo i, Worms::Physics &physics);
     ~Bullet();
-    void update(float dt);
+    void update(float dt, Weapon &w);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     virtual void startContact() override;

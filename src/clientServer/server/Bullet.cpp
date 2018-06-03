@@ -6,8 +6,9 @@
 #include <cmath>
 #include <iostream>
 
-#include "Config.h"
 #include "Bullet.h"
+#include "Config.h"
+#include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
@@ -35,7 +36,7 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 }
 
-void Worms::Bullet::update(float dt) {
+void Worms::Bullet::update(float dt, Weapon &w) {
     if (!this->impulseApplied) {
         float32 mass = this->body->GetMass();
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
@@ -50,6 +51,11 @@ void Worms::Bullet::update(float dt) {
             this->angle += 360.0f;
         }
     }
+
+    if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
+        w.destroyBullet();
+    }
+
 }
 
 Math::Point<float> Worms::Bullet::getPosition() const {
