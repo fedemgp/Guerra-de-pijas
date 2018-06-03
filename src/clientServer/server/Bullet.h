@@ -14,14 +14,20 @@
 
 namespace Worms {
 struct DamageInfo {
-    float damage;
+    uint16_t damage;
     float radius;
 };
+    struct BulletInfo {
+        DamageInfo dmgInfo;
+        float angle;
+        uint16_t power;
+        Math::Point<float> point;
+        float safeNonContactDistance;
+    };
 
 class Bullet : public PhysicsEntity {
    public:
-    Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
-           Worms::Physics &physics);
+    Bullet(BulletInfo i, Worms::Physics &physics);
     ~Bullet();
     void update(float dt);
     Math::Point<float> getPosition() const;
@@ -41,7 +47,7 @@ class Bullet : public PhysicsEntity {
     int numContacts{0};
     bool impulseApplied{false};
     float radius{0.5f};
-    int power{0};
+    uint16_t power{0};
     DamageInfo damageInfo;
 };
 }  // namespace Worms

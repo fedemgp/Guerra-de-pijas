@@ -8,13 +8,12 @@
 #include <cmath>
 #include <iostream>
 
-Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float angle, int power,
-                      Worms::Physics &physics)
+Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
-    float distance = safeNonContactDistance + this->radius;
+    float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(p.x + distance * cos(angle * PI / 180.0f),
-                               p.y + distance * sin(angle * PI / 180.0f));
+    this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
+                               info.point.y + distance * sin(info.angle * PI / 180.0f));
     this->bodyDef.fixedRotation = true;
 
     this->body = this->physics.createBody(this->bodyDef);
@@ -28,13 +27,11 @@ Worms::Bullet::Bullet(Math::Point<float> p, float safeNonContactDistance, float 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
 
-    this->body->SetTransform(this->body->GetPosition(), angle);
+    this->body->SetTransform(this->body->GetPosition(), info.angle);
 
-    this->angle = angle;
-    this->power = power;
-    this->damageInfo.damage = ::Game::Config::getInstance().getBazookaDmg();
-    this->damageInfo.radius = ::Game::Config::getInstance()
-            .getBazookaDmgRadius();
+    this->angle = info.angle;
+    this->power = info.power;
+    this->damageInfo = info.dmgInfo;
 }
 
 void Worms::Bullet::update(float dt) {
