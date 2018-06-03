@@ -35,45 +35,34 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
     switch (key) {
         case SDLK_RIGHT:
             i = this->state->moveRight(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_LEFT:
             i = this->state->moveLeft(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_UP:
             i = this->state->pointUp(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_DOWN:
             i = this->state->pointDown(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_RETURN:
             i = this->state->jump(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_BACKSPACE:
             i = this->state->backFlip(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_1:
             i = this->state->bazooka(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
+            break;
+        case SDLK_2:
+            i = this->state->grenade(*this);
             break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
     }
+    if (i != IO::PlayerInput::moveNone)
+        *out << i;
 }
 
 void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -81,20 +70,16 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
     switch (key) {
         case SDLK_RIGHT:
             i = this->state->stopMove(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_LEFT:
             i = this->state->stopMove(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
         case SDLK_SPACE:
             i = this->state->endShot(*this);
-            if (i != IO::PlayerInput::moveNone)
-                *out << i;
             break;
     }
+    if (i != IO::PlayerInput::moveNone)
+        *out << i;
 }
 
 void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
