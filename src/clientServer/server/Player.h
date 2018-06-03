@@ -48,7 +48,6 @@ class Player : public PhysicsEntity {
     void decreaseWeaponAngle();
     void startShot();
     void endShot();
-    void shoot(int shotPower);
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
@@ -61,7 +60,6 @@ class Player : public PhysicsEntity {
     b2FixtureDef fixture;
     Physics &physics;
     const int waterLevel;
-    std::shared_ptr<Worms::Bullet> bullet{nullptr};
     Worms::Weapon weapon;
     int numContacts{0};
 };
