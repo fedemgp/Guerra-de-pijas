@@ -51,3 +51,5 @@ void Worms::Walk::startShot(Worms::Player &p) {}
 void Worms::Walk::endShot(Worms::Player &p) {}
 
 void Worms::Walk::grenade(Worms::Player &p){}
+
+void Worms::Walk::cluster(Worms::Player &p){}

@@ -73,6 +73,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Grenade,
                            "src/clientServer/assets/img/Weapons/grenade.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormCluster,
+                           "src/clientServer/assets/img/Worms/wthrcls.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Cluster,
+                           "src/clientServer/assets/img/Weapons/cluster.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;

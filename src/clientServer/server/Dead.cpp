@@ -31,3 +31,5 @@ void Worms::Dead::startShot(Worms::Player &p) {}
 void Worms::Dead::endShot(Worms::Player &p) {}
 
 void Worms::Dead::grenade(Worms::Player &p){}
+
+void Worms::Dead::cluster(Worms::Player &p){}

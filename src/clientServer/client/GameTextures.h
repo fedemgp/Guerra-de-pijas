@@ -25,7 +25,9 @@ enum class GameTextures {
     Background2,
     Background3,
     WormGrenade,
-    Grenade
+    Grenade,
+    WormCluster,
+    Cluster
 };
 
 /** Specialized TextureManager class. */

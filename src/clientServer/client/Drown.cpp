@@ -54,3 +54,7 @@ IO::PlayerInput Worm::Drown::endShot(Worm &w) {
 IO::PlayerInput Worm::Drown::grenade(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Drown::cluster(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

@@ -6,7 +6,7 @@
 #ifndef __Worm_H__
 #define __Worm_H__
 
-#define BAZOOKA_CENTER_FRAME 16
+
 #define FLY_CENTER_FRAME 16
 #define DROWN_CENTER_FRAME 0
 #define ANGLE_STEP 5.625f

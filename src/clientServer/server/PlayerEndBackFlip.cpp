@@ -40,3 +40,5 @@ void Worms::EndBackFlip::startShot(Worms::Player &p) {}
 void Worms::EndBackFlip::endShot(Worms::Player &p) {}
 
 void Worms::EndBackFlip::grenade(Worms::Player &p){}
+
+void Worms::EndBackFlip::cluster(Worms::Player &p){}

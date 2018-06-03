@@ -20,6 +20,7 @@ class State {
 
     virtual void bazooka(Player &p) = 0;
     virtual void grenade(Player &p) = 0;
+    virtual void cluster(Player &p) = 0;
 
     virtual void startShot(Player &p) = 0;
     virtual void endShot(Player &p) = 0;

@@ -45,6 +45,9 @@ void Worms::Weapon::setWeapon(const Worm::WeaponID &id) {
             case Worm::WeaponID::WGrenade:
                 this->config = Game::Config::getInstance().getGreenGrenadeConfig();
                 break;
+            case Worm::WeaponID::WCluster:
+                this->config = Game::Config::getInstance().getClusterConfig();
+                break;
             case Worm::WeaponID::WNone:
                 break;
         }

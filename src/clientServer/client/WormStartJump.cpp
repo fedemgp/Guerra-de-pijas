@@ -54,3 +54,7 @@ IO::PlayerInput Worm::StartJump::endShot(Worm &w) {
 IO::PlayerInput Worm::StartJump::grenade(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::StartJump::cluster(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

@@ -54,3 +54,7 @@ IO::PlayerInput Worm::BackFlip::endShot(Worm &w) {
 IO::PlayerInput Worm::BackFlip::grenade(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::cluster(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

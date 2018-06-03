@@ -63,3 +63,7 @@ void Worms::Still::endShot(Worms::Player &p) {
 void Worms::Still::grenade(Worms::Player &p){
     p.setWeaponID(Worm::WeaponID::WGrenade);
 }
+
+void Worms::Still::cluster(Worms::Player &p){
+    p.setWeaponID(Worm::WeaponID::WCluster);
+}

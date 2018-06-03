@@ -91,6 +91,9 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::grenade:
             this->state->grenade(*this);
             break;
+        case IO::PlayerInput::cluster:
+            this->state->cluster(*this);
+            break;
         case IO::PlayerInput::moveNone:
             break;
         case IO::PlayerInput::pointUp:

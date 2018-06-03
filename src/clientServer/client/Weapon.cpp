@@ -41,6 +41,11 @@ void Worm::Weapon::setWeapon(const WeaponID &id) {
                                               this->centerFrame, false);
                 this->weaponAnimation = &this->animations.back();
                 break;
+            case WeaponID::WCluster:
+                this->centerFrame = GRENADE_CENTER_FRAME;
+                this->animations.emplace_back(this->textureMgr.get(GUI::GameTextures::WormCluster), true,
+                                              this->centerFrame, false);
+                this->weaponAnimation = &this->animations.back();
             case WeaponID::WNone:
                 break;
         }
