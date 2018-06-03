@@ -15,6 +15,17 @@ namespace Math{
 }
 
 namespace Game{
+    namespace Weapon{
+        struct Config{
+        public:
+            uint16_t damage;
+            float damageRadius;
+            float minAngle;
+            float maxAngle;
+            float angleStep;
+            uint16_t maxShotPower;
+        };
+    }// namespace Weapon
     /**
      *  Singleton class with all the game configuration (Velocity constants,
      *  Weapons attributes, etc)
@@ -40,12 +51,8 @@ namespace Game{
         const int getWaterLevel() const;
         const uint16_t getWormHealth() const;
 
-        const float getBazookaDmg() const;
-        const float getBazookaDmgRadius() const;
-        const float getMinAngle() const;
-        const float getMaxAngle() const;
-        const float getAngleStep() const;
-        const uint16_t getMaxShotPower() const;
+        const Weapon::Config &getBazookaConfig() const;
+        const Weapon::Config &getGreenGrenadeConfig() const;
     private:
         /**
          * Constructor hidden because is a singleton.
@@ -73,12 +80,11 @@ namespace Game{
         int waterLevel{WATER_LEVEL};
         uint16_t wormHealth{WORM_HEALTH};
         // weapons
-        float bazookaDmg{BAZOOKA_DAMAGE};
-        float bazookaDmgRadius{BAZOOKA_DAMAGE_RADIUS};
-        float minAngle{MIN_ANGLE};
-        float maxAngle{MAX_ANGLE};
-        float angleStep{ANGLE_STEP};
-        uint16_t maxShotPower{MAX_SHOT_POWER};
+        Weapon::Config bazooka{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, MIN_ANGLE,
+                               MAX_ANGLE, ANGLE_STEP, MAX_SHOT_POWER};
+        Weapon::Config greenGrenade{GREEN_GRENADE_DAMAGE, GREEN_GRENADE_RADIUS,
+                               MIN_ANGLE, MAX_ANGLE, ANGLE_STEP,
+                               MAX_SHOT_POWER};
     };
 } // namespace Game
 

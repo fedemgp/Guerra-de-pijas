@@ -25,8 +25,10 @@
 #define WORM_HEALTH 100
 // Weapons
 // Bazooka
-#define BAZOOKA_DAMAGE 50.0f
+#define BAZOOKA_DAMAGE 50
 #define BAZOOKA_DAMAGE_RADIUS 2.0f
+#define GREEN_GRENADE_DAMAGE 30
+#define GREEN_GRENADE_RADIUS 2.0f
 #define MIN_ANGLE -90
 #define MAX_ANGLE 84.375f
 #define ANGLE_STEP 5.625f

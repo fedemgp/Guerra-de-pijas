@@ -46,12 +46,8 @@ const float Game::Config::getGameHeight() const{
     return this->gameHeight;
 }
 
-const float Game::Config::getBazookaDmg() const{
-    return this->bazookaDmg;
-}
-
-const float Game::Config::getBazookaDmgRadius() const{
-    return this->bazookaDmgRadius;
+const Game::Weapon::Config & Game::Config::getBazookaConfig() const{
+    return this->bazooka;
 }
 
 const float Game::Config::getDyingTime() const{
@@ -78,20 +74,7 @@ const uint16_t Game::Config::getWormHealth() const{
     return this->wormHealth;
 }
 
-const float Game::Config::getMinAngle() const{
-    return this->minAngle;
+const Game::Weapon::Config &Game::Config::getGreenGrenadeConfig() const{
+    return this->greenGrenade;
 }
-
-const float Game::Config::getMaxAngle() const{
-    return this->maxAngle;
-}
-
-const float Game::Config::getAngleStep() const{
-    return this->angleStep;
-}
-
-const uint16_t Game::Config::getMaxShotPower() const{
-    return this->maxShotPower;
-}
-
 
