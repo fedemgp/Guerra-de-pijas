@@ -43,6 +43,7 @@ class Game {
     Camera cam;
     Font font;
     SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
+    std::vector<SDL_Color> teamColors;
 };
 }  // namespace GUI
 

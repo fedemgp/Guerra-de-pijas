@@ -44,6 +44,7 @@ namespace Game{
 
         const uint8_t getTurnTime() const;
         const float getExtraTurnTime() const;
+        const uint8_t getNumTeams() const;
         const float getGameWidth() const;
         const float getGameHeight() const;
         const float getDyingTime() const;
@@ -73,6 +74,7 @@ namespace Game{
         // game
         uint8_t turnTime{TURN_TIME};
         float extraTurnTime{EXTRA_TURN_TIME};
+        uint8_t numTeams{NUM_TEAMS};
         float gameWidth{GAME_WIDTH};
         float gameHeight{GAME_HEIGHT};
         float dyingTime{DYING_TIME};

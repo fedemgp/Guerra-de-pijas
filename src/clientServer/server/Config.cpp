@@ -78,3 +78,8 @@ const Game::Weapon::Config &Game::Config::getGreenGrenadeConfig() const{
     return this->greenGrenade;
 }
 
+const uint8_t Game::Config::getNumTeams() const {
+    return this->numTeams;
+}
+
+

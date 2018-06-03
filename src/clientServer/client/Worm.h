@@ -81,6 +81,8 @@ class Worm {
      */
     void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID() const;
+    //    void setTeam(uint8_t team);
+    //    uint8_t getTeam();
 
    private:
     const GUI::GameTextureManager &texture_mgr;
@@ -88,6 +90,7 @@ class Worm {
     GUI::Animation animation;
     Weapon weapon;
     bool active{false};
+    //    uint8_t team{0};
 };
 }  // namespace Worm
 

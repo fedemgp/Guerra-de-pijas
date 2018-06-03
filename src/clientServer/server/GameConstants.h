@@ -15,8 +15,9 @@
 // Moving
 #define WALK_VELOCITY 3.0f
 // Stage and general game config
-#define TURN_TIME 5
+#define TURN_TIME 3
 #define EXTRA_TURN_TIME 3
+#define NUM_TEAMS 2
 #define GAME_HEIGHT 30.0f
 #define GAME_WIDTH 30.0f
 #define DYING_TIME 2.6f

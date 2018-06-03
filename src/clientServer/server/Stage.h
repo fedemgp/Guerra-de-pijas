@@ -36,12 +36,14 @@ class Stage {
 
     float getHeight() const;
     float getWidth() const;
+    uint8_t getNumTeams();
 
    private:
     std::vector<WormData> players;
     std::vector<Girder> girders;
     float width{Game::Config::getInstance().getGameWidth()};
     float height{Game::Config::getInstance().getGameHeight()};
+    uint8_t numTeams{Game::Config::getInstance().getNumTeams()};
 };
 }  // namespace Worms
 

@@ -7,11 +7,17 @@
 #define __GAME_H__
 
 #include <atomic>
+#include <unordered_map>
 
 #include "Player.h"
 #include "Stage.h"
 
 namespace Worms {
+struct Team {
+    std::vector<uint8_t> players;
+    uint8_t currentPlayer;
+    bool alive;
+};
 
 class Game {
    public:
@@ -27,7 +33,10 @@ class Game {
     void exit();
 
    private:
-    char currentWorm{0};
+    void makeTeams();
+
+    char currentWorm;
+    char currentTeam;
     double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
@@ -39,6 +48,13 @@ class Game {
     bool processingClientInputs{true};
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
+    std::vector<Team> teams;
+
+    void checkTeams();
+
+    std::vector<uint8_t> deadTeams;
+
+    void newCurrentPlayerAndTeam();
 };
 }  // namespace Worms
 
