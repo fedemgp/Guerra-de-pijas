@@ -27,7 +27,9 @@ enum class GameTextures {
     WormGrenade,
     Grenade,
     WormCluster,
-    Cluster
+    Cluster,
+    Mortar,
+    Bazooka2
 };
 
 /** Specialized TextureManager class. */
