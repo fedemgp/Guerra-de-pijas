@@ -44,7 +44,8 @@ enum class PlayerInput {
     grenade,
     cluster,
     mortar,
-    banana
+    banana,
+    holy
 };
 // TODO protocol?
 struct GameStateMsg {

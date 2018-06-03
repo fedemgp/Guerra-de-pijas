@@ -66,6 +66,9 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
         case SDLK_5:
             i = this->state->banana(*this);
             break;
+        case SDLK_6:
+            i = this->state->holy(*this);
+            break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
             break;

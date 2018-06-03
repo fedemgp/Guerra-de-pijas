@@ -69,3 +69,7 @@ IO::PlayerInput Worm::Dead::mortar(Worm &w){
 IO::PlayerInput Worm::Dead::banana(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::holy(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

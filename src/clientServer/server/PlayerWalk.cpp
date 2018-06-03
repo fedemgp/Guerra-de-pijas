@@ -57,3 +57,5 @@ void Worms::Walk::cluster(Worms::Player &p){}
 void Worms::Walk::mortar(Worms::Player &p){}
 
 void Worms::Walk::banana(Worms::Player &p){}
+
+void Worms::Walk::holy(Worms::Player &p){}

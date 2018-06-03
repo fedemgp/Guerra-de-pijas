@@ -66,3 +66,7 @@ IO::PlayerInput Worm::Drown::mortar(Worm &w){
 IO::PlayerInput Worm::Drown::banana(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Drown::holy(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

@@ -60,3 +60,5 @@ void Worms::StartBackFlip::cluster(Worms::Player &p){}
 void Worms::StartBackFlip::mortar(Worms::Player &p){}
 
 void Worms::StartBackFlip::banana(Worms::Player &p){}
+
+void Worms::StartBackFlip::holy(Worms::Player &p){}

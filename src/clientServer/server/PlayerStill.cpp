@@ -75,3 +75,7 @@ void Worms::Still::mortar(Worms::Player &p){
 void Worms::Still::banana(Worms::Player &p){
     p.setWeaponID(Worm::WeaponID::WBanana);
 }
+
+void Worms::Still::holy(Worms::Player &p){
+    p.setWeaponID(Worm::WeaponID::WHoly);
+}

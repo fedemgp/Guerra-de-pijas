@@ -36,6 +36,7 @@ class State {
     virtual IO::PlayerInput cluster(Worm &w) = 0;
     virtual IO::PlayerInput mortar(Worm &w) = 0;
     virtual IO::PlayerInput banana(Worm &w) = 0;
+    virtual IO::PlayerInput holy(Worm &w) = 0;
 
     virtual IO::PlayerInput startShot(Worm &w) = 0;
     virtual IO::PlayerInput endShot(Worm &w) = 0;

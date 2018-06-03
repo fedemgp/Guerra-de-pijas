@@ -100,6 +100,9 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::banana:
             this->state->banana(*this);
             break;
+        case IO::PlayerInput::holy:
+            this->state->holy(*this);
+            break;
         case IO::PlayerInput::moveNone:
             break;
         case IO::PlayerInput::pointUp:

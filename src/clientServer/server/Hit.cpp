@@ -55,3 +55,5 @@ void Worms::Hit::cluster(Worms::Player &p){}
 void Worms::Hit::mortar(Worms::Player &p){}
 
 void Worms::Hit::banana(Worms::Player &p){}
+
+void Worms::Hit::holy(Worms::Player &p){}

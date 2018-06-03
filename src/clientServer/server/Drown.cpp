@@ -45,3 +45,5 @@ void Worms::Drown::cluster(Worms::Player &p){}
 void Worms::Drown::mortar(Worms::Player &p){}
 
 void Worms::Drown::banana(Worms::Player &p){}
+
+void Worms::Drown::holy(Worms::Player &p){}

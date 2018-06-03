@@ -66,3 +66,7 @@ IO::PlayerInput Worm::EndJump::mortar(Worm &w){
 IO::PlayerInput Worm::EndJump::banana(Worm&w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndJump::holy(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

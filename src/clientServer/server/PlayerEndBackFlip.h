@@ -25,6 +25,7 @@ class EndBackFlip : public State {
     void cluster(Player &p) override;
     void mortar(Player &p) override;
     void banana(Player &p) override;
+    void holy(Player &p) override;
 
     void startShot(Player &p) override;
     void endShot(Player &p) override;

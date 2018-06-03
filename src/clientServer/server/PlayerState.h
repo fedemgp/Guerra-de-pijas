@@ -23,6 +23,7 @@ class State {
     virtual void cluster(Player &p) = 0;
     virtual void mortar(Player &p) = 0;
     virtual void banana(Player &p) = 0;
+    virtual void holy(Player &p) = 0;
 
     virtual void startShot(Player &p) = 0;
     virtual void endShot(Player &p) = 0;

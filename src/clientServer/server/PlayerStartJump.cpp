@@ -63,3 +63,5 @@ void Worms::StartJump::cluster(Worms::Player &p){}
 void Worms::StartJump::mortar(Worms::Player &p){}
 
 void Worms::StartJump::banana(Worms::Player &p){}
+
+void Worms::StartJump::holy(Worms::Player &p){}

@@ -73,3 +73,7 @@ IO::PlayerInput Worm::Still::mortar(Worm &w){
 IO::PlayerInput Worm::Still::banana(Worm &w){
     return IO::PlayerInput::banana;
 }
+
+IO::PlayerInput Worm::Still::holy(Worm &w){
+    return IO::PlayerInput::holy;
+}
