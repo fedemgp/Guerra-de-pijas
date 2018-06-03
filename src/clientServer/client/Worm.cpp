@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include <cmath>
 #include <SDL2/SDL_system.h>
+#include <cmath>
 
 #include "Dead.h"
 #include "Die.h"
@@ -31,7 +31,7 @@ Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
-    IO::PlayerInput i;
+    IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
             i = this->state->moveRight(*this);
@@ -78,7 +78,7 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
 }
 
 void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
-    IO::PlayerInput i;
+    IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
             i = this->state->stopMove(*this);

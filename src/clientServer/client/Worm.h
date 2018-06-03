@@ -10,18 +10,18 @@
 #define DROWN_CENTER_FRAME 0
 #define ANGLE_STEP 5.625f
 
-#include <memory>
 #include <SDL2/SDL.h>
+#include <memory>
 
 #include "Animation.h"
 #include "Camera.h"
+#include "Explosion.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
-#include "utils.h"
 #include "Weapon.h"
 #include "WormState.h"
-#include "Explosion.h"
+#include "utils.h"
 
 namespace Worm {
 enum class Direction { right, left, up, down };
