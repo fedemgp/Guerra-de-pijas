@@ -33,6 +33,7 @@ class Animation {
     SDL_RendererFlip getFlip();
 
     void setAnimateOnce();
+    bool finished();
 
    private:
     /** SDL texture of the raw image. */
@@ -59,6 +60,7 @@ class Animation {
     bool playOnce{false};
     /** Frame step. */
     int step{1};
+    bool animationFinished{false};
 };
 }  // namespace GUI
 

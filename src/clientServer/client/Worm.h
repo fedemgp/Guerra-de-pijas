@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "Weapon.h"
 #include "WormState.h"
+#include "Explosion.h"
 
 namespace Worm {
 enum class Direction { right, left, up, down };
@@ -83,6 +84,7 @@ class Worm {
     const WeaponID &getWeaponID() const;
     //    void setTeam(uint8_t team);
     //    uint8_t getTeam();
+    void setPosition(GUI::Position p);
 
    private:
     const GUI::GameTextureManager &texture_mgr;
@@ -90,7 +92,9 @@ class Worm {
     GUI::Animation animation;
     Weapon weapon;
     bool active{false};
+    GUI::Position position{0, 0};
     //    uint8_t team{0};
+    std::shared_ptr<Explosion> explosion{nullptr};
 };
 }  // namespace Worm
 
