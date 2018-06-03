@@ -59,3 +59,7 @@ void Worms::Still::startShot(Worms::Player &p) {
 void Worms::Still::endShot(Worms::Player &p) {
     p.endShot();
 }
+
+void Worms::Still::grenade(Worms::Player &p){
+    p.setWeaponID(Worm::WeaponID::WGrenade);
+}

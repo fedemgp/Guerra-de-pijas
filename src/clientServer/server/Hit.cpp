@@ -47,3 +47,5 @@ void Worms::Hit::pointDown(Worms::Player &p) {}
 void Worms::Hit::startShot(Worms::Player &p) {}
 
 void Worms::Hit::endShot(Worms::Player &p) {}
+
+void Worms::Hit::grenade(Worms::Player &p){}

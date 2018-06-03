@@ -57,3 +57,7 @@ IO::PlayerInput Worm::Still::startShot(Worm &w) {
 IO::PlayerInput Worm::Still::endShot(Worm &w) {
     return IO::PlayerInput::endShot;
 }
+
+IO::PlayerInput Worm::Still::grenade(Worm &w){
+    return IO::PlayerInput::grenade;
+}

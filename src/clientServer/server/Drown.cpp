@@ -37,3 +37,5 @@ void Worms::Drown::pointDown(Worms::Player &p) {}
 void Worms::Drown::startShot(Worms::Player &p) {}
 
 void Worms::Drown::endShot(Worms::Player &p) {}
+
+void Worms::Drown::grenade(Worms::Player &p){}

@@ -31,10 +31,10 @@ class State {
     virtual IO::PlayerInput pointDown(Worm &w) = 0;
     virtual IO::PlayerInput jump(Worm &w) = 0;
     virtual IO::PlayerInput bazooka(Worm &w) = 0;
+    virtual IO::PlayerInput grenade(Worm &w) = 0;
     virtual IO::PlayerInput startShot(Worm &w) = 0;
     virtual IO::PlayerInput endShot(Worm &w) = 0;
     virtual IO::PlayerInput backFlip(Worm &w) = 0;
-    //        virtual IO::PlayerInput fire(Worm &w) = 0;
     virtual StateID &getState() {
         return this->stateID;
     };

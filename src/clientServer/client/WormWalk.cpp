@@ -63,3 +63,7 @@ IO::PlayerInput Worm::Walk::startShot(Worm &w) {
 IO::PlayerInput Worm::Walk::endShot(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::grenade(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

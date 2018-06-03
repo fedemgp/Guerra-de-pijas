@@ -22,7 +22,9 @@ class EndBackFlip : public State {
     virtual IO::PlayerInput stopMove(Worm &w) override;
     virtual IO::PlayerInput jump(Worm &w) override;
     virtual IO::PlayerInput backFlip(Worm &w) override;
+
     virtual IO::PlayerInput bazooka(Worm &w) override;
+    virtual IO::PlayerInput grenade(Worm &w) override;
     virtual IO::PlayerInput endShot(Worm &w) override;
     virtual IO::PlayerInput startShot(Worm &w) override;
     virtual IO::PlayerInput pointUp(Worm &w) override;

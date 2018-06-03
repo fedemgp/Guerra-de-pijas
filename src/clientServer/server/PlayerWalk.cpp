@@ -49,3 +49,5 @@ void Worms::Walk::pointDown(Worms::Player &p) {}
 void Worms::Walk::startShot(Worms::Player &p) {}
 
 void Worms::Walk::endShot(Worms::Player &p) {}
+
+void Worms::Walk::grenade(Worms::Player &p){}

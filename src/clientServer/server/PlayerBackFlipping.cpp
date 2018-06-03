@@ -47,3 +47,5 @@ void Worms::BackFlipping::pointDown(Worms::Player &p) {}
 void Worms::BackFlipping::startShot(Worms::Player &p) {}
 
 void Worms::BackFlipping::endShot(Worms::Player &p) {}
+
+void Worms::BackFlipping::grenade(Worms::Player &p){}

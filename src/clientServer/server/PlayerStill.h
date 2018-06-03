@@ -19,7 +19,10 @@ class Still : public State {
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;
+
     void bazooka(Player &p) override;
+    void grenade(Player &p) override;
+
     void startShot(Player &p) override;
     void endShot(Player &p) override;
     void backFlip(Player &p) override;

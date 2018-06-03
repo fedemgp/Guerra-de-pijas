@@ -50,3 +50,5 @@ void Worms::Jumping::pointDown(Worms::Player &p) {}
 void Worms::Jumping::startShot(Worms::Player &p) {}
 
 void Worms::Jumping::endShot(Worms::Player &p) {}
+
+void Worms::Jumping::grenade(Worms::Player &p){}

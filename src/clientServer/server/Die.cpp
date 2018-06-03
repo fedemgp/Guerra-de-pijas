@@ -34,3 +34,5 @@ void Worms::Die::pointDown(Worms::Player &p) {}
 void Worms::Die::startShot(Worms::Player &p) {}
 
 void Worms::Die::endShot(Worms::Player &p) {}
+
+void Worms::Die::grenade(Worms::Player &p){}
