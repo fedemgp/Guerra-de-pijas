@@ -31,7 +31,9 @@ enum class GameTextures {
     Mortar,
     Bazooka2,
     WormBanana,
-    Banana
+    Banana,
+    WormHoly,
+    Holy
 };
 
 /** Specialized TextureManager class. */
