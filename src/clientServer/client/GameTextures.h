@@ -37,7 +37,9 @@ enum class GameTextures {
     Explosion,
     Flame,
     Smoke,
-    Falling
+    Falling,
+    Scope,
+    PowerBar
 };
 
 /** Specialized TextureManager class. */
