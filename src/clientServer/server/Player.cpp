@@ -51,7 +51,7 @@ Worms::Player::Player(Physics &physics)
     this->state = std::shared_ptr<State>(new Still());
     this->direction = Direction::left;
 
-    this->setState(Worm::StateID::Still);
+    this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
 }
 
@@ -149,8 +149,10 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
 void Worms::Player::setState(Worm::StateID stateID) {
     if (this->state == nullptr || this->state->getState() != stateID) {
         /* creates the right state type */
+        this->body->SetType(b2_dynamicBody);
         switch (stateID) {
             case Worm::StateID::Still:
+                this->body->SetType(b2_staticBody);
                 this->state = std::shared_ptr<State>(new Still());
                 break;
             case Worm::StateID::Walk:
@@ -222,6 +224,7 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
         // "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout
         // << "distance to epicenter " << distanceToEpicenter << std::endl;
         if (distanceToEpicenter <= damageInfo.radius) {
+            this->body->SetType(b2_dynamicBody);
             double inflictedDamage =
                 (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
             this->health -= inflictedDamage;

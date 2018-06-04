@@ -31,6 +31,7 @@ class Walk : public State {
 
    private:
     const float walkVelocity;
+    float timeElapsed{0.0f};
 };
 }
 
