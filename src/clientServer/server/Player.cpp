@@ -27,6 +27,8 @@
 #include "Mortar.h"
 #include "Banana.h"
 #include "Holy.h"
+#include "Falling.h"
+#include "Land.h"
 
 Worms::Player::Player(Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtWorm),
@@ -156,6 +158,12 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
+                break;
+            case Worm::StateID::Falling:
+                this->state = std::shared_ptr<State>(new Falling());
+                break;
+            case Worm::StateID::Land:
+                this->state = std::shared_ptr<State>(new Land());
                 break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
