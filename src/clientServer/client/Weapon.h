@@ -6,59 +6,54 @@
 #ifndef __Weapon_H__
 #define __Weapon_H__
 
-#include <list>
-
 #include "Animation.h"
 #include "Camera.h"
+#include "Direction.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "TextureManager.h"
 
-#define BAZOOKA_CENTER_FRAME 16
-#define GRENADE_CENTER_FRAME 15
-#define BANANA_CENTER_FRAME 14
-#define HOLY_CENTER_FRAME 15
 #define ANGLE_STEP 5.625f
+#define SCOPE_DISTANCE 4
 
 namespace Worm {
 class Weapon {
    public:
-    explicit Weapon(const GUI::GameTextureManager &tex);
-    ~Weapon() = default;
+    explicit Weapon(const GUI::GameTextureManager &texMgr, GUI::GameTextures tex, uint16_t centerFrame, WeaponID id);
+    virtual ~Weapon() = default;
     /**
      * updates all its animations.
      * @param dt
      */
-    void update(float dt);
+    virtual void update(float dt) = 0;
     /**
      * renders all its animations.
      * @param p
      * @param cam
      * @param flip
      */
-    void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip);
-    /**
-     * changes its animations depending on the weapon to use.
-     * @param id
-     */
-    void setWeapon(const WeaponID &id);
+    virtual void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) = 0;
     const WeaponID &getWeaponID() const;
     /**
      * updates animations' frame depending on the angle.
      * @param angle
      */
-    void setAngle(float angle);
-
-   private:
-    const GUI::GameTextureManager &textureMgr;
-    WeaponID current{WeaponID::WNone};
+    virtual void setAngle(float angle, Direction d) = 0;
     /**
-     * list of animations, it may include the worm with the weapon, the scope
-     * and the power animation
+     * Starts the PowerBar's rendering, adding animations in its container
      */
-    std::list<GUI::Animation> animations;
-    GUI::Animation *weaponAnimation{nullptr};
-    uint16_t centerFrame{BAZOOKA_CENTER_FRAME};
+    virtual void startShot() = 0;
+    /**
+     * End PowerBar's rendering, freeing its container
+     */
+    virtual void endShot() = 0;
+
+   protected:
+    const GUI::GameTextureManager &textureMgr;
+    WeaponID current;
+    uint16_t centerFrame;
+    GUI::Animation weaponAnimation;
+    float angle{0.0f};
 };
 }  // namespace Weapon
 

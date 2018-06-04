@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include "WormStill.h"
 #include "Texture.h"
+#include "WormStill.h"
 
 Worm::Still::Still() : State(StateID::Still) {}
 
@@ -51,10 +51,12 @@ IO::PlayerInput Worm::Still::pointDown(Worm &w) {
 }
 
 IO::PlayerInput Worm::Still::startShot(Worm &w) {
+    w.startShot();
     return IO::PlayerInput::startShot;
 }
 
 IO::PlayerInput Worm::Still::endShot(Worm &w) {
+    w.endShot();
     return IO::PlayerInput::endShot;
 }
 

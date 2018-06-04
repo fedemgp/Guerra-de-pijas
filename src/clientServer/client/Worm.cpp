@@ -6,13 +6,19 @@
 #include <SDL2/SDL_system.h>
 #include <cmath>
 
+#include "Banana.h"
+#include "Bazooka.h"
+#include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drown.h"
 #include "Falling.h"
 #include "GameStateMsg.h"
+#include "Grenade.h"
 #include "Hit.h"
+#include "Holy.h"
 #include "Land.h"
+#include "Mortar.h"
 #include "Text.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
@@ -23,13 +29,14 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "WeaponNone.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     : id(id),
       texture_mgr(texture_mgr),
-      animation(texture_mgr.get(GUI::GameTextures::WormIdle)),
-      weapon(texture_mgr) {
+      animation(texture_mgr.get(GUI::GameTextures::WormIdle)){
     this->setState(::Worm::StateID::Still);
+    this->weapon = std::shared_ptr<Weapon>(new Bazooka(texture_mgr));
 }
 
 void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
@@ -115,10 +122,10 @@ void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
     SDL_RendererFlip flipType =
         this->direction == Direction::left ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
     if (this->state->getState() != StateID::Still ||
-        this->weapon.getWeaponID() == WeaponID::WNone) {
+        this->weapon->getWeaponID() == WeaponID::WNone) {
         this->animation.render(p, cam, flipType);
     } else {
-        this->weapon.render(p, cam, flipType);
+        this->weapon->render(p, cam, flipType);
     }
     if (this->explosion != nullptr) {
         this->explosion->render(cam);
@@ -131,7 +138,7 @@ void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
 void Worm::Worm::update(float dt) {
     this->state->update(dt);
     this->animation.update(dt);
-    this->weapon.update(dt);
+    this->weapon->update(dt);
     if (this->explosion != nullptr) {
         this->explosion->update(dt);
     }
@@ -238,17 +245,51 @@ Worm::StateID &Worm::Worm::getState() const {
 }
 
 void Worm::Worm::setWeapon(const WeaponID &id) {
-    this->weapon.setWeapon(id);
+//    this->weapon.setWeapon(id);
+    if (this->weapon->getWeaponID() != id){
+        switch (id) {
+            case WeaponID::WBazooka:
+                this->weapon = std::shared_ptr<Weapon>(new Bazooka(this->texture_mgr));
+                break;
+            case WeaponID::WGrenade:
+                this->weapon = std::shared_ptr<Weapon>(new Grenade(this->texture_mgr));
+                break;
+            case WeaponID::WCluster:
+                this->weapon = std::shared_ptr<Weapon>(new Cluster(this->texture_mgr));
+                break;
+            case WeaponID::WMortar:
+                this->weapon = std::shared_ptr<Weapon>(new Mortar(this->texture_mgr));
+                break;
+            case WeaponID::WBanana:
+                this->weapon = std::shared_ptr<Weapon>(new Banana(this->texture_mgr));
+                break;
+            case WeaponID::WHoly:
+                this->weapon = std::shared_ptr<Weapon>(new Holy(this->texture_mgr));
+                break;
+            case WeaponID::WNone:
+                this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
+                break;
+        }
+    }
 }
 
 const Worm::WeaponID &Worm::Worm::getWeaponID() const {
-    return this->weapon.getWeaponID();
+    return this->weapon->getWeaponID();
 }
 
 void Worm::Worm::setWeaponAngle(float angle) {
-    this->weapon.setAngle(angle);
+    this->weapon->setAngle(angle, this->direction);
 }
 
 void Worm::Worm::setPosition(GUI::Position p) {
     this->position = p;
 }
+
+void Worm::Worm::startShot(){
+    this->weapon->startShot();
+}
+
+void Worm::Worm::endShot(){
+    this->weapon->endShot();
+}
+

@@ -24,9 +24,13 @@ namespace Weapon{
         void setAngle(float angle, Worm::Direction d);
         void update(float dt);
         void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip);
+        void startShot();
+        void endShot();
 
     private:
+        bool shotStarted{false};
         float angle{0.0f};
+        float elapsedTime{0.0f};
         uint16_t power{0};
         std::vector<GUI::Animation> animations;
         const GUI::GameTextureManager &textureManager;

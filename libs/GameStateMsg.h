@@ -6,6 +6,8 @@
 #define __GAME_STATE_MSG_H__
 
 #define WORMS_QUANTITY 20
+// TODO move this in client and Server global Config
+#define POWER_CHARGE_TIME 5.0f
 
 #include <stdint.h>
 

@@ -15,12 +15,15 @@ void Weapon::PowerBar::setAngle(float angle, Worm::Direction d){
 }
 
 void Weapon::PowerBar::update(float dt){
-    if (this->power < POWER_FRAMES_QUANTITY){
-        this->animations.emplace_back(this->textureManager.get(GUI::GameTextures::PowerBar), false, this->power ,false);
-        this->power++;
-    } else {
-        this->animations.erase(this->animations.begin(), this->animations.end());
-        this->power = 0;
+    if (this->shotStarted){
+        this->elapsedTime += dt;
+        if (this->power < POWER_FRAMES_QUANTITY &&
+            this->elapsedTime < POWER_CHARGE_TIME){
+            this->animations.emplace_back(
+                    this->textureManager.get(GUI::GameTextures::PowerBar),
+                    false, this->power ,false);
+            this->power++;
+        }
     }
 }
 
@@ -33,4 +36,15 @@ void Weapon::PowerBar::render(GUI::Position &p, GUI::Camera &cam,
         this->animations[i].render(powerPos, cam, flip);
     }
 
+}
+
+void Weapon::PowerBar::startShot(){
+    this->shotStarted = true;
+}
+
+void Weapon::PowerBar::endShot(){
+    this->shotStarted = false;
+    this->animations.erase(this->animations.begin(), this->animations.end());
+    this->power = 0;
+    this->elapsedTime = 0.0f;
 }
