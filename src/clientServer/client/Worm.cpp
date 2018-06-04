@@ -21,6 +21,8 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "Falling.h"
+#include "Land.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     : id(id),
@@ -131,11 +133,17 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::StartJump), true};
         case StateID::Jumping:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Jumping)};
+        case StateID::Land:
         case StateID::EndBackFlip:
         case StateID::EndJump:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::EndJump), true};
         case StateID::BackFlipping: {
             GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::BackFlipping)};
+            animation.setAnimateOnce();
+            return animation;
+        }
+        case StateID::Falling: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::Falling), true};
             animation.setAnimateOnce();
             return animation;
         }
@@ -185,6 +193,12 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
+                break;
+            case StateID::Falling:
+                this->state = std::shared_ptr<State>(new Falling());
+                break;
+            case StateID::Land:
+                this->state = std::shared_ptr<State>(new Land());
                 break;
             case StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());

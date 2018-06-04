@@ -19,8 +19,7 @@ namespace Worms {
         bool isAlive();
         uint8_t getCurrentPlayerID();
         void setCurrentPlayer(uint8_t currentPlayer);
-        void newPlayer(std::vector<Worms::Player> &players, char &currentWorm,
-                       char &currentWormToFollow);
+        void endTurn(std::vector<Worms::Player> &players);
 
     private:
         std::vector<uint8_t> playerIDs;

@@ -36,7 +36,8 @@ enum class GameTextures {
     Holy,
     Explosion,
     Flame,
-    Smoke
+    Smoke,
+    Falling
 };
 
 /** Specialized TextureManager class. */

@@ -7,17 +7,21 @@
 #include "PlayerWalk.h"
 
 void Worms::Walk::update(Player &p, float dt, b2Body *body) {
-    float final_vel{0.0f};
-    float32 mass = body->GetMass();
-    b2Vec2 vel = body->GetLinearVelocity();
-
-    if (p.direction == Direction::left) {
-        final_vel = -this->walkVelocity;
+    if (p.getContactCount() == 0) {
+        p.setState(Worm::StateID::Falling);
     } else {
-        final_vel = this->walkVelocity;
+        float final_vel{0.0f};
+        float32 mass = body->GetMass();
+        b2Vec2 vel = body->GetLinearVelocity();
+
+        if (p.direction == Direction::left) {
+            final_vel = -this->walkVelocity;
+        } else {
+            final_vel = this->walkVelocity;
+        }
+        this->impulses[0] = mass * (final_vel - vel.x);
+        body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]), body->GetWorldCenter(), true);
     }
-    this->impulses[0] = mass * (final_vel - vel.x);
-    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {

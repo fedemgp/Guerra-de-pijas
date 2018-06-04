@@ -73,14 +73,10 @@ float Worms::Bullet::getAngle() const {
 }
 
 void Worms::Bullet::startContact() {
-    this->numContacts++;
+    this->madeImpact = true;
 }
 
-void Worms::Bullet::endContact() {
-    if (this->numContacts > 0) {
-        this->numContacts--;
-    }
-}
+void Worms::Bullet::endContact() {}
 
 Worms::Bullet::~Bullet() {
     this->body->GetWorld()->DestroyBody(this->body);
@@ -90,7 +86,7 @@ bool Worms::Bullet::hasExploded() {
     if (this->timeout > 0){
         return this->timeElapsed >= this->timeout;
     } else {
-        return this->numContacts > 0;
+        return this->madeImpact;
     }
 }
 

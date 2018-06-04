@@ -54,18 +54,20 @@ void Worms::GameTeams::checkAlive(std::vector<Worms::Player> &players) {
     }
 }
 
-void
-Worms::GameTeams::newCurrentPlayerAndTeam(std::vector<Worms::Player> &players, char &currentTeam, char &currentWorm,
-                                          char &currentWormToFollow) {
+void Worms::GameTeams::endTurn(std::vector<Player> &players) {
+    this->checkAlive(players);
+
     do {
         this->currentTeam = (this->currentTeam + 1) % this->teams.size();
     } while (!this->teams[this->currentTeam].isAlive());
 
-    currentTeam = this->currentTeam;
-
-    this->teams[currentTeam].newPlayer(players, currentWorm, currentWormToFollow);
+    this->teams[this->currentTeam].endTurn(players);
 }
 
 char Worms::GameTeams::getCurrentPlayerID() {
     return this->teams[this->currentTeam].getCurrentPlayerID();
+}
+
+uint8_t Worms::GameTeams::getCurrentTeam() {
+    return this->currentTeam;
 }

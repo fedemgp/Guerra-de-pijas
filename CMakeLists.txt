@@ -38,6 +38,6 @@ target_link_libraries(server Box2D)
 
 file(GLOB_RECURSE CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES} src/clientServer/server/GameTeams.cpp src/clientServer/server/GameTeams.h src/clientServer/server/Team.cpp src/clientServer/server/Team.h)
+        ${CLIENT_SERVER_SOURCES} src/clientServer/server/GameTeams.cpp src/clientServer/server/GameTeams.h src/clientServer/server/Team.cpp src/clientServer/server/Team.h src/clientServer/server/Falling.cpp src/clientServer/server/Falling.h src/clientServer/client/Falling.cpp src/clientServer/client/Falling.h src/clientServer/server/Land.cpp src/clientServer/server/Land.h src/clientServer/client/Land.cpp src/clientServer/client/Land.h)
 
 target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)
