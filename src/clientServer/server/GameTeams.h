@@ -19,9 +19,11 @@ namespace Worms {
 
         void checkAlive(std::vector<Player> &players);
 
-        void newCurrentPlayerAndTeam(std::vector<Player> &players, char &currentTeam, char &currentWorm, char &currentWormToFollow);
+        void endTurn(std::vector<Player> &players);
 
         char getCurrentPlayerID();
+
+        uint8_t getCurrentTeam();
 
     private:
         std::vector<Team> teams;

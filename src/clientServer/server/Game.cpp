@@ -94,10 +94,11 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     }
                     this->currentTurnElapsed = 0;
                     this->currentPlayerShot = false;
-//                    this->checkTeams();
-                    this->teams.checkAlive(this->players);
-//                    this->newCurrentPlayerAndTeam();
-                    this->teams.newCurrentPlayerAndTeam(this->players, this->currentTeam, this->currentWorm, this->currentWormToFollow);
+
+                    this->teams.endTurn(this->players);
+                    this->currentTeam = this->teams.getCurrentTeam();
+                    this->currentWorm = this->teams.getCurrentPlayerID();
+                    this->currentWormToFollow = this->currentWorm;
 
                     this->processingClientInputs = true;
                     this->currentPlayerTurnTime = this->stage.turnTime;

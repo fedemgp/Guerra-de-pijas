@@ -33,10 +33,8 @@ void Worms::Team::setCurrentPlayer(uint8_t currentPlayer) {
     this->currentPlayer = currentPlayer;
 }
 
-void Worms::Team::newPlayer(std::vector<Worms::Player> &players, char &currentWorm, char &currentWormToFollow) {
+void Worms::Team::endTurn(std::vector<Worms::Player> &players) {
     do {
         this->currentPlayer = (this->currentPlayer + 1) % this->playerIDs.size();
-        currentWorm = this->playerIDs[this->currentPlayer];
-        currentWormToFollow = currentWorm;
-    } while (players[currentWorm].getStateId() == Worm::StateID::Dead);
+    } while (players[this->getCurrentPlayerID()].getStateId() == Worm::StateID::Dead);
 }
