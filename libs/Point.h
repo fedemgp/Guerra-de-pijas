@@ -6,6 +6,8 @@
 #ifndef __POINT_H__
 #define __POINT_H__
 
+#define PI 3.14159265
+
 #include <math.h>
 
 // TODO change template for fixed class with float?

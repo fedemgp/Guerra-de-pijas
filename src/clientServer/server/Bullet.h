@@ -10,8 +10,6 @@
 #include "PhysicsEntity.h"
 #include "Point.h"
 
-#define PI 3.14159265
-
 namespace Worms {
 struct DamageInfo {
     uint16_t damage;
