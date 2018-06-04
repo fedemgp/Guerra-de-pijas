@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include "Texture.h"
 #include "WormStill.h"
+#include "Texture.h"
 
 Worm::Still::Still() : State(StateID::Still) {}
 

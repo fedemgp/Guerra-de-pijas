@@ -3,13 +3,12 @@
 //
 
 #include "Land.h"
-#include "Player.h"
 #include "Config.h"
+#include "Player.h"
 #include "PlayerState.h"
 
 Worms::Land::Land()
-        : State(Worm::StateID::Land),
-          landTime(Game::Config::getInstance().getLandTime()) {}
+    : State(Worm::StateID::Land), landTime(Game::Config::getInstance().getLandTime()) {}
 
 void Worms::Land::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;

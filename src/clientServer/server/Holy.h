@@ -6,22 +6,20 @@
 #ifndef __Holy_H__
 #define __Holy_H__
 
-
 #include "Weapon.h"
 
-namespace Weapon{
-class Holy: public Worms::Weapon{
-public:
+namespace Weapon {
+class Holy : public Worms::Weapon {
+   public:
     Holy(float angle);
     ~Holy() override = default;
     void update(float dt) override;
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
 
-private:
+   private:
     uint16_t timeLimit{5};
 };
-} // namespace Weapon
+}  // namespace Weapon
 
-
-#endif //__Holy_H__
+#endif  //__Holy_H__

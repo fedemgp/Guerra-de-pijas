@@ -7,8 +7,8 @@
 #include "Config.h"
 #include "Player.h"
 
-Worms::Weapon::Weapon(const Game::Weapon::Config &config, Worm::WeaponID id,
-                      float angle) : config(config), id(id), angle(angle){
+Worms::Weapon::Weapon(const Game::Weapon::Config &config, Worm::WeaponID id, float angle)
+    : config(config), id(id), angle(angle) {
     this->angle = angle;
     /*
      * Because the limit angles between weapons are

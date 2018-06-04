@@ -9,8 +9,10 @@
 #include "Dead.h"
 #include "Die.h"
 #include "Drown.h"
+#include "Falling.h"
 #include "GameStateMsg.h"
 #include "Hit.h"
+#include "Land.h"
 #include "Text.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
@@ -21,8 +23,6 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "Falling.h"
-#include "Land.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     : id(id),

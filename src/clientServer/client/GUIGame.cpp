@@ -3,9 +3,9 @@
  * Date: 17/05/18.
  */
 
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <unistd.h>
+#include <iostream>
 
 #include "Bullet.h"
 #include "GUIGame.h"

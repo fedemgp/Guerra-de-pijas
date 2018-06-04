@@ -52,7 +52,7 @@ Turno:
   termina cuando:
     ☐ gusano sufre daño
     gusano realiza accion:
-      ✔ gusano dispara @done (18-06-03 03:14)
+      ☐ gusano dispara
       ☐ gusano usa herramienta
       ✔ tiene 3 segundos adicionales para moverse luego de la acción @done (18-06-03 03:14)
     ✔ pasan mas de 60s @done (18-06-03 03:14)
@@ -66,7 +66,7 @@ Jugador:
     ☐ se muestra la suma total de las vidas de los gusanos del equipo
   Juega en turnos:
     ✔ Ve lo que muestra la camara @done (18-06-03 03:15)
-    ☐ selecciona arma o herramienta
+    ✔ selecciona arma o herramienta @done (18-06-04 00:18)
   Cuando pierde:
     ☐ Es salteado de la ronda
     ☐ puede seguir viendo la partida
@@ -89,7 +89,7 @@ Animaciones:
   ✔ Movimiento del gusano @done (18-05-21 22:32)
   ✔ vuelo de gusanos @done (18-06-03 03:15)
   ✔ movimiento del proyectil @done (18-06-03 03:15)
-  ☐ explosiones
+  ✔ explosiones @done (18-06-04 00:18)
 
 Sonidos:
   ☐ Disparo
@@ -114,10 +114,10 @@ Armas:
     ☐ Si se llega a un límite de potencia o si suelto espacio, disparo
     ✔ La velocidad de disparo es proporcional a la potencia usada @done (18-06-03 03:16)
   Cuenta regresiva:
-    ☐ Proyectiles que no explotan al momento del impacto
+    ✔ Proyectiles que no explotan al momento del impacto @done (18-06-04 00:18)
     ☐ Tiempo de la cuenta ajustable
     ☐ Se ajusta el tiempo con las teclas 1,2,3,4 y 5
-    ☐ Por defecto, la cuenta regresiva es de 5
+    ✔ Por defecto, la cuenta regresiva es de 5 @done (18-06-04 00:18)
   Teledirigido:
     ☐ Usuario hace click para determinar donde colocar herramienta / disparar.
     ☐ En el caso de usar proyectil, luego se debe disparar con espacio.
@@ -126,8 +126,8 @@ Armas:
     ☐ Luego de la explosión generan fragmentos que hacen daño
     ☐ Trayectoria parabólica
   Armas con rebote:
-    ☐ La banana debe ser elastica.
-    ☐ Banana rebota muchas veces.
+    ✔ La banana debe ser elastica. @done (18-06-04 00:18)
+    ✔ Banana rebota muchas veces. @done (18-06-04 00:18)
     ☐ (OPCIONAL) agregar atributo de elasticidad a las granadas
   Viento:
     ☐ Proyectil afectado por el viento
@@ -172,7 +172,7 @@ Tipos de armas:
     ☐ Mira: SI
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
-    ☐ Cuenta regresiva: SI
+    ✔ Cuenta regresiva: SI @done (18-06-04 00:18)
     ✔ Teledirigido NO @done (18-06-03 03:18)
     ✔ Viento: NO @done (18-06-03 03:18)
     ✔ Municiones: Infinitas @done (18-06-03 03:18)
@@ -181,7 +181,7 @@ Tipos de armas:
     ☐ Mira SI
     ✔ Cuerpo a cuerpo NO @done (18-06-03 03:18)
     ✔ Potencia variable: SI @done (18-06-03 03:18)
-    ☐ Cuenta regresiva: SI
+    ✔ Cuenta regresiva: SI @done (18-06-04 00:18)
     ✔ Teledirigido NO @done (18-06-03 03:18)
     ✔ Viento NO @done (18-06-03 03:18)
     ☐ Municiones 10
@@ -193,17 +193,17 @@ Tipos de armas:
     ☐ Mira: SI
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
-    ☐ Cuenta regresiva: SI
+    ✔ Cuenta regresiva: SI @done (18-06-04 00:19)
     ✔ Teledirigido NO @done (18-06-03 03:18)
     ✔ Viento: NO @done (18-06-03 03:18)
     ☐ Municiones: 5
     ✔ Daño: 70pts centro, 4 mts radio @done (18-06-03 03:18)
-    ☐ Rebote: alto ? (debe ser elastico)
+    ✔ Rebote: alto ? (debe ser elastico) @done (18-06-04 00:19)
   La HOLY:
     ☐ Mira: SI
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:19)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:19)
-    ☐ Cuenta regresiva: SI
+    ✔ Cuenta regresiva: SI @done (18-06-04 00:19)
     ✔ Teledirigido NO @done (18-06-03 03:19)
     ✔ Viento: NO @done (18-06-03 03:19)
     ☐ Municiones: 2

@@ -6,10 +6,9 @@
 #include "Bazooka.h"
 #include "Player.h"
 
-Weapon::Bazooka::Bazooka(float angle): Worms::Weapon(Game::Config::getInstance()
-                                                             .getBazookaConfig(),
-                                                     Worm::WeaponID::WBazooka,
-                                                     angle){}
+Weapon::Bazooka::Bazooka(float angle)
+    : Worms::Weapon(Game::Config::getInstance().getBazookaConfig(), Worm::WeaponID::WBazooka,
+                    angle) {}
 
 void Weapon::Bazooka::update(float dt) {
     if (this->increaseShotPower) {
@@ -25,15 +24,15 @@ void Weapon::Bazooka::update(float dt) {
     }
 }
 
-void Weapon::Bazooka::startShot(){
+void Weapon::Bazooka::startShot() {
     this->increaseShotPower = true;
 }
 
-void Weapon::Bazooka::endShot(Worms::Player &p, Worms::Physics &physics){
+void Weapon::Bazooka::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->increaseShotPower = false;
     Math::Point<float> position = p.getPosition();
     float safeNonContactDistance =
-            sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
     float angle = this->angle;
     if (p.direction == Worms::Direction::right) {
         if (angle < 0.0f) {
@@ -43,10 +42,9 @@ void Weapon::Bazooka::endShot(Worms::Player &p, Worms::Physics &physics){
         angle = 180.0f - angle;
     }
     this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
-            Worms::BulletInfo{Worms::DamageInfo{this->config.damage,
-                                                this->config.damageRadius}, angle,
-                              this->shotPower, p.getPosition(),
-                              safeNonContactDistance, this->config.restitution,
-                              this->config.friction}, physics));
+        Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius}, angle,
+                          this->shotPower, p.getPosition(), safeNonContactDistance,
+                          this->config.restitution, this->config.friction},
+        physics));
     this->shotPower = 0;
 }

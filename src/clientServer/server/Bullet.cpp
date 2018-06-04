@@ -11,7 +11,7 @@
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
-    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics){
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
     float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
@@ -36,8 +36,8 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 }
 
-Worms::Bullet::Bullet(Worms::BulletInfo i, Worms::Physics &physics,
-                      uint16_t timeout): Bullet(i, physics){
+Worms::Bullet::Bullet(Worms::BulletInfo i, Worms::Physics &physics, uint16_t timeout)
+    : Bullet(i, physics) {
     this->timeout = timeout;
 }
 
@@ -83,7 +83,7 @@ Worms::Bullet::~Bullet() {
 }
 
 bool Worms::Bullet::hasExploded() {
-    if (this->timeout > 0){
+    if (this->timeout > 0) {
         return this->timeElapsed >= this->timeout;
     } else {
         return this->madeImpact;

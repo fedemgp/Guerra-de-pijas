@@ -6,12 +6,11 @@
 #include "Cluster.h"
 #include "Player.h"
 
-Weapon::Cluster::Cluster(float angle) : Worms::Weapon(Game::Config::getInstance()
-                                                              .getClusterConfig(),
-                                                      Worm::WeaponID::WCluster,
-                                                      angle){}
+Weapon::Cluster::Cluster(float angle)
+    : Worms::Weapon(Game::Config::getInstance().getClusterConfig(), Worm::WeaponID::WCluster,
+                    angle) {}
 
-void Weapon::Cluster::update(float dt){
+void Weapon::Cluster::update(float dt) {
     if (this->increaseShotPower) {
         if (this->shotPower >= this->config.maxShotPower) {
             this->shotPower = this->config.maxShotPower;
@@ -25,11 +24,11 @@ void Weapon::Cluster::update(float dt){
     }
 }
 
-void Weapon::Cluster::startShot(){
+void Weapon::Cluster::startShot() {
     this->increaseShotPower = true;
 }
 
-void Weapon::Cluster::endShot(Worms::Player &p, Worms::Physics &physics){
+void Weapon::Cluster::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->increaseShotPower = false;
     Math::Point<float> position = p.getPosition();
     float safeNonContactDistance =
@@ -43,10 +42,9 @@ void Weapon::Cluster::endShot(Worms::Player &p, Worms::Physics &physics){
         angle = 180.0f - angle;
     }
     this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
-        Worms::BulletInfo{Worms::DamageInfo{this->config.damage,
-                                            this->config.damageRadius}, angle,
-                          this->shotPower, p.getPosition(),
-                          safeNonContactDistance, this->config.restitution,
-                          this->config.friction}, physics, this->timeLimit));
+        Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius}, angle,
+                          this->shotPower, p.getPosition(), safeNonContactDistance,
+                          this->config.restitution, this->config.friction},
+        physics, this->timeLimit));
     this->shotPower = 0;
 }

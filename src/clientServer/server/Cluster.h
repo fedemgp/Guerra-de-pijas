@@ -10,18 +10,17 @@
 #include "Player.h"
 #include "Weapon.h"
 
-namespace Weapon{
-    class Cluster: public Worms::Weapon{
-    public:
-        Cluster(float angle);
-        ~Cluster() override = default;
-        void update(float dt) override;
-        void startShot() override;
-        void endShot(Worms::Player &p, Worms::Physics &physics) override;
+namespace Weapon {
+class Cluster : public Worms::Weapon {
+   public:
+    Cluster(float angle);
+    ~Cluster() override = default;
+    void update(float dt) override;
+    void startShot() override;
+    void endShot(Worms::Player &p, Worms::Physics &physics) override;
 
-        uint16_t timeLimit{5};
-    };
-} // namespace Weapon
+    uint16_t timeLimit{5};
+};
+}  // namespace Weapon
 
-
-#endif //__Cluster_H__
+#endif  //__Cluster_H__

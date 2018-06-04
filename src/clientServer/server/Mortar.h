@@ -8,16 +8,15 @@
 
 #include "Weapon.h"
 
-namespace Weapon{
-    class Mortar: public Worms::Weapon{
-    public:
-        Mortar(float angle);
-        ~Mortar() override = default;
-        void update(float dt) override;
-        void startShot() override;
-        void endShot(Worms::Player &p, Worms::Physics &physics) override;
-    };
-} // namespace Weapon
+namespace Weapon {
+class Mortar : public Worms::Weapon {
+   public:
+    Mortar(float angle);
+    ~Mortar() override = default;
+    void update(float dt) override;
+    void startShot() override;
+    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+};
+}  // namespace Weapon
 
-
-#endif //__Mortar_H__
+#endif  //__Mortar_H__

@@ -4,8 +4,7 @@
 
 #include "Team.h"
 
-Worms::Team::Team(std::vector<uint8_t> &playerIDs)
-        : playerIDs(std::move(playerIDs)) {}
+Worms::Team::Team(std::vector<uint8_t> &playerIDs) : playerIDs(std::move(playerIDs)) {}
 
 void Worms::Team::checkAlive(std::vector<Player> &players) {
     if (this->alive) {

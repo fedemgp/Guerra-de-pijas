@@ -2,8 +2,8 @@
 // Created by rodrigo on 3/06/18.
 //
 
-#include <random>
 #include "GameTeams.h"
+#include <random>
 
 void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t numTeams) {
     uint8_t numPlayers = players.size();
@@ -23,7 +23,7 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
     shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
 
     uint8_t maxTeamPlayers =
-            (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
+        (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
     std::vector<uint8_t> numPlayersPerTeam(numTeams);
     for (uint8_t i = 0, nP = numPlayers, nT = numTeams; i < numPlayersPerTeam.size(); i++) {
         numPlayersPerTeam[i] = nP / nT;

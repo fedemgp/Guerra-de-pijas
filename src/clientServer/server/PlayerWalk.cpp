@@ -20,7 +20,8 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
             final_vel = this->walkVelocity;
         }
         this->impulses[0] = mass * (final_vel - vel.x);
-        body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]), body->GetWorldCenter(), true);
+        body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]),
+                                 body->GetWorldCenter(), true);
     }
 }
 

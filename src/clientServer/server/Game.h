@@ -9,9 +9,9 @@
 #include <atomic>
 #include <unordered_map>
 
+#include "GameTeams.h"
 #include "Player.h"
 #include "Stage.h"
-#include "GameTeams.h"
 
 namespace Worms {
 struct Teamasd {

@@ -17,6 +17,6 @@ class Bazooka : public Worms::Weapon {
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
 };
-} // namespace Weapon
+}  // namespace Weapon
 
 #endif  //__BAZOOKA_H__

@@ -6,12 +6,11 @@
 #include "Grenade.h"
 #include "Player.h"
 
-Weapon::Grenade::Grenade(float angle) : Worms::Weapon(Game::Config::getInstance()
-                                                              .getGreenGrenadeConfig(),
-                                                      Worm::WeaponID::WGrenade,
-                                                      angle){}
+Weapon::Grenade::Grenade(float angle)
+    : Worms::Weapon(Game::Config::getInstance().getGreenGrenadeConfig(), Worm::WeaponID::WGrenade,
+                    angle) {}
 
-void Weapon::Grenade::update(float dt){
+void Weapon::Grenade::update(float dt) {
     if (this->increaseShotPower) {
         if (this->shotPower >= this->config.maxShotPower) {
             this->shotPower = this->config.maxShotPower;
@@ -25,15 +24,15 @@ void Weapon::Grenade::update(float dt){
     }
 }
 
-void Weapon::Grenade::startShot(){
+void Weapon::Grenade::startShot() {
     this->increaseShotPower = true;
 }
 
-void Weapon::Grenade::endShot(Worms::Player &p, Worms::Physics &physics){
+void Weapon::Grenade::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->increaseShotPower = false;
     Math::Point<float> position = p.getPosition();
     float safeNonContactDistance =
-            sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
     float angle = this->angle;
     if (p.direction == Worms::Direction::right) {
         if (angle < 0.0f) {
@@ -43,11 +42,9 @@ void Weapon::Grenade::endShot(Worms::Player &p, Worms::Physics &physics){
         angle = 180.0f - angle;
     }
     this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
-            Worms::BulletInfo{Worms::DamageInfo{this->config.damage,
-                                                this->config.damageRadius}, angle,
-                              this->shotPower, p.getPosition(),
-                              safeNonContactDistance, this->config.restitution,
-                              this->config.friction}, physics,
-            this->timeLimit));
+        Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius}, angle,
+                          this->shotPower, p.getPosition(), safeNonContactDistance,
+                          this->config.restitution, this->config.friction},
+        physics, this->timeLimit));
     this->shotPower = 0;
 }
