@@ -19,12 +19,15 @@ void Worms::Hit::update(Worms::Player &p, float dt, b2Body *body) {
      * cancelled because of the collision with the girder.
      */
     if (p.getContactCount() > 0) {
-        float32 mass = body->GetMass();
-        b2Vec2 previousVel = body->GetLinearVelocity();
-        b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
-        body->ApplyLinearImpulseToCenter(impulses, true);
+        this->timeElapsed += dt;
+        if (this->timeElapsed > 0.2f) {
+            float32 mass = body->GetMass();
+            b2Vec2 previousVel = body->GetLinearVelocity();
+            b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
+            body->ApplyLinearImpulseToCenter(impulses, true);
 
-        p.setState(Worm::StateID::Still);
+            p.setState(Worm::StateID::Still);
+        }
     }
 }
 
