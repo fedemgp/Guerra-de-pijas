@@ -152,7 +152,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
         this->body->SetType(b2_dynamicBody);
         switch (stateID) {
             case Worm::StateID::Still:
-                this->body->SetType(b2_staticBody);
+//                this->body->SetType(b2_staticBody);
                 this->state = std::shared_ptr<State>(new Still());
                 break;
             case Worm::StateID::Walk:
@@ -199,14 +199,43 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-void Worms::Player::startContact() {
-    this->numContacts++;
+void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity) {
+    if (physicsEntity != nullptr) {
+        switch (physicsEntity->getEntityId()) {
+            case EntityID::EtWorm:
+                this->numWormContacts++;
+                break;
+            case EntityID::EtBullet:
+                this->numBulletContacs++;
+                break;
+        }
+    } else {
+        this->numContacts++;
+    }
 }
 
-void Worms::Player::endContact() {
-    if (this->numContacts > 0) {
-        this->numContacts--;
+void Worms::Player::endContact(Worms::PhysicsEntity *physicsEntity) {
+    if (physicsEntity != nullptr) {
+        switch (physicsEntity->getEntityId()) {
+            case EntityID::EtWorm:
+                if (this->numWormContacts > 0) {
+                    this->numWormContacts--;
+                }
+                break;
+            case EntityID::EtBullet:
+                if (this->numBulletContacs > 0) {
+                    this->numBulletContacs--;
+                }
+                break;
+        }
+    } else {
+        if (this->numContacts > 0) {
+            this->numContacts--;
+        }
     }
+//    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() == Worm::StateID::Still) {
+//        this->setState(Worm::StateID::Falling);
+//    }
 }
 
 int Worms::Player::getContactCount() {
@@ -326,4 +355,8 @@ uint8_t Worms::Player::getId() const {
 
 void Worms::Player::setWeaponTimeout(uint8_t time){
     this->weapon->setTimeout(time);
+}
+
+int Worms::Player::getWormContactCount() {
+    return this->numWormContacts;
 }

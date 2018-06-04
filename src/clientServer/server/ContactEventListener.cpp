@@ -22,10 +22,10 @@ void ContactEventListener::BeginContact(b2Contact *contact) {
      * when box2d detects a collision between the worm and the girder.
      */
     if (playerA) {
-        playerA->startContact();
+        playerA->startContact(playerB);
     }
     if (playerB) {
-        playerB->startContact();
+        playerB->startContact(playerA);
     }
 }
 
@@ -36,9 +36,9 @@ void ContactEventListener::EndContact(b2Contact *contact) {
         static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
 
     if (playerA) {
-        playerA->endContact();
+        playerA->endContact(playerB);
     }
     if (playerB) {
-        playerB->endContact();
+        playerB->endContact(playerA);
     }
 }

@@ -38,8 +38,8 @@ class Bullet : public PhysicsEntity {
     void update(float dt, Weapon &w);
     Math::Point<float> getPosition() const;
     float getAngle() const;
-    virtual void startContact() override;
-    virtual void endContact() override;
+    virtual void startContact(Worms::PhysicsEntity *physicsEntity) override;
+    virtual void endContact(Worms::PhysicsEntity *physicsEntity) override;
     bool hasExploded();
     DamageInfo getDamageInfo();
 

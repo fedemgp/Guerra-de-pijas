@@ -39,8 +39,9 @@ class Player : public PhysicsEntity {
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
     int getContactCount();
-    void startContact() override;
-    void endContact() override;
+    int getWormContactCount();
+    void startContact(Worms::PhysicsEntity *physicsEntity) override;
+    void endContact(Worms::PhysicsEntity *physicsEntity) override;
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
     void setWeapon(const Worm::WeaponID &id);
@@ -70,6 +71,8 @@ class Player : public PhysicsEntity {
     int numContacts{0};
     uint8_t team;
     uint8_t id;
+    int numWormContacts{0};
+    int numBulletContacs{0};
 };
 }  // namespace Worms
 

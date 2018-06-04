@@ -72,11 +72,11 @@ float Worms::Bullet::getAngle() const {
     return (this->angle >= 0 && this->angle < 90) ? this->angle + 360.0f : this->angle;
 }
 
-void Worms::Bullet::startContact() {
+void Worms::Bullet::startContact(Worms::PhysicsEntity *physicsEntity) {
     this->madeImpact = true;
 }
 
-void Worms::Bullet::endContact() {}
+void Worms::Bullet::endContact(Worms::PhysicsEntity *physicsEntity) {}
 
 Worms::Bullet::~Bullet() {
     this->body->GetWorld()->DestroyBody(this->body);

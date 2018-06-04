@@ -34,6 +34,9 @@ class Jumping : public State {
     void stopMove(Player &p) override;
     virtual void pointUp(Player &p) override;
     virtual void pointDown(Player &p) override;
+
+   private:
+    float timeElapsed{0.0f};
 };
 }  // namespace Worms
 
