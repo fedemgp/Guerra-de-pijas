@@ -57,3 +57,5 @@ void Worms::BackFlipping::mortar(Worms::Player &p) {}
 void Worms::BackFlipping::banana(Worms::Player &p) {}
 
 void Worms::BackFlipping::holy(Worms::Player &p) {}
+
+void Worms::BackFlipping::setTimeout(Worms::Player &p, uint8_t time){}

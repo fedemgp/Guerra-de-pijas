@@ -19,6 +19,7 @@ class BackFlipping : public State {
     void jump(Player &p) override;
     void backFlip(Player &p) override;
     void stopMove(Player &p) override;
+    void setTimeout(Player &p, uint8_t time) override;
 
     void bazooka(Player &p) override;
     void grenade(Player &p) override;

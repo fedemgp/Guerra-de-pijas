@@ -56,6 +56,7 @@ class Player : public PhysicsEntity {
     uint8_t getTeam() const;
     void setId(uint8_t id);
     uint8_t getId() const;
+    void setWeaponTimeout(uint8_t time);
 
    private:
     std::shared_ptr<Worms::State> state{nullptr};

@@ -18,7 +18,7 @@ class Cluster : public Worms::Weapon {
     void update(float dt) override;
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
-
+    void setTimeout(uint8_t time) override;
     uint16_t timeLimit{5};
 };
 }  // namespace Weapon

@@ -46,7 +46,7 @@ enum class PlayerInput {
     cluster,
     mortar,
     banana,
-    holy
+    holy, timeout1, timeout2, timeout3, timeout4, timeout5
 };
 // TODO protocol?
 struct GameStateMsg {

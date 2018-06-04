@@ -48,3 +48,5 @@ void Weapon::Bazooka::endShot(Worms::Player &p, Worms::Physics &physics) {
         physics));
     this->shotPower = 0;
 }
+
+void Weapon::Bazooka::setTimeout(uint8_t time){}

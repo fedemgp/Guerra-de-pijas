@@ -16,6 +16,7 @@ class Banana : public Worms::Weapon {
     void update(float dt) override;
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void setTimeout(uint8_t time) override;
 
    private:
     uint16_t timeLimit{5};

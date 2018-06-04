@@ -48,3 +48,7 @@ void Weapon::Cluster::endShot(Worms::Player &p, Worms::Physics &physics) {
         physics, this->timeLimit));
     this->shotPower = 0;
 }
+
+void Weapon::Cluster::setTimeout(uint8_t time){
+    this->timeLimit = time;
+}

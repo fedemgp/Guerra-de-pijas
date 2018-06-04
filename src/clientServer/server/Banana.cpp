@@ -48,3 +48,7 @@ void Weapon::Banana::endShot(Worms::Player &p, Worms::Physics &physics) {
         physics, this->timeLimit));
     this->shotPower = 0;
 }
+
+void Weapon::Banana::setTimeout(uint8_t time){
+    this->timeLimit = time;
+}

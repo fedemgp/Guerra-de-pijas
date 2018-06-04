@@ -47,3 +47,7 @@ void Weapon::Holy::endShot(Worms::Player &p, Worms::Physics &physics) {
         physics, this->timeLimit));
     this->shotPower = 0;
 }
+
+void Weapon::Holy::setTimeout(uint8_t time){
+    this->timeLimit = time;
+}

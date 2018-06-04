@@ -21,6 +21,7 @@ class Die : public State {
     virtual IO::PlayerInput stopMove(Worm &w) override;
     virtual IO::PlayerInput jump(Worm &w) override;
     virtual IO::PlayerInput backFlip(Worm &w) override;
+    virtual IO::PlayerInput setTimeoutTo(Worm &w, int t) override;
 
     virtual IO::PlayerInput bazooka(Worm &w) override;
     virtual IO::PlayerInput grenade(Worm &w) override;

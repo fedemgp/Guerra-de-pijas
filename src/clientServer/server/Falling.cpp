@@ -41,3 +41,5 @@ void Worms::Falling::mortar(Worms::Player &p) {}
 void Worms::Falling::banana(Worms::Player &p) {}
 
 void Worms::Falling::holy(Worms::Player &p) {}
+
+void Worms::Falling::setTimeout(Worms::Player &p, uint8_t time){}

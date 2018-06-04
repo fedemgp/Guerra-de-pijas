@@ -46,3 +46,5 @@ void Worms::Land::mortar(Worms::Player &p) {}
 void Worms::Land::banana(Worms::Player &p) {}
 
 void Worms::Land::holy(Worms::Player &p) {}
+
+void Worms::Land::setTimeout(Worms::Player &p, uint8_t time){}

@@ -28,9 +28,10 @@ class Weapon {
     virtual void update(float dt) = 0;
     void increaseAngle();
     void decreaseAngle();
+    float getAngle() const;
     virtual void startShot() = 0;
     virtual void endShot(Player &p, Physics &physics) = 0;
-    float getAngle() const;
+    virtual void setTimeout(uint8_t time) = 0;
     /**
      * sets bullet_ptr to null, and free its resources
      */

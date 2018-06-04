@@ -70,3 +70,7 @@ IO::PlayerInput Worm::BackFlip::banana(Worm &w) {
 IO::PlayerInput Worm::BackFlip::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}

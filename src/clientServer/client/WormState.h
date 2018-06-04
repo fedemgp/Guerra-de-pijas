@@ -30,6 +30,7 @@ class State {
     virtual IO::PlayerInput pointUp(Worm &w) = 0;
     virtual IO::PlayerInput pointDown(Worm &w) = 0;
     virtual IO::PlayerInput jump(Worm &w) = 0;
+    virtual IO::PlayerInput setTimeoutTo(Worm &w, int t) = 0;
 
     virtual IO::PlayerInput bazooka(Worm &w) = 0;
     virtual IO::PlayerInput grenade(Worm &w) = 0;

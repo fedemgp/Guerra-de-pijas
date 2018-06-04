@@ -70,3 +70,7 @@ IO::PlayerInput Worm::Die::banana(Worm &w) {
 IO::PlayerInput Worm::Die::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Die::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}

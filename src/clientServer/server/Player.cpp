@@ -128,6 +128,21 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::endShot:
             this->state->endShot(*this);
             break;
+        case IO::PlayerInput::timeout1:
+            this->state->setTimeout(*this, 1);
+            break;
+        case IO::PlayerInput::timeout2:
+            this->state->setTimeout(*this, 2);
+            break;
+        case IO::PlayerInput::timeout3:
+            this->state->setTimeout(*this, 3);
+            break;
+        case IO::PlayerInput::timeout4:
+            this->state->setTimeout(*this, 4);
+            break;
+        case IO::PlayerInput::timeout5:
+            this->state->setTimeout(*this, 5);
+            break;
     }
 }
 
@@ -304,4 +319,8 @@ void Worms::Player::setId(uint8_t id) {
 
 uint8_t Worms::Player::getId() const {
     return this->id;
+}
+
+void Worms::Player::setWeaponTimeout(uint8_t time){
+    this->weapon->setTimeout(time);
 }

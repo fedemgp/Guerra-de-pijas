@@ -19,6 +19,7 @@ class Jumping : public State {
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;
+    void setTimeout(Player &p, uint8_t time) override;
 
     void bazooka(Player &p) override;
     void grenade(Player &p) override;

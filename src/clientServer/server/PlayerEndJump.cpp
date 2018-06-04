@@ -46,3 +46,5 @@ void Worms::EndJump::mortar(Worms::Player &p) {}
 void Worms::EndJump::banana(Worms::Player &p) {}
 
 void Worms::EndJump::holy(Worms::Player &p) {}
+
+void Worms::EndJump::setTimeout(Worms::Player &p, uint8_t time){}

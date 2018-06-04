@@ -69,3 +69,7 @@ IO::PlayerInput Worm::Land::banana(Worm &w) {
 IO::PlayerInput Worm::Land::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Land::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}

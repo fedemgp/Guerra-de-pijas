@@ -116,7 +116,7 @@ Armas:
   Cuenta regresiva:
     ✔ Proyectiles que no explotan al momento del impacto @done (18-06-04 00:18)
     ☐ Tiempo de la cuenta ajustable
-    ☐ Se ajusta el tiempo con las teclas 1,2,3,4 y 5
+    ✔ Se ajusta el tiempo con las teclas 1,2,3,4 y 5 @done (18-06-04 00:41)
     ✔ Por defecto, la cuenta regresiva es de 5 @done (18-06-04 00:18)
   Teledirigido:
     ☐ Usuario hace click para determinar donde colocar herramienta / disparar.

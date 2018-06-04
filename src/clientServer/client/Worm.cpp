@@ -54,21 +54,36 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             i = this->state->backFlip(*this);
             break;
         case SDLK_1:
-            i = this->state->bazooka(*this);
+            i = this->state->setTimeoutTo(*this, 1);
             break;
         case SDLK_2:
-            i = this->state->grenade(*this);
+            i = this->state->setTimeoutTo(*this, 2);
             break;
         case SDLK_3:
-            i = this->state->cluster(*this);
+            i = this->state->setTimeoutTo(*this, 3);
             break;
         case SDLK_4:
-            i = this->state->mortar(*this);
+            i = this->state->setTimeoutTo(*this, 4);
             break;
         case SDLK_5:
+            i = this->state->setTimeoutTo(*this, 5);
+            break;
+        case SDLK_F1:
+            i = this->state->bazooka(*this);
+            break;
+        case SDLK_F2:
+            i = this->state->grenade(*this);
+            break;
+        case SDLK_F3:
+            i = this->state->cluster(*this);
+            break;
+        case SDLK_F4:
+            i = this->state->mortar(*this);
+            break;
+        case SDLK_F5:
             i = this->state->banana(*this);
             break;
-        case SDLK_6:
+        case SDLK_F6:
             i = this->state->holy(*this);
             break;
         case SDLK_SPACE:

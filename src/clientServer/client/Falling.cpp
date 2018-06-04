@@ -69,3 +69,7 @@ IO::PlayerInput Worm::Falling::banana(Worm &w) {
 IO::PlayerInput Worm::Falling::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Falling::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}

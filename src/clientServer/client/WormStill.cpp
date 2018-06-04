@@ -77,3 +77,20 @@ IO::PlayerInput Worm::Still::banana(Worm &w) {
 IO::PlayerInput Worm::Still::holy(Worm &w) {
     return IO::PlayerInput::holy;
 }
+
+IO::PlayerInput Worm::Still::setTimeoutTo(Worm &w, int time){
+    switch (time){
+        case 1:
+            return IO::PlayerInput::timeout1;
+        case 2:
+            return IO::PlayerInput::timeout2;
+        case 3:
+            return IO::PlayerInput::timeout3;
+        case 4:
+            return IO::PlayerInput::timeout4;
+        case 5:
+            return IO::PlayerInput::timeout5;
+        default:
+            return IO::PlayerInput::moveNone;
+    }
+}
