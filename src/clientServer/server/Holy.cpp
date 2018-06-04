@@ -45,7 +45,8 @@ void Weapon::Holy::endShot(Worms::Player &p, Worms::Physics &physics){
             Worms::BulletInfo{Worms::DamageInfo{this->config.damage,
                                                 this->config.damageRadius}, angle,
                               this->shotPower, p.getPosition(),
-                              safeNonContactDistance}, physics,
+                              safeNonContactDistance, this->config.restitution,
+                              this->config.friction}, physics,
             this->timeLimit));
     this->shotPower = 0;
 }

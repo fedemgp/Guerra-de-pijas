@@ -25,6 +25,8 @@ struct Config {
     float maxAngle;
     float angleStep;
     uint16_t maxShotPower;
+    float restitution;
+    float friction;
 };
 }  // namespace Weapon
    /**
@@ -90,17 +92,23 @@ class Config {
     // weapons
     Weapon::Config bazooka{BAZOOKA_DAMAGE,    BAZOOKA_DAMAGE_RADIUS,
                            BAZOOKA_MIN_ANGLE, BAZOOKA_MAX_ANGLE,
-                           ANGLE_STEP,        MAX_SHOT_POWER};
+                           ANGLE_STEP,        MAX_SHOT_POWER,
+                           BAZOOKA_RESTITUTION, BAZOOKA_FRCTION};
     Weapon::Config greenGrenade{GRENADE_DAMAGE,    GRENADE_RADIUS, GRENADE_MIN_ANGLE,
-                                GRENADE_MAX_ANGLE, ANGLE_STEP,     MAX_SHOT_POWER};
+                                GRENADE_MAX_ANGLE, ANGLE_STEP,     MAX_SHOT_POWER,
+                                GRENADE_RESTITUTION, GRENADE_FRCTION};
     Weapon::Config cluster{CLUSTER_DAMAGE,    CLUSTER_RADIUS, CLUSTER_MIN_ANGLE,
-                           CLUSTER_MAX_ANGLE, ANGLE_STEP,     MAX_SHOT_POWER};
+                           CLUSTER_MAX_ANGLE, ANGLE_STEP,     MAX_SHOT_POWER,
+                           CLUSTER_RESTITUTION, CLUSTER_FRCTION};
     Weapon::Config mortar{MORTAR_DAMAGE,    MORTAR_RADIUS, MORTAR_MIN_ANGLE,
-                          MORTAR_MAX_ANGLE, ANGLE_STEP,    MAX_SHOT_POWER};
+                          MORTAR_MAX_ANGLE, ANGLE_STEP,    MAX_SHOT_POWER,
+                          MORTAR_RESTITUTION, MORTAR_FRCTION};
     Weapon::Config banana{BANANA_DAMAGE,    BANANA_RADIUS, BANANA_MIN_ANGLE,
-                          BANANA_MAX_ANGLE, ANGLE_STEP,    MAX_SHOT_POWER};
+                          BANANA_MAX_ANGLE, ANGLE_STEP,    MAX_SHOT_POWER,
+                          BANANA_RESTITUTION, BANANA_FRCTION};
     Weapon::Config holy{HOLY_DAMAGE,    HOLY_RADIUS, HOLY_MIN_ANGLE,
-                        HOLY_MAX_ANGLE, ANGLE_STEP,  MAX_SHOT_POWER};
+                        HOLY_MAX_ANGLE, ANGLE_STEP,  MAX_SHOT_POWER,
+                        HOLY_RESTITUTION, HOLY_FRCTION};
 };
 }  // namespace Game
 

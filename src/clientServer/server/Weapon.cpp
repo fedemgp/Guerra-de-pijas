@@ -40,30 +40,6 @@ float Worms::Weapon::getAngle() const {
     return this->angle;
 }
 
-//void Worms::Weapon::startShot() {
-//    this->increaseShotPower = true;
-//}
-//
-void Worms::Weapon::endShot(Worms::Player &p, Physics &physics) {
-    this->increaseShotPower = false;
-    Math::Point<float> position = p.getPosition();
-    float safeNonContactDistance =
-        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    float angle = this->angle;
-    if (p.direction == Direction::right) {
-        if (angle < 0.0f) {
-            angle += 360.0f;
-        }
-    } else {
-        angle = 180.0f - angle;
-    }
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
-        BulletInfo{DamageInfo{this->config.damage, this->config.damageRadius}, angle,
-                   this->shotPower, p.getPosition(), safeNonContactDistance},
-        physics));
-    this->shotPower = 0;
-}
-
 void Worms::Weapon::destroyBullet() {
     this->bullet = nullptr;
 }

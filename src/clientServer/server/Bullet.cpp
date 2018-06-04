@@ -23,8 +23,8 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->shape.m_radius = this->radius;
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
-    this->fixture.restitution = 0.1f;
-    this->fixture.friction = 2.0f;
+    this->fixture.restitution = info.restitution;
+    this->fixture.friction = info.friction;
 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);

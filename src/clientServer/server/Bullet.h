@@ -23,6 +23,8 @@ struct BulletInfo {
     uint16_t power;
     Math::Point<float> point;
     float safeNonContactDistance;
+    float restitution;
+    float friction;
 };
 /**
  * forward declaration of weapon.
