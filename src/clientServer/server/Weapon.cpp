@@ -22,20 +22,6 @@ const Worm::WeaponID &Worms::Weapon::getWeaponID() const {
     return this->id;
 }
 
-// void Worms::Weapon::update(float dt) {
-//    if (this->increaseShotPower) {
-//        if (this->shotPower >= this->config.maxShotPower) {
-//            this->shotPower = this->config.maxShotPower;
-//        } else {
-//            this->shotPower++;
-//        }
-//    }
-//
-//    if (this->bullet != nullptr) {
-//        this->bullet->update(dt, *this);
-//    }
-//}
-
 void Worms::Weapon::decreaseAngle() {
     this->angle -= this->config.angleStep;
     if (this->angle < this->config.minAngle) {
@@ -54,10 +40,10 @@ float Worms::Weapon::getAngle() const {
     return this->angle;
 }
 
-void Worms::Weapon::startShot() {
-    this->increaseShotPower = true;
-}
-
+//void Worms::Weapon::startShot() {
+//    this->increaseShotPower = true;
+//}
+//
 void Worms::Weapon::endShot(Worms::Player &p, Physics &physics) {
     this->increaseShotPower = false;
     Math::Point<float> position = p.getPosition();

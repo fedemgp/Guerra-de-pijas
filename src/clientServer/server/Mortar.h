@@ -14,6 +14,8 @@ namespace Weapon{
         Mortar(float angle);
         ~Mortar() override = default;
         void update(float dt) override;
+        void startShot() override;
+        void endShot(Worms::Player &p, Worms::Physics &physics) override;
     };
 } // namespace Weapon
 

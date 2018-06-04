@@ -6,6 +6,8 @@
 #ifndef __Cluster_H__
 #define __Cluster_H__
 
+#include "Physics.h"
+#include "Player.h"
 #include "Weapon.h"
 
 namespace Weapon{
@@ -14,6 +16,10 @@ namespace Weapon{
         Cluster(float angle);
         ~Cluster() override = default;
         void update(float dt) override;
+        void startShot() override;
+        void endShot(Worms::Player &p, Worms::Physics &physics) override;
+
+        uint16_t timeLimit{5};
     };
 } // namespace Weapon
 

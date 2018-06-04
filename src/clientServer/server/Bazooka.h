@@ -14,6 +14,8 @@ class Bazooka : public Worms::Weapon {
     Bazooka(float angle);
     ~Bazooka() = default;
     void update(float dt) override;
+    void startShot() override;
+    void endShot(Worms::Player &p, Worms::Physics &physics) override;
 };
 } // namespace Weapon
 

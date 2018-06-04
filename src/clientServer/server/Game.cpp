@@ -167,7 +167,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             }
 
             if (this->players.at(this->currentWorm).getBullet() != nullptr) {
-                if (this->players.at(this->currentWorm).getBullet()->madeImpact()) {
+                if (this->players.at(this->currentWorm).getBullet()->hasExploded()) {
                     DamageInfo damageInfo =
                         this->players.at(this->currentWorm).getBullet()->getDamageInfo();
                     for (auto &worm : this->players) {

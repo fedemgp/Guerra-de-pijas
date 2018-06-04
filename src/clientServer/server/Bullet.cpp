@@ -11,7 +11,7 @@
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
-    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics){
     float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
@@ -24,7 +24,7 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
     this->fixture.restitution = 0.1f;
-    this->fixture.friction = 0.0f;
+    this->fixture.friction = 2.0f;
 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
@@ -36,7 +36,13 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 }
 
+Worms::Bullet::Bullet(Worms::BulletInfo i, Worms::Physics &physics,
+                      uint16_t timeout): Bullet(i, physics){
+    this->timeout = timeout;
+}
+
 void Worms::Bullet::update(float dt, Weapon &w) {
+    this->timeElapsed += dt;
     if (!this->impulseApplied) {
         float32 mass = this->body->GetMass();
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
@@ -80,8 +86,12 @@ Worms::Bullet::~Bullet() {
     this->body->GetWorld()->DestroyBody(this->body);
 }
 
-bool Worms::Bullet::madeImpact() {
-    return this->numContacts > 0;
+bool Worms::Bullet::hasExploded() {
+    if (this->timeout > 0){
+        return this->timeElapsed >= this->timeout;
+    } else {
+        return this->numContacts > 0;
+    }
 }
 
 Worms::DamageInfo Worms::Bullet::getDamageInfo() {

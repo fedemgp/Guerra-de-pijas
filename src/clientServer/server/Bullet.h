@@ -31,13 +31,14 @@ class Weapon;
 class Bullet : public PhysicsEntity {
    public:
     Bullet(BulletInfo i, Worms::Physics &physics);
+    Bullet(BulletInfo i, Worms::Physics &physics, uint16_t timeout);
     ~Bullet();
     void update(float dt, Weapon &w);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     virtual void startContact() override;
     virtual void endContact() override;
-    bool madeImpact();
+    bool hasExploded();
     DamageInfo getDamageInfo();
 
    private:
@@ -50,6 +51,8 @@ class Bullet : public PhysicsEntity {
     int numContacts{0};
     bool impulseApplied{false};
     float radius{0.5f};
+    uint16_t timeout{0};
+    float timeElapsed{0.0f};
     uint16_t power{0};
     DamageInfo damageInfo;
 };

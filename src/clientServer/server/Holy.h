@@ -15,6 +15,11 @@ public:
     Holy(float angle);
     ~Holy() override = default;
     void update(float dt) override;
+    void startShot() override;
+    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+
+private:
+    uint16_t timeLimit{5};
 };
 } // namespace Weapon
 

@@ -28,15 +28,8 @@ class Weapon {
     virtual void update(float dt) = 0;
     void increaseAngle();
     void decreaseAngle();
-    /**
-     * inits the increasing of the power shot.
-     */
-    void startShot();
-    /**
-     * calls Player::shoot(float powerShot) to instante a bullet.
-     * @param p
-     */
-    void endShot(Player &p, Physics &physics);
+    virtual void startShot() = 0;
+    virtual void endShot(Player &p, Physics &physics) = 0;
     float getAngle() const;
     /**
      * sets bullet_ptr to null, and free its resources
