@@ -14,13 +14,13 @@ void Worm::Still::update(float dt) {}
 
 IO::PlayerInput Worm::Still::moveRight(Worm &w) {
     w.setState(StateID::Walk);
-    w.direction = ::Worm::Direction::right;
+    w.direction = Direction::right;
     return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Still::moveLeft(Worm &w) {
     w.setState(StateID::Walk);
-    w.direction = ::Worm::Direction::left;
+    w.direction = Direction::left;
     return IO::PlayerInput::moveLeft;
 }
 
