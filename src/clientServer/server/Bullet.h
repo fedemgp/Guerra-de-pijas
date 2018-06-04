@@ -48,13 +48,13 @@ class Bullet : public PhysicsEntity {
     b2FixtureDef fixture;
     Worms::Physics &physics;
     float angle{0};
-    int numContacts{0};
     bool impulseApplied{false};
     float radius{0.5f};
     uint16_t timeout{0};
     float timeElapsed{0.0f};
     uint16_t power{0};
     DamageInfo damageInfo;
+    bool madeImpact{false};
 };
 }  // namespace Worms
 
