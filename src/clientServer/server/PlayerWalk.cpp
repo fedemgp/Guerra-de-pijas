@@ -7,7 +7,7 @@
 #include "PlayerWalk.h"
 
 void Worms::Walk::update(Player &p, float dt, b2Body *body) {
-    if (p.getContactCount() == 0) {
+    if (p.getContactCount() == 0 && this->timeElapsed > 0.2f) {
         p.setState(Worm::StateID::Falling);
     } else {
         float final_vel{0.0f};
@@ -23,6 +23,7 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
         body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]),
                                  body->GetWorldCenter(), true);
     }
+    this->timeElapsed += dt;
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {
