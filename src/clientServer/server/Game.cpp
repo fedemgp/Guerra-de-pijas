@@ -32,7 +32,7 @@ Worms::Game::Game(Stage &&stage)
         id++;
     }
 
-    this->makeTeams();
+    this->teams.makeTeams(this->players, this->stage.getNumTeams());
 
     /* sets the girders */
     for (auto &girder : this->stage.getGirders()) {
@@ -51,53 +51,10 @@ Worms::Game::Game(Stage &&stage)
         staticBody->CreateFixture(&fixture);
     }
 
-    this->currentTeam = 0;
-    this->currentWorm = this->teams[this->currentTeam].players[0];
+    this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
 
     this->currentPlayerTurnTime = this->stage.turnTime;
-}
-
-void Worms::Game::makeTeams() {
-    uint8_t numPlayers = this->players.size();
-    uint8_t numTeams = this->stage.getNumTeams();
-
-    //    for (uint8_t i = 0; i < numTeams; i++) {
-    //        this->teams.emplace_back(Team{std::vector<uint8_t>, 0})
-    //    }
-
-    std::vector<uint8_t> playersNum(numPlayers);
-    for (uint8_t i = 0; i < numPlayers; i++) {
-        playersNum[i] = i;
-    }
-
-    std::random_device rnd_device;
-    std::mt19937 mersenne_engine(rnd_device());
-
-    shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
-
-    uint8_t maxTeamPlayers =
-        (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
-    std::vector<uint8_t> numPlayersPerTeam(this->stage.getNumTeams());
-    for (uint8_t i = 0, nP = numPlayers, nT = numTeams; i < numPlayersPerTeam.size(); i++) {
-        numPlayersPerTeam[i] = nP / nT;
-        nP -= numPlayersPerTeam[i];
-        nT--;
-    }
-    std::vector<uint8_t> players;
-    for (uint8_t i = 0, currentTeam = 0; i < numPlayers; i++) {
-        //        this->teams[currentTeam].players.emplace_back(this->players[playersNum[i]].getId());
-        players.emplace_back(this->players[playersNum[i]].getId());
-        this->players[playersNum[i]].setTeam(currentTeam);
-        if (numPlayersPerTeam[currentTeam] < maxTeamPlayers) {
-            this->players[playersNum[i]].increaseHealth(25.0f);
-        }
-        if (players.size() == numPlayersPerTeam[currentTeam]) {
-            this->teams.push_back(Team{players, 0, true});
-            players.clear();
-            currentTeam++;
-        }
-    }
 }
 
 void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
@@ -137,8 +94,10 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                     }
                     this->currentTurnElapsed = 0;
                     this->currentPlayerShot = false;
-                    this->checkTeams();
-                    this->newCurrentPlayerAndTeam();
+//                    this->checkTeams();
+                    this->teams.checkAlive(this->players);
+//                    this->newCurrentPlayerAndTeam();
+                    this->teams.newCurrentPlayerAndTeam(this->players, this->currentTeam, this->currentWorm, this->currentWormToFollow);
 
                     this->processingClientInputs = true;
                     this->currentPlayerTurnTime = this->stage.turnTime;
@@ -283,38 +242,4 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
 
 void Worms::Game::exit() {
     this->quit = true;
-}
-
-void Worms::Game::checkTeams() {
-    uint8_t numTeam = 0;
-    for (auto &team : this->teams) {
-        if (team.alive) {
-            bool teamAlive = false;
-            for (auto teamPlayer : this->teams[numTeam].players) {
-                if (this->players[teamPlayer].getStateId() != Worm::StateID::Dead) {
-                    teamAlive = true;
-                }
-            }
-            if (!teamAlive) {
-                this->deadTeams.emplace_back(numTeam);
-                team.alive = false;
-            }
-        }
-        numTeam++;
-    }
-}
-
-void Worms::Game::newCurrentPlayerAndTeam() {
-    do {
-        this->currentTeam = (this->currentTeam + 1) % this->teams.size();
-    } while (!this->teams[this->currentTeam].alive);
-    do {
-        uint8_t currentTeamPlayer = this->teams[this->currentTeam].currentPlayer;
-        currentTeamPlayer = (currentTeamPlayer + 1) % this->teams[this->currentTeam].players.size();
-        this->teams[this->currentTeam].currentPlayer = currentTeamPlayer;
-        this->currentWorm = this->teams[this->currentTeam].players[currentTeamPlayer];
-        //                        this->currentWorm = (this->currentWorm + 1) %
-        //                        this->players.size();
-        this->currentWormToFollow = this->currentWorm;
-    } while (this->players[this->currentWorm].getStateId() == Worm::StateID::Dead);
 }
