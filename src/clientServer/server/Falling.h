@@ -5,12 +5,13 @@
 #ifndef INC_4_WORMS_FALLING_H
 #define INC_4_WORMS_FALLING_H
 
+#include <Camera.h>
 #include "Player.h"
 
 namespace Worms {
 class Falling : public State {
    public:
-    Falling();
+    Falling(GUI::Position p);
     ~Falling() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
@@ -30,6 +31,9 @@ class Falling : public State {
     void endShot(Player &p) override;
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
+
+   private:
+    GUI::Position startPosition;
 };
 }  // namespace Worms
 

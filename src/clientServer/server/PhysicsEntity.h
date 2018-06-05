@@ -12,8 +12,8 @@ class PhysicsEntity {
    public:
     explicit PhysicsEntity(EntityID id);
     virtual EntityID getEntityId();
-    virtual void startContact() = 0;
-    virtual void endContact() = 0;
+    virtual void startContact(Worms::PhysicsEntity *physicsEntity) = 0;
+    virtual void endContact(Worms::PhysicsEntity *physicsEntity) = 0;
 
    private:
     EntityID id;
