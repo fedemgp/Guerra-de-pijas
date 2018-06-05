@@ -178,7 +178,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
             case Worm::StateID::Falling:
-                this->state = std::shared_ptr<State>(new Falling());
+                this->state = std::shared_ptr<State>(new Falling(this->getPosition()));
                 break;
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
@@ -363,4 +363,13 @@ void Worms::Player::setWeaponTimeout(uint8_t time){
 
 int Worms::Player::getWormContactCount() {
     return this->numWormContacts;
+}
+
+void Worms::Player::landDamage(float yDistance) {
+    if (yDistance > this->safeFallDistance) {
+        this->health -= (yDistance > this->maxFallDamage) ? this->maxFallDamage : yDistance;
+        if (this->health < 0.0f) {
+            this->setState(Worm::StateID::Die);
+        }
+    }
 }

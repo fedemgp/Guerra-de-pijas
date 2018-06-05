@@ -54,6 +54,7 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
     uint8_t getTeam() const;
@@ -75,6 +76,8 @@ class Player : public PhysicsEntity {
     uint8_t id;
     int numWormContacts{0};
     int numBulletContacs{0};
+    float safeFallDistance{2.0f};
+    float maxFallDamage{25.0f};
 };
 }  // namespace Worms
 
