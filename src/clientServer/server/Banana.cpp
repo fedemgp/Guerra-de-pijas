@@ -8,14 +8,13 @@
 
 Weapon::Banana::Banana(float angle)
     : Worms::Weapon(Game::Config::getInstance().getBananaConfig(), Worm::WeaponID::WBanana, angle) {
+    this->powerChargeTime = Game::Config::getInstance().getPowerChargeTime();
 }
 
 void Weapon::Banana::update(float dt) {
     if (this->increaseShotPower) {
-        if (this->shotPower >= this->config.maxShotPower) {
-            this->shotPower = this->config.maxShotPower;
-        } else {
-            this->shotPower++;
+        if (this->shotPower < this->config.maxShotPower){
+            this->shotPower +=  dt / this->powerChargeTime * this->config.maxShotPower;
         }
     }
 

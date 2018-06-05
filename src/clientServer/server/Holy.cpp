@@ -7,14 +7,14 @@
 #include "Player.h"
 
 Weapon::Holy::Holy(float angle)
-    : Worms::Weapon(Game::Config::getInstance().getHolyConfig(), Worm::WeaponID::WHoly, angle) {}
+    : Worms::Weapon(Game::Config::getInstance().getHolyConfig(), Worm::WeaponID::WHoly, angle) {
+    this->powerChargeTime = Game::Config::getInstance().getPowerChargeTime();
+}
 
 void Weapon::Holy::update(float dt) {
     if (this->increaseShotPower) {
-        if (this->shotPower >= this->config.maxShotPower) {
-            this->shotPower = this->config.maxShotPower;
-        } else {
-            this->shotPower++;
+        if (this->shotPower < this->config.maxShotPower){
+            this->shotPower +=  dt / this->powerChargeTime * this->config.maxShotPower;
         }
     }
 

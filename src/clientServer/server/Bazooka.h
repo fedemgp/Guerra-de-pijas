@@ -17,6 +17,9 @@ class Bazooka : public Worms::Weapon {
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
     void setTimeout(uint8_t time) override;
+
+private:
+    float powerChargeTime{0.0f};
 };
 }  // namespace Weapon
 

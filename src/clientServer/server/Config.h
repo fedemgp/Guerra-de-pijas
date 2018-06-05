@@ -47,6 +47,7 @@ class Config {
 
     const uint8_t getTurnTime() const;
     const float getExtraTurnTime() const;
+    const float getPowerChargeTime() const;
     const uint8_t getNumTeams() const;
     const float getGameWidth() const;
     const float getGameHeight() const;
@@ -82,6 +83,7 @@ class Config {
     // game
     uint8_t turnTime{TURN_TIME};
     float extraTurnTime{EXTRA_TURN_TIME};
+    float powerChargeTime{POWER_CHARGE_MAX_TIME};
     uint8_t numTeams{NUM_TEAMS};
     float gameWidth{GAME_WIDTH};
     float gameHeight{GAME_HEIGHT};

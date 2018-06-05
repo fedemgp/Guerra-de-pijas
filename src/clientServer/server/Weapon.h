@@ -41,7 +41,7 @@ class Weapon {
 
    protected:
     bool increaseShotPower{false};
-    uint16_t shotPower{0};
+    float shotPower{0};
     Game::Weapon::Config config;
     Worm::WeaponID id;
     float angle{0};

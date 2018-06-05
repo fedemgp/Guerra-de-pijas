@@ -18,7 +18,7 @@ struct DamageInfo {
 struct BulletInfo {
     DamageInfo dmgInfo;
     float angle;
-    uint16_t power;
+    float power;
     Math::Point<float> point;
     float safeNonContactDistance;
     float restitution;
