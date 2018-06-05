@@ -31,10 +31,11 @@
 #include "WormWalk.h"
 #include "WeaponNone.h"
 
-Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
+Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr, const GUI::GameSoundEffectManager &sound_effect_mgr)
     : id(id),
       texture_mgr(texture_mgr),
-      animation(texture_mgr.get(GUI::GameTextures::WormIdle)){
+      sound_effect_mgr(sound_effect_mgr),
+      animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
     this->setState(::Worm::StateID::Still);
     this->weapon = std::shared_ptr<Weapon>(new Bazooka(texture_mgr));
 }
@@ -186,9 +187,32 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
 
+void Worm::Worm::playSoundEffect(StateID state) {
+    switch (state) {
+        case StateID::Still:
+            break;
+        case StateID::Walk:
+            this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::WalkCompress)});
+        case StateID::StartBackFlip:
+        case StateID::StartJump:
+        case StateID::Jumping:
+        case StateID::Land:
+        case StateID::EndBackFlip:
+        case StateID::EndJump:
+        case StateID::BackFlipping:
+        case StateID::Falling:
+        case StateID::Hit:
+        case StateID::Die:
+        case StateID::Drown:
+        case StateID::Dead:
+            break;
+    }
+}
+
 void Worm::Worm::setState(StateID state) {
     if (this->state == nullptr || this->state->getState() != state) {
         this->animation = this->getAnimation(state);
+        this->playSoundEffect(state);
 
         /* creates the right state type */
         switch (state) {

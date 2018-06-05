@@ -21,6 +21,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "GameSoundEffects.h"
 
 namespace GUI {
 class Game {
@@ -39,6 +40,7 @@ class Game {
     float scale{13.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
+    GameSoundEffectManager sound_effect_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::shared_ptr<Ammo::Bullet> bullet{nullptr};

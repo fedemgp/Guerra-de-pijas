@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <iostream>
+#include <SDL2/SDL_mixer.h>
 
 #include "Exception.h"
 #include "Window.h"
@@ -45,6 +46,11 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
         this->close();
         throw Exception{"SDL_ttf could not initialize! SDL_ttf Error: %s", TTF_GetError()};
     }
+
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+    {
+        throw Exception("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+    }
 }
 
 GUI::Window::~Window() {
@@ -62,6 +68,7 @@ void GUI::Window::close() {
         this->window = nullptr;
     }
 
+    Mix_Quit();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();

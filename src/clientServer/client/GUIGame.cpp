@@ -19,6 +19,7 @@
 GUI::Game::Game(Window &w, Worms::Stage &&stage)
     : window(w),
       texture_mgr(w.getRenderer()),
+      sound_effect_mgr(),
       stage(stage),
       cam(this->scale, w.width, w.height, w.getRenderer()),
       font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28) {
@@ -119,11 +120,13 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            "src/clientServer/assets/img/Effects/blob.png",
                            GUI::Color{0x80, 0x80, 0xC0});
 
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress, "src/clientServer/assets/sound/Effects/Walk-Expand.wav");
+
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
     this->worms.reserve(stage.getWorms().size());
     for (const auto &wormData : this->stage.getWorms()) {
-        this->worms.emplace_back(num_worms, this->texture_mgr);
+        this->worms.emplace_back(num_worms, this->texture_mgr, this->sound_effect_mgr);
         this->snapshot.positions[num_worms * 2] = wormData.position.x;
         this->snapshot.positions[num_worms * 2 + 1] = wormData.position.y;
         this->snapshot.wormsHealth[num_worms] = wormData.health;

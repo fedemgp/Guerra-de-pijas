@@ -38,6 +38,6 @@ target_link_libraries(server Box2D)
 
 file(GLOB_RECURSE CLIENT_SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/clientServer/*.cpp" "src/clientServer/*.h" "libs/*.h" "libs/*.cpp")
 add_executable( clientServer
-        ${CLIENT_SERVER_SOURCES})
+        ${CLIENT_SERVER_SOURCES} libs/SoundEffect.cpp libs/SoundEffect.h libs/SoundEffectManager.h src/clientServer/client/GameSoundEffects.h src/clientServer/client/SoundEffectPlayer.cpp src/clientServer/client/SoundEffectPlayer.h)
 
-target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf SDL2_mixer)
