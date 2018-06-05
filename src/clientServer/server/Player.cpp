@@ -50,6 +50,7 @@ Worms::Player::Player(Physics &physics)
 
     this->state = std::shared_ptr<State>(new Still());
     this->direction = Direction::left;
+    this->lastWalkDirection = this->direction;
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
@@ -204,6 +205,9 @@ void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity) {
         switch (physicsEntity->getEntityId()) {
             case EntityID::EtWorm:
                 this->numWormContacts++;
+                if (this->getStateId() == Worm::StateID::Walk) {
+                    this->canWalk = false;
+                }
                 break;
             case EntityID::EtBullet:
                 this->numBulletContacs++;

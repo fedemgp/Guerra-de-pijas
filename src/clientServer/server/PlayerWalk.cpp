@@ -12,7 +12,10 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
 
     if ((p.getWormContactCount() == 0)
         ||
-        (p.getWormContactCount() > 0 && p.getContactCount() == 0)) {
+        (p.getWormContactCount() > 0 && p.getContactCount() == 0)
+        ||
+        p.lastWalkDirection != p.direction
+        || p.canWalk) {
         if (p.getContactCount() == 0 && this->timeElapsed > 0.2f) {
             this->impulses[0] = -vel.x * mass;
             body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
@@ -29,6 +32,8 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
             this->impulses[0] = mass * (final_vel - vel.x);
             body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]),
                                      body->GetWorldCenter(), true);
+
+            p.lastWalkDirection = p.direction;
         }
     } else {
         this->impulses[0] = -vel.x * mass;
