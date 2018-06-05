@@ -4,7 +4,8 @@
 
 #include "SoundEffectPlayer.h"
 
-GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect) : soundEffect(&soundEffect) {
+GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect)
+    : soundEffect(&soundEffect) {
     Mix_PlayChannel(-1, this->soundEffect->getChunk(), 0);
 }
 

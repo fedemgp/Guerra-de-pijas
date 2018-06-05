@@ -10,15 +10,14 @@
 #include "SoundEffect.h"
 
 namespace GUI {
-    class SoundEffectPlayer {
-    public:
-        SoundEffectPlayer(const SoundEffect &soundEffect);
-        ~SoundEffectPlayer();
+class SoundEffectPlayer {
+   public:
+    SoundEffectPlayer(const SoundEffect &soundEffect);
+    ~SoundEffectPlayer();
 
-    private:
-        const SoundEffect *soundEffect;
-    };
+   private:
+    const SoundEffect *soundEffect;
+};
 }
 
-
-#endif //INC_4_WORMS_SOUNDEFFECTPLAYER_H
+#endif  // INC_4_WORMS_SOUNDEFFECTPLAYER_H

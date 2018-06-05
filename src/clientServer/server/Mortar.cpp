@@ -49,4 +49,4 @@ void Weapon::Mortar::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->shotPower = 0;
 }
 
-void Weapon::Mortar::setTimeout(uint8_t time){}
+void Weapon::Mortar::setTimeout(uint8_t time) {}

@@ -5,6 +5,7 @@
 
 #include <SDL2/SDL_system.h>
 #include <cmath>
+#include <iostream>
 
 #include "Banana.h"
 #include "Bazooka.h"
@@ -20,6 +21,7 @@
 #include "Land.h"
 #include "Mortar.h"
 #include "Text.h"
+#include "WeaponNone.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
@@ -29,9 +31,9 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "WeaponNone.h"
 
-Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr, const GUI::GameSoundEffectManager &sound_effect_mgr)
+Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
+                 const GUI::GameSoundEffectManager &sound_effect_mgr)
     : id(id),
       texture_mgr(texture_mgr),
       sound_effect_mgr(sound_effect_mgr),
@@ -192,7 +194,9 @@ void Worm::Worm::playSoundEffect(StateID state) {
         case StateID::Still:
             break;
         case StateID::Walk:
-            this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::WalkCompress)});
+            this->soundEffectPlayer =
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WalkCompress)});
         case StateID::StartBackFlip:
         case StateID::StartJump:
         case StateID::Jumping:
@@ -269,8 +273,8 @@ Worm::StateID &Worm::Worm::getState() const {
 }
 
 void Worm::Worm::setWeapon(const WeaponID &id) {
-//    this->weapon.setWeapon(id);
-    if (this->weapon->getWeaponID() != id){
+    //    this->weapon.setWeapon(id);
+    if (this->weapon->getWeaponID() != id) {
         switch (id) {
             case WeaponID::WBazooka:
                 this->weapon = std::shared_ptr<Weapon>(new Bazooka(this->texture_mgr));
@@ -309,11 +313,10 @@ void Worm::Worm::setPosition(GUI::Position p) {
     this->position = p;
 }
 
-void Worm::Worm::startShot(){
+void Worm::Worm::startShot() {
     this->weapon->startShot();
 }
 
-void Worm::Worm::endShot(){
+void Worm::Worm::endShot() {
     this->weapon->endShot();
 }
-

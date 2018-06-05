@@ -12,19 +12,19 @@
 #include "SoundEffect.h"
 
 namespace GUI {
-    template <typename ID, typename HASH = std::hash<ID>>
-    class SoundEffectManager {
-    public:
-        SoundEffectManager();
-        ~SoundEffectManager();
-        SoundEffectManager& operator=(SoundEffectManager& other) = delete;
+template <typename ID, typename HASH = std::hash<ID>>
+class SoundEffectManager {
+   public:
+    SoundEffectManager();
+    ~SoundEffectManager();
+    SoundEffectManager& operator=(SoundEffectManager& other) = delete;
 
-        void load(ID id, const std::string& file_name);
-        const SoundEffect& get(ID id) const;
+    void load(ID id, const std::string& file_name);
+    const SoundEffect& get(ID id) const;
 
-    private:
-        std::unordered_map<ID, SoundEffect, HASH> cache;
-    };
+   private:
+    std::unordered_map<ID, SoundEffect, HASH> cache;
+};
 }  // namespace GUI
 
 template <typename ID, typename HASH>
@@ -55,4 +55,4 @@ const GUI::SoundEffect& GUI::SoundEffectManager<ID, HASH>::get(ID id) const {
     return this->cache.at(id);
 }
 
-#endif //INC_4_WORMS_SOUNDEFFECTMANAGER_H
+#endif  // INC_4_WORMS_SOUNDEFFECTMANAGER_H

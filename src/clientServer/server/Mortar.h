@@ -17,7 +17,6 @@ class Mortar : public Worms::Weapon {
     void startShot() override;
     void endShot(Worms::Player &p, Worms::Physics &physics) override;
     void setTimeout(uint8_t time) override;
-
 };
 }  // namespace Weapon
 

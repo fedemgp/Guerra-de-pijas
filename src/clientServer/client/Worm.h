@@ -17,17 +17,17 @@
 #include "Camera.h"
 #include "Direction.h"
 #include "Explosion.h"
+#include "GameSoundEffects.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
+#include "SoundEffectPlayer.h"
 #include "Stream.h"
-#include "utils.h"
 #include "Weapon.h"
 #include "WormState.h"
-#include "SoundEffectPlayer.h"
-#include "GameSoundEffects.h"
+#include "utils.h"
 
 namespace Worm {
-    using ID = char;
+using ID = char;
 
 class Worm {
     /**
@@ -39,7 +39,8 @@ class Worm {
     float health{0};
     const ID id;
 
-    explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr, const GUI::GameSoundEffectManager &sound_effect_mgr);
+    explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr,
+                  const GUI::GameSoundEffectManager &sound_effect_mgr);
     ~Worm() {}
     /**
      * Calls State::update to change frame of animation

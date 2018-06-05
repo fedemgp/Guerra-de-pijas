@@ -8,20 +8,19 @@
 
 #include <vector>
 
-
-#include "../server/Stage.h" //TODO check this
+#include "../server/Stage.h"  //TODO check this
 #include "Animation.h"
 #include "Bullet.h"
 #include "Camera.h"
 #include "Explosion.h"
 #include "Font.h"
+#include "GameSoundEffects.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
-#include "GameSoundEffects.h"
 
 namespace GUI {
 class Game {

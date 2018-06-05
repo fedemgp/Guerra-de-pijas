@@ -13,8 +13,8 @@ Weapon::Banana::Banana(float angle)
 
 void Weapon::Banana::update(float dt) {
     if (this->increaseShotPower) {
-        if (this->shotPower < this->config.maxShotPower){
-            this->shotPower +=  dt / this->powerChargeTime * this->config.maxShotPower;
+        if (this->shotPower < this->config.maxShotPower) {
+            this->shotPower += dt / this->powerChargeTime * this->config.maxShotPower;
         }
     }
 
@@ -48,6 +48,6 @@ void Weapon::Banana::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->shotPower = 0;
 }
 
-void Weapon::Banana::setTimeout(uint8_t time){
+void Weapon::Banana::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }

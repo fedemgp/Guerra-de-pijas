@@ -14,8 +14,8 @@ Weapon::Bazooka::Bazooka(float angle)
 
 void Weapon::Bazooka::update(float dt) {
     if (this->increaseShotPower) {
-        if (this->shotPower < this->config.maxShotPower){
-            this->shotPower +=  dt / this->powerChargeTime * this->config.maxShotPower;
+        if (this->shotPower < this->config.maxShotPower) {
+            this->shotPower += dt / this->powerChargeTime * this->config.maxShotPower;
         }
     }
 
@@ -49,4 +49,4 @@ void Weapon::Bazooka::endShot(Worms::Player &p, Worms::Physics &physics) {
     this->shotPower = 0;
 }
 
-void Weapon::Bazooka::setTimeout(uint8_t time){}
+void Weapon::Bazooka::setTimeout(uint8_t time) {}

@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include "Texture.h"
 #include "WormStill.h"
+#include "Texture.h"
 
 Worm::Still::Still() : State(StateID::Still) {}
 
@@ -80,8 +80,8 @@ IO::PlayerInput Worm::Still::holy(Worm &w) {
     return IO::PlayerInput::holy;
 }
 
-IO::PlayerInput Worm::Still::setTimeoutTo(Worm &w, int time){
-    switch (time){
+IO::PlayerInput Worm::Still::setTimeoutTo(Worm &w, int time) {
+    switch (time) {
         case 1:
             return IO::PlayerInput::timeout1;
         case 2:

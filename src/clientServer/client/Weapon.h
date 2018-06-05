@@ -19,7 +19,8 @@
 namespace Worm {
 class Weapon {
    public:
-    explicit Weapon(const GUI::GameTextureManager &texMgr, GUI::GameTextures tex, uint16_t centerFrame, WeaponID id);
+    explicit Weapon(const GUI::GameTextureManager &texMgr, GUI::GameTextures tex,
+                    uint16_t centerFrame, WeaponID id);
     virtual ~Weapon() = default;
     /**
      * updates all its animations.

@@ -153,7 +153,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
         this->body->SetType(b2_dynamicBody);
         switch (stateID) {
             case Worm::StateID::Still:
-//                this->body->SetType(b2_staticBody);
+                //                this->body->SetType(b2_staticBody);
                 this->state = std::shared_ptr<State>(new Still());
                 break;
             case Worm::StateID::Walk:
@@ -237,9 +237,10 @@ void Worms::Player::endContact(Worms::PhysicsEntity *physicsEntity) {
             this->numContacts--;
         }
     }
-//    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() == Worm::StateID::Still) {
-//        this->setState(Worm::StateID::Falling);
-//    }
+    //    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() ==
+    //    Worm::StateID::Still) {
+    //        this->setState(Worm::StateID::Falling);
+    //    }
 }
 
 int Worms::Player::getContactCount() {
@@ -357,7 +358,7 @@ uint8_t Worms::Player::getId() const {
     return this->id;
 }
 
-void Worms::Player::setWeaponTimeout(uint8_t time){
+void Worms::Player::setWeaponTimeout(uint8_t time) {
     this->weapon->setTimeout(time);
 }
 

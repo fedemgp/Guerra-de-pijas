@@ -21,7 +21,7 @@ class Cluster : public Worms::Weapon {
     void setTimeout(uint8_t time) override;
     uint16_t timeLimit{5};
 
-private:
+   private:
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

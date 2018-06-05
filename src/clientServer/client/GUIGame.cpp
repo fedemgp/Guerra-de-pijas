@@ -120,7 +120,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
                            "src/clientServer/assets/img/Effects/blob.png",
                            GUI::Color{0x80, 0x80, 0xC0});
 
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress, "src/clientServer/assets/sound/Effects/Walk-Expand.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
+                                "src/clientServer/assets/sound/Effects/Walk-Compress.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
+                                "src/clientServer/assets/sound/Effects/Explosion1.wav");
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -188,7 +191,8 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
             if (this->snapshot.shoot) {
                 if (this->bullet == nullptr) {
                     this->bullet = std::shared_ptr<Ammo::Bullet>(
-                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
+                        new Ammo::Bullet(this->texture_mgr, this->sound_effect_mgr,
+                                         this->snapshot.activePlayerWeapon));
                 }
                 this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {

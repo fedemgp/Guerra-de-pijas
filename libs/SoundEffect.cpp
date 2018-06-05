@@ -13,10 +13,10 @@ GUI::SoundEffect::SoundEffect(const std::string &filename) {
 }
 
 GUI::SoundEffect::~SoundEffect() {
-//    if (this->soundEffect != nullptr) {
-//        Mix_FreeChunk(this->soundEffect);
-//        this->soundEffect = nullptr;
-//    }
+    //    if (this->soundEffect != nullptr) {
+    //        Mix_FreeChunk(this->soundEffect);
+    //        this->soundEffect = nullptr;
+    //    }
 }
 
 Mix_Chunk *GUI::SoundEffect::getChunk() const {
