@@ -21,6 +21,11 @@ A library to render text from SDL.
     sudo apt-get install libsdl2-ttf-dev
 
 
+## Qt-5 (editor)
+
+    sudo apt-get install qt5-default qtdeclarative5-dev qtcreator
+
+
 ### clang-format (optional)
 
 `clang-format` is used to format all the source code files. It requires `clang-format` installed:
