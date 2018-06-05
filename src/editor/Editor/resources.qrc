@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/buttons/worm.png</file>
+        <file>assets/buttons/long-girder.png</file>
+        <file>assets/buttons/short-girder.png</file>
+        <file>assets/stage/long_girder.png</file>
+        <file>assets/stage/short_girder.png</file>
+        <file>assets/stage/worm.png</file>
+    </qresource>
+</RCC>
