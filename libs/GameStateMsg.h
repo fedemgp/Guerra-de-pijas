@@ -6,6 +6,8 @@
 #define __GAME_STATE_MSG_H__
 
 #define WORMS_QUANTITY 20
+// TODO move this in client and Server global Config
+#define POWER_CHARGE_TIME 5.0f
 
 #include <stdint.h>
 
@@ -22,7 +24,9 @@ enum class StateID {
     Hit,
     Die,
     Dead,
-    Drown
+    Drown,
+    Falling,
+    Land
 };
 enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly };
 }  // namespace Worm
@@ -44,7 +48,7 @@ enum class PlayerInput {
     cluster,
     mortar,
     banana,
-    holy
+    holy, timeout1, timeout2, timeout3, timeout4, timeout5
 };
 // TODO protocol?
 struct GameStateMsg {

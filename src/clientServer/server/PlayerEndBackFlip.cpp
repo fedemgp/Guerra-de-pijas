@@ -3,8 +3,8 @@
  *  date: 21/05/18
  */
 
-#include "Config.h"
 #include "Player.h"
+#include "Config.h"
 #include "PlayerEndBackFlip.h"
 #include "PlayerState.h"
 
@@ -47,3 +47,5 @@ void Worms::EndBackFlip::mortar(Worms::Player &p) {}
 void Worms::EndBackFlip::banana(Worms::Player &p) {}
 
 void Worms::EndBackFlip::holy(Worms::Player &p) {}
+
+void Worms::EndBackFlip::setTimeout(Worms::Player &p, uint8_t time){}

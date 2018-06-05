@@ -70,3 +70,7 @@ IO::PlayerInput Worm::Jumping::banana(Worm &w) {
 IO::PlayerInput Worm::Jumping::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jumping::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}

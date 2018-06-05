@@ -3,9 +3,9 @@
  * Date: 17/05/18.
  */
 
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <unistd.h>
+#include <iostream>
 
 #include "Bullet.h"
 #include "GUIGame.h"
@@ -44,6 +44,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::BackFlipping,
                            "src/clientServer/assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Falling,
+                           "src/clientServer/assets/img/Worms/wfall.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Bazooka, "src/clientServer/assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Fly, "src/clientServer/assets/img/Worms/wfly1.png",
@@ -55,11 +58,14 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Missile,
                            "src/clientServer/assets/img/Weapons/missile.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Explosion, "src/clientServer/assets/img/Effects/circle25.png",
+    this->texture_mgr.load(GUI::GameTextures::Explosion,
+                           "src/clientServer/assets/img/Effects/circle25.png",
                            GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Flame, "src/clientServer/assets/img/Effects/flame1.png",
+    this->texture_mgr.load(GUI::GameTextures::Flame,
+                           "src/clientServer/assets/img/Effects/flame1.png",
                            GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Smoke, "src/clientServer/assets/img/Effects/smkdrk20.png",
+    this->texture_mgr.load(GUI::GameTextures::Smoke,
+                           "src/clientServer/assets/img/Effects/smkdrk20.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::StaticBackground,
                            "src/clientServer/assets/img/background/static.png",
@@ -103,6 +109,15 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::WormHoly,
                            "src/clientServer/assets/img/Worms/wthrhgrd.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Scope,
+                           "src/clientServer/assets/img/Misc/crshairb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Scope,
+                           "src/clientServer/assets/img/Misc/crshairb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::PowerBar,
+                           "src/clientServer/assets/img/Effects/blob.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -175,7 +190,7 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 this->bullet->setAngle(this->snapshot.bulletAngle);
             } else {
                 if (this->bullet != nullptr) {
-                        this->bullet->madeImpact();
+                    this->bullet->madeImpact();
                 }
             }
 

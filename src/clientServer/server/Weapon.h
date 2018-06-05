@@ -16,29 +16,22 @@ namespace Worms {
 class Player;
 class Weapon {
    public:
-    Weapon();
-    ~Weapon() = default;
+    Weapon(const Game::Weapon::Config &config, Worm::WeaponID id, float angle);
+    virtual ~Weapon() = default;
 
     const Worm::WeaponID &getWeaponID() const;
-    void setWeapon(const Worm::WeaponID &id);
     /**
      * If was an event of startShot, then increase its power shot until
      * reach its limit.
      * @param dt
      */
-    void update(float dt);
+    virtual void update(float dt) = 0;
     void increaseAngle();
     void decreaseAngle();
-    /**
-     * inits the increasing of the power shot.
-     */
-    void startShot();
-    /**
-     * calls Player::shoot(float powerShot) to instante a bullet.
-     * @param p
-     */
-    void endShot(Player &p, Physics &physics);
     float getAngle() const;
+    virtual void startShot() = 0;
+    virtual void endShot(Player &p, Physics &physics) = 0;
+    virtual void setTimeout(uint8_t time) = 0;
     /**
      * sets bullet_ptr to null, and free its resources
      */
@@ -46,18 +39,20 @@ class Weapon {
 
     std::shared_ptr<Bullet> getBullet() const;
 
+   protected:
+    bool increaseShotPower{false};
+    float shotPower{0};
+    Game::Weapon::Config config;
+    Worm::WeaponID id;
+    float angle{0};
+    std::shared_ptr<Bullet> bullet{nullptr};
+
    private:
     /**
      * When weapons change, their own limit angles may crash the game.
      * To avoid this, this function checks and correct angles between changes.
      */
     void checkBoundaryAngles();
-    bool increaseShotPower{false};
-    uint16_t shotPower{0};
-    Worm::WeaponID id{Worm::WeaponID::WBazooka};
-    float angle{0};
-    Game::Weapon::Config config;
-    std::shared_ptr<Bullet> bullet{nullptr};
 };
 }  // namespace Worms
 

@@ -95,3 +95,7 @@ const Game::Weapon::Config &Game::Config::getBananaConfig() const {
 const Game::Weapon::Config &Game::Config::getHolyConfig() const {
     return this->holy;
 }
+
+const float Game::Config::getPowerChargeTime() const{
+    return this->powerChargeTime;
+}

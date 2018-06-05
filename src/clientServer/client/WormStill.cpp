@@ -14,13 +14,13 @@ void Worm::Still::update(float dt) {}
 
 IO::PlayerInput Worm::Still::moveRight(Worm &w) {
     w.setState(StateID::Walk);
-    w.direction = ::Worm::Direction::right;
+    w.direction = Direction::right;
     return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Still::moveLeft(Worm &w) {
     w.setState(StateID::Walk);
-    w.direction = ::Worm::Direction::left;
+    w.direction = Direction::left;
     return IO::PlayerInput::moveLeft;
 }
 
@@ -51,10 +51,12 @@ IO::PlayerInput Worm::Still::pointDown(Worm &w) {
 }
 
 IO::PlayerInput Worm::Still::startShot(Worm &w) {
+    w.startShot();
     return IO::PlayerInput::startShot;
 }
 
 IO::PlayerInput Worm::Still::endShot(Worm &w) {
+    w.endShot();
     return IO::PlayerInput::endShot;
 }
 
@@ -76,4 +78,21 @@ IO::PlayerInput Worm::Still::banana(Worm &w) {
 
 IO::PlayerInput Worm::Still::holy(Worm &w) {
     return IO::PlayerInput::holy;
+}
+
+IO::PlayerInput Worm::Still::setTimeoutTo(Worm &w, int time){
+    switch (time){
+        case 1:
+            return IO::PlayerInput::timeout1;
+        case 2:
+            return IO::PlayerInput::timeout2;
+        case 3:
+            return IO::PlayerInput::timeout3;
+        case 4:
+            return IO::PlayerInput::timeout4;
+        case 5:
+            return IO::PlayerInput::timeout5;
+        default:
+            return IO::PlayerInput::moveNone;
+    }
 }

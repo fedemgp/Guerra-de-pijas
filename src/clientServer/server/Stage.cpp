@@ -3,14 +3,14 @@
  *  date: 18/05/18
  */
 
-#include "Point.h"
 #include "Stage.h"
+#include "Point.h"
 
 Worms::Stage::Stage() {
     uint16_t health = Game::Config::getInstance().getWormHealth();
     this->players.push_back(Worms::WormData{health, Math::Point<float>{50.0f, 20.0f}});
     this->players.push_back(Worms::WormData{health, Math::Point<float>{-3.0f, 20.0f}});
-    this->players.push_back(Worms::WormData{health, Math::Point<float>{-50.0f, 12.0f}});
+    this->players.push_back(Worms::WormData{health, Math::Point<float>{-5.0f, 20.0f}});
 
     this->girders.push_back(Girder{11, 1.42f, Math::Point<float>{50.0f, 10.0f}});
     this->girders.push_back(Girder{31, 1.42f, Math::Point<float>{-50.0f, 7.0f}});

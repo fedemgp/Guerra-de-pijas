@@ -10,8 +10,6 @@
 #include "PhysicsEntity.h"
 #include "Point.h"
 
-#define PI 3.14159265
-
 namespace Worms {
 struct DamageInfo {
     uint16_t damage;
@@ -20,21 +18,27 @@ struct DamageInfo {
 struct BulletInfo {
     DamageInfo dmgInfo;
     float angle;
-    uint16_t power;
+    float power;
     Math::Point<float> point;
     float safeNonContactDistance;
+    float restitution;
+    float friction;
 };
-
+/**
+ * forward declaration of weapon.
+ */
+class Weapon;
 class Bullet : public PhysicsEntity {
    public:
     Bullet(BulletInfo i, Worms::Physics &physics);
+    Bullet(BulletInfo i, Worms::Physics &physics, uint16_t timeout);
     ~Bullet();
-    void update(float dt);
+    void update(float dt, Weapon &w);
     Math::Point<float> getPosition() const;
     float getAngle() const;
-    virtual void startContact() override;
-    virtual void endContact() override;
-    bool madeImpact();
+    virtual void startContact(Worms::PhysicsEntity *physicsEntity) override;
+    virtual void endContact(Worms::PhysicsEntity *physicsEntity) override;
+    bool hasExploded();
     DamageInfo getDamageInfo();
 
    private:
@@ -44,11 +48,13 @@ class Bullet : public PhysicsEntity {
     b2FixtureDef fixture;
     Worms::Physics &physics;
     float angle{0};
-    int numContacts{0};
     bool impulseApplied{false};
     float radius{0.5f};
+    uint16_t timeout{0};
+    float timeElapsed{0.0f};
     uint16_t power{0};
     DamageInfo damageInfo;
+    bool madeImpact{false};
 };
 }  // namespace Worms
 

@@ -22,7 +22,12 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body) {
      * In the y-axis there will be no impulse because its velocity was
      * cancelled because of the collision with the girder.
      */
-    if (p.getContactCount() > 0) {
+    if (p.getWormContactCount() > 0) {
+        this->timeElapsed += dt;
+    }else {
+        this->timeElapsed = 0.0f;
+    }
+    if (p.getContactCount() > 0 || this->timeElapsed > 0.2f) {
         float32 mass = body->GetMass();
         b2Vec2 previousVel = body->GetLinearVelocity();
         b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
@@ -61,3 +66,5 @@ void Worms::Jumping::mortar(Worms::Player &p) {}
 void Worms::Jumping::banana(Worms::Player &p) {}
 
 void Worms::Jumping::holy(Worms::Player &p) {}
+
+void Worms::Jumping::setTimeout(Worms::Player &p, uint8_t time){}

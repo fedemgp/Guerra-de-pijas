@@ -10,22 +10,22 @@
 #define DROWN_CENTER_FRAME 0
 #define ANGLE_STEP 5.625f
 
-#include <memory>
 #include <SDL2/SDL.h>
+#include <memory>
 
 #include "Animation.h"
 #include "Camera.h"
+#include "Direction.h"
+#include "Explosion.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
 #include "utils.h"
 #include "Weapon.h"
 #include "WormState.h"
-#include "Explosion.h"
 
 namespace Worm {
-enum class Direction { right, left, up, down };
-using ID = char;
+    using ID = char;
 
 class Worm {
     /**
@@ -82,15 +82,21 @@ class Worm {
      */
     void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID() const;
-    //    void setTeam(uint8_t team);
-    //    uint8_t getTeam();
     void setPosition(GUI::Position p);
+    /**
+     * Starts the PowerBar's rendering, adding animations in its container
+     */
+    void startShot();
+    /**
+     * End PowerBar's rendering, freeing its container
+     */
+    void endShot();
 
    private:
     const GUI::GameTextureManager &texture_mgr;
     std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
-    Weapon weapon;
+    std::shared_ptr<Weapon> weapon{nullptr};
     bool active{false};
     GUI::Position position{0, 0};
     //    uint8_t team{0};

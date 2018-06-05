@@ -6,8 +6,9 @@
 #include <cmath>
 #include <iostream>
 
-#include "Config.h"
 #include "Bullet.h"
+#include "Config.h"
+#include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
@@ -22,8 +23,8 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->shape.m_radius = this->radius;
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
-    this->fixture.restitution = 0.1f;
-    this->fixture.friction = 0.0f;
+    this->fixture.restitution = info.restitution;
+    this->fixture.friction = info.friction;
 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
@@ -35,7 +36,13 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 }
 
-void Worms::Bullet::update(float dt) {
+Worms::Bullet::Bullet(Worms::BulletInfo i, Worms::Physics &physics, uint16_t timeout)
+    : Bullet(i, physics) {
+    this->timeout = timeout;
+}
+
+void Worms::Bullet::update(float dt, Weapon &w) {
+    this->timeElapsed += dt;
     if (!this->impulseApplied) {
         float32 mass = this->body->GetMass();
         b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
@@ -50,6 +57,10 @@ void Worms::Bullet::update(float dt) {
             this->angle += 360.0f;
         }
     }
+
+    if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
+        w.destroyBullet();
+    }
 }
 
 Math::Point<float> Worms::Bullet::getPosition() const {
@@ -61,22 +72,22 @@ float Worms::Bullet::getAngle() const {
     return (this->angle >= 0 && this->angle < 90) ? this->angle + 360.0f : this->angle;
 }
 
-void Worms::Bullet::startContact() {
-    this->numContacts++;
+void Worms::Bullet::startContact(Worms::PhysicsEntity *physicsEntity) {
+    this->madeImpact = true;
 }
 
-void Worms::Bullet::endContact() {
-    if (this->numContacts > 0) {
-        this->numContacts--;
-    }
-}
+void Worms::Bullet::endContact(Worms::PhysicsEntity *physicsEntity) {}
 
 Worms::Bullet::~Bullet() {
     this->body->GetWorld()->DestroyBody(this->body);
 }
 
-bool Worms::Bullet::madeImpact() {
-    return this->numContacts > 0;
+bool Worms::Bullet::hasExploded() {
+    if (this->timeout > 0) {
+        return this->timeElapsed >= this->timeout;
+    } else {
+        return this->madeImpact;
+    }
 }
 
 Worms::DamageInfo Worms::Bullet::getDamageInfo() {

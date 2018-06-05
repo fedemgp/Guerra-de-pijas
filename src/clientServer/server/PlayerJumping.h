@@ -19,6 +19,7 @@ class Jumping : public State {
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;
     void jump(Player &p) override;
+    void setTimeout(Player &p, uint8_t time) override;
 
     void bazooka(Player &p) override;
     void grenade(Player &p) override;
@@ -33,6 +34,9 @@ class Jumping : public State {
     void stopMove(Player &p) override;
     virtual void pointUp(Player &p) override;
     virtual void pointDown(Player &p) override;
+
+   private:
+    float timeElapsed{0.0f};
 };
 }  // namespace Worms
 

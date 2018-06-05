@@ -9,11 +9,12 @@
 #include <atomic>
 #include <unordered_map>
 
+#include "GameTeams.h"
 #include "Player.h"
 #include "Stage.h"
 
 namespace Worms {
-struct Team {
+struct Teamasd {
     std::vector<uint8_t> players;
     uint8_t currentPlayer;
     bool alive;
@@ -48,13 +49,9 @@ class Game {
     bool processingClientInputs{true};
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
-    std::vector<Team> teams;
-
-    void checkTeams();
+    GameTeams teams;
 
     std::vector<uint8_t> deadTeams;
-
-    void newCurrentPlayerAndTeam();
 };
 }  // namespace Worms
 

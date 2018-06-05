@@ -7,17 +7,39 @@
 #include "PlayerWalk.h"
 
 void Worms::Walk::update(Player &p, float dt, b2Body *body) {
-    float final_vel{0.0f};
     float32 mass = body->GetMass();
     b2Vec2 vel = body->GetLinearVelocity();
 
-    if (p.direction == Direction::left) {
-        final_vel = -this->walkVelocity;
+    if ((p.getWormContactCount() == 0)
+        ||
+        (p.getWormContactCount() > 0 && p.getContactCount() == 0)
+        ||
+        p.lastWalkDirection != p.direction
+        || p.canWalk) {
+        if (p.getContactCount() == 0 && this->timeElapsed > 0.2f) {
+            this->impulses[0] = -vel.x * mass;
+            body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
+
+            p.setState(Worm::StateID::Falling);
+        } else {
+            float final_vel{0.0f};
+
+            if (p.direction == Direction::left) {
+                final_vel = -this->walkVelocity;
+            } else {
+                final_vel = this->walkVelocity;
+            }
+            this->impulses[0] = mass * (final_vel - vel.x);
+            body->ApplyLinearImpulse(b2Vec2(this->impulses[0], this->impulses[1]),
+                                     body->GetWorldCenter(), true);
+
+            p.lastWalkDirection = p.direction;
+        }
     } else {
-        final_vel = this->walkVelocity;
+        this->impulses[0] = -vel.x * mass;
+        body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
     }
-    this->impulses[0] = mass * (final_vel - vel.x);
-    body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
+    this->timeElapsed += dt;
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {
@@ -58,3 +80,5 @@ void Worms::Walk::mortar(Worms::Player &p) {}
 void Worms::Walk::banana(Worms::Player &p) {}
 
 void Worms::Walk::holy(Worms::Player &p) {}
+
+void Worms::Walk::setTimeout(Worms::Player &p, uint8_t time){}

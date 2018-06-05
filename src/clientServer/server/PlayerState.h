@@ -17,6 +17,7 @@ class State {
     virtual void moveRight(Player &p) = 0;
     virtual void moveLeft(Player &p) = 0;
     virtual void jump(Player &p) = 0;
+    virtual void setTimeout(Player &p, uint8_t time) = 0;
 
     virtual void bazooka(Player &p) = 0;
     virtual void grenade(Player &p) = 0;

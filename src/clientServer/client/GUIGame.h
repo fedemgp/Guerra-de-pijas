@@ -8,10 +8,12 @@
 
 #include <vector>
 
+
 #include "../server/Stage.h" //TODO check this
 #include "Animation.h"
 #include "Bullet.h"
 #include "Camera.h"
+#include "Explosion.h"
 #include "Font.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
@@ -19,7 +21,6 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
-#include "Explosion.h"
 
 namespace GUI {
 class Game {

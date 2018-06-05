@@ -46,7 +46,11 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID 
 void Ammo::Bullet::update(float dt) {
     if (!this->explode) {
         if (this->updateManually) {
-            this->animation.setFrame((int)std::floor((this->angle - 90) / MISSILE_ANGLE_STEP));
+            float angle = (this->angle - 90);
+            if (angle >= 360) {
+                angle -= 360;
+            }
+            this->animation.setFrame((int)std::floor(angle / MISSILE_ANGLE_STEP));
         } else {
             this->animation.update(dt);
         }
@@ -65,7 +69,7 @@ void Ammo::Bullet::render(GUI::Position p, GUI::Camera &cam) {
         this->animation.render(p, cam, SDL_FLIP_HORIZONTAL);
     } else {
         this->explosion.render(cam);
-//        this->explode = !this->explosion.finished();
+        //        this->explode = !this->explosion.finished();
     }
 }
 

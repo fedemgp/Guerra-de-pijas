@@ -83,3 +83,7 @@ IO::PlayerInput Worm::Walk::banana(Worm &w) {
 IO::PlayerInput Worm::Walk::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::setTimeoutTo(Worm &w, int t){
+    return IO::PlayerInput::moveNone;
+}
