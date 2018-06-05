@@ -32,6 +32,9 @@ class BackFlipping : public State {
     void endShot(Player &p) override;
     void pointUp(Player &p) override;
     void pointDown(Player &p) override;
+
+   private:
+    float timeElapsed{0.0f};
 };
 }  // namespace Worms
 

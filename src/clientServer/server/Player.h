@@ -26,6 +26,8 @@ enum class Direction { right, left, up, down };
 class Player : public PhysicsEntity {
    public:
     Direction direction;
+    Direction lastWalkDirection;
+    bool canWalk{true};
     float health{0};
 
     explicit Player(Physics &physics);
@@ -39,8 +41,9 @@ class Player : public PhysicsEntity {
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
     int getContactCount();
-    void startContact() override;
-    void endContact() override;
+    int getWormContactCount();
+    void startContact(Worms::PhysicsEntity *physicsEntity) override;
+    void endContact(Worms::PhysicsEntity *physicsEntity) override;
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
     void setWeapon(const Worm::WeaponID &id);
@@ -51,6 +54,7 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Bullet> getBullet() const;
     void destroyBullet();
     void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
     uint8_t getTeam() const;
@@ -70,6 +74,10 @@ class Player : public PhysicsEntity {
     int numContacts{0};
     uint8_t team;
     uint8_t id;
+    int numWormContacts{0};
+    int numBulletContacs{0};
+    float safeFallDistance{2.0f};
+    float maxFallDamage{25.0f};
 };
 }  // namespace Worms
 

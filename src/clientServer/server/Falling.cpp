@@ -4,11 +4,14 @@
 
 #include "Falling.h"
 
-Worms::Falling::Falling() : State(Worm::StateID::Falling) {}
+Worms::Falling::Falling(GUI::Position p)
+        : State(Worm::StateID::Falling),
+          startPosition(p) {}
 
 void Worms::Falling::update(Player &p, float dt, b2Body *body) {
     if (p.getContactCount() > 0) {
         p.setState(Worm::StateID::Land);
+        p.landDamage(this->startPosition.y - p.getPosition().y);
     }
 }
 
@@ -42,4 +45,4 @@ void Worms::Falling::banana(Worms::Player &p) {}
 
 void Worms::Falling::holy(Worms::Player &p) {}
 
-void Worms::Falling::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::Falling::setTimeout(Worms::Player &p, uint8_t time) {}

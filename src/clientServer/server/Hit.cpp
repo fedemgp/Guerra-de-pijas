@@ -20,7 +20,7 @@ void Worms::Hit::update(Worms::Player &p, float dt, b2Body *body) {
      */
     if (p.getContactCount() > 0) {
         this->timeElapsed += dt;
-        if (this->timeElapsed > 0.2f) {
+        if (this->timeElapsed > 2.0f) {
             float32 mass = body->GetMass();
             b2Vec2 previousVel = body->GetLinearVelocity();
             b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
@@ -28,6 +28,8 @@ void Worms::Hit::update(Worms::Player &p, float dt, b2Body *body) {
 
             p.setState(Worm::StateID::Still);
         }
+    } else {
+        this->timeElapsed = 0.0f;
     }
 }
 

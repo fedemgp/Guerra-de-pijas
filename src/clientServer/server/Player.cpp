@@ -50,6 +50,7 @@ Worms::Player::Player(Physics &physics)
 
     this->state = std::shared_ptr<State>(new Still());
     this->direction = Direction::left;
+    this->lastWalkDirection = this->direction;
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
@@ -152,7 +153,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
         this->body->SetType(b2_dynamicBody);
         switch (stateID) {
             case Worm::StateID::Still:
-                this->body->SetType(b2_staticBody);
+//                this->body->SetType(b2_staticBody);
                 this->state = std::shared_ptr<State>(new Still());
                 break;
             case Worm::StateID::Walk:
@@ -177,7 +178,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new EndBackFlip());
                 break;
             case Worm::StateID::Falling:
-                this->state = std::shared_ptr<State>(new Falling());
+                this->state = std::shared_ptr<State>(new Falling(this->getPosition()));
                 break;
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
@@ -199,14 +200,46 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-void Worms::Player::startContact() {
-    this->numContacts++;
+void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity) {
+    if (physicsEntity != nullptr) {
+        switch (physicsEntity->getEntityId()) {
+            case EntityID::EtWorm:
+                this->numWormContacts++;
+                if (this->getStateId() == Worm::StateID::Walk) {
+                    this->canWalk = false;
+                }
+                break;
+            case EntityID::EtBullet:
+                this->numBulletContacs++;
+                break;
+        }
+    } else {
+        this->numContacts++;
+    }
 }
 
-void Worms::Player::endContact() {
-    if (this->numContacts > 0) {
-        this->numContacts--;
+void Worms::Player::endContact(Worms::PhysicsEntity *physicsEntity) {
+    if (physicsEntity != nullptr) {
+        switch (physicsEntity->getEntityId()) {
+            case EntityID::EtWorm:
+                if (this->numWormContacts > 0) {
+                    this->numWormContacts--;
+                }
+                break;
+            case EntityID::EtBullet:
+                if (this->numBulletContacs > 0) {
+                    this->numBulletContacs--;
+                }
+                break;
+        }
+    } else {
+        if (this->numContacts > 0) {
+            this->numContacts--;
+        }
     }
+//    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() == Worm::StateID::Still) {
+//        this->setState(Worm::StateID::Falling);
+//    }
 }
 
 int Worms::Player::getContactCount() {
@@ -326,4 +359,17 @@ uint8_t Worms::Player::getId() const {
 
 void Worms::Player::setWeaponTimeout(uint8_t time){
     this->weapon->setTimeout(time);
+}
+
+int Worms::Player::getWormContactCount() {
+    return this->numWormContacts;
+}
+
+void Worms::Player::landDamage(float yDistance) {
+    if (yDistance > this->safeFallDistance) {
+        this->health -= (yDistance > this->maxFallDamage) ? this->maxFallDamage : yDistance;
+        if (this->health < 0.0f) {
+            this->setState(Worm::StateID::Die);
+        }
+    }
 }
