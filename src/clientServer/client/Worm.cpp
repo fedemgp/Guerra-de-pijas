@@ -145,6 +145,9 @@ void Worm::Worm::update(float dt) {
     if (this->explosion != nullptr) {
         this->explosion->update(dt);
     }
+    if (this->soundEffectPlayer != nullptr) {
+        this->soundEffectPlayer->update(dt);
+    }
 }
 
 GUI::Animation Worm::Worm::getAnimation(StateID state) const {
@@ -190,24 +193,41 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
 }
 
 void Worm::Worm::playSoundEffect(StateID state) {
+    this->soundEffectPlayer = nullptr;
     switch (state) {
         case StateID::Still:
             break;
         case StateID::Walk:
             this->soundEffectPlayer =
                 std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WalkCompress)});
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WalkCompress), 0.7f});
+            this->soundEffectPlayer->update(0.3f);
+            break;
         case StateID::StartBackFlip:
+            break;
         case StateID::StartJump:
+            break;
         case StateID::Jumping:
+            break;
         case StateID::Land:
+            break;
         case StateID::EndBackFlip:
+            break;
         case StateID::EndJump:
+            break;
         case StateID::BackFlipping:
+            break;
         case StateID::Falling:
+            break;
         case StateID::Hit:
+            break;
         case StateID::Die:
+            break;
         case StateID::Drown:
+            this->soundEffectPlayer =
+                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDrowning)});
+            break;
         case StateID::Dead:
             break;
     }

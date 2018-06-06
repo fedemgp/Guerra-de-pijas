@@ -122,6 +122,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
 
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
                                 "src/clientServer/assets/sound/Effects/Walk-Compress.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormLanding,
+                                "src/clientServer/assets/sound/Effects/WormLanding.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDrowning,
+                                "src/clientServer/assets/sound/Effects/UnderWaterLoop.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Splash,
+                                "src/clientServer/assets/sound/Effects/Splash.wav");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
                                 "src/clientServer/assets/sound/Effects/Explosion1.wav");
 
