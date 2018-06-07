@@ -6,7 +6,6 @@
 #ifndef __GRENADE_H__
 #define __GRENADE_H__
 
-
 #include <Camera.h>
 
 #include "Direction.h"
@@ -17,22 +16,21 @@
 
 #define GRENADE_CENTER_FRAME 15
 
-namespace Worm{
-    class Grenade : public Weapon{
-    public:
-        explicit Grenade(const GUI::GameTextureManager &textureManager);
-        ~Grenade() = default;
-        void update(float dt) override;
-        void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) override;
-        void setAngle(float angle, Direction d) override;
-        void startShot() override;
-        void endShot() override;
+namespace Worm {
+class Grenade : public Weapon {
+   public:
+    explicit Grenade(const GUI::GameTextureManager &textureManager);
+    ~Grenade() = default;
+    void update(float dt) override;
+    void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) override;
+    void setAngle(float angle, Direction d) override;
+    void startShot() override;
+    void endShot() override;
 
-    private:
-        ::Weapon::Scope scope;
-        ::Weapon::PowerBar powerBar;
-    };
-} //namespace Worm
+   private:
+    ::Weapon::Scope scope;
+    ::Weapon::PowerBar powerBar;
+};
+}  // namespace Worm
 
-
-#endif //__GRENADE_H__
+#endif  //__GRENADE_H__

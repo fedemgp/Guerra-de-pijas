@@ -20,12 +20,12 @@
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stream.h"
-#include "utils.h"
 #include "Weapon.h"
 #include "WormState.h"
+#include "utils.h"
 
 namespace Worm {
-    using ID = char;
+using ID = char;
 
 class Worm {
     /**

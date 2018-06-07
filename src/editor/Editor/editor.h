@@ -1,21 +1,20 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#include <QWheelEvent>
 #include <QGraphicsView>
+#include <QWheelEvent>
 
 namespace Editor {
 class Editor : public QGraphicsView {
-public:
+   public:
     Editor(QWidget *parent);
     ~Editor();
 
-    void wheelEvent(QWheelEvent* event);
+    void wheelEvent(QWheelEvent *event);
     void mousePressEvent(QMouseEvent *event);
 };
 }
 
-//Q_DECLARE_METATYPE(Editor::Editor);
+// Q_DECLARE_METATYPE(Editor::Editor);
 
-#endif // EDITOR_H
-
+#endif  // EDITOR_H

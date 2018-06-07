@@ -6,6 +6,7 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
+#include "Observer.h"
 #include "Physics.h"
 #include "PhysicsEntity.h"
 #include "Point.h"
@@ -30,16 +31,34 @@ struct BulletInfo {
 class Weapon;
 class Bullet : public PhysicsEntity {
    public:
-    Bullet(BulletInfo i, Worms::Physics &physics);
-    Bullet(BulletInfo i, Worms::Physics &physics, uint16_t timeout);
+    Bullet(BulletInfo &i, Worms::Physics &physics);
+    Bullet(BulletInfo &i, Worms::Physics &physics, uint16_t timeout);
     ~Bullet();
+    /**
+     * Apply initial impulse in the first iteration, or estimate the
+     * bullet's tangential velocity to guide the animation. Finally, checks if
+     * an Explode event ocurred, and notify his observer if so.
+     * @param dt
+     * @param w
+     */
     void update(float dt, Weapon &w);
     Math::Point<float> getPosition() const;
     float getAngle() const;
+    /**
+     * Sets its impact boolean to true. Usefull for detecting explosion in
+     * bullets that explode on first impact.
+     * @param physicsEntity
+     */
     virtual void startContact(Worms::PhysicsEntity *physicsEntity) override;
     virtual void endContact(Worms::PhysicsEntity *physicsEntity) override;
-    bool hasExploded();
-    DamageInfo getDamageInfo();
+    /**
+     * return true if the bullet is under the water, if its timeout (in the
+     * case that it have it) has been reached, or if it has collided with
+     * something
+     * @return
+     */
+    bool hasExploded() const;
+    DamageInfo getDamageInfo() const;
 
    private:
     b2Body *body{nullptr};
@@ -52,9 +71,15 @@ class Bullet : public PhysicsEntity {
     float radius{0.5f};
     uint16_t timeout{0};
     float timeElapsed{0.0f};
-    uint16_t power{0};
+    float power{0};
     DamageInfo damageInfo;
     bool madeImpact{false};
+};
+
+struct ExplosionChecker {
+    bool operator()(const Bullet &bullet) {
+        return bullet.hasExploded();
+    }
 };
 }  // namespace Worms
 

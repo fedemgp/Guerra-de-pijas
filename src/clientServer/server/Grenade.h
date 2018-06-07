@@ -15,8 +15,9 @@ class Grenade : public Worms::Weapon {
     ~Grenade() override = default;
     void update(float dt) override;
     void startShot() override;
-    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void endShot() override;
     void setTimeout(uint8_t time) override;
+    std::list<Worms::Bullet> onExplode() override;
 
    private:
     uint16_t timeLimit{5};

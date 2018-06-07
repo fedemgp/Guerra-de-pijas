@@ -47,4 +47,4 @@ void Worms::Land::banana(Worms::Player &p) {}
 
 void Worms::Land::holy(Worms::Player &p) {}
 
-void Worms::Land::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::Land::setTimeout(Worms::Player &p, uint8_t time) {}

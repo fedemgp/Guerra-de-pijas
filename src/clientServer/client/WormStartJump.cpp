@@ -71,6 +71,6 @@ IO::PlayerInput Worm::StartJump::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::StartJump::setTimeoutTo(Worm &w, int t){
+IO::PlayerInput Worm::StartJump::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }

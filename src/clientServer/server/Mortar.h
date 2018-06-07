@@ -15,9 +15,9 @@ class Mortar : public Worms::Weapon {
     ~Mortar() override = default;
     void update(float dt) override;
     void startShot() override;
-    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void endShot() override;
     void setTimeout(uint8_t time) override;
-
+    std::list<Worms::Bullet> onExplode() override;
 };
 }  // namespace Weapon
 

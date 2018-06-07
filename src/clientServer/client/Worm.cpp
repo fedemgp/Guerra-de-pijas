@@ -20,6 +20,7 @@
 #include "Land.h"
 #include "Mortar.h"
 #include "Text.h"
+#include "WeaponNone.h"
 #include "Worm.h"
 #include "WormBackFlip.h"
 #include "WormBackFlipping.h"
@@ -29,12 +30,9 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "WeaponNone.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
-    : id(id),
-      texture_mgr(texture_mgr),
-      animation(texture_mgr.get(GUI::GameTextures::WormIdle)){
+    : id(id), texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
     this->setState(::Worm::StateID::Still);
     this->weapon = std::shared_ptr<Weapon>(new Bazooka(texture_mgr));
 }
@@ -245,8 +243,8 @@ Worm::StateID &Worm::Worm::getState() const {
 }
 
 void Worm::Worm::setWeapon(const WeaponID &id) {
-//    this->weapon.setWeapon(id);
-    if (this->weapon->getWeaponID() != id){
+    //    this->weapon.setWeapon(id);
+    if (this->weapon->getWeaponID() != id) {
         switch (id) {
             case WeaponID::WBazooka:
                 this->weapon = std::shared_ptr<Weapon>(new Bazooka(this->texture_mgr));
@@ -285,11 +283,10 @@ void Worm::Worm::setPosition(GUI::Position p) {
     this->position = p;
 }
 
-void Worm::Worm::startShot(){
+void Worm::Worm::startShot() {
     this->weapon->startShot();
 }
 
-void Worm::Worm::endShot(){
+void Worm::Worm::endShot() {
     this->weapon->endShot();
 }
-

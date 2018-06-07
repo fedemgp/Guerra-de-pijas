@@ -7,9 +7,12 @@
 #define __GAME_H__
 
 #include <atomic>
+#include <list>
 #include <unordered_map>
 
+#include "Bullet.h"
 #include "GameTeams.h"
+#include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
 
@@ -20,7 +23,7 @@ struct Teamasd {
     bool alive;
 };
 
-class Game {
+class Game : Observer {
    public:
     std::atomic<bool> quit{false};
 
@@ -31,6 +34,7 @@ class Game {
 
     void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const;
+    void onNotify(const PhysicsEntity &entity, Event event) override;
     void exit();
 
    private:
@@ -50,6 +54,7 @@ class Game {
     char currentWormToFollow{0};
     bool currentPlayerShot{false};
     GameTeams teams;
+    std::list<Bullet> bullets;
 
     std::vector<uint8_t> deadTeams;
 };

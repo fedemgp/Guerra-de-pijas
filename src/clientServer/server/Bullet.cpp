@@ -10,7 +10,7 @@
 #include "Config.h"
 #include "Weapon.h"
 
-Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
+Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
     float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
@@ -36,7 +36,7 @@ Worms::Bullet::Bullet(BulletInfo info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 }
 
-Worms::Bullet::Bullet(Worms::BulletInfo i, Worms::Physics &physics, uint16_t timeout)
+Worms::Bullet::Bullet(Worms::BulletInfo &i, Worms::Physics &physics, uint16_t timeout)
     : Bullet(i, physics) {
     this->timeout = timeout;
 }
@@ -58,8 +58,8 @@ void Worms::Bullet::update(float dt, Weapon &w) {
         }
     }
 
-    if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
-        w.destroyBullet();
+    if (this->hasExploded()) {
+        this->notify(*this, Event::Explode);
     }
 }
 
@@ -82,7 +82,10 @@ Worms::Bullet::~Bullet() {
     this->body->GetWorld()->DestroyBody(this->body);
 }
 
-bool Worms::Bullet::hasExploded() {
+bool Worms::Bullet::hasExploded() const {
+    if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
+        return true;
+    }
     if (this->timeout > 0) {
         return this->timeElapsed >= this->timeout;
     } else {
@@ -90,6 +93,6 @@ bool Worms::Bullet::hasExploded() {
     }
 }
 
-Worms::DamageInfo Worms::Bullet::getDamageInfo() {
+Worms::DamageInfo Worms::Bullet::getDamageInfo() const {
     return this->damageInfo;
 }

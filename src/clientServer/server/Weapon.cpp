@@ -40,18 +40,20 @@ float Worms::Weapon::getAngle() const {
     return this->angle;
 }
 
-void Worms::Weapon::destroyBullet() {
-    this->bullet = nullptr;
-}
-
-std::shared_ptr<Worms::Bullet> Worms::Weapon::getBullet() const {
-    return this->bullet;
-}
-
 void Worms::Weapon::checkBoundaryAngles() {
     if (this->angle > this->config.maxAngle) {
         this->angle = this->config.maxAngle;
     } else if (this->angle < this->config.minAngle) {
         this->angle = this->config.minAngle;
     }
+}
+
+Worms::BulletInfo Worms::Weapon::getBulletInfo() {
+    return Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius},
+                             angle,
+                             this->shotPower,
+                             Math::Point<float>{0, 0},
+                             0,
+                             this->config.restitution,
+                             this->config.friction};
 }
