@@ -57,13 +57,12 @@ Worms::Player::Player(Physics &physics)
 }
 
 void Worms::Player::update(float dt) {
-    this->bullets.remove_if(Worms::ExplosionChecker());
-
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
     for (auto &bullet : this->bullets) {
         bullet.update(dt, *this->weapon);
     }
+    this->bullets.remove_if(Worms::ExplosionChecker());
 
     if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
         this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {

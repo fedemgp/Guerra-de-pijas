@@ -38,8 +38,6 @@ class Game : Observer {
     void exit();
 
    private:
-    void makeTeams();
-
     char currentWorm;
     char currentTeam;
     double currentTurnElapsed{0};

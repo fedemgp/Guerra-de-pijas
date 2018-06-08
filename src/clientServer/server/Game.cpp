@@ -133,32 +133,10 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 lag -= timeStep;
             }
 
-            if (this->players.at(this->currentWorm).getBullets().size() > 0) {
-                if (this->players.at(this->currentWorm).getBullets().begin()->hasExploded()) {
-                    DamageInfo damageInfo =
-                        this->players.at(this->currentWorm).getBullets().begin()->getDamageInfo();
-                    for (auto &worm : this->players) {
-                        worm.acknowledgeDamage(damageInfo, this->players.at(this->currentWorm)
-                                                               .getBullets()
-                                                               .begin()
-                                                               ->getPosition());
-                        if (worm.getStateId() == Worm::StateID::Hit) {
-                            this->impactOnCourse = true;
-                        }
-                    }
-                    //                    this->players[this->currentWorm].destroyBullet();
-                    //                    if(this->players[this->currentWorm].getBullet() =
-                    //                    nullptr){
-                    //                        std::cout<<"null\n";
-                    //                    } else {
-                    //                        std::cout<<"not null\n";
-                    //                    }
-                }
-            } else {
+
                 if (!this->impactOnCourse) {
                     this->shotOnCourse = false;
                 }
-            }
 
             if (this->impactOnCourse) {
                 this->impactOnCourse = false;
@@ -260,10 +238,17 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
             break;
         }
         /**
-         * no need to do anything, the player will destroy all exploded bullets
-         * in the next update.
+         * On explode, the game must check worms health.
          */
         case Event::Explode: {
+            const Bullet &bullet = dynamic_cast<const Bullet&>(entity);
+            DamageInfo damageInfo = bullet.getDamageInfo();
+            for (auto &worm : this->players) {
+                worm.acknowledgeDamage(damageInfo, bullet.getPosition());
+                if (worm.getStateId() == Worm::StateID::Hit) {
+                    this->impactOnCourse = true;
+                }
+            }
             break;
         }
         /**
