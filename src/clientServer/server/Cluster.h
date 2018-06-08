@@ -19,7 +19,6 @@ class Cluster : public Worms::Weapon {
     void startShot() override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
-    uint16_t timeLimit{5};
     std::list<Worms::Bullet> onExplode() override;
 
    private:

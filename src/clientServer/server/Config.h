@@ -27,6 +27,7 @@ struct Config {
     uint16_t maxShotPower;
     float restitution;
     float friction;
+    uint8_t explotionInitialTimeout;
 };
 }  // namespace Weapon
    /**
@@ -94,18 +95,24 @@ class Config {
     // weapons
     Weapon::Config bazooka{
         BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, BAZOOKA_MIN_ANGLE,   BAZOOKA_MAX_ANGLE,
-        ANGLE_STEP,     MAX_SHOT_POWER,        BAZOOKA_RESTITUTION, BAZOOKA_FRCTION};
+        ANGLE_STEP,     MAX_SHOT_POWER,        BAZOOKA_RESTITUTION, BAZOOKA_FRCTION,
+        BAZOOKA_INITIAL_TIMEOUT};
     Weapon::Config greenGrenade{GRENADE_DAMAGE,      GRENADE_RADIUS, GRENADE_MIN_ANGLE,
                                 GRENADE_MAX_ANGLE,   ANGLE_STEP,     MAX_SHOT_POWER,
-                                GRENADE_RESTITUTION, GRENADE_FRCTION};
+                                GRENADE_RESTITUTION, GRENADE_FRCTION,
+                                GRENADE_INITIAL_TIMEOUT};
     Weapon::Config cluster{CLUSTER_DAMAGE, CLUSTER_RADIUS, CLUSTER_MIN_ANGLE,   CLUSTER_MAX_ANGLE,
-                           ANGLE_STEP,     MAX_SHOT_POWER, CLUSTER_RESTITUTION, CLUSTER_FRCTION};
+                           ANGLE_STEP,     MAX_SHOT_POWER, CLUSTER_RESTITUTION, CLUSTER_FRCTION,
+                           CLUSTER_INITIAL_TIMEOUT};
     Weapon::Config mortar{MORTAR_DAMAGE, MORTAR_RADIUS,  MORTAR_MIN_ANGLE,   MORTAR_MAX_ANGLE,
-                          ANGLE_STEP,    MAX_SHOT_POWER, MORTAR_RESTITUTION, MORTAR_FRCTION};
+                          ANGLE_STEP,    MAX_SHOT_POWER, MORTAR_RESTITUTION, MORTAR_FRCTION,
+                          MORTAR_INITIAL_TIMEOUT};
     Weapon::Config banana{BANANA_DAMAGE, BANANA_RADIUS,  BANANA_MIN_ANGLE,   BANANA_MAX_ANGLE,
-                          ANGLE_STEP,    MAX_SHOT_POWER, BANANA_RESTITUTION, BANANA_FRCTION};
+                          ANGLE_STEP,    MAX_SHOT_POWER, BANANA_RESTITUTION, BANANA_FRCTION,
+                          BANANA_INITIAL_TIMEOUT};
     Weapon::Config holy{HOLY_DAMAGE, HOLY_RADIUS,    HOLY_MIN_ANGLE,   HOLY_MAX_ANGLE,
-                        ANGLE_STEP,  MAX_SHOT_POWER, HOLY_RESTITUTION, HOLY_FRCTION};
+                        ANGLE_STEP,  MAX_SHOT_POWER, HOLY_RESTITUTION, HOLY_FRCTION,
+                        HOLY_INITIAL_TIMEOUT};
 };
 }  // namespace Game
 

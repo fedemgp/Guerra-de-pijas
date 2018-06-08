@@ -20,7 +20,6 @@ class Banana : public Worms::Weapon {
     std::list<Worms::Bullet> onExplode() override;
 
    private:
-    uint16_t timeLimit{5};
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

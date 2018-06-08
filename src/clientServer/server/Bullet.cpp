@@ -34,12 +34,10 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics)
     this->angle = info.angle;
     this->power = info.power;
     this->damageInfo = info.dmgInfo;
+
+    this->timeout = info.explotionTimeout;
 }
 
-Worms::Bullet::Bullet(Worms::BulletInfo &i, Worms::Physics &physics, uint16_t timeout)
-    : Bullet(i, physics) {
-    this->timeout = timeout;
-}
 
 void Worms::Bullet::update(float dt, Weapon &w) {
     this->timeElapsed += dt;

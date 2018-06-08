@@ -10,6 +10,7 @@
 Worms::Weapon::Weapon(const Game::Weapon::Config &config, Worm::WeaponID id, float angle)
     : config(config), id(id), angle(angle) {
     this->angle = angle;
+    this->timeLimit = this->config.explotionInitialTimeout;
     /*
      * Because the limit angles between weapons are
      * differents, it is necesary to check boundaries angles.
@@ -50,10 +51,12 @@ void Worms::Weapon::checkBoundaryAngles() {
 
 Worms::BulletInfo Worms::Weapon::getBulletInfo() {
     return Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius},
+                             Math::Point<float>{0, 0},
                              angle,
                              this->shotPower,
-                             Math::Point<float>{0, 0},
                              0,
                              this->config.restitution,
-                             this->config.friction};
+                             this->config.friction,
+                             this->timeLimit,
+    };
 }

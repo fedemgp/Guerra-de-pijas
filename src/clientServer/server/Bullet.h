@@ -18,12 +18,13 @@ struct DamageInfo {
 };
 struct BulletInfo {
     DamageInfo dmgInfo;
+    Math::Point<float> point;
     float angle;
     float power;
-    Math::Point<float> point;
     float safeNonContactDistance;
     float restitution;
     float friction;
+    uint8_t explotionTimeout;
 };
 /**
  * forward declaration of weapon.
@@ -32,7 +33,6 @@ class Weapon;
 class Bullet : public PhysicsEntity {
    public:
     Bullet(BulletInfo &i, Worms::Physics &physics);
-    Bullet(BulletInfo &i, Worms::Physics &physics, uint16_t timeout);
     ~Bullet();
     /**
      * Apply initial impulse in the first iteration, or estimate the

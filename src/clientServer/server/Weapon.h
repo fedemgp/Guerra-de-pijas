@@ -42,6 +42,7 @@ class Weapon {
     Game::Weapon::Config config;
     Worm::WeaponID id;
     float angle{0};
+    uint8_t timeLimit;
 
    private:
     /**
