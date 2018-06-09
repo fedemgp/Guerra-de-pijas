@@ -270,7 +270,7 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
     }
 }
 
-void Worms::Game::calculateDamage(const Worms::Bullet bullet){
+void Worms::Game::calculateDamage(const Worms::Bullet &bullet){
     ::Game::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());

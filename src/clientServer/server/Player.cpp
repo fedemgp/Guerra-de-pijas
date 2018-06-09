@@ -281,12 +281,9 @@ void Worms::Player::landDamage(float yDistance) {
         }
     }
 }
-// TODO check this because maybe it will crash the game
+
 void Worms::Player::onExplode(const Bullet &b, Physics &physics) {
-    //Esto es feo, queria usar merge con objetos en el stack pero tenia problemas
-    for (auto bullet :  this->weapon->onExplode(b, physics)){
-        this->bullets.emplace_back(bullet);
-    }
+    this->bullets.merge(this->weapon->onExplode(b, physics));
 }
 
 void Worms::Player::addObserverToBullets(Observer *obs) {
