@@ -78,7 +78,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             this->currentTurnElapsed += dt;
             if (this->players[this->currentWorm].getBullets().size() > 0 &&
                 !this->currentPlayerShot) {
-                this->currentPlayerTurnTime = 15;//this->maxTurnTime;
+                this->currentPlayerTurnTime = this->maxTurnTime;
                 this->currentTurnElapsed = 0.0f;
                 this->shotOnCourse = true;
                 this->currentPlayerShot = true;
@@ -261,7 +261,7 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
          * need to listen to them.
          */
         case Event::OnExplode: {
-            const Bullet &bullet = dynamic_cast<const Bullet &>(entity);
+            auto &bullet = dynamic_cast<const Bullet &>(entity);
             this->calculateDamage(bullet);
             this->players[this->currentWorm].onExplode(bullet, this->physics);
             this->players[this->currentWorm].addObserverToBullets(this);

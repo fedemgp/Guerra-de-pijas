@@ -43,6 +43,7 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID 
         case Worm::WeaponID::WFragment:
             this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Fragment), false,
                                              0, true);
+            this->updateManually = false;
             break;
         case Worm::WeaponID::WNone:
             break;
