@@ -38,6 +38,7 @@ class Bullet {
     GUI::Position position{0, 0};
     Worm::Explosion explosion;
     bool explode{false};
+    Worm::WeaponID wid;
 };
 
     struct ExplotionChekcer{
