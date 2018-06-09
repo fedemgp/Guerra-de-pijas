@@ -34,12 +34,17 @@ class Weapon {
     virtual void endShot() = 0;
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
-    virtual std::list<Worms::Bullet> onExplode() = 0;
+    /**
+     * Function that returns, using move semantics, a list of bullets
+     * depending on weapon's behavior after the main bullet explode.
+     * @return
+     */
+    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) = 0;
 
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
-    Game::Weapon::Config config;
+    const Game::Weapon::Config &config;
     Worm::WeaponID id;
     float angle{0};
     uint8_t timeLimit;

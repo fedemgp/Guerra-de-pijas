@@ -57,7 +57,7 @@ class Player : public PhysicsEntity {
     void decreaseWeaponAngle();
     void startShot();
     void endShot();
-    void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
@@ -66,10 +66,11 @@ class Player : public PhysicsEntity {
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
     const std::list<Bullet> &getBullets() const;
+    void cleanBullets();
     /**
      * calls weapon's onExplode and get new bullets if is necesary.
      */
-    void onExplode(); // TODO return the list with move semantics
+    void onExplode(const Bullet &bullet, Physics &physics); // TODO return the list with move semantics
     /**
      * Add observer to all bullets.
      * @param obs
@@ -93,6 +94,7 @@ class Player : public PhysicsEntity {
     int numBulletContacs{0};
     float safeFallDistance{2.0f};
     float maxFallDamage{25.0f};
+    bool removeBullets{false};
 };
 }  // namespace Worms
 

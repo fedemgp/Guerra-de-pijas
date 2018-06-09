@@ -6,6 +6,7 @@
 #define __GAME_STATE_MSG_H__
 
 #define WORMS_QUANTITY 20
+#define BULLETS_QUANTITY 7
 // TODO move this in client and Server global Config
 #define POWER_CHARGE_TIME 5.0f
 
@@ -28,7 +29,9 @@ enum class StateID {
     Falling,
     Land
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly };
+enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly,
+    WExplode, WFragment
+};
 }  // namespace Worm
 
 namespace IO {
@@ -57,7 +60,7 @@ enum class PlayerInput {
 };
 // TODO protocol?
 struct GameStateMsg {
-    uint8_t elapsedTurnSeconds;
+    double elapsedTurnSeconds;
     uint8_t currentWorm;
     uint8_t currentWormToFollow;
     uint8_t num_worms;
@@ -67,11 +70,13 @@ struct GameStateMsg {
     Worm::StateID stateIDs[WORMS_QUANTITY];
     Worm::WeaponID activePlayerWeapon;
     float activePlayerAngle;
-    bool shoot;
-    float bullet[2];
-    float bulletAngle;
+    uint8_t bulletsQuantity;
+    float bullets[2 * BULLETS_QUANTITY];
+    float bulletsAngle[BULLETS_QUANTITY];
+    Worm::WeaponID bulletType[BULLETS_QUANTITY];
+
     bool processingInputs;
-    float currentPlayerTurnTime;
+    double currentPlayerTurnTime;
     char currentTeam;
 };
 }  // namespace IO

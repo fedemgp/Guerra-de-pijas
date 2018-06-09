@@ -31,6 +31,6 @@ void Weapon::Mortar::endShot(){
 
 void Weapon::Mortar::setTimeout(uint8_t time) {}
 
-std::list<Worms::Bullet> Weapon::Mortar::onExplode() {
+std::list<Worms::Bullet> Weapon::Mortar::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }

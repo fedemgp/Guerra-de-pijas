@@ -15,6 +15,6 @@ void Subject::removeObserver(Observer *obs) {
 
 void Subject::notify(const Worms::PhysicsEntity &entity, Event event) {
     for (auto &observer : this->observers) {
-        observer->onNotify(entity, event);
+         observer->onNotify(entity, event);
     }
 }

@@ -6,6 +6,7 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
+#include <list>
 #include <vector>
 
 #include "../server/Stage.h"  //TODO check this
@@ -40,7 +41,7 @@ class Game {
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
-    std::shared_ptr<Ammo::Bullet> bullet{nullptr};
+    std::list<std::shared_ptr<Ammo::Bullet>> bullets;
     IO::GameStateMsg snapshot{0};
     Camera cam;
     Font font;

@@ -19,9 +19,10 @@ class Cluster : public Worms::Weapon {
     void startShot() override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
-    std::list<Worms::Bullet> onExplode() override;
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
 
    private:
+    const Game::Weapon::Config &fragmentConfig;
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

@@ -32,6 +32,6 @@ void Weapon::Holy::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 // TODO add bullets
-std::list<Worms::Bullet> Weapon::Holy::onExplode() {
+std::list<Worms::Bullet> Weapon::Holy::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }

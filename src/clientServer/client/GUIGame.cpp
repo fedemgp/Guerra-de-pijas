@@ -118,6 +118,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::PowerBar,
                            "src/clientServer/assets/img/Effects/blob.png",
                            GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Fragment,
+                           "src/clientServer/assets/img/Weapons/clustlet.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -182,26 +185,42 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
 
-            if (this->snapshot.shoot) {
-                if (this->bullet == nullptr) {
-                    this->bullet = std::shared_ptr<Ammo::Bullet>(
-                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
+            if (this->snapshot.bulletsQuantity > 0){
+//                if (this->bullets == nullptr) {
+//                    this->bullet = std::shared_ptr<Ammo::Bullet>(
+//                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
+//                }
+                for (int i = this->bullets.size();
+                     i < this->snapshot.bulletsQuantity; i++){
+                std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(this->texture_mgr,
+                                                this->snapshot.bulletType[i]));
+                    this->bullets.emplace_back(p);
                 }
-                this->bullet->setAngle(this->snapshot.bulletAngle);
-            } else {
-                if (this->bullet != nullptr) {
-                    this->bullet->madeImpact();
+                int i = 0;
+                for (auto &bullet : this->bullets){
+                    if (!bullet->exploding()){
+                        if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode){
+                            bullet->madeImpact();
+                        }
+                        bullet->setAngle(this->snapshot.bulletsAngle[i++]);
+                    }
                 }
             }
+//            } else {
+//
+//                if (this->bullet != nullptr) {
+//                    this->bullet->madeImpact();
+//                }
+//            }
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
             prev = current;
 
             /* move the camera to the current player */
-            if (this->snapshot.shoot) {
-                float cur_x = this->snapshot.bullet[0];
-                float cur_y = this->snapshot.bullet[1];
+            if (this->snapshot.bulletsQuantity > 0) {
+                float cur_x = this->snapshot.bullets[0];
+                float cur_y = this->snapshot.bullets[1];
 
                 this->cam.moveTo(GUI::Position{cur_x, cur_y});
             } else {
@@ -227,6 +246,11 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
 }
 
 void GUI::Game::update(float dt) {
+    /**
+     * remove all finished bullets animation
+     */
+    this->bullets.remove_if(Ammo::ExplotionChekcer());
+
     for (auto &worm : this->worms) {
         worm.health = this->snapshot.wormsHealth[static_cast<int>(worm.id)];
         worm.update(dt);
@@ -234,8 +258,11 @@ void GUI::Game::update(float dt) {
 
     this->cam.update(dt);
 
-    if (this->bullet != nullptr) {
-        this->bullet->update(dt);
+//    if (this->bullet != nullptr) {
+//        this->bullet->update(dt);
+//    }
+    for (auto &bullet : this->bullets){
+        bullet->update(dt);
     }
 }
 
@@ -259,17 +286,28 @@ void GUI::Game::render() {
         wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
     }
 
-    if (this->bullet != nullptr) {
-        float local_x = this->snapshot.bullet[0];
-        float local_y = this->snapshot.bullet[1];
-        if (!this->bullet->exploding()) {
-            this->bullet->setAngle(this->snapshot.bulletAngle);
-            this->bullet->setPosition(GUI::Position{local_x, local_y});
+//    if (this->bullet != nullptr) {
+//        float local_x = this->snapshot.bullet[0];
+//        float local_y = this->snapshot.bullet[1];
+//        if (!this->bullet->exploding()) {
+//            this->bullet->setAngle(this->snapshot.bulletAngle);
+//            this->bullet->setPosition(GUI::Position{local_x, local_y});
+//        }
+//        this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
+//        //TODO make observer pattern to clean this
+//        if (this->bullet->exploded()) {
+//            this->bullet = nullptr;
+//        }
+//    }
+    int i = 0, j = 0;
+    for (auto &bullet : this->bullets){
+        float local_x = this->snapshot.bullets[i];
+        float local_y = this->snapshot.bullets[i + 1];
+        if (!bullet->exploding()){
+            bullet->setAngle(this->snapshot.bulletsAngle[j]);
+            bullet->setPosition(GUI::Position{local_x, local_y});
         }
-        this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
-        if (this->bullet->exploded()) {
-            this->bullet = nullptr;
-        }
+        bullet->render(GUI::Position{local_x, local_y}, this->cam);
     }
 
     /* health bars are renderer after the worms so they appear on top */

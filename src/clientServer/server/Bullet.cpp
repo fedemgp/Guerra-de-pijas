@@ -10,8 +10,8 @@
 #include "Config.h"
 #include "Weapon.h"
 
-Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics)
-    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics) {
+Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics), weaponID(weapon){
     float distance = info.safeNonContactDistance + this->radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
@@ -36,8 +36,8 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics)
     this->damageInfo = info.dmgInfo;
 
     this->timeout = info.explotionTimeout;
+    this->explodeEvent = info.explodeEvent;
 }
-
 
 void Worms::Bullet::update(float dt, Weapon &w) {
     this->timeElapsed += dt;
@@ -57,7 +57,8 @@ void Worms::Bullet::update(float dt, Weapon &w) {
     }
 
     if (this->hasExploded()) {
-        this->notify(*this, Event::Explode);
+        this->notify(*this, this->explodeEvent);
+        this->weaponID = Worm::WeaponID::WExplode;
     }
 }
 
@@ -91,6 +92,14 @@ bool Worms::Bullet::hasExploded() const {
     }
 }
 
-Worms::DamageInfo Worms::Bullet::getDamageInfo() const {
+Game::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
     return this->damageInfo;
+}
+
+bool Worms::Bullet::operator<(Worms::Bullet &other){
+    return this->timeElapsed > other.timeElapsed;
+}
+
+Worm::WeaponID Worms::Bullet::getWeaponID() const{
+    return this->weaponID;
 }

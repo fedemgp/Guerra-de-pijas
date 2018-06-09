@@ -32,6 +32,6 @@ void Weapon::Banana::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 
-std::list<Worms::Bullet> Weapon::Banana::onExplode() {
+std::list<Worms::Bullet> Weapon::Banana::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }

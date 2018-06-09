@@ -16,11 +16,17 @@ using Vector = Math::Point<float>;
 }
 
 namespace Game {
-namespace Weapon {
+    namespace Bullet{
+        struct DamageInfo {
+            uint16_t damage;
+            float radius;
+        };
+    } //namespaces Bullet
+
+    namespace Weapon {
 struct Config {
    public:
-    uint16_t damage;
-    float damageRadius;
+    Bullet::DamageInfo dmgInfo;
     float minAngle;
     float maxAngle;
     float angleStep;
@@ -28,8 +34,10 @@ struct Config {
     float restitution;
     float friction;
     uint8_t explotionInitialTimeout;
-};
+    bool hasAfterExplode;
+    };
 }  // namespace Weapon
+
    /**
     *  Singleton class with all the game configuration (Velocity constants,
     *  Weapons attributes, etc)
@@ -59,10 +67,12 @@ class Config {
 
     const Weapon::Config &getBazookaConfig() const;
     const Weapon::Config &getGreenGrenadeConfig() const;
+    const uint8_t getClusterFragmentQuantity() const;
     const Weapon::Config &getClusterConfig() const;
     const Weapon::Config &getMortarConfig() const;
     const Weapon::Config &getBananaConfig() const;
     const Weapon::Config &getHolyConfig() const;
+    const Weapon::Config &getClusterFragmentConfig() const;
 
    private:
     /**
@@ -93,26 +103,32 @@ class Config {
     int waterLevel{WATER_LEVEL};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
-    Weapon::Config bazooka{
-        BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, BAZOOKA_MIN_ANGLE,   BAZOOKA_MAX_ANGLE,
+    Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS},
+                           BAZOOKA_MIN_ANGLE,   BAZOOKA_MAX_ANGLE,
         ANGLE_STEP,     MAX_SHOT_POWER,        BAZOOKA_RESTITUTION, BAZOOKA_FRCTION,
-        BAZOOKA_INITIAL_TIMEOUT};
-    Weapon::Config greenGrenade{GRENADE_DAMAGE,      GRENADE_RADIUS, GRENADE_MIN_ANGLE,
+        BAZOOKA_INITIAL_TIMEOUT, false};
+    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS}, GRENADE_MIN_ANGLE,
                                 GRENADE_MAX_ANGLE,   ANGLE_STEP,     MAX_SHOT_POWER,
                                 GRENADE_RESTITUTION, GRENADE_FRCTION,
-                                GRENADE_INITIAL_TIMEOUT};
-    Weapon::Config cluster{CLUSTER_DAMAGE, CLUSTER_RADIUS, CLUSTER_MIN_ANGLE,   CLUSTER_MAX_ANGLE,
+                                GRENADE_INITIAL_TIMEOUT, false};
+    uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
+    Weapon::Config clusterFragments{Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS},
+                                    CLUSTER_FRAGMENT_MIN_ANGLE, CLUSTER_FRAGMENT_MAX_ANGLE,
+                                    CLUSTER_FRAGMENT_ANGLE_STEP, CLUSTER_FRAGMENT_SHOT_POWER,
+                                    CLUSTER_FRAGMENT_RESTITUTION, CLUSTER_FRAGMENT_FRICTION,
+                                    CLUSTER_FRAGMENT_TIMEOUT, false};
+    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS}, CLUSTER_MIN_ANGLE,   CLUSTER_MAX_ANGLE,
                            ANGLE_STEP,     MAX_SHOT_POWER, CLUSTER_RESTITUTION, CLUSTER_FRCTION,
-                           CLUSTER_INITIAL_TIMEOUT};
-    Weapon::Config mortar{MORTAR_DAMAGE, MORTAR_RADIUS,  MORTAR_MIN_ANGLE,   MORTAR_MAX_ANGLE,
+                           CLUSTER_INITIAL_TIMEOUT, true};
+    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},  MORTAR_MIN_ANGLE,   MORTAR_MAX_ANGLE,
                           ANGLE_STEP,    MAX_SHOT_POWER, MORTAR_RESTITUTION, MORTAR_FRCTION,
-                          MORTAR_INITIAL_TIMEOUT};
-    Weapon::Config banana{BANANA_DAMAGE, BANANA_RADIUS,  BANANA_MIN_ANGLE,   BANANA_MAX_ANGLE,
+                          MORTAR_INITIAL_TIMEOUT, false};
+    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},  BANANA_MIN_ANGLE,   BANANA_MAX_ANGLE,
                           ANGLE_STEP,    MAX_SHOT_POWER, BANANA_RESTITUTION, BANANA_FRCTION,
-                          BANANA_INITIAL_TIMEOUT};
-    Weapon::Config holy{HOLY_DAMAGE, HOLY_RADIUS,    HOLY_MIN_ANGLE,   HOLY_MAX_ANGLE,
+                          BANANA_INITIAL_TIMEOUT, false};
+    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS},    HOLY_MIN_ANGLE,   HOLY_MAX_ANGLE,
                         ANGLE_STEP,  MAX_SHOT_POWER, HOLY_RESTITUTION, HOLY_FRCTION,
-                        HOLY_INITIAL_TIMEOUT};
+                        HOLY_INITIAL_TIMEOUT, false};
 };
 }  // namespace Game
 

@@ -6,18 +6,16 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
+#include <GameStateMsg.h>
+#include "Config.h"
 #include "Observer.h"
 #include "Physics.h"
 #include "PhysicsEntity.h"
 #include "Point.h"
 
 namespace Worms {
-struct DamageInfo {
-    uint16_t damage;
-    float radius;
-};
 struct BulletInfo {
-    DamageInfo dmgInfo;
+    Game::Bullet::DamageInfo dmgInfo;
     Math::Point<float> point;
     float angle;
     float power;
@@ -25,6 +23,7 @@ struct BulletInfo {
     float restitution;
     float friction;
     uint8_t explotionTimeout;
+    Event explodeEvent;
 };
 /**
  * forward declaration of weapon.
@@ -32,7 +31,7 @@ struct BulletInfo {
 class Weapon;
 class Bullet : public PhysicsEntity {
    public:
-    Bullet(BulletInfo &i, Worms::Physics &physics);
+    Bullet(BulletInfo &i, Worms::Physics &physics, Worm::WeaponID weaponID);
     ~Bullet();
     /**
      * Apply initial impulse in the first iteration, or estimate the
@@ -58,9 +57,11 @@ class Bullet : public PhysicsEntity {
      * @return
      */
     bool hasExploded() const;
-    DamageInfo getDamageInfo() const;
+    ::Game::Bullet::DamageInfo getDamageInfo() const;
+    bool operator<(Worms::Bullet &other);
+    Worm::WeaponID getWeaponID() const;
 
-   private:
+private:
     b2Body *body{nullptr};
     b2BodyDef bodyDef;
     b2CircleShape shape;
@@ -72,8 +73,10 @@ class Bullet : public PhysicsEntity {
     uint16_t timeout{0};
     float timeElapsed{0.0f};
     float power{0};
-    DamageInfo damageInfo;
+    Game::Bullet::DamageInfo damageInfo;
     bool madeImpact{false};
+    Event explodeEvent{Event::Explode};
+    Worm::WeaponID weaponID;
 };
 
 struct ExplosionChecker {

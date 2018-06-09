@@ -8,7 +8,7 @@
 
 Weapon::Cluster::Cluster(float angle)
     : Worms::Weapon(Game::Config::getInstance().getClusterConfig(), Worm::WeaponID::WCluster,
-                    angle) {
+                    angle), fragmentConfig(Game::Config::getInstance().getClusterFragmentConfig()) {
     this->powerChargeTime = Game::Config::getInstance().getPowerChargeTime();
 }
 
@@ -25,7 +25,7 @@ void Weapon::Cluster::startShot() {
 }
 
 void Weapon::Cluster::endShot(){
-    this->increaseShotPower = false;
+      this->increaseShotPower = false;
     this->shotPower = 0;
 }
 
@@ -33,6 +33,30 @@ void Weapon::Cluster::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 // TODO add bullets in this implementation
-std::list<Worms::Bullet> Weapon::Cluster::onExplode() {
-    return std::move(std::list<Worms::Bullet>());
+std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
+    uint8_t fragmentQuantity = Game::Config::getInstance()
+            .getClusterFragmentQuantity();
+    Worms::BulletInfo bulletInfo = {this->fragmentConfig.dmgInfo,
+                           mainBullet.getPosition(),90,
+                           (float)this->fragmentConfig.maxShotPower,
+                           1, this->fragmentConfig.restitution,
+                           this->fragmentConfig.friction,
+                           this->fragmentConfig.explotionInitialTimeout,
+                                    Event::Explode};
+//    {
+//        Game::Bullet::DamageInfo dmgInfo;
+//        Math::Point<float> point;
+//        float angle;
+//        float power;
+//        float safeNonContactDistance;
+//        float restitution;
+//        float friction;
+//        uint8_t explotionTimeout;
+//    };
+    std::list<Worms::Bullet> ret;
+    for (int i = 0; i < fragmentQuantity; i++){
+        ret.emplace_back(bulletInfo, physics, Worm::WeaponID::WFragment);
+    }
+
+    return std::move(ret);
 }

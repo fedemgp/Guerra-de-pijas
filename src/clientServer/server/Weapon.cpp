@@ -50,7 +50,7 @@ void Worms::Weapon::checkBoundaryAngles() {
 }
 
 Worms::BulletInfo Worms::Weapon::getBulletInfo() {
-    return Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius},
+    return Worms::BulletInfo{this->config.dmgInfo,
                              Math::Point<float>{0, 0},
                              angle,
                              this->shotPower,
@@ -58,5 +58,7 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
                              this->config.restitution,
                              this->config.friction,
                              this->timeLimit,
+                             this->config.hasAfterExplode ? Event::OnExplode :
+                                Event::Explode
     };
 }

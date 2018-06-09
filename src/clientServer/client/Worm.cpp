@@ -267,6 +267,10 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
                 break;
+            case WeaponID::WExplode:
+                break;
+            case WeaponID::WFragment:
+                break;
         }
     }
 }

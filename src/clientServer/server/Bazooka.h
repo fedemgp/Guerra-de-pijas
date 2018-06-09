@@ -17,7 +17,7 @@ class Bazooka : public Worms::Weapon {
     void startShot() override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
-    std::list<Worms::Bullet> onExplode() override;
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
 
    private:
     float powerChargeTime{0.0f};

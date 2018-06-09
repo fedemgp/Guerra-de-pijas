@@ -7,6 +7,7 @@
 #define __Bullet_h__
 
 #include <GameStateMsg.h>
+#include <memory>
 
 #include "Animation.h"
 #include "Explosion.h"
@@ -38,6 +39,12 @@ class Bullet {
     Worm::Explosion explosion;
     bool explode{false};
 };
+
+    struct ExplotionChekcer{
+        bool operator()(std::shared_ptr<Bullet> &bullet) {
+            return bullet->exploded();
+        }
+    };
 }
 
 #endif  //__Bullet_H__
