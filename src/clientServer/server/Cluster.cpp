@@ -4,7 +4,6 @@
  */
 
 #include "Cluster.h"
-#include "Player.h"
 
 Weapon::Cluster::Cluster(float angle)
     : Worms::Weapon(Game::Config::getInstance().getClusterConfig(), Worm::WeaponID::WCluster,
@@ -40,7 +39,7 @@ std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBul
     Worms::BulletInfo bulletInfo = {this->fragmentConfig.dmgInfo,
                            p,this->fragmentConfig.minAngle,
                            (float)this->fragmentConfig.maxShotPower,
-                           2.0f, this->fragmentConfig.restitution,
+                            this->fragmentConfig.bulletRadius * 6, this->fragmentConfig.restitution,
                            this->fragmentConfig.friction,
                            this->fragmentConfig.explotionInitialTimeout,
                                     Event::Explode, this->fragmentConfig.bulletRadius, this->fragmentConfig.bulletDampingRatio};
