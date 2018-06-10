@@ -11,7 +11,7 @@
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
-#include "Drown.h"
+#include "Drowning.h"
 #include "Falling.h"
 #include "GameStateMsg.h"
 #include "Grenade.h"
@@ -30,6 +30,7 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "Drowned.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     : id(id), texture_mgr(texture_mgr), animation(texture_mgr.get(GUI::GameTextures::WormIdle)) {
@@ -175,9 +176,11 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
-        case StateID::Drown:
+        case StateID::Drowning:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   DROWN_CENTER_FRAME, false};
+        case StateID::Drowned:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
         case StateID::Dead:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
     }
@@ -226,8 +229,11 @@ void Worm::Worm::setState(StateID state) {
             case StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
                 break;
-            case StateID::Drown:
-                this->state = std::shared_ptr<State>(new Drown());
+            case StateID::Drowning:
+                this->state = std::shared_ptr<State>(new Drowning());
+                break;
+            case StateID::Drowned:
+                this->state = std::shared_ptr<State>(new Drowned());
                 break;
             case StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());

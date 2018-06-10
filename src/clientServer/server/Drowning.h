@@ -10,10 +10,10 @@
 #include "PlayerState.h"
 
 namespace Worms {
-class Drown : public State {
+class Drowning : public State {
    public:
-    Drown();
-    ~Drown() = default;
+    Drowning();
+    ~Drowning() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
     void moveLeft(Player &p) override;

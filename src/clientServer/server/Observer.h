@@ -6,7 +6,8 @@
 #ifndef __OBSERVER_H__
 #define __OBSERVER_H__
 
-enum class Event { Explode, OnExplode, Shot };
+enum class Event { Explode, OnExplode, Shot, Drowning, Drowned
+};
 
 namespace Worms {
 class PhysicsEntity;

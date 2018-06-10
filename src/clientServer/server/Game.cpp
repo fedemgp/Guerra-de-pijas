@@ -84,13 +84,7 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 this->currentPlayerShot = true;
             }
             if (this->currentTurnElapsed >= this->currentPlayerTurnTime) {
-                bool anyWormDrowning = false;
-                for (auto &worm : this->players) {
-                    if (worm.getStateId() == Worm::StateID::Drown) {
-                        anyWormDrowning = true;
-                    }
-                }
-                if (!this->shotOnCourse && !anyWormDrowning) {
+                if (!this->shotOnCourse && this->drowningWormsQuantity == 0) {
                     if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
                         this->players[this->currentWorm].setState(Worm::StateID::Still);
                     }
@@ -215,19 +209,6 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
         m.bulletType[j++] = bullet.getWeaponID();
     }
 
-//    if (this->players[this->currentWorm].getBullets().size() > 0) {
-//        m.shoot = true;
-//        Math::Point<float> p = this->players[this->currentWorm].getBullets().begin()->getPosition();
-//        m.bullet[0] = p.x;
-//        m.bullet[1] = p.y;
-//        m.bulletAngle = this->players[this->currentWorm].getBullets().begin()->getAngle();
-//    } else {
-//        m.shoot = false;
-//        m.bullet[0] = 0;
-//        m.bullet[1] = 0;
-//        m.bulletAngle = 0;
-//    }
-
     m.processingInputs = this->processingClientInputs;
 
     s << m;
@@ -265,6 +246,14 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
             this->calculateDamage(bullet);
             this->players[this->currentWorm].onExplode(bullet, this->physics);
             this->players[this->currentWorm].addObserverToBullets(this);
+            break;
+        }
+        case Event::Drowning: {
+            this->drowningWormsQuantity++;
+            break;
+        }
+        case Event::Drowned: {
+            this->drowningWormsQuantity--;
             break;
         }
     }

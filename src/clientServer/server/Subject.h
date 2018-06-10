@@ -14,8 +14,6 @@ class Subject {
    public:
     void addObserver(Observer *obs);
     void removeObserver(Observer *obs);
-
-   protected:
     /**
      * Notify all observers with the Event id, so the Observer can do
      * what is necessary

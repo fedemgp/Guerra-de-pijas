@@ -56,6 +56,7 @@ class Game : Observer {
     std::list<Bullet> bullets;
 
     std::vector<uint8_t> deadTeams;
+    uint8_t drowningWormsQuantity{0};
 };
 }  // namespace Worms
 
