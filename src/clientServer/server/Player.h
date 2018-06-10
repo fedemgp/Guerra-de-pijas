@@ -16,6 +16,7 @@
 #include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
+#include "TouchSensor.h"
 #include "Weapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
@@ -33,6 +34,11 @@ class Player : public PhysicsEntity {
     explicit Player(Physics &physics);
     ~Player() = default;
 
+    /* contact handlers */
+    virtual void contactWith(PhysicsEntity &other, b2Contact &contact);
+
+    bool isOnGround() const;
+
     void update(float dt);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
@@ -40,10 +46,6 @@ class Player : public PhysicsEntity {
     void handleState(IO::PlayerInput pi);
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
-    int getContactCount();
-    int getWormContactCount();
-    void startContact(Worms::PhysicsEntity *physicsEntity) override;
-    void endContact(Worms::PhysicsEntity *physicsEntity) override;
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
     void setWeapon(const Worm::WeaponID &id);
@@ -62,19 +64,22 @@ class Player : public PhysicsEntity {
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
 
+    bool operator!=(const Player &other);
+    bool operator==(const Player &other);
+
    private:
+    b2Body *createBody(b2BodyType type);
+
+    b2Body *body{nullptr};
+    b2Body *body_kinematic{nullptr};
+    TouchSensor *footSensor;
+
     std::shared_ptr<Worms::State> state{nullptr};
     std::shared_ptr<Worms::Weapon> weapon{nullptr};
-    b2Body *body{nullptr};
-    b2BodyDef bodyDef;
-    b2PolygonShape shape;
-    b2FixtureDef fixture;
     Physics &physics;
     const int waterLevel;
-    int numContacts{0};
     uint8_t team;
     uint8_t id;
-    int numWormContacts{0};
     int numBulletContacs{0};
     float safeFallDistance{2.0f};
     float maxFallDamage{25.0f};

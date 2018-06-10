@@ -29,8 +29,10 @@ void Worms::StartJump::update(Player &p, float dt, b2Body *body) {
              */
             body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
             this->impulseApplied = true;
-        } else if (p.getContactCount() == 0) {
+        } else if (!p.isOnGround()) {
             p.setState(Worm::StateID::Jumping);
+        } else if (this->timeElapsed > 0.9f) {
+            p.setState(Worm::StateID::Still);
         }
     }
 }
@@ -65,4 +67,4 @@ void Worms::StartJump::banana(Worms::Player &p) {}
 
 void Worms::StartJump::holy(Worms::Player &p) {}
 
-void Worms::StartJump::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::StartJump::setTimeout(Worms::Player &p, uint8_t time) {}

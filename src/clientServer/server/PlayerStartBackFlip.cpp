@@ -27,8 +27,10 @@ void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
              */
             body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
             this->impulseApplied = true;
-        } else if (p.getContactCount() == 0) {
+        } else if (!p.isOnGround()) {
             p.setState(Worm::StateID::BackFlipping);
+        } else if (this->timeElapsed > 0.9f) {
+            p.setState(Worm::StateID::Still);
         }
     }
 }
@@ -63,4 +65,4 @@ void Worms::StartBackFlip::banana(Worms::Player &p) {}
 
 void Worms::StartBackFlip::holy(Worms::Player &p) {}
 
-void Worms::StartBackFlip::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::StartBackFlip::setTimeout(Worms::Player &p, uint8_t time) {}

@@ -4,12 +4,10 @@
 
 #include "Falling.h"
 
-Worms::Falling::Falling(GUI::Position p)
-        : State(Worm::StateID::Falling),
-          startPosition(p) {}
+Worms::Falling::Falling(GUI::Position p) : State(Worm::StateID::Falling), startPosition(p) {}
 
 void Worms::Falling::update(Player &p, float dt, b2Body *body) {
-    if (p.getContactCount() > 0) {
+    if (p.isOnGround()) {
         p.setState(Worm::StateID::Land);
         p.landDamage(this->startPosition.y - p.getPosition().y);
     }

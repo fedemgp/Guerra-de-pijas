@@ -34,37 +34,80 @@ Worms::Player::Player(Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtWorm),
       physics(physics),
       waterLevel(Game::Config::getInstance().getWaterLevel()) {
-    this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(0.0f, 0.0f);
-    this->bodyDef.fixedRotation = true;
+    /* creates 2 bodies so players cannot move each other */
+    this->body = this->createBody(b2_dynamicBody);
+    this->body_kinematic = this->createBody(b2_kinematicBody);
 
-    this->body = this->physics.createBody(this->bodyDef);
-    this->shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
-    this->fixture.shape = &this->shape;
-    this->fixture.density = 1.0f;
-    this->fixture.restitution = 0.1f;
-    this->fixture.friction = 0.0f;
-
-    this->body->CreateFixture(&this->fixture);
-    this->body->SetUserData(this);
-
-    this->state = std::shared_ptr<State>(new Still());
-    this->direction = Direction::left;
-    this->lastWalkDirection = this->direction;
+    b2PolygonShape shape;
+    shape.SetAsBox(PLAYER_WIDTH / 2, 0.2f, b2Vec2{0, -PLAYER_HEIGHT / 2}, 0);
+    this->footSensor = new TouchSensor{*this->body, shape, -1};
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
 }
 
+/**
+ * @brief "Not equal" operator.
+ *
+ * @param other Other instance to compare.
+ * @return true if not equal.
+ */
+bool Worms::Player::operator!=(const Player &other) {
+    return !(*this == other);
+}
+
+/**
+ * @brief Comparisson operator.
+ *
+ * @param other Other instance to compare.
+ * @return true if equal.
+ */
+bool Worms::Player::operator==(const Player &other) {
+    return (this->id == other.id) && (this->team == other.team);
+}
+
+/**
+ * @brief Handles player-entity contact.
+ *
+ * @param other Other player that made contact.
+ * @param contact box2D collision contact.
+ */
+void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
+    if (entity.getEntityId() != Worms::EntityID::EtWorm) {
+        return;
+    }
+
+    /* checks if it's the player itself */
+    if (&entity == this) {
+        /* checks if it's the kinematic and dynamic bodies cooliding */
+        if (contact.GetFixtureA()->GetBody()->GetType() !=
+            contact.GetFixtureB()->GetBody()->GetType()) {
+            contact.SetEnabled(false);
+        }
+    }
+}
+
 void Worms::Player::update(float dt) {
+    /* sets the kinematic body to the position of the dynamic body */
+    this->body_kinematic->SetTransform(this->body->GetTransform().p, this->body->GetAngle());
+
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
 
-    if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
-        this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drown) {
+    if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
+        this->getStateId() != Worm::StateID::Drown) {
         this->health = 0.0f;
         this->setState(Worm::StateID::Drown);
     }
+}
+
+/**
+ * @brief Whether the player is touching the ground or not.
+ *
+ * @return true is touching the ground.
+ */
+bool Worms::Player::isOnGround() const {
+    return this->footSensor->isActive();
 }
 
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
@@ -153,7 +196,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
         this->body->SetType(b2_dynamicBody);
         switch (stateID) {
             case Worm::StateID::Still:
-//                this->body->SetType(b2_staticBody);
+                //                this->body->SetType(b2_staticBody);
                 this->state = std::shared_ptr<State>(new Still());
                 break;
             case Worm::StateID::Walk:
@@ -198,52 +241,6 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
         }
     }
-}
-
-void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity) {
-    if (physicsEntity != nullptr) {
-        switch (physicsEntity->getEntityId()) {
-            case EntityID::EtWorm:
-                this->numWormContacts++;
-                if (this->getStateId() == Worm::StateID::Walk) {
-                    this->canWalk = false;
-                }
-                break;
-            case EntityID::EtBullet:
-                this->numBulletContacs++;
-                break;
-        }
-    } else {
-        this->numContacts++;
-    }
-}
-
-void Worms::Player::endContact(Worms::PhysicsEntity *physicsEntity) {
-    if (physicsEntity != nullptr) {
-        switch (physicsEntity->getEntityId()) {
-            case EntityID::EtWorm:
-                if (this->numWormContacts > 0) {
-                    this->numWormContacts--;
-                }
-                break;
-            case EntityID::EtBullet:
-                if (this->numBulletContacs > 0) {
-                    this->numBulletContacs--;
-                }
-                break;
-        }
-    } else {
-        if (this->numContacts > 0) {
-            this->numContacts--;
-        }
-    }
-//    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() == Worm::StateID::Still) {
-//        this->setState(Worm::StateID::Falling);
-//    }
-}
-
-int Worms::Player::getContactCount() {
-    return this->numContacts;
 }
 
 std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
@@ -357,12 +354,8 @@ uint8_t Worms::Player::getId() const {
     return this->id;
 }
 
-void Worms::Player::setWeaponTimeout(uint8_t time){
+void Worms::Player::setWeaponTimeout(uint8_t time) {
     this->weapon->setTimeout(time);
-}
-
-int Worms::Player::getWormContactCount() {
-    return this->numWormContacts;
 }
 
 void Worms::Player::landDamage(float yDistance) {
@@ -372,4 +365,28 @@ void Worms::Player::landDamage(float yDistance) {
             this->setState(Worm::StateID::Die);
         }
     }
+}
+
+/**
+ * @brief Creates a player's body with the given type.
+ *
+ * @param type Body type.
+ * @return Created body.
+ */
+b2Body *Worms::Player::createBody(b2BodyType type) {
+    b2BodyDef bodyDef;
+    bodyDef.type = type;
+    bodyDef.position.Set(0.0f, 0.0f);
+    bodyDef.fixedRotation = true;
+    b2Body *new_body = this->physics.createBody(bodyDef);
+    b2PolygonShape shape;
+    shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    b2FixtureDef fixture;
+    fixture.shape = &shape;
+    fixture.density = 1.0f;
+    fixture.restitution = 0.1f;
+    fixture.friction = 1.0f;
+    new_body->CreateFixture(&fixture);
+    new_body->SetUserData(this);
+    return new_body;
 }
