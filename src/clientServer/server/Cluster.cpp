@@ -36,10 +36,11 @@ void Weapon::Cluster::setTimeout(uint8_t time) {
 std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
     uint8_t fragmentQuantity = Game::Config::getInstance()
             .getClusterFragmentQuantity();
+    Math::Point<float> p = mainBullet.getPosition();
     Worms::BulletInfo bulletInfo = {this->fragmentConfig.dmgInfo,
-                           mainBullet.getPosition(),90,
+                           p,this->fragmentConfig.minAngle,
                            (float)this->fragmentConfig.maxShotPower,
-                           1, this->fragmentConfig.restitution,
+                           2.0f, this->fragmentConfig.restitution,
                            this->fragmentConfig.friction,
                            this->fragmentConfig.explotionInitialTimeout,
                                     Event::Explode};
@@ -53,8 +54,10 @@ std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBul
 //        float friction;
 //        uint8_t explotionTimeout;
 //    };
+
     std::list<Worms::Bullet> ret;
     for (int i = 0; i < fragmentQuantity; i++){
+        bulletInfo.angle += (i * this->fragmentConfig.angleStep);
         ret.emplace_back(bulletInfo, physics, Worm::WeaponID::WFragment);
     }
 

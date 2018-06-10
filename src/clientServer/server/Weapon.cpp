@@ -59,6 +59,7 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
                              this->config.friction,
                              this->timeLimit,
                              this->config.hasAfterExplode ? Event::OnExplode :
-                                Event::Explode
+                                Event::Explode,
+                             this->config.bulletRadius
     };
 }

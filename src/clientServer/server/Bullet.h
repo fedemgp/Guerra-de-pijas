@@ -24,6 +24,7 @@ struct BulletInfo {
     float friction;
     uint8_t explotionTimeout;
     Event explodeEvent;
+    float radius;
 };
 /**
  * forward declaration of weapon.
@@ -69,7 +70,6 @@ private:
     Worms::Physics &physics;
     float angle{0};
     bool impulseApplied{false};
-    float radius{0.5f};
     uint16_t timeout{0};
     float timeElapsed{0.0f};
     float power{0};

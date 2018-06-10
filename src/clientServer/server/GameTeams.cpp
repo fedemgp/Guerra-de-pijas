@@ -17,10 +17,10 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
         playersNum[i] = i;
     }
 
-    std::random_device rnd_device;
-    std::mt19937 mersenne_engine(rnd_device());
-
-    shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
+//    std::random_device rnd_device;
+//    std::mt19937 mersenne_engine(rnd_device());
+//
+//    shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
 
     uint8_t maxTeamPlayers =
         (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;

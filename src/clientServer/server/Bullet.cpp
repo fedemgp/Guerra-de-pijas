@@ -12,7 +12,7 @@
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics), weaponID(weapon){
-    float distance = info.safeNonContactDistance + this->radius;
+    float distance = info.safeNonContactDistance + info.radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
                                info.point.y + distance * sin(info.angle * PI / 180.0f));
@@ -20,7 +20,7 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
 
     this->body = this->physics.createBody(this->bodyDef);
     this->shape.m_p.Set(0.0f, 0.0f);
-    this->shape.m_radius = this->radius;
+    this->shape.m_radius = info.radius;
     this->fixture.shape = &this->shape;
     this->fixture.density = 1.0f;
     this->fixture.restitution = info.restitution;
@@ -29,7 +29,7 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
 
-    this->body->SetTransform(this->body->GetPosition(), info.angle);
+//    this->body->SetTransform(this->body->GetPosition(), info.angle);
 
     this->angle = info.angle;
     this->power = info.power;

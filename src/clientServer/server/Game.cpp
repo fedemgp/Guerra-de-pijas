@@ -208,7 +208,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
     m.bulletsQuantity = this->players[this->currentWorm].getBullets().size();
     uint8_t i = 0, j = 0;
     for (auto &bullet : this->players[this->currentWorm].getBullets()){
-        Math::Point<float> p = (*this->players[this->currentWorm].getBullets().begin()).getPosition();
+        Math::Point<float> p = bullet.getPosition();
         m.bullets[i++] = p.x;
         m.bullets[i++] = p.y;
         m.bulletsAngle[j] = bullet.getAngle();

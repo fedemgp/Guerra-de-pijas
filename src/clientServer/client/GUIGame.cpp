@@ -301,10 +301,10 @@ void GUI::Game::render() {
 //    }
     int i = 0, j = 0;
     for (auto &bullet : this->bullets){
-        float local_x = this->snapshot.bullets[i];
-        float local_y = this->snapshot.bullets[i + 1];
+        float local_x = this->snapshot.bullets[i++];
+        float local_y = this->snapshot.bullets[i++];
         if (!bullet->exploding()){
-            bullet->setAngle(this->snapshot.bulletsAngle[j]);
+            bullet->setAngle(this->snapshot.bulletsAngle[j++]);
             bullet->setPosition(GUI::Position{local_x, local_y});
         }
         bullet->render(GUI::Position{local_x, local_y}, this->cam);
