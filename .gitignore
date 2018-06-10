@@ -5,3 +5,5 @@ Enunciado/
 int/
 build/
 target/
+.gdb_history
+.vscode/
