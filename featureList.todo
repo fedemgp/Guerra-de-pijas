@@ -1,13 +1,13 @@
 Gusanos:
     Movimiento:
-       ☐ No empuja a otro mientras se desplaza
+       ✔ No empuja a otro mientras se desplaza @done (18-06-04 23:15) //TODO VER
        ✔ Se mueve a 2m/s @done (18-05-21 22:31)
     Salto:
        ✔ Apretando enter @done (18-05-21 22:31)
        ✔ salta 1m adelante y 0.5m de alto @done (18-05-21 22:31)
     Caida:
-       ☐ el gusano se daña cuando la caida es mayor a 2 metros
-       ☐ daño de 1 punto/m, maximo 25 puntos
+       ✔ el gusano se daña cuando la caida es mayor a 2 metros @done (18-06-04 23:15)
+       ✔ daño de 1 punto/m, maximo 25 puntos @done (18-06-04 23:15)
     Vuelta atras:
        ✔ Apretando retroceso @done (18-05-21 22:31)
        ✔ 0.2m atrás y 1.2m de alto @done (18-05-21 22:31)
@@ -115,7 +115,7 @@ Armas:
     ✔ La velocidad de disparo es proporcional a la potencia usada @done (18-06-03 03:16)
   Cuenta regresiva:
     ✔ Proyectiles que no explotan al momento del impacto @done (18-06-04 00:18)
-    ☐ Tiempo de la cuenta ajustable
+    ✔ Tiempo de la cuenta ajustable @done (18-06-04 23:13)
     ✔ Se ajusta el tiempo con las teclas 1,2,3,4 y 5 @done (18-06-04 00:41)
     ✔ Por defecto, la cuenta regresiva es de 5 @done (18-06-04 00:18)
   Teledirigido:
@@ -148,7 +148,7 @@ Armas:
 
 Tipos de armas:
   Bazooka:
-    ☐ Mira SI
+    ✔ Mira SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo NO @done (18-06-03 03:17)
     ✔ Potencia variable SI @done (18-06-03 03:17)
     ✔ Cuenta regresiva NO @done (18-06-03 03:17)
@@ -157,7 +157,7 @@ Tipos de armas:
     ☐ Municiones Infinitas
     ✔ Daño: 50 (epicentro); 2mts radio @done (18-06-03 03:18)
   Mortero:
-    ☐ Mira: SI
+    ✔ Mira: SI @done (18-06-04 23:14)
     ☐ Cuerpo a cuerpo: NO
     ✔ Potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: NO @done (18-06-03 03:18)
@@ -169,7 +169,7 @@ Tipos de armas:
       ☐ (cada fragmento) 10pts epicentro; 2mts radio
       ☐ Cantidad de fragmentos: 6
   Granada verde:
-    ☐ Mira: SI
+    ✔ Mira: SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: SI @done (18-06-04 00:18)
@@ -178,7 +178,7 @@ Tipos de armas:
     ✔ Municiones: Infinitas @done (18-06-03 03:18)
     ✔ Daño: 30pts centro, 2 mts radio @done (18-06-03 03:18)
   Granada roja:
-    ☐ Mira SI
+    ✔ Mira SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo NO @done (18-06-03 03:18)
     ✔ Potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: SI @done (18-06-04 00:18)
@@ -190,7 +190,7 @@ Tipos de armas:
       ☐ (fragmento) 10pts centro, 2mts radio
       ☐ Fragmentos: 6
   Banana:
-    ☐ Mira: SI
+    ✔ Mira: SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: SI @done (18-06-04 00:19)
@@ -200,7 +200,7 @@ Tipos de armas:
     ✔ Daño: 70pts centro, 4 mts radio @done (18-06-03 03:18)
     ✔ Rebote: alto ? (debe ser elastico) @done (18-06-04 00:19)
   La HOLY:
-    ☐ Mira: SI
+    ✔ Mira: SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:19)
     ✔ Disparo con potencia variable: SI @done (18-06-03 03:19)
     ✔ Cuenta regresiva: SI @done (18-06-04 00:19)

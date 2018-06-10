@@ -20,7 +20,7 @@ void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
      */
     if (p.getWormContactCount() > 0) {
         this->timeElapsed += dt;
-    }else {
+    } else {
         this->timeElapsed = 0.0f;
     }
     if (p.getContactCount() > 0 || this->timeElapsed > 0.2f) {
@@ -63,4 +63,4 @@ void Worms::BackFlipping::banana(Worms::Player &p) {}
 
 void Worms::BackFlipping::holy(Worms::Player &p) {}
 
-void Worms::BackFlipping::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::BackFlipping::setTimeout(Worms::Player &p, uint8_t time) {}

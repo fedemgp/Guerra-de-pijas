@@ -24,7 +24,7 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body) {
      */
     if (p.getWormContactCount() > 0) {
         this->timeElapsed += dt;
-    }else {
+    } else {
         this->timeElapsed = 0.0f;
     }
     if (p.getContactCount() > 0 || this->timeElapsed > 0.2f) {
@@ -67,4 +67,4 @@ void Worms::Jumping::banana(Worms::Player &p) {}
 
 void Worms::Jumping::holy(Worms::Player &p) {}
 
-void Worms::Jumping::setTimeout(Worms::Player &p, uint8_t time){}
+void Worms::Jumping::setTimeout(Worms::Player &p, uint8_t time) {}

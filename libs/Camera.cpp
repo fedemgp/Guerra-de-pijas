@@ -78,12 +78,13 @@ void GUI::Camera::moveTo(GUI::Position coord) {
     /* avoids the camera from going below the zero */
     coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2 - 10.0f);
 
-    if (this->dst == coord) {
-        return;
-    }
-
     coord.x -= (this->width / 2) / this->scale;
     coord.y += (this->height / 2) / this->scale;
+
+    if (this->dst.distance(coord) < 7.0f) {
+        this->dst = coord;
+        return;
+    }
 
     this->elapsed = 0.0f;
     this->dst = coord;

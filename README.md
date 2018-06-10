@@ -20,6 +20,17 @@ A library to render text from SDL.
 
     sudo apt-get install libsdl2-ttf-dev
 
+### SDL mixer
+
+A library to use sound from SDL.
+
+    sudo apt-get install libsdl2-mixer-dev
+
+
+## Qt-5 (editor)
+
+    sudo apt-get install qt5-default qtdeclarative5-dev qtcreator
+
 
 ### clang-format (optional)
 
