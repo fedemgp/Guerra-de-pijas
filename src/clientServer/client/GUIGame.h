@@ -21,6 +21,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "Armory.h"
 
 namespace GUI {
 class Game {
@@ -47,6 +48,7 @@ class Game {
     Font font;
     SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
     std::vector<SDL_Color> teamColors;
+    Armory armory;
 };
 }  // namespace GUI
 

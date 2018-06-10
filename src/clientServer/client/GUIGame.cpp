@@ -21,7 +21,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
       texture_mgr(w.getRenderer()),
       stage(stage),
       cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
-      font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28) {
+      font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28),
+      armory(this->texture_mgr, this->cam, this->font) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk,
                            "src/clientServer/assets/img/Worms/wwalk2.png",
@@ -121,6 +122,25 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->texture_mgr.load(GUI::GameTextures::Fragment,
                            "src/clientServer/assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::BazookaIcon,
+                           "src/clientServer/assets/img/Weapon Icons/bazooka.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::GrenadeIcon,
+                           "src/clientServer/assets/img/Weapon Icons/grenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::ClusterIcon,
+                           "src/clientServer/assets/img/Weapon Icons/cluster.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::MortarIcon,
+                           "src/clientServer/assets/img/Weapon Icons/mortar.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BananaIcon,
+                           "src/clientServer/assets/img/Weapon Icons/banana.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::HolyIcon,
+                           "src/clientServer/assets/img/Weapon Icons/hgrenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->armory.loadWeapons();
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
@@ -341,6 +361,7 @@ void GUI::Game::render() {
     Text text{this->font};
     text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
+    this->armory.render();
 
     this->window.render();
 }

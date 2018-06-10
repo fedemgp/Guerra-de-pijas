@@ -39,7 +39,8 @@ enum class GameTextures {
     Smoke,
     Falling,
     Scope,
-    PowerBar, Fragment
+    PowerBar, Fragment, BazookaIcon, GrenadeIcon, ClusterIcon, MortarIcon,
+    BananaIcon, HolyIcon
 };
 
 /** Specialized TextureManager class. */
