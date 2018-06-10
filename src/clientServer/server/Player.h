@@ -28,7 +28,7 @@ enum class Direction { right, left, up, down };
 
 class Player : public PhysicsEntity {
    public:
-    Direction direction;
+    Direction direction{Direction::left};
     Direction lastWalkDirection;
     bool canWalk{true};
     float health{0};
