@@ -71,6 +71,6 @@ IO::PlayerInput Worm::EndBackFlip::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndBackFlip::setTimeoutTo(Worm &w, int t){
+IO::PlayerInput Worm::EndBackFlip::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }

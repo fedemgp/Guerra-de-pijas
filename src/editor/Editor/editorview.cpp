@@ -1,8 +1,7 @@
 #include "editorview.h"
-#include <QtDebug>
-#include <QImage>
 #include <QGraphicsPixmapItem>
-
+#include <QImage>
+#include <QtDebug>
 
 EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
     this->setAttribute(Qt::WA_Hover, true);
@@ -10,7 +9,7 @@ EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
 
 void EditorView::setWorm() {
     this->resource = ":/assets/stage/worm.png";
-    if(this->pix) {
+    if (this->pix) {
         delete this->pix;
     }
 
@@ -19,7 +18,7 @@ void EditorView::setWorm() {
 
 void EditorView::setShortGirder() {
     this->resource = ":/assets/stage/short_girder.png";
-    if(this->pix) {
+    if (this->pix) {
         delete this->pix;
     }
 
@@ -28,20 +27,19 @@ void EditorView::setShortGirder() {
 
 void EditorView::setLongGirder() {
     this->resource = ":/assets/stage/long_girder.png";
-    if(this->pix) {
+    if (this->pix) {
         delete this->pix;
     }
 
     this->pix = this->getResource();
 }
 
-void EditorView::mousePressEvent(QMouseEvent *) {
-}
+void EditorView::mousePressEvent(QMouseEvent *) {}
 
 void EditorView::deleteAt(QPoint pos) {
     this->scene()->removeItem(this->pix);
     QGraphicsItem *item = this->itemAt(pos);
-    if(item) {
+    if (item) {
         this->scene()->removeItem(item);
     }
     this->scene()->addItem(this->pix);
@@ -51,7 +49,7 @@ QGraphicsPixmapItem *EditorView::getResource() {
     QImage *img = new QImage;
     img->load(this->resource.c_str());
 
-    QPixmap pix = pix.fromImage( *img, Qt::AutoColor );
+    QPixmap pix = pix.fromImage(*img, Qt::AutoColor);
 
     QGraphicsPixmapItem *pmap = new QGraphicsPixmapItem(0);
     pmap->setPixmap(pix);
@@ -59,7 +57,7 @@ QGraphicsPixmapItem *EditorView::getResource() {
 }
 
 void EditorView::createAt(QPoint pos) {
-    if(this->resource.length() == 0) {
+    if (this->resource.length() == 0) {
         return;
     }
 
@@ -69,7 +67,7 @@ void EditorView::createAt(QPoint pos) {
     lpos.rx() -= pmap->pixmap().width() / 2;
     lpos.ry() -= pmap->pixmap().height() / 2;
 
-    if(this->collides()) {
+    if (this->collides()) {
         return;
     }
 
@@ -80,7 +78,7 @@ void EditorView::createAt(QPoint pos) {
 void EditorView::mouseReleaseEvent(QMouseEvent *event) {
     event->accept();
 
-    if(event->button() & Qt::RightButton) {
+    if (event->button() & Qt::RightButton) {
         this->deleteAt(event->pos());
     } else {
         this->createAt(event->pos());
@@ -92,17 +90,17 @@ void EditorView::mouseMoveEvent(QMouseEvent *event) {
 }
 
 bool EditorView::event(QEvent *event) {
-    switch(event->type()) {
+    switch (event->type()) {
         case QEvent::HoverMove:
-            this->hoverEvent(static_cast<QHoverEvent*>(event));
+            this->hoverEvent(static_cast<QHoverEvent *>(event));
             return true;
         case QEvent::HoverEnter:
-            if(this->pix) {
+            if (this->pix) {
                 this->scene()->addItem(this->pix);
             }
             break;
         case QEvent::HoverLeave:
-            if(this->pix) {
+            if (this->pix) {
                 this->scene()->removeItem(this->pix);
             }
             break;
@@ -114,7 +112,7 @@ bool EditorView::event(QEvent *event) {
 }
 
 void EditorView::hoverEvent(QHoverEvent *event) {
-    if(!this->pix) {
+    if (!this->pix) {
         return;
     }
 
@@ -127,13 +125,13 @@ void EditorView::hoverEvent(QHoverEvent *event) {
 
 void EditorView::wheelEvent(QWheelEvent *event) {
     QGraphicsView::wheelEvent(event);
-    if(event->isAccepted()) {
+    if (event->isAccepted()) {
         return;
     }
 
     static qreal factor = 1.1;
 
-    if(event->angleDelta().y() > 0) {
+    if (event->angleDelta().y() > 0) {
         scale(factor, factor);
     } else {
         scale(1 / factor, 1 / factor);
@@ -143,12 +141,12 @@ void EditorView::wheelEvent(QWheelEvent *event) {
 }
 
 bool EditorView::collides() {
-    for (QGraphicsItem* other : this->items(this->viewport()->rect()) ) {
-        if(other == this->pix) {
+    for (QGraphicsItem *other : this->items(this->viewport()->rect())) {
+        if (other == this->pix) {
             continue;
         }
 
-        if(other->collidesWithItem(this->pix)) {
+        if (other->collidesWithItem(this->pix)) {
             return true;
         }
     }

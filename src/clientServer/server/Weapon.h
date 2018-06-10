@@ -7,6 +7,7 @@
 #define __WEAPON_H__
 
 #include <GameStateMsg.h>
+#include <list>
 #include <memory>
 
 #include "Bullet.h"
@@ -30,22 +31,23 @@ class Weapon {
     void decreaseAngle();
     float getAngle() const;
     virtual void startShot() = 0;
-    virtual void endShot(Player &p, Physics &physics) = 0;
+    virtual void endShot() = 0;
+    BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
     /**
-     * sets bullet_ptr to null, and free its resources
+     * Function that returns, using move semantics, a list of bullets
+     * depending on weapon's behavior after the main bullet explode.
+     * @return
      */
-    void destroyBullet();
-
-    std::shared_ptr<Bullet> getBullet() const;
+    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) = 0;
 
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
-    Game::Weapon::Config config;
+    const Game::Weapon::Config &config;
     Worm::WeaponID id;
     float angle{0};
-    std::shared_ptr<Bullet> bullet{nullptr};
+    uint8_t timeLimit;
 
    private:
     /**

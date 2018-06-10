@@ -96,6 +96,14 @@ const Game::Weapon::Config &Game::Config::getHolyConfig() const {
     return this->holy;
 }
 
-const float Game::Config::getPowerChargeTime() const{
+const float Game::Config::getPowerChargeTime() const {
     return this->powerChargeTime;
+}
+
+const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const{
+    return this->clusterFragments;
+}
+
+const uint8_t Game::Config::getClusterFragmentQuantity() const{
+    return this->clusterFragmentQuantity;
 }

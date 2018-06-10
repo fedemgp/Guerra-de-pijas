@@ -6,9 +6,11 @@
 #ifndef __DynamicEntity_H__
 #define __DynamicEntity_H__
 
+#include "Subject.h"
+
 namespace Worms {
 enum EntityID { EtWorm, EtBullet };
-class PhysicsEntity {
+class PhysicsEntity : public Subject {
    public:
     explicit PhysicsEntity(EntityID id);
     virtual EntityID getEntityId();

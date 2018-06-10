@@ -15,10 +15,11 @@ class Bazooka : public Worms::Weapon {
     ~Bazooka() = default;
     void update(float dt) override;
     void startShot() override;
-    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void endShot() override;
     void setTimeout(uint8_t time) override;
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
 
-private:
+   private:
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon
