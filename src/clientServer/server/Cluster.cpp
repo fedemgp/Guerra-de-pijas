@@ -52,3 +52,6 @@ std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBul
 
     return std::move(ret);
 }
+
+void
+Weapon::Cluster::positionSelected(Worms::Player &p, Math::Point<float> point){}

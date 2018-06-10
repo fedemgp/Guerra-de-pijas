@@ -293,8 +293,8 @@ void Worms::Player::addObserverToBullets(Observer *obs) {
     }
 }
 
-void Worms::Player::handleState(IO::PlayerInput pi) {
-    switch (pi) {
+void Worms::Player::handleState(IO::PlayerMsg pi) {
+    switch (pi.input) {
         case IO::PlayerInput::moveLeft:
             this->state->moveLeft(*this);
             break;
@@ -357,7 +357,8 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::timeout5:
             this->state->setTimeout(*this, 5);
             break;
-        case IO::PlayerInput::selectedPosition:
+        case IO::PlayerInput::positionSelected:
+            this->weapon->positionSelected(*this, pi.position);
             break;
     }
 }

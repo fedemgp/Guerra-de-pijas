@@ -303,7 +303,7 @@ void Worm::Worm::endShot() {
 
 void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out){
     IO::PlayerMsg msg;
-    msg.input = IO::PlayerInput::selectedPosition;
+    msg.input = IO::PlayerInput::positionSelected;
     msg.position = position;
     *out << msg;
 }

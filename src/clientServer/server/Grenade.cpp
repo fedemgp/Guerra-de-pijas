@@ -36,3 +36,6 @@ void Weapon::Grenade::setTimeout(uint8_t time) {
 std::list<Worms::Bullet> Weapon::Grenade::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
+
+void
+Weapon::Grenade::positionSelected(Worms::Player &p, Math::Point<float> point){}

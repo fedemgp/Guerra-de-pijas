@@ -18,6 +18,7 @@ class Mortar : public Worms::Weapon {
     void endShot() override;
     void setTimeout(uint8_t time) override;
     std::list<Worms::Bullet> onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) override;
+    void positionSelected(Worms::Player &p, Math::Point<float> point) override;
 
 private:
     const Game::Weapon::Config &fragmentConfig;

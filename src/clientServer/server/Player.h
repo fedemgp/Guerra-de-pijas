@@ -43,7 +43,7 @@ class Player : public PhysicsEntity {
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
-    void handleState(IO::PlayerInput pi);
+    void handleState(IO::PlayerMsg pi);
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
     int getContactCount();

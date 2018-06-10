@@ -109,10 +109,10 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 if (this->processingClientInputs) {
                     if (this->currentPlayerShot) {
                         if (pMsg.input != IO::PlayerInput::startShot && pMsg.input != IO::PlayerInput::endShot) {
-                            this->players.at(this->currentWorm).handleState(pMsg.input);
+                            this->players.at(this->currentWorm).handleState(pMsg);
                         }
                     } else {
-                        this->players.at(this->currentWorm).handleState(pMsg.input);
+                        this->players.at(this->currentWorm).handleState(pMsg);
                     }
                 }
             }

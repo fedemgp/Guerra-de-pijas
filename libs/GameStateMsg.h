@@ -59,7 +59,7 @@ enum class PlayerInput {
     timeout3,
     timeout4,
     timeout5,
-    selectedPosition
+    positionSelected
 };
 struct PlayerMsg{
     PlayerInput input;
