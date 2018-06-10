@@ -144,7 +144,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
 GUI::Game::~Game() {}
 
 void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
-                      IO::Stream<IO::PlayerInput> *clientResponse) {
+                      IO::Stream<IO::PlayerMsg> *clientResponse) {
     try {
         uint32_t prev = SDL_GetTicks();
         bool quit = false;
@@ -169,6 +169,12 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                             cur.handleKeyUp(e.key.keysym.sym, clientResponse);
                         }
                         break;
+                    case SDL_MOUSEBUTTONDOWN:{
+                        int x,y;
+                        SDL_GetMouseState(&x, &y);
+                        GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x,y});
+                        cur.mouseButtonDown(global, clientResponse);
+                    }
                 }
             }
 

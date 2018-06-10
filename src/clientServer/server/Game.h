@@ -32,7 +32,7 @@ class Game : Observer {
 
     Game(Game &&other) = delete;
 
-    void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
+    void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerMsg> *playerStream);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const;
     void onNotify(const PhysicsEntity &entity, Event event) override;
     void calculateDamage(const Bullet &bullet);

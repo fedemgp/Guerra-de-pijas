@@ -12,6 +12,8 @@
 
 #include <stdint.h>
 
+#include "Point.h"
+
 namespace Worm {
 enum class StateID {
     Walk,
@@ -56,7 +58,12 @@ enum class PlayerInput {
     timeout2,
     timeout3,
     timeout4,
-    timeout5
+    timeout5,
+    selectedPosition
+};
+struct PlayerMsg{
+    PlayerInput input;
+    Math::Point<float> position{0.0f, 0.0f};
 };
 // TODO protocol?
 struct GameStateMsg {

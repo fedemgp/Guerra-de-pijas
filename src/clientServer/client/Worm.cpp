@@ -37,7 +37,7 @@ Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr)
     this->weapon = std::shared_ptr<Weapon>(new Bazooka(texture_mgr));
 }
 
-void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
+void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
@@ -95,11 +95,14 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             i = this->state->startShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone)
-        *out << i;
+    if (i != IO::PlayerInput::moveNone){
+        IO::PlayerMsg msg;
+        msg.input = i;
+        *out << msg;
+    }
 }
 
-void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
+void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
@@ -112,8 +115,11 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
             i = this->state->endShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone)
-        *out << i;
+    if (i != IO::PlayerInput::moveNone){
+        IO::PlayerMsg msg;
+        msg.input = i;
+        *out << msg;
+    }
 }
 
 void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
@@ -293,4 +299,11 @@ void Worm::Worm::startShot() {
 
 void Worm::Worm::endShot() {
     this->weapon->endShot();
+}
+
+void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out){
+    IO::PlayerMsg msg;
+    msg.input = IO::PlayerInput::selectedPosition;
+    msg.position = position;
+    *out << msg;
 }

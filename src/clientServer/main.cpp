@@ -16,7 +16,7 @@
 int main(int argc, const char *argv[]) {
     try {
         IO::Stream<IO::GameStateMsg> server_stream;
-        IO::Stream<IO::PlayerInput> player_stream;
+        IO::Stream<IO::PlayerMsg> player_stream;
         GUI::Window window{};
         window.clear();
 

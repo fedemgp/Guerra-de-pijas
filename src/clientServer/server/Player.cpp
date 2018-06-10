@@ -357,6 +357,8 @@ void Worms::Player::handleState(IO::PlayerInput pi) {
         case IO::PlayerInput::timeout5:
             this->state->setTimeout(*this, 5);
             break;
+        case IO::PlayerInput::selectedPosition:
+            break;
     }
 }
 
