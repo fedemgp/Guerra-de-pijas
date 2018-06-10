@@ -10,6 +10,7 @@ void Worms::Falling::update(Player &p, float dt, b2Body *body) {
     if (p.isOnGround()) {
         p.setState(Worm::StateID::Land);
         p.landDamage(this->startPosition.y - p.getPosition().y);
+        p.setState(Worm::StateID::Land);
     }
 }
 

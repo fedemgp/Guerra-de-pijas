@@ -10,6 +10,8 @@
 
 #define PLAYER_HEIGHT 2.0f
 
+#include <list>
+
 #include "Bullet.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
@@ -39,6 +41,11 @@ class Player : public PhysicsEntity {
 
     bool isOnGround() const;
 
+    /**
+     * First remove all exploded bullets, then update its state, its weapon
+     * and all non-exploded bullets.
+     * @param dt
+     */
     void update(float dt);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
@@ -53,9 +60,7 @@ class Player : public PhysicsEntity {
     void decreaseWeaponAngle();
     void startShot();
     void endShot();
-    std::shared_ptr<Worms::Bullet> getBullet() const;
-    void destroyBullet();
-    void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
@@ -63,6 +68,18 @@ class Player : public PhysicsEntity {
     void setId(uint8_t id);
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
+    const std::list<Bullet> &getBullets() const;
+    void cleanBullets();
+    /**
+     * calls weapon's onExplode and get new bullets if is necesary.
+     */
+    void onExplode(const Bullet &bullet,
+                   Physics &physics);  // TODO return the list with move semantics
+    /**
+     * Add observer to all bullets.
+     * @param obs
+     */
+    void addObserverToBullets(Observer *obs);
 
     bool operator!=(const Player &other);
     bool operator==(const Player &other);
@@ -80,6 +97,8 @@ class Player : public PhysicsEntity {
     const int waterLevel;
     uint8_t team;
     uint8_t id;
+    std::list<Bullet> bullets;
+    bool removeBullets{false};
 };
 }  // namespace Worms
 

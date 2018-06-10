@@ -79,6 +79,6 @@ void Worms::Still::holy(Worms::Player &p) {
     p.setWeapon(Worm::WeaponID::WHoly);
 }
 
-void Worms::Still::setTimeout(Worms::Player &p, uint8_t time){
+void Worms::Still::setTimeout(Worms::Player &p, uint8_t time) {
     p.setWeaponTimeout(time);
 }

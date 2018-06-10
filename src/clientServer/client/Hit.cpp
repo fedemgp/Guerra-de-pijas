@@ -71,6 +71,6 @@ IO::PlayerInput Worm::Hit::holy(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Hit::setTimeoutTo(Worm &w, int t){
+IO::PlayerInput Worm::Hit::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }

@@ -1,19 +1,18 @@
 #ifndef EDITORSCENE_H
 #define EDITORSCENE_H
 
+#include <QGraphicsScene>
 #include <QObject>
 #include <QWidget>
-#include <QGraphicsScene>
 
-class EditorScene : public QGraphicsScene
-{
+class EditorScene : public QGraphicsScene {
     Q_OBJECT
 
-public:
+   public:
     EditorScene(QWidget *parent = nullptr);
 
-private:
+   private:
     std::string resource;
 };
 
-#endif // EDITORSCENE_H
+#endif  // EDITORSCENE_H

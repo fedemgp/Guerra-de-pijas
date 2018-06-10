@@ -1,26 +1,25 @@
 #ifndef EDITORVIEW_H
 #define EDITORVIEW_H
 
+#include <QEvent>
 #include <QGraphicsView>
+#include <QObject>
 #include <QWheelEvent>
 #include <QWidget>
-#include <QObject>
-#include <QEvent>
 
-class EditorView : public QGraphicsView
-{
+class EditorView : public QGraphicsView {
     Q_OBJECT
 
-public:
+   public:
     EditorView(QWidget *parent);
 
-public slots:
+   public slots:
     void setWorm();
     void setShortGirder();
     void setLongGirder();
 
     // QWidget interface
-protected:
+   protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *);
     void mouseMoveEvent(QMouseEvent *);
@@ -34,9 +33,9 @@ protected:
 
     QGraphicsPixmapItem *getResource();
 
-private:
+   private:
     std::string resource;
     QGraphicsPixmapItem *pix{nullptr};
 };
 
-#endif // EDITORVIEW_H
+#endif  // EDITORVIEW_H

@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QMainWindow>
 #include "editorscene.h"
 
 namespace Ui {
@@ -11,17 +11,16 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+   public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+   private:
     Ui::MainWindow *ui;
-    EditorScene* scene;
+    EditorScene *scene;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H

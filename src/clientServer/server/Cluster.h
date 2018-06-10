@@ -17,11 +17,12 @@ class Cluster : public Worms::Weapon {
     ~Cluster() override = default;
     void update(float dt) override;
     void startShot() override;
-    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void endShot() override;
     void setTimeout(uint8_t time) override;
-    uint16_t timeLimit{5};
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
 
-private:
+   private:
+    const Game::Weapon::Config &fragmentConfig;
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

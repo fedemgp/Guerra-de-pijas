@@ -8,9 +8,11 @@
 
 #include "Box2D/Box2D.h"
 
+#include "Subject.h"
+
 namespace Worms {
 enum EntityID { EtWorm, EtBullet, Sensor };
-class PhysicsEntity {
+class PhysicsEntity : public Subject {
    public:
     explicit PhysicsEntity(EntityID id);
 

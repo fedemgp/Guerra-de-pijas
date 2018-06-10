@@ -9,10 +9,10 @@
 #include "WormState.h"
 
 namespace Worm {
-class Drown : public State {
+class Drowning : public State {
    public:
-    Drown();
-    ~Drown();
+    Drowning();
+    ~Drowning();
 
     virtual void update(float dt) override;
 

@@ -76,7 +76,7 @@ void GUI::Camera::setTo(GUI::Position coord) {
  */
 void GUI::Camera::moveTo(GUI::Position coord) {
     /* avoids the camera from going below the zero */
-    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2);
+    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2 - 10.0f);
 
     coord.x -= (this->width / 2) / this->scale;
     coord.y += (this->height / 2) / this->scale;

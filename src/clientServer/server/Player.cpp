@@ -12,7 +12,7 @@
 #include "Config.h"
 #include "Dead.h"
 #include "Die.h"
-#include "Drown.h"
+#include "Drowning.h"
 #include "Falling.h"
 #include "Grenade.h"
 #include "Hit.h"
@@ -94,11 +94,24 @@ void Worms::Player::update(float dt) {
 
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
+    /**
+     * after the server sends a WExplode state of the bullet, it is needed to
+     * remove every exploded bullet.
+     */
+    if (this->removeBullets) {
+        this->bullets.remove_if(Worms::ExplosionChecker());
+        this->removeBullets = false;
+    }
+
+    for (auto &bullet : this->bullets) {
+        bullet.update(dt, *this->weapon);
+    }
 
     if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
-        this->getStateId() != Worm::StateID::Drown) {
+        this->getStateId() != Worm::StateID::Drowning) {
         this->health = 0.0f;
-        this->setState(Worm::StateID::Drown);
+        this->setState(Worm::StateID::Drowning);
+        this->notify(*this, Event::Drowning);
     }
 }
 
@@ -233,8 +246,8 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
                 break;
-            case Worm::StateID::Drown:
-                this->state = std::shared_ptr<State>(new Drown());
+            case Worm::StateID::Drowning:
+                this->state = std::shared_ptr<State>(new Drowning());
                 break;
             case Worm::StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
@@ -244,11 +257,12 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-std::shared_ptr<Worms::Bullet> Worms::Player::getBullet() const {
-    return this->weapon->getBullet();
+const std::list<Worms::Bullet> &Worms::Player::getBullets() const {
+    return this->bullets;
 }
 
-void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter) {
+void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
+                                      Math::Point<float> epicenter) {
     if (this->getStateId() != Worm::StateID::Dead) {
         double distanceToEpicenter = this->getPosition().distance(
             epicenter);  // std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position
@@ -277,9 +291,9 @@ void Worms::Player::acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<
     }
 }
 
-void Worms::Player::destroyBullet() {
-    this->weapon->destroyBullet();
-}
+// void Worms::Player::destroyBullet() {
+//    this->weapon->destroyBullet();
+//}
 
 float Worms::Player::getWeaponAngle() const {
     return this->weapon->getAngle();
@@ -315,6 +329,10 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
                 break;
             case Worm::WeaponID::WNone:
                 break;
+            case Worm::WeaponID::WExplode:
+                break;
+            case Worm::WeaponID::WFragment:
+                break;
         }
     }
 }
@@ -332,7 +350,22 @@ void Worms::Player::startShot() {
 }
 
 void Worms::Player::endShot() {
-    this->weapon->endShot(*this, this->physics);
+    Math::Point<float> position = this->getPosition();
+    float safeNonContactDistance =
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+    BulletInfo info = this->weapon->getBulletInfo();
+    info.point = position;
+    info.safeNonContactDistance = safeNonContactDistance;
+    if (this->direction == Worms::Direction::right) {
+        if (info.angle < 0.0f) {
+            info.angle += 360.0f;
+        }
+    } else {
+        info.angle = 180.0f - info.angle;
+    }
+    this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
+    this->weapon->endShot();
+    this->notify(*this, Event::Shot);
 }
 
 void Worms::Player::setTeam(uint8_t team) {
@@ -391,4 +424,18 @@ b2Body *Worms::Player::createBody(b2BodyType type) {
     new_body->CreateFixture(&fixture);
     new_body->SetUserData(this);
     return new_body;
+}
+
+void Worms::Player::onExplode(const Bullet &b, Physics &physics) {
+    this->bullets.merge(this->weapon->onExplode(b, physics));
+}
+
+void Worms::Player::addObserverToBullets(Observer *obs) {
+    for (auto &bullet : this->bullets) {
+        bullet.addObserver(obs);
+    }
+}
+
+void Worms::Player::cleanBullets() {
+    this->removeBullets = true;
 }

@@ -6,7 +6,6 @@
 #ifndef __BANANA_H__
 #define __BANANA_H__
 
-
 #include <vector>
 
 #include "PowerBar.h"
@@ -15,22 +14,21 @@
 
 #define BANANA_CENTER_FRAME 14
 
-namespace Worm{
-    class Banana : public Weapon{
-    public:
-        explicit Banana(const GUI::GameTextureManager &textureManager);
-        ~Banana() = default;
-        void update(float dt) override;
-        void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) override;
-        void setAngle(float angle, Direction d) override;
-        void startShot() override;
-        void endShot() override;
+namespace Worm {
+class Banana : public Weapon {
+   public:
+    explicit Banana(const GUI::GameTextureManager &textureManager);
+    ~Banana() = default;
+    void update(float dt) override;
+    void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) override;
+    void setAngle(float angle, Direction d) override;
+    void startShot() override;
+    void endShot() override;
 
-    private:
-        ::Weapon::Scope scope;
-        ::Weapon::PowerBar powerBar;
-    };
-} //namespace Worm
+   private:
+    ::Weapon::Scope scope;
+    ::Weapon::PowerBar powerBar;
+};
+}  // namespace Worm
 
-
-#endif //__BANANA_H__
+#endif  //__BANANA_H__
