@@ -31,7 +31,7 @@ void Weapon::Cluster::endShot(){
 void Weapon::Cluster::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
-// TODO add bullets in this implementation
+
 std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
     uint8_t fragmentQuantity = Game::Config::getInstance()
             .getClusterFragmentQuantity();

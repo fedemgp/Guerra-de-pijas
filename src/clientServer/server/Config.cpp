@@ -107,3 +107,11 @@ const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const{
 const uint8_t Game::Config::getClusterFragmentQuantity() const{
     return this->clusterFragmentQuantity;
 }
+
+const Game::Weapon::Config &Game::Config::getMortarFragmentConfig() const{
+    return this->mortarFragments;
+}
+
+const uint8_t Game::Config::getMortarFragmentQuantity() const{
+    return this->mortarFragmentQuantity;
+}

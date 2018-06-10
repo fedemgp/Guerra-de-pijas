@@ -75,6 +75,8 @@ class Config {
     const Weapon::Config &getBananaConfig() const;
     const Weapon::Config &getHolyConfig() const;
     const Weapon::Config &getClusterFragmentConfig() const;
+    const Weapon::Config &getMortarFragmentConfig() const;
+    const uint8_t getMortarFragmentQuantity() const;
 
    private:
     /**
@@ -122,9 +124,15 @@ class Config {
     Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS}, CLUSTER_MIN_ANGLE,   CLUSTER_MAX_ANGLE,
                            ANGLE_STEP,     MAX_SHOT_POWER, CLUSTER_RESTITUTION, CLUSTER_FRCTION,
                            CLUSTER_INITIAL_TIMEOUT, true, CLUSTER_BULLET_RADIUS, CLUSTER_DUMPING_RATIO};
+    Weapon::Config mortarFragments{Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS},
+                                   MORTAR_FRAGMENT_MIN_ANGLE, MORTAR_FRAGMENT_MAX_ANGLE,
+                                   MORTAR_FRAGMENT_ANGLE_STEP, MORTAR_FRAGMENT_SHOT_POWER,
+                                   MORTAR_FRAGMENT_RESTITUTION, MORTAR_FRAGMENT_FRICTION,
+                                   MORTAR_FRAGMENT_TIMEOUT, false, MORTAR_FRAGMENT_BULLET_RADIUS, MORTAR_FRAGMENT_DUMPING_RATIO};
+    uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
     Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},  MORTAR_MIN_ANGLE,   MORTAR_MAX_ANGLE,
                           ANGLE_STEP,    MAX_SHOT_POWER, MORTAR_RESTITUTION, MORTAR_FRCTION,
-                          MORTAR_INITIAL_TIMEOUT, false, MORTAR_BULLET_RADIUS, MORTAR_DUMPING_RATIO};
+                          MORTAR_INITIAL_TIMEOUT, true, MORTAR_BULLET_RADIUS, MORTAR_DUMPING_RATIO};
     Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},  BANANA_MIN_ANGLE,   BANANA_MAX_ANGLE,
                           ANGLE_STEP,    MAX_SHOT_POWER, BANANA_RESTITUTION, BANANA_FRCTION,
                           BANANA_INITIAL_TIMEOUT, false, BANANA_BULLET_RADIUS, BANANA_DUMPING_RATIO};
