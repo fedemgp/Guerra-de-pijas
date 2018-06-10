@@ -9,7 +9,6 @@
 #include <cstdint>
 #include <vector>
 
-#include "Config.h"
 #include "Point.h"
 
 namespace Worms {
@@ -26,7 +25,7 @@ struct WormData {
 
 class Stage {
    public:
-    uint8_t turnTime{Game::Config::getInstance().getTurnTime()};
+    uint8_t turnTime{10};
 
     Stage();
     ~Stage() = default;
@@ -36,14 +35,12 @@ class Stage {
 
     float getHeight() const;
     float getWidth() const;
-    uint8_t getNumTeams();
 
    private:
     std::vector<WormData> players;
     std::vector<Girder> girders;
-    float width{Game::Config::getInstance().getGameWidth()};
-    float height{Game::Config::getInstance().getGameHeight()};
-    uint8_t numTeams{Game::Config::getInstance().getNumTeams()};
+    float width{100.0f};
+    float height{30.0f};
 };
 }  // namespace Worms
 

@@ -6,29 +6,33 @@
 #ifndef __GUIGame_H__
 #define __GUIGame_H__
 
+#include <atomic>
 #include <list>
+#include <thread>
 #include <vector>
 
-#include "../server/Stage.h"  //TODO check this
 #include "Animation.h"
 #include "Bullet.h"
 #include "Camera.h"
+#include "ClientSocket.h"
+#include "DoubleBuffer.h"
 #include "Explosion.h"
 #include "Font.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
+#include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
 
 namespace GUI {
+using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {
    public:
-    Game(Window &w, Worms::Stage &&stage);
+    Game(Window &w, Worms::Stage &&stage, ClientSocket &socket);
     ~Game();
-    void start(IO::Stream<IO::GameStateMsg> *serverResponse,
-               IO::Stream<IO::PlayerMsg> *clientResponse);
+    void start();
     void update(float dt);
     void render();
 
@@ -36,17 +40,26 @@ class Game {
     void render_controls();
     void renderBackground();
 
+    void inputWorker();
+    void outputWorker();
+
+    std::atomic<bool> quit{false};
     float scale{13.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::list<std::shared_ptr<Ammo::Bullet>> bullets;
-    IO::GameStateMsg snapshot{0};
     Camera cam;
     Font font;
     SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
     std::vector<SDL_Color> teamColors;
+    std::thread inputThread;
+    std::thread outputThread;
+    IO::DoubleBuffer<IO::GameStateMsg> snapshotBuffer;
+    IO::GameStateMsg snapshot;
+    GameOutput output;
+    CommunicationSocket &socket;
 };
 }  // namespace GUI
 
