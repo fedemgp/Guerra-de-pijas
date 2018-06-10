@@ -9,6 +9,7 @@
 #include "Banana.h"
 #include "Bazooka.h"
 #include "Cluster.h"
+#include "Config.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drown.h"
@@ -30,10 +31,10 @@
 #include "PlayerWalk.h"
 #include "Weapon.h"
 
+#define CONFIG Game::Config::getInstance()
+
 Worms::Player::Player(Physics &physics)
-    : PhysicsEntity(Worms::EntityID::EtWorm),
-      physics(physics),
-      waterLevel(Game::Config::getInstance().getWaterLevel()) {
+    : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics), waterLevel(CONFIG.getWaterLevel()) {
     /* creates 2 bodies so players cannot move each other */
     this->body = this->createBody(b2_dynamicBody);
     this->body_kinematic = this->createBody(b2_kinematicBody);
@@ -359,8 +360,9 @@ void Worms::Player::setWeaponTimeout(uint8_t time) {
 }
 
 void Worms::Player::landDamage(float yDistance) {
-    if (yDistance > this->safeFallDistance) {
-        this->health -= (yDistance > this->maxFallDamage) ? this->maxFallDamage : yDistance;
+    if (yDistance > CONFIG.getSafeFallDistance()) {
+        this->health -=
+            (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
         if (this->health < 0.0f) {
             this->setState(Worm::StateID::Die);
         }

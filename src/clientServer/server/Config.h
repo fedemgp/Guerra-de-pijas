@@ -44,6 +44,8 @@ class Config {
     const float getLandTime() const;
 
     const float getWalkVelocity() const;
+    float getSafeFallDistance() const;
+    float getMaxFallDamage() const;
 
     const uint8_t getTurnTime() const;
     const float getExtraTurnTime() const;

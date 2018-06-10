@@ -80,9 +80,6 @@ class Player : public PhysicsEntity {
     const int waterLevel;
     uint8_t team;
     uint8_t id;
-    int numBulletContacs{0};
-    float safeFallDistance{2.0f};
-    float maxFallDamage{25.0f};
 };
 }  // namespace Worms
 

@@ -16,6 +16,14 @@ Game::Config &Game::Config::getInstance() {
 Game::Config::Config()
     : jumpVelocity(JUMP_VEL_X, JUMP_VEL_Y), backflipVelocity(BACKFLIP_VEL_X, BACKFLIP_VEL_Y) {}
 
+float Game::Config::getSafeFallDistance() const {
+    return 8.0f;
+}
+
+float Game::Config::getMaxFallDamage() const {
+    return 25.0f;
+}
+
 const Math::Vector Game::Config::getJumpVelocity() const {
     return this->jumpVelocity;
 }
@@ -96,6 +104,6 @@ const Game::Weapon::Config &Game::Config::getHolyConfig() const {
     return this->holy;
 }
 
-const float Game::Config::getPowerChargeTime() const{
+const float Game::Config::getPowerChargeTime() const {
     return this->powerChargeTime;
 }
