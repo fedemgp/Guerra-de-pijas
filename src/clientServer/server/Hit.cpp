@@ -18,15 +18,15 @@ void Worms::Hit::update(Worms::Player &p, float dt, b2Body *body) {
      * In the y-axis there will be no impulse because its velocity was
      * cancelled because of the collision with the girder.
      */
-    if (p.getContactCount() > 0) {
+    if (p.isOnGround()) {
         this->timeElapsed += dt;
-        if (this->timeElapsed > 2.0f) {
+        if (this->timeElapsed > 0.7f) {
             float32 mass = body->GetMass();
             b2Vec2 previousVel = body->GetLinearVelocity();
             b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
             body->ApplyLinearImpulseToCenter(impulses, true);
 
-            p.setState(Worm::StateID::Still);
+            p.setState(Worm::StateID::Land);
         }
     } else {
         this->timeElapsed = 0.0f;
