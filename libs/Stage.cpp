@@ -7,7 +7,7 @@
 #include "Point.h"
 
 Worms::Stage::Stage() {
-    uint16_t health = Game::Config::getInstance().getWormHealth();
+    uint16_t health = 100;
     this->players.push_back(Worms::WormData{health, Math::Point<float>{50.0f, 20.0f}});
     this->players.push_back(Worms::WormData{health, Math::Point<float>{-3.0f, 20.0f}});
     this->players.push_back(Worms::WormData{health, Math::Point<float>{-5.0f, 20.0f}});
@@ -39,8 +39,4 @@ float Worms::Stage::getHeight() const {
 
 float Worms::Stage::getWidth() const {
     return this->width;
-}
-
-uint8_t Worms::Stage::getNumTeams() {
-    return this->numTeams;
 }

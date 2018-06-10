@@ -7,17 +7,25 @@
 #include <vector>
 
 #include "ClientSocket.h"
+#include "GUIGame.h"
 
 int main() {
-    std::string host = "localhost";
-    std::string port = "1051";
-    ClientSocket c(host.data(), port.data());
-    std::cout << "Se conecto al servidor" << std::endl;
-    std::string hello = "hola";
-    std::vector<char> buffer(5, '\0');
-    c.send(hello.data(), 4);
-    c.receive(buffer.data(), 4);
+    try {
+        std::string host = "localhost";
+        std::string port = "1051";
+        ClientSocket socket(host.data(), port.data());
 
-    std::cout << buffer.data() << std::endl;
+        GUI::Window window{};
+        window.clear();
+
+        GUI::Game gui_game{window, Worms::Stage{}, socket};
+        gui_game.start();
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    } catch (...) {
+        std::cerr << "Unkown error in main thread" << std::endl;
+        return 1;
+    }
     return 0;
 }

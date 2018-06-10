@@ -11,8 +11,10 @@
 #define POWER_CHARGE_TIME 5.0f
 
 #include <stdint.h>
+#include <cstring>
 
 #include "Point.h"
+#include "Exception.h"
 
 namespace Worm {
 enum class StateID {
@@ -61,11 +63,34 @@ enum class PlayerInput {
     timeout5,
     selectedPosition
 };
+
 struct PlayerMsg{
     PlayerInput input;
     Math::Point<float> position{0.0f, 0.0f};
+
+    std::size_t getSerializedSize() {
+        return sizeof(*this);
+    }
+
+    void serialize(void *buffer, std::size_t buffer_size) {
+        if(this->getSerializedSize() > buffer_size) {
+            throw Exception{"PlayerMsg: buffer too small"};
+        }
+
+        /* TODO: serialize each field with hton functions */
+        memcpy(buffer, this, this->getSerializedSize());
+    }
+
+    void deserialize(const void *buffer, std::size_t buffer_size) {
+        if(this->getSerializedSize() != buffer_size) {
+            throw Exception{"PlayerMsg: buffer size mismatch"};
+        }
+
+        /* TODO: deserialize each field with ntoh functions */
+        memcpy(this, buffer, this->getSerializedSize());
+    }
 };
-// TODO protocol?
+
 struct GameStateMsg {
     double elapsedTurnSeconds;
     uint8_t currentWorm;
@@ -85,6 +110,28 @@ struct GameStateMsg {
     bool processingInputs;
     double currentPlayerTurnTime;
     char currentTeam;
+
+    std::size_t getSerializedSize() {
+        return sizeof(*this);
+    }
+
+    void serialize(void *buffer, std::size_t buffer_size) {
+        if(this->getSerializedSize() > buffer_size) {
+            throw Exception{"GameStateMsg: buffer too small"};
+        }
+
+        /* TODO: serialize each field with hton functions */
+        memcpy(buffer, this, this->getSerializedSize());
+    }
+
+    void deserialize(const void *buffer, std::size_t buffer_size) {
+        if(this->getSerializedSize() != buffer_size) {
+            throw Exception{"GameStateMsg: buffer size mismatch"};
+        }
+
+        /* TODO: deserialize each field with ntoh functions */
+        memcpy(this, buffer, this->getSerializedSize());
+    }
 };
 }  // namespace IO
 

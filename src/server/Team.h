@@ -5,7 +5,7 @@
 #ifndef INC_4_WORMS_TEAM_H
 #define INC_4_WORMS_TEAM_H
 
-#include <stdint-gcc.h>
+#include <stdint.h>
 #include <vector>
 #include "Player.h"
 
@@ -25,6 +25,6 @@ class Team {
     uint8_t currentPlayer{0};
     bool alive{true};
 };
-}
+}  // namespace Worms
 
 #endif  // INC_4_WORMS_TEAM_H

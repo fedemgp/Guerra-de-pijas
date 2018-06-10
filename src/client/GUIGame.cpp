@@ -16,110 +16,81 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
     : window(w),
       texture_mgr(w.getRenderer()),
       stage(stage),
       cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
-      font("src/clientServer/assets/fonts/gruen_lemonograf.ttf", 28) {
+      font("assets/fonts/gruen_lemonograf.ttf", 28),
+      socket(socket) {
     /* loads the required textures */
-    this->texture_mgr.load(GUI::GameTextures::WormWalk,
-                           "src/clientServer/assets/img/Worms/wwalk2.png",
+    this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormIdle,
-                           "src/clientServer/assets/img/Worms/wbrth1.png",
+    this->texture_mgr.load(GUI::GameTextures::WormIdle, "assets/img/Worms/wbrth1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::LongGirder,
-                           "src/clientServer/assets/img/Weapons/grdl4.png",
+    this->texture_mgr.load(GUI::GameTextures::LongGirder, "assets/img/Weapons/grdl4.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::StartJump,
-                           "src/clientServer/assets/img/Worms/wjump.png",
+    this->texture_mgr.load(GUI::GameTextures::StartJump, "assets/img/Worms/wjump.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Jumping,
-                           "src/clientServer/assets/img/Worms/wflyup.png",
+    this->texture_mgr.load(GUI::GameTextures::Jumping, "assets/img/Worms/wflyup.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::EndJump,
-                           "src/clientServer/assets/img/Worms/wland2.png",
+    this->texture_mgr.load(GUI::GameTextures::EndJump, "assets/img/Worms/wland2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::BackFlipping,
-                           "src/clientServer/assets/img/Worms/wbackflp.png",
+    this->texture_mgr.load(GUI::GameTextures::BackFlipping, "assets/img/Worms/wbackflp.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Falling,
-                           "src/clientServer/assets/img/Worms/wfall.png",
+    this->texture_mgr.load(GUI::GameTextures::Falling, "assets/img/Worms/wfall.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Bazooka, "src/clientServer/assets/img/Worms/wbaz.png",
+    this->texture_mgr.load(GUI::GameTextures::Bazooka, "assets/img/Worms/wbaz.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Fly, "src/clientServer/assets/img/Worms/wfly1.png",
+    this->texture_mgr.load(GUI::GameTextures::Fly, "assets/img/Worms/wfly1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Die, "src/clientServer/assets/img/Worms/wdie.png",
+    this->texture_mgr.load(GUI::GameTextures::Die, "assets/img/Worms/wdie.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Dead, "src/clientServer/assets/img/Misc/grave4.png",
+    this->texture_mgr.load(GUI::GameTextures::Dead, "assets/img/Misc/grave4.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Missile,
-                           "src/clientServer/assets/img/Weapons/missile.png",
+    this->texture_mgr.load(GUI::GameTextures::Missile, "assets/img/Weapons/missile.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Explosion,
-                           "src/clientServer/assets/img/Effects/circle25.png",
+    this->texture_mgr.load(GUI::GameTextures::Explosion, "assets/img/Effects/circle25.png",
                            GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Flame,
-                           "src/clientServer/assets/img/Effects/flame1.png",
+    this->texture_mgr.load(GUI::GameTextures::Flame, "assets/img/Effects/flame1.png",
                            GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Smoke,
-                           "src/clientServer/assets/img/Effects/smkdrk20.png",
+    this->texture_mgr.load(GUI::GameTextures::Smoke, "assets/img/Effects/smkdrk20.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::StaticBackground,
-                           "src/clientServer/assets/img/background/static.png",
+    this->texture_mgr.load(GUI::GameTextures::StaticBackground, "assets/img/background/static.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Background1,
-                           "src/clientServer/assets/img/background/bg1.png",
+    this->texture_mgr.load(GUI::GameTextures::Background1, "assets/img/background/bg1.png",
                            GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background2,
-                           "src/clientServer/assets/img/background/bg2.png",
+    this->texture_mgr.load(GUI::GameTextures::Background2, "assets/img/background/bg2.png",
                            GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background3,
-                           "src/clientServer/assets/img/background/bg3.png",
+    this->texture_mgr.load(GUI::GameTextures::Background3, "assets/img/background/bg3.png",
                            GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::WormGrenade,
-                           "src/clientServer/assets/img/Worms/wthrgrn.png",
+    this->texture_mgr.load(GUI::GameTextures::WormGrenade, "assets/img/Worms/wthrgrn.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Grenade,
-                           "src/clientServer/assets/img/Weapons/grenade.png",
+    this->texture_mgr.load(GUI::GameTextures::Grenade, "assets/img/Weapons/grenade.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormCluster,
-                           "src/clientServer/assets/img/Worms/wthrcls.png",
+    this->texture_mgr.load(GUI::GameTextures::WormCluster, "assets/img/Worms/wthrcls.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Cluster,
-                           "src/clientServer/assets/img/Weapons/cluster.png",
+    this->texture_mgr.load(GUI::GameTextures::Cluster, "assets/img/Weapons/cluster.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Mortar,
-                           "src/clientServer/assets/img/Weapons/mortar.png",
+    this->texture_mgr.load(GUI::GameTextures::Mortar, "assets/img/Weapons/mortar.png",
                            GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Bazooka2,
-                           "src/clientServer/assets/img/Worms/wbaz2.png",
+    this->texture_mgr.load(GUI::GameTextures::Bazooka2, "assets/img/Worms/wbaz2.png",
                            GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Banana,
-                           "src/clientServer/assets/img/Weapons/banana.png",
+    this->texture_mgr.load(GUI::GameTextures::Banana, "assets/img/Weapons/banana.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormBanana,
-                           "src/clientServer/assets/img/Worms/wthrban.png",
+    this->texture_mgr.load(GUI::GameTextures::WormBanana, "assets/img/Worms/wthrban.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Holy,
-                           "src/clientServer/assets/img/Weapons/hgrenade.png",
+    this->texture_mgr.load(GUI::GameTextures::Holy, "assets/img/Weapons/hgrenade.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormHoly,
-                           "src/clientServer/assets/img/Worms/wthrhgrd.png",
+    this->texture_mgr.load(GUI::GameTextures::WormHoly, "assets/img/Worms/wthrhgrd.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Scope,
-                           "src/clientServer/assets/img/Misc/crshairb.png",
+    this->texture_mgr.load(GUI::GameTextures::Scope, "assets/img/Misc/crshairb.png",
                            GUI::Color{0x40, 0x40, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Scope,
-                           "src/clientServer/assets/img/Misc/crshairb.png",
+    this->texture_mgr.load(GUI::GameTextures::Scope, "assets/img/Misc/crshairb.png",
                            GUI::Color{0x40, 0x40, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::PowerBar,
-                           "src/clientServer/assets/img/Effects/blob.png",
+    this->texture_mgr.load(GUI::GameTextures::PowerBar, "assets/img/Effects/blob.png",
                            GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Fragment,
-                           "src/clientServer/assets/img/Weapons/clustlet.png",
+    this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
 
     /* allocates space in the array to avoid the player addresses from changing */
@@ -139,17 +110,58 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage)
     this->teamColors.push_back(SDL_Color{0xFF, 0, 0});
     this->teamColors.push_back(SDL_Color{0, 0xFF, 0});
     this->teamColors.push_back(SDL_Color{0, 0, 0xFF});
+
+    this->inputThread = std::thread([this] { this->inputWorker(); });
+    this->outputThread = std::thread([this] { this->outputWorker(); });
 }
 
-GUI::Game::~Game() {}
+GUI::Game::~Game() {
+    this->quit = true;
+    this->outputThread.join();
+    this->inputThread.join();
+}
 
-void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
-                      IO::Stream<IO::PlayerMsg> *clientResponse) {
+void GUI::Game::inputWorker() {
+    IO::GameStateMsg msg;
+    char *buffer = new char[msg.getSerializedSize()];
+
+    try {
+        while (!this->quit) {
+            this->socket.receive(buffer, msg.getSerializedSize());
+            msg.deserialize(buffer, msg.getSerializedSize());
+            this->snapshotBuffer.set(msg);
+            this->snapshotBuffer.swap();
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
+    }
+
+    delete buffer;
+}
+
+void GUI::Game::outputWorker() {
+    IO::PlayerMsg msg;
+    char *buffer = new char[msg.getSerializedSize()];
+
+    try {
+        while (!this->quit) {
+            this->output.pop(msg);
+            msg.serialize(buffer, msg.getSerializedSize());
+            this->socket.send(buffer, msg.getSerializedSize());
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
+    }
+
+    delete buffer;
+}
+
+void GUI::Game::start() {
     try {
         uint32_t prev = SDL_GetTicks();
-        bool quit = false;
-        while (!quit) {
-            *serverResponse >> this->snapshot;
+        while (!this->quit) {
+            /* updates the snapshot */
+            this->snapshot = this->snapshotBuffer.get();
             Worm::Worm &cur = this->worms[this->snapshot.currentWorm];
 
             /* handle events on queue */
@@ -161,19 +173,19 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                         break;
                     case SDL_KEYDOWN:
                         if (this->snapshot.processingInputs) {
-                            cur.handleKeyDown(e.key.keysym.sym, clientResponse);
+                            cur.handleKeyDown(e.key.keysym.sym, &this->output);
                         }
                         break;
                     case SDL_KEYUP:
                         if (this->snapshot.processingInputs) {
-                            cur.handleKeyUp(e.key.keysym.sym, clientResponse);
+                            cur.handleKeyUp(e.key.keysym.sym, &this->output);
                         }
                         break;
-                    case SDL_MOUSEBUTTONDOWN:{
-                        int x,y;
+                    case SDL_MOUSEBUTTONDOWN: {
+                        int x, y;
                         SDL_GetMouseState(&x, &y);
-                        GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x,y});
-                        cur.mouseButtonDown(global, clientResponse);
+                        GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
+                        cur.mouseButtonDown(global, &this->output);
                     }
                 }
             }
@@ -191,33 +203,33 @@ void GUI::Game::start(IO::Stream<IO::GameStateMsg> *serverResponse,
                 cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
 
-            if (this->snapshot.bulletsQuantity > 0){
-//                if (this->bullets == nullptr) {
-//                    this->bullet = std::shared_ptr<Ammo::Bullet>(
-//                        new Ammo::Bullet(this->texture_mgr, this->snapshot.activePlayerWeapon));
-//                }
-                for (int i = this->bullets.size();
-                     i < this->snapshot.bulletsQuantity; i++){
-                std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(this->texture_mgr,
-                                                this->snapshot.bulletType[i]));
+            if (this->snapshot.bulletsQuantity > 0) {
+                //                if (this->bullets == nullptr) {
+                //                    this->bullet = std::shared_ptr<Ammo::Bullet>(
+                //                        new Ammo::Bullet(this->texture_mgr,
+                //                        this->snapshot.activePlayerWeapon));
+                //                }
+                for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
+                    std::shared_ptr<Ammo::Bullet> p(
+                        new Ammo::Bullet(this->texture_mgr, this->snapshot.bulletType[i]));
                     this->bullets.emplace_back(p);
                 }
                 int i = 0;
-                for (auto &bullet : this->bullets){
-                    if (!bullet->exploding()){
-                        if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode){
+                for (auto &bullet : this->bullets) {
+                    if (!bullet->exploding()) {
+                        if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode) {
                             bullet->madeImpact();
                         }
                         bullet->setAngle(this->snapshot.bulletsAngle[i++]);
                     }
                 }
             }
-//            } else {
-//
-//                if (this->bullet != nullptr) {
-//                    this->bullet->madeImpact();
-//                }
-//            }
+            //            } else {
+            //
+            //                if (this->bullet != nullptr) {
+            //                    this->bullet->madeImpact();
+            //                }
+            //            }
 
             uint32_t current = SDL_GetTicks();
             float dt = static_cast<float>(current - prev) / 1000.0f;
@@ -264,10 +276,10 @@ void GUI::Game::update(float dt) {
 
     this->cam.update(dt);
 
-//    if (this->bullet != nullptr) {
-//        this->bullet->update(dt);
-//    }
-    for (auto &bullet : this->bullets){
+    //    if (this->bullet != nullptr) {
+    //        this->bullet->update(dt);
+    //    }
+    for (auto &bullet : this->bullets) {
         bullet->update(dt);
     }
 }
@@ -292,24 +304,24 @@ void GUI::Game::render() {
         wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
     }
 
-//    if (this->bullet != nullptr) {
-//        float local_x = this->snapshot.bullet[0];
-//        float local_y = this->snapshot.bullet[1];
-//        if (!this->bullet->exploding()) {
-//            this->bullet->setAngle(this->snapshot.bulletAngle);
-//            this->bullet->setPosition(GUI::Position{local_x, local_y});
-//        }
-//        this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
-//        //TODO make observer pattern to clean this
-//        if (this->bullet->exploded()) {
-//            this->bullet = nullptr;
-//        }
-//    }
+    //    if (this->bullet != nullptr) {
+    //        float local_x = this->snapshot.bullet[0];
+    //        float local_y = this->snapshot.bullet[1];
+    //        if (!this->bullet->exploding()) {
+    //            this->bullet->setAngle(this->snapshot.bulletAngle);
+    //            this->bullet->setPosition(GUI::Position{local_x, local_y});
+    //        }
+    //        this->bullet->render(GUI::Position{local_x, local_y}, this->cam);
+    //        //TODO make observer pattern to clean this
+    //        if (this->bullet->exploded()) {
+    //            this->bullet = nullptr;
+    //        }
+    //    }
     int i = 0, j = 0;
-    for (auto &bullet : this->bullets){
+    for (auto &bullet : this->bullets) {
         float local_x = this->snapshot.bullets[i++];
         float local_y = this->snapshot.bullets[i++];
-        if (!bullet->exploding()){
+        if (!bullet->exploding()) {
             bullet->setAngle(this->snapshot.bulletsAngle[j++]);
             bullet->setPosition(GUI::Position{local_x, local_y});
         }
