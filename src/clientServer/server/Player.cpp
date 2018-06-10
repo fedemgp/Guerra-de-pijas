@@ -75,6 +75,9 @@ void Worms::Player::update(float dt) {
     if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
         this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drowning) {
         this->health = 0.0f;
+        if (this->getStateId() == Worm::StateID::Hit) {
+            this->notify(*this, Event::EndHit);
+        }
         this->setState(Worm::StateID::Drowning);
         this->notify(*this, Event::Drowning);
     }
@@ -160,6 +163,7 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math:
                                mass * float32(inflictedDamage) * yImpactDirection};
             b2Vec2 position = this->body->GetWorldCenter();
             this->body->ApplyLinearImpulse(impulses, position, true);
+            this->notify(*this, Event::Hit);
             this->setState(Worm::StateID::Hit);
             this->health =
                     (this->health < 0)

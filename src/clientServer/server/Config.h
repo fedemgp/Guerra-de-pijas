@@ -58,6 +58,7 @@ class Config {
 
     const uint8_t getTurnTime() const;
     const float getExtraTurnTime() const;
+    const float getWaitForNextTurnTime() const;
     const float getPowerChargeTime() const;
     const uint8_t getNumTeams() const;
     const float getGameWidth() const;
@@ -96,6 +97,7 @@ class Config {
     // game
     uint8_t turnTime{TURN_TIME};
     float extraTurnTime{EXTRA_TURN_TIME};
+    float waitForNextTurnTime{WAIT_FOR_NEXT_TURN_TIME};
     float powerChargeTime{POWER_CHARGE_MAX_TIME};
     uint8_t numTeams{NUM_TEAMS};
     float gameWidth{GAME_WIDTH};
@@ -132,6 +134,8 @@ class Config {
                         ANGLE_STEP,  MAX_SHOT_POWER, HOLY_RESTITUTION, HOLY_FRCTION,
                         HOLY_INITIAL_TIMEOUT, false, HOLY_BULLET_RADIUS, HOLY_DUMPING_RATIO};
 };
+
+    void endTurn();
 }  // namespace Game
 
 #endif  //__GAMECONFIG_H__

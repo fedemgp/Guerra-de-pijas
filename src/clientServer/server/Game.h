@@ -15,6 +15,8 @@
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
+#include "GameClock.h"
+#include "GameTurn.h"
 
 namespace Worms {
 struct Teamasd {
@@ -34,9 +36,10 @@ class Game : Observer {
 
     void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const;
-    void onNotify(const PhysicsEntity &entity, Event event) override;
+    void onNotify(Subject &subject, Event event) override;
     void calculateDamage(const Bullet &bullet);
     void exit();
+    void endTurn();
 
    private:
     uint8_t currentWorm;
@@ -57,6 +60,9 @@ class Game : Observer {
 
     std::vector<uint8_t> deadTeams;
     uint8_t drowningWormsQuantity{0};
+    GameClock gameClock;
+    uint8_t hitWormsQuantity{0};
+    GameTurn gameTurn;
 };
 }  // namespace Worms
 

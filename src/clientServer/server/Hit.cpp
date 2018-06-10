@@ -26,6 +26,7 @@ void Worms::Hit::update(Worms::Player &p, float dt, b2Body *body) {
             b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
             body->ApplyLinearImpulseToCenter(impulses, true);
 
+            p.notify(p, Event::EndHit);
             p.setState(Worm::StateID::Still);
         }
     } else {

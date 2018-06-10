@@ -107,3 +107,7 @@ const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const{
 const uint8_t Game::Config::getClusterFragmentQuantity() const{
     return this->clusterFragmentQuantity;
 }
+
+const float Game::Config::getWaitForNextTurnTime() const {
+    return this->waitForNextTurnTime;
+}
