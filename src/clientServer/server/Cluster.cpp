@@ -43,21 +43,11 @@ std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBul
                            2.0f, this->fragmentConfig.restitution,
                            this->fragmentConfig.friction,
                            this->fragmentConfig.explotionInitialTimeout,
-                                    Event::Explode};
-//    {
-//        Game::Bullet::DamageInfo dmgInfo;
-//        Math::Point<float> point;
-//        float angle;
-//        float power;
-//        float safeNonContactDistance;
-//        float restitution;
-//        float friction;
-//        uint8_t explotionTimeout;
-//    };
+                                    Event::Explode, this->fragmentConfig.bulletRadius, this->fragmentConfig.bulletDampingRatio};
 
     std::list<Worms::Bullet> ret;
     for (int i = 0; i < fragmentQuantity; i++){
-        bulletInfo.angle += (i * this->fragmentConfig.angleStep);
+        bulletInfo.angle =  i * this->fragmentConfig.angleStep + this->fragmentConfig.minAngle;
         ret.emplace_back(bulletInfo, physics, Worm::WeaponID::WFragment);
     }
 

@@ -11,7 +11,8 @@
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
-    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics), weaponID(weapon){
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics),
+      weaponID(weapon), info(info){
     float distance = info.safeNonContactDistance + info.radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
@@ -30,34 +31,27 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     this->body->SetUserData(this);
 
 //    this->body->SetTransform(this->body->GetPosition(), info.angle);
-
-    this->angle = info.angle;
-    this->power = info.power;
-    this->damageInfo = info.dmgInfo;
-
-    this->timeout = info.explotionTimeout;
-    this->explodeEvent = info.explodeEvent;
 }
 
 void Worms::Bullet::update(float dt, Weapon &w) {
     this->timeElapsed += dt;
     if (!this->impulseApplied) {
         float32 mass = this->body->GetMass();
-        b2Vec2 impulses = {mass * float32(this->power * cos(this->angle * PI / 180.0f)),
-                           mass * float32(this->power * sin(this->angle * PI / 180.0f))};
+        b2Vec2 impulses = {mass * float32(this->info.power * this->info.dampingRatio * cos(this->info.angle * PI / 180.0f)),
+                           mass * float32(this->info.power * this->info.dampingRatio * sin(this->info.angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->impulseApplied = true;
     } else {
         b2Vec2 velocity = this->body->GetLinearVelocity();
-        this->angle = atan2(velocity.y, velocity.x) * 180.0f / PI;
-        if (this->angle < 0) {
-            this->angle += 360.0f;
+        this->info.angle = atan2(velocity.y, velocity.x) * 180.0f / PI;
+        if (this->info.angle < 0) {
+            this->info.angle += 360.0f;
         }
     }
 
     if (this->hasExploded()) {
-        this->notify(*this, this->explodeEvent);
+        this->notify(*this, this->info.explodeEvent);
         this->weaponID = Worm::WeaponID::WExplode;
     }
 }
@@ -68,7 +62,7 @@ Math::Point<float> Worms::Bullet::getPosition() const {
 }
 
 float Worms::Bullet::getAngle() const {
-    return (this->angle >= 0 && this->angle < 90) ? this->angle + 360.0f : this->angle;
+    return (this->info.angle >= 0 && this->info.angle < 90) ? this->info.angle + 360.0f : this->info.angle;
 }
 
 void Worms::Bullet::startContact(Worms::PhysicsEntity *physicsEntity) {
@@ -85,15 +79,15 @@ bool Worms::Bullet::hasExploded() const {
     if (this->getPosition().y < Game::Config::getInstance().getWaterLevel()) {
         return true;
     }
-    if (this->timeout > 0) {
-        return this->timeElapsed >= this->timeout;
+    if (this->info.explotionTimeout > 0) {
+        return this->timeElapsed >= this->info.explotionTimeout;
     } else {
         return this->madeImpact;
     }
 }
 
 Game::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
-    return this->damageInfo;
+    return this->info.dmgInfo;
 }
 
 bool Worms::Bullet::operator<(Worms::Bullet &other){

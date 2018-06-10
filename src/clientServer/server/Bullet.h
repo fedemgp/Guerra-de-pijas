@@ -25,6 +25,7 @@ struct BulletInfo {
     uint8_t explotionTimeout;
     Event explodeEvent;
     float radius;
+    float dampingRatio;
 };
 /**
  * forward declaration of weapon.
@@ -68,15 +69,11 @@ private:
     b2CircleShape shape;
     b2FixtureDef fixture;
     Worms::Physics &physics;
-    float angle{0};
     bool impulseApplied{false};
-    uint16_t timeout{0};
     float timeElapsed{0.0f};
-    float power{0};
-    Game::Bullet::DamageInfo damageInfo;
     bool madeImpact{false};
-    Event explodeEvent{Event::Explode};
     Worm::WeaponID weaponID;
+    BulletInfo info;
 };
 
 struct ExplosionChecker {
