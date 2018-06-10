@@ -26,7 +26,6 @@ enum class StateID {
     Die,
     Dead,
     Drowning,
-    Drowned,
     Falling,
     Land
 };

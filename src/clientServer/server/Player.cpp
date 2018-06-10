@@ -29,7 +29,6 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
-#include "Drowned.h"
 
 Worms::Player::Player(Physics &physics)
     : PhysicsEntity(Worms::EntityID::EtWorm),
@@ -405,10 +404,6 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::Drowning:
                 this->state = std::shared_ptr<State>(new Drowning());
-                break;
-            case Worm::StateID::Drowned:
-                this->state = std::shared_ptr<State>(new Drowned());
-                this->body->SetType(b2_staticBody);
                 break;
             case Worm::StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
