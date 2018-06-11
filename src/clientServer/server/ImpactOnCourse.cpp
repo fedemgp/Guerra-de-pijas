@@ -3,12 +3,14 @@
 //
 
 #include <algorithm>
+#include <iostream>
 
+#include "GameStateMsg.h"
 #include "ImpactOnCourse.h"
 
 void Worms::ImpactOnCourse::endTurn(GameTurn &gt) {
     if (!this->impactEnded) {
-        if (this->wormsStillHit.size() == 0 && this->wormsDrowning.size() == 0) {
+        if (this->wormsStillHit.size() == 0 && this->wormsDrowning.size() == 0 && this->fragmentExplosions == this->bulletFragments) {
             this->impactEnded = true;
             this->notify(*this, Event::ImpactEnd);
         }
@@ -66,6 +68,10 @@ void Worms::ImpactOnCourse::impactNotEnded() {
     this->impactEnded = false;
 }
 
-Worms::ImpactOnCourse::ImpactOnCourse() {
+Worms::ImpactOnCourse::ImpactOnCourse(uint8_t bulletFragments) {
+    this->bulletFragments = bulletFragments;
+}
 
+void Worms::ImpactOnCourse::explosion() {
+    this->fragmentExplosions++;
 }

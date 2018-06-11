@@ -22,7 +22,7 @@ namespace Worms {
         GameTurn(Observer &game);
         ~GameTurn() override = default;
 
-        void playerShot();
+        void playerShot(Worm::WeaponID weaponID);
         void endTurn();
         void wormHit(uint8_t wormId);
         void explosion();
@@ -37,6 +37,7 @@ namespace Worms {
         Observer &game;
         GameTurnStateID stateID;
         bool newState{false};
+        uint8_t bulletFragments{1};
     };
 }
 

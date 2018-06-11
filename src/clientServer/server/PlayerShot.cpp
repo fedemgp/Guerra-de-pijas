@@ -27,3 +27,7 @@ void Worms::PlayerShot::wormDrowned(Worms::GameTurn &gt, uint8_t wormId) {
 Worms::PlayerShot::PlayerShot() {
 
 }
+
+void Worms::PlayerShot::explosion() {
+
+}

@@ -7,6 +7,7 @@
 
 
 #include <cstdint>
+#include "GameStateMsg.h"
 #include "Subject.h"
 
 namespace Worms {
@@ -21,6 +22,7 @@ namespace Worms {
         virtual void wormEndHit(GameTurn &gt, uint8_t wormId) = 0;
         virtual void wormDrowning(GameTurn &gt, uint8_t wormId) = 0;
         virtual void wormDrowned(GameTurn &gt, uint8_t wormId) = 0;
+        virtual void explosion() = 0;
     };
 }
 

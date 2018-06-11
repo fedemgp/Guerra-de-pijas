@@ -20,6 +20,7 @@ public:
     void wormEndHit(GameTurn &gt, uint8_t wormId) override;
     void wormDrowning(GameTurn &gt, uint8_t wormId) override;
     void wormDrowned(GameTurn &gt, uint8_t wormId) override;
+    void explosion() override;
 };
 }
 

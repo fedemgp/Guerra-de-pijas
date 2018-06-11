@@ -230,7 +230,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::Shot: {
              this->players[this->currentWorm].addObserverToBullets(this);
              this->gameClock.playerShot();
-             this->gameTurn.playerShot();
+             this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
              this->shotOnCourse = true;
              break;
         }
@@ -238,8 +238,9 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
          * On explode, the game must check worms health.
          */
         case Event::Explode: {
+            auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->gameTurn.explosion();
-            this->calculateDamage(dynamic_cast<const Bullet&>(subject));
+            this->calculateDamage(bullet);
             break;
         }
         /**

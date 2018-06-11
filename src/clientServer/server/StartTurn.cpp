@@ -27,3 +27,7 @@ void Worms::StartTurn::wormDrowned(Worms::GameTurn &gt, uint8_t wormId) {
 Worms::StartTurn::StartTurn() {
 
 }
+
+void Worms::StartTurn::explosion() {
+
+}

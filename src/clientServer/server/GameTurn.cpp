@@ -2,9 +2,11 @@
 // Created by rodrigo on 10/06/18.
 //
 
+#include "Config.h"
+#include "GameStateMsg.h"
 #include "GameTurn.h"
-#include "PlayerShot.h"
 #include "ImpactOnCourse.h"
+#include "PlayerShot.h"
 #include "StartTurn.h"
 
 Worms::GameTurn::GameTurn(Observer &game) : game(game) {
@@ -12,9 +14,20 @@ Worms::GameTurn::GameTurn(Observer &game) : game(game) {
     this->state->addObserver(&this->game);
 }
 
-void Worms::GameTurn::playerShot() {
+void Worms::GameTurn::playerShot(Worm::WeaponID weaponID) {
     this->stateID = GameTurnStateID::PlayerShot;
     this->newState = true;
+
+    switch (weaponID) {
+//        case Worm::WeaponID::WMortar:
+//            this->bulletFragments = Game::Config::getInstance();
+//            break;
+        case Worm::WeaponID::WCluster:
+            this->bulletFragments = ::Game::Config::getInstance().getClusterFragmentQuantity();
+            break;
+        default:
+            break;
+    }
 }
 
 void Worms::GameTurn::endTurn() {
@@ -26,9 +39,12 @@ void Worms::GameTurn::wormHit(uint8_t wormId) {
 }
 
 void Worms::GameTurn::explosion() {
-    this->stateID = GameTurnStateID::ImpactOnCourse;
-    this->state = std::shared_ptr<GameTurnState>(new ImpactOnCourse());
-    this->state->addObserver(&this->game);
+    if (this->stateID != GameTurnStateID::ImpactOnCourse) {
+        this->stateID = GameTurnStateID::ImpactOnCourse;
+        this->state = std::shared_ptr<GameTurnState>(new ImpactOnCourse(this->bulletFragments));
+        this->state->addObserver(&this->game);
+    }
+    this->state->explosion();
 //    this->newState = true;
 }
 
@@ -47,6 +63,7 @@ void Worms::GameTurn::wormDrowned(uint8_t wormId) {
 void Worms::GameTurn::restart() {
     this->stateID = GameTurnStateID::StartTurn;
     this->newState = true;
+    this->bulletFragments = 1;
 }
 
 void Worms::GameTurn::update(float dt) {
@@ -59,7 +76,7 @@ void Worms::GameTurn::update(float dt) {
                 this->state = std::shared_ptr<GameTurnState>(new PlayerShot());
                 break;
             case GameTurnStateID::ImpactOnCourse:
-                this->state = std::shared_ptr<GameTurnState>(new ImpactOnCourse());
+//                this->state = std::shared_ptr<GameTurnState>(new ImpactOnCourse());
                 break;
         }
         this->state->addObserver(&this->game);
