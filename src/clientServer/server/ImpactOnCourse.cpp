@@ -9,15 +9,8 @@
 #include "ImpactOnCourse.h"
 
 void Worms::ImpactOnCourse::endTurn(GameTurn &gt) {
-    if (!this->impactEnded) {
-        if (this->wormsStillHit.size() == 0 && this->wormsDrowning.size() == 0 && this->fragmentExplosions == this->bulletFragments) {
-            this->impactEnded = true;
-            this->notify(*this, Event::ImpactEnd);
-        }
-    } else {
-        if (this->wormsFalling.size() == 0) {
-            this->notify(*this, Event::TurnEnded);
-        }
+    if (this->impactEnded && this->wormsFalling.size() == 0 && !this->wormsDying) {
+        this->notify(*this, Event::TurnEnded);
     }
 }
 
@@ -77,4 +70,17 @@ Worms::ImpactOnCourse::ImpactOnCourse(uint8_t bulletFragments) {
 
 void Worms::ImpactOnCourse::explosion() {
     this->fragmentExplosions++;
+}
+
+void Worms::ImpactOnCourse::wormDie(uint8_t wormId) {
+    this->wormsDying++;
+}
+
+void Worms::ImpactOnCourse::update(float dt) {
+    if (!this->impactEnded) {
+        if (this->wormsStillHit.size() == 0 && this->wormsDrowning.size() == 0 && this->fragmentExplosions == this->bulletFragments) {
+            this->impactEnded = true;
+            this->notify(*this, Event::ImpactEnd);
+        }
+    }
 }

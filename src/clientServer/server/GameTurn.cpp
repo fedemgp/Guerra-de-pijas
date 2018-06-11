@@ -82,6 +82,7 @@ void Worms::GameTurn::update(float dt) {
         this->state->addObserver(&this->game);
         this->newState = false;
     }
+    this->state->update(dt);
 }
 
 void Worms::GameTurn::wormFalling(uint8_t wormId) {
@@ -90,4 +91,8 @@ void Worms::GameTurn::wormFalling(uint8_t wormId) {
 
 void Worms::GameTurn::wormLanded(uint8_t wormId) {
     this->state->wormLanded(wormId);
+}
+
+void Worms::GameTurn::wormDead() {
+    this->state->wormDead();
 }

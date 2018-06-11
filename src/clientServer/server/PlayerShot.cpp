@@ -31,3 +31,7 @@ Worms::PlayerShot::PlayerShot() {
 void Worms::PlayerShot::explosion() {
 
 }
+
+void Worms::PlayerShot::update(float dt) {
+
+}

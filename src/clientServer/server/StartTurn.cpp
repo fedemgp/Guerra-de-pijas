@@ -37,3 +37,7 @@ Worms::StartTurn::StartTurn() {
 void Worms::StartTurn::explosion() {
 
 }
+
+void Worms::StartTurn::update(float dt) {
+
+}

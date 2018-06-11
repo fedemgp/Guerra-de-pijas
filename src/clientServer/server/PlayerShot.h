@@ -16,6 +16,7 @@ public:
     ~PlayerShot() = default;
 
     void endTurn(GameTurn &gt) override;
+    void update(float dt) override;
     void wormHit(GameTurn &gt, uint8_t wormId) override;
     void wormEndHit(GameTurn &gt, uint8_t wormId) override;
     void wormDrowning(GameTurn &gt, uint8_t wormId) override;

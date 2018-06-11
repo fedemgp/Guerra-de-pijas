@@ -20,6 +20,7 @@ namespace Worms {
         virtual ~GameTurnState() = default;
 
         virtual void endTurn(GameTurn &gt) = 0;
+        virtual void update(float dt) = 0;
         virtual void wormHit(GameTurn &gt, uint8_t wormId) = 0;
         virtual void wormEndHit(GameTurn &gt, uint8_t wormId) = 0;
         virtual void wormDrowning(GameTurn &gt, uint8_t wormId) = 0;
@@ -27,10 +28,12 @@ namespace Worms {
         virtual void explosion() = 0;
         virtual void wormFalling(uint8_t wormId);
         virtual void wormLanded(uint8_t wormId);
+        virtual void wormDead();
 
     protected:
         std::vector<uint8_t> wormsFalling;
         std::vector<uint8_t> wormsDrowning;
+        uint8_t wormsDying{0};
     };
 }
 

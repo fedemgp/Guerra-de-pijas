@@ -18,6 +18,7 @@ namespace Worms {
         ~ImpactOnCourse() = default;
 
         void endTurn(GameTurn &gt) override;
+        void update(float dt) override;
         void wormHit(GameTurn &gt, uint8_t wormId) override;
         void wormEndHit(GameTurn &gt, uint8_t wormId) override;
         void wormDrowning(GameTurn &gt, uint8_t wormId) override;
@@ -25,6 +26,7 @@ namespace Worms {
         void explosion() override;
         uint8_t getWormToFollow() const;
         std::vector<uint8_t> & getWormsHit();
+        void wormDie(uint8_t wormId);
         void impactNotEnded();
 
     private:
