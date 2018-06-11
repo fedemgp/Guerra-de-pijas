@@ -19,9 +19,9 @@ void Worms::GameTurn::playerShot(Worm::WeaponID weaponID) {
     this->newState = true;
 
     switch (weaponID) {
-//        case Worm::WeaponID::WMortar:
-//            this->bulletFragments = Game::Config::getInstance();
-//            break;
+        case Worm::WeaponID::WMortar:
+            this->bulletFragments = ::Game::Config::getInstance().getMortarFragmentQuantity();
+            break;
         case Worm::WeaponID::WCluster:
             this->bulletFragments = ::Game::Config::getInstance().getClusterFragmentQuantity();
             break;

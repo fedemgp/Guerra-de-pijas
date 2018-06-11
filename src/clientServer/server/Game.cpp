@@ -64,7 +64,7 @@ Worms::Game::Game(Stage &&stage)
 }
 
 void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
-                        IO::Stream<IO::PlayerInput> *playerStream) {
+                        IO::Stream<IO::PlayerMsg> *playerStream) {
     try {
         /* game loop */
         std::chrono::high_resolution_clock::time_point prev =
@@ -82,15 +82,15 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
             this->gameClock.update(dt);
             this->gameTurn.update(dt);
 
-            IO::PlayerInput pi;
-            if (playerStream->pop(pi, false)) {
+            IO::PlayerMsg pMsg;
+            if (playerStream->pop(pMsg, false)) {
                 if (this->processingClientInputs) {
                     if (this->currentPlayerShot) {
-                        if (pi != IO::PlayerInput::startShot && pi != IO::PlayerInput::endShot) {
-                            this->players.at(this->currentWorm).handleState(pi);
+                        if (pMsg.input != IO::PlayerInput::startShot && pMsg.input != IO::PlayerInput::endShot) {
+                            this->players.at(this->currentWorm).handleState(pMsg);
                         }
                     } else {
-                        this->players.at(this->currentWorm).handleState(pi);
+                        this->players.at(this->currentWorm).handleState(pMsg);
                     }
                 }
             }

@@ -35,6 +35,14 @@ class Weapon {
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
     /**
+     * Used by te remote control weapons. Sends to the weapon the coordinates
+     * of the deploy of the bullets, and a reference of Player so that the
+     * weapons, if they are remote control. calls the appropiate method.
+     * @param player to call deploy method (if the weapon has this feature)
+     * @param point
+     */
+    virtual void positionSelected(Worms::Player &p, Math::Point<float> point) = 0;
+    /**
      * Function that returns, using move semantics, a list of bullets
      * depending on weapon's behavior after the main bullet explode.
      * @return

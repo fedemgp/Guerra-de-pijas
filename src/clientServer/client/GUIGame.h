@@ -21,6 +21,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "Armory.h"
 
 namespace GUI {
 class Game {
@@ -28,7 +29,7 @@ class Game {
     Game(Window &w, Worms::Stage &&stage);
     ~Game();
     void start(IO::Stream<IO::GameStateMsg> *serverResponse,
-               IO::Stream<IO::PlayerInput> *clientResponse);
+               IO::Stream<IO::PlayerMsg> *clientResponse);
     void update(float dt);
     void render();
 
@@ -47,6 +48,7 @@ class Game {
     Font font;
     SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
     std::vector<SDL_Color> teamColors;
+    Armory armory;
 };
 }  // namespace GUI
 

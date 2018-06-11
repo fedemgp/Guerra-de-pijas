@@ -21,6 +21,7 @@ class Camera {
     void moveTo(Position coords);
 
     ScreenPosition globalToScreen(Position);
+    Position screenToGlobal(ScreenPosition);
 
     float getScale() const;
     Position getPosition() const;

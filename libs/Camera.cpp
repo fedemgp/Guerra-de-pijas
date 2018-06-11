@@ -107,6 +107,20 @@ GUI::ScreenPosition GUI::Camera::globalToScreen(GUI::Position global) {
 }
 
 /**
+ * @brief Converts some screen coordinates to global coordinates.
+ *
+ * @param global Screen coordinates.
+ * @return Corresponding global coordinates.
+ */
+GUI::Position GUI::Camera::screenToGlobal(GUI::ScreenPosition screen){
+    /* converts from screen to global coordinate */
+    Position global = {screen.x / this->scale, screen.y / this->scale};
+    global.y *= -1;
+    global += this->cur;
+    return global;
+}
+
+/**
  * @brief Updates the camera according to the elapsed time since the last update.
  *
  * @param dt Seconds elapsed since the last update.

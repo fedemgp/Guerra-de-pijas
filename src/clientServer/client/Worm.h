@@ -40,7 +40,7 @@ class Worm {
     explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr);
     ~Worm() {}
     /**
-     * Calls State::update to change frame of animation
+     * @brief Calls State::update to change frame of animation
      * @param dt
      */
     void update(float dt);
@@ -51,44 +51,51 @@ class Worm {
      */
     void render(GUI::Position &p, GUI::Camera &cam);
     /**
-     * Using a state pattern, change its state depending on the input, and
+     * @brief Using a state pattern, change its state depending on the input, and
      * sends it to the server
      * @param key
      * @param out
      */
-    void handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out);
+    void handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out);
     /**
-     * Same as handleKeyDown, but stops its current status.
+     * @brief Same as handleKeyDown, but stops its current status.
      * @param key
      * @param out
      */
-    void handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out);
+    void handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out);
+    /**
+     * @brief Receives a position in global coordinates and sends it to the state
+     * so it can handle it.
+     * @param position
+     */
+    void
+    mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *pStream);
     GUI::Animation getAnimation(StateID state) const;
     /**
-     * Attributte that implements state pattern to change the behavior
+     * @brief Attributte that implements state pattern to change the behavior
      * of the class polymorphically.
      */
     void setState(StateID state);
     StateID &getState() const;
     /**
-     * Update the animation with weapons, depending on the
+     * @brief Update the animation with weapons, depending on the
      * worm's angle.
      * @param angle
      */
     void setWeaponAngle(float angle);
     /**
-     * Update the used weapon
+     * @brief Update the used weapon
      * @param id
      */
     void setWeapon(const WeaponID &id);
     const WeaponID &getWeaponID() const;
     void setPosition(GUI::Position p);
     /**
-     * Starts the PowerBar's rendering, adding animations in its container
+     * @brief Starts the PowerBar's rendering, adding animations in its container
      */
     void startShot();
     /**
-     * End PowerBar's rendering, freeing its container
+     * @brief End PowerBar's rendering, freeing its container
      */
     void endShot();
 

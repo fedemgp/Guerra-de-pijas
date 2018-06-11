@@ -64,8 +64,9 @@ void GUI::Text::renderFixed(GUI::ScreenPosition p, GUI::Camera& camera) {
         this->createTexture(&camera.getRenderer());
         this->needs_render = false;
     }
-
-    camera.drawLocal(*this->texture, p);
+    SDL_Rect clip = {0, 0, this->texture->getWidth(), this->texture->getHeight()};
+    float scale = float(this->size) / float(this->font.size);
+    camera.drawLocal(*this->texture, p, clip, SDL_FLIP_NONE, scale);
 }
 
 /**

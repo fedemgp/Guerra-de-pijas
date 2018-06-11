@@ -35,3 +35,5 @@ void Weapon::Holy::setTimeout(uint8_t time) {
 std::list<Worms::Bullet> Weapon::Holy::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
+
+void Weapon::Holy::positionSelected(Worms::Player &p, Math::Point<float> point){}

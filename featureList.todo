@@ -41,10 +41,10 @@ Cámara:
   ☐ Camara se mueve con el mouse para ver otras partes del escenario
   ✔ Sigue al proyectil hasta el impacto @done (18-06-03 03:13)
   Sigue al gusano en movimiento tras el impacto:
-      ☐ hasta que termine de moverse
-      ☐ hasta que muera
-      ☐ cuando termina de moverse o muera, elige a otro
-      ☐ continua hasta que estén todos quietos
+      ✔ hasta que termine de moverse @done (18-06-10 03:23)
+      ✔ hasta que muera @done (18-06-10 03:23)
+      ✔ cuando termina de moverse o muera, elige a otro @done (18-06-10 03:23)
+      ✔ continua hasta que estén todos quietos @done (18-06-10 03:23)
 
 Turno:
   ✔ 1 gusano activo por turno @done (18-06-03 03:14)
@@ -52,7 +52,7 @@ Turno:
   termina cuando:
     ☐ gusano sufre daño
     gusano realiza accion:
-      ☐ gusano dispara
+      ✔ gusano dispara @done (18-06-10 03:23)
       ☐ gusano usa herramienta
       ✔ tiene 3 segundos adicionales para moverse luego de la acción @done (18-06-03 03:14)
     ✔ pasan mas de 60s @done (18-06-03 03:14)
@@ -119,12 +119,12 @@ Armas:
     ✔ Se ajusta el tiempo con las teclas 1,2,3,4 y 5 @done (18-06-04 00:41)
     ✔ Por defecto, la cuenta regresiva es de 5 @done (18-06-04 00:18)
   Teledirigido:
-    ☐ Usuario hace click para determinar donde colocar herramienta / disparar.
+    ✔ Usuario hace click para determinar donde colocar herramienta / disparar. @done (18-06-10 03:24)
     ☐ En el caso de usar proyectil, luego se debe disparar con espacio.
     ☐ ¿Que pasa si quiero disparar un teledirigido sin haber fijado destino? se dispara a si mismo
   Armas con fragmentos:
-    ☐ Luego de la explosión generan fragmentos que hacen daño
-    ☐ Trayectoria parabólica
+    ✔ Luego de la explosión generan fragmentos que hacen daño @done (18-06-10 03:24)
+    ✔ Trayectoria parabólica @done (18-06-10 03:24)
   Armas con rebote:
     ✔ La banana debe ser elastica. @done (18-06-04 00:18)
     ✔ Banana rebota muchas veces. @done (18-06-04 00:18)
@@ -166,8 +166,8 @@ Tipos de armas:
     ☐ Municiones: 10
     Daño:   
       ✔ (principal) 50 pts epicentro; 2mts radio @done (18-06-03 03:18)
-      ☐ (cada fragmento) 10pts epicentro; 2mts radio
-      ☐ Cantidad de fragmentos: 6
+      ✔ (cada fragmento) 10pts epicentro; 2mts radio @done (18-06-10 03:25)
+      ✔ Cantidad de fragmentos: 6 @done (18-06-10 03:25)
   Granada verde:
     ✔ Mira: SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
@@ -187,8 +187,8 @@ Tipos de armas:
     ☐ Municiones 10
     Daño:  
       ✔ (principal) 30 pts centro, 2mts radio @done (18-06-03 03:18)
-      ☐ (fragmento) 10pts centro, 2mts radio
-      ☐ Fragmentos: 6
+      ✔ (fragmento) 10pts centro, 2mts radio @done (18-06-10 03:25)
+      ✔ Fragmentos: 6 @done (18-06-10 03:25)
   Banana:
     ✔ Mira: SI @done (18-06-04 23:14)
     ✔ Cuerpo a cuerpo:  no @done (18-06-03 03:18)
