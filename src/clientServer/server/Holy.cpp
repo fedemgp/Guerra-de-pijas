@@ -19,7 +19,7 @@ void Weapon::Holy::update(float dt) {
     }
 }
 
-void Weapon::Holy::startShot() {
+void Weapon::Holy::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 

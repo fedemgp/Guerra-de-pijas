@@ -19,7 +19,7 @@ void Weapon::Banana::update(float dt) {
     }
 }
 
-void Weapon::Banana::startShot() {
+void Weapon::Banana::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 

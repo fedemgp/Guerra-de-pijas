@@ -20,7 +20,7 @@ void Weapon::Grenade::update(float dt) {
     }
 }
 
-void Weapon::Grenade::startShot() {
+void Weapon::Grenade::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 

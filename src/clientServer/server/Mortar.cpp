@@ -21,7 +21,7 @@ void Weapon::Mortar::update(float dt) {
     }
 }
 
-void Weapon::Mortar::startShot() {
+void Weapon::Mortar::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 

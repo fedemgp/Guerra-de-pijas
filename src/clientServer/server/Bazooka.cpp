@@ -16,12 +16,15 @@ void Weapon::Bazooka::update(float dt) {
     if (this->increaseShotPower) {
         if (this->shotPower < this->config.maxShotPower) {
             this->shotPower += dt / this->powerChargeTime * this->config.maxShotPower;
+        } else {
+            this->player->endShot();
         }
     }
 }
 
-void Weapon::Bazooka::startShot() {
+void Weapon::Bazooka::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
+    this->player = player;
 }
 
 void Weapon::Bazooka::endShot(){

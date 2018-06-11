@@ -19,7 +19,7 @@ void Weapon::Cluster::update(float dt) {
     }
 }
 
-void Weapon::Cluster::startShot() {
+void Weapon::Cluster::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 

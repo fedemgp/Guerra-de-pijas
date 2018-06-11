@@ -14,7 +14,7 @@ class Bazooka : public Worms::Weapon {
     Bazooka(float angle);
     ~Bazooka() = default;
     void update(float dt) override;
-    void startShot() override;
+    void startShot(Worms::Player *player) override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
     std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
@@ -22,6 +22,7 @@ class Bazooka : public Worms::Weapon {
 
    private:
     float powerChargeTime{0.0f};
+    Worms::Player *player;
 };
 }  // namespace Weapon
 

@@ -16,7 +16,7 @@ class Cluster : public Worms::Weapon {
     Cluster(float angle);
     ~Cluster() override = default;
     void update(float dt) override;
-    void startShot() override;
+    void startShot(Worms::Player *player) override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
     std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;

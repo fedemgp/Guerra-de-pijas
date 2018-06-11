@@ -30,7 +30,7 @@ class Weapon {
     void increaseAngle();
     void decreaseAngle();
     float getAngle() const;
-    virtual void startShot() = 0;
+    virtual void startShot(Worms::Player *player) = 0;
     virtual void endShot() = 0;
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;

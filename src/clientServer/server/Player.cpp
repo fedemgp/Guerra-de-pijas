@@ -352,7 +352,7 @@ void Worms::Player::decreaseWeaponAngle() {
 }
 
 void Worms::Player::startShot() {
-    this->weapon->startShot();
+    this->weapon->startShot(this);
 }
 
 void Worms::Player::endShot() {
@@ -402,7 +402,6 @@ void Worms::Player::landDamage(float yDistance) {
     if (yDistance > CONFIG.getSafeFallDistance()) {
         this->health -=
             (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
-        this->landingDamage = true;
         if (this->health > 0.0f) {
             this->notify(*this, Event::DamageOnLanding);
         }
