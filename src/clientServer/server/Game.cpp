@@ -232,6 +232,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
              this->gameClock.playerShot();
              this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
              this->shotOnCourse = true;
+             this->currentPlayerShot = true;
              break;
         }
         /**
