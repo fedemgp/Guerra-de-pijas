@@ -22,6 +22,8 @@ public:
 
     void restart();
 
+    void endTurn();
+
 private:
     float timeElapsed{0.0f};
     float turnTime;

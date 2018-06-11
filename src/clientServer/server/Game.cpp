@@ -212,12 +212,14 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
-        case Event::WormFalling:
+        case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
             break;
-        case Event::WormLanded:
+        }
+        case Event::WormLanded: {
             this->gameTurn.wormLanded(dynamic_cast<const Player &>(subject).getId());
             break;
+        }
         case Event::Hit: {
             this->gameTurn.wormHit(dynamic_cast<const Player &>(subject).getId());
             break;
@@ -234,14 +236,21 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->gameTurn.wormDrowned(dynamic_cast<const Player &>(subject).getId());
             break;
         }
-        case Event::Dying:
+        case Event::Dying: {
             this->gameTurn.wormDying();
             break;
-        case Event::Dead:
+        }
+        case Event::Dead: {
             this->gameTurn.wormDead();
+            this->gameTurn.endTurn();
             break;
+        }
         case Event::NewWormToFollow: {
             this->currentWormToFollow = dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
+            break;
+        }
+        case Event::DamageOnLanding: {
+            this->gameClock.endTurn();
             break;
         }
         case Event::ImpactEnd: {
@@ -252,7 +261,6 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
                     if (wormState != Worm::StateID::Die &&
                         wormState != Worm::StateID::Dead) {
                         this->players[worm].setState(Worm::StateID::Die);
-//                        dynamic_cast<ImpactOnCourse &>(subject).wormDie(worm);
                     }
                 }
             }

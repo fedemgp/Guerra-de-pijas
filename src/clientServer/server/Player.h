@@ -99,6 +99,7 @@ class Player : public PhysicsEntity {
     uint8_t id;
     std::list<Bullet> bullets;
     bool removeBullets{false};
+    bool landingDamage{false};
 };
 }  // namespace Worms
 

@@ -42,3 +42,8 @@ void GameClock::restart() {
     this->currentTurnTime = this->turnTime;
 //    this->waitForNextTurn = true;
 }
+
+void GameClock::endTurn() {
+    this->timeElapsed = this->currentTurnTime + 1.0f;
+    this->notify(*this, Event::EndTurn);
+}
