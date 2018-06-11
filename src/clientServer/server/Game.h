@@ -44,14 +44,10 @@ class Game : Observer {
    private:
     uint8_t currentWorm;
     uint8_t currentTeam;
-    double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
     std::vector<Player> players;
     const double maxTurnTime;
-    bool impactOnCourse{false};
-    bool shotOnCourse{false};
-    double currentPlayerTurnTime{0};
     bool processingClientInputs{true};
     uint8_t currentWormToFollow{0};
     bool currentPlayerShot{false};
@@ -59,9 +55,7 @@ class Game : Observer {
     std::list<Bullet> bullets;
 
     std::vector<uint8_t> deadTeams;
-    uint8_t drowningWormsQuantity{0};
     GameClock gameClock;
-    uint8_t hitWormsQuantity{0};
     GameTurn gameTurn;
 };
 }  // namespace Worms
