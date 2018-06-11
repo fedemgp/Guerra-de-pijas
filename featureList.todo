@@ -50,7 +50,7 @@ Turno:
   ✔ 1 gusano activo por turno @done (18-06-03 03:14)
   ✔ se elige de forma ciclica @done (18-06-03 03:14)
   termina cuando:
-    ☐ gusano sufre daño
+    ✔ gusano sufre daño @done(18-06-11 16:58)
     gusano realiza accion:
       ✔ gusano dispara @done (18-06-10 03:23)
       ☐ gusano usa herramienta
