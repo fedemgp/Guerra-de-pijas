@@ -13,6 +13,7 @@ Worms::Land::Land()
 void Worms::Land::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
     if (this->timeElapsed > this->landTime) {
+        p.notify(p, Event::WormLanded);
         p.setState(Worm::StateID::Still);
     }
 }

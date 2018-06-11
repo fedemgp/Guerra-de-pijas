@@ -15,7 +15,9 @@ void Worms::ImpactOnCourse::endTurn(GameTurn &gt) {
             this->notify(*this, Event::ImpactEnd);
         }
     } else {
-        this->notify(*this, Event::TurnEnded);
+        if (this->wormsFalling.size() == 0) {
+            this->notify(*this, Event::TurnEnded);
+        }
     }
 }
 
@@ -38,6 +40,7 @@ void Worms::ImpactOnCourse::wormEndHit(Worms::GameTurn &gt, uint8_t wormId) {
 
 void Worms::ImpactOnCourse::wormDrowning(Worms::GameTurn &gt, uint8_t wormId) {
     this->wormsDrowning.emplace_back(wormId);
+    this->wormLanded(wormId);
     if (this->wormsStillHit.size() == 0) {
         if (this->wormToFollow != this->wormsDrowning[0]) {
             this->wormToFollow = this->wormsDrowning[0];

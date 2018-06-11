@@ -212,6 +212,12 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
+        case Event::WormFalling:
+            this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
+            break;
+        case Event::WormLanded:
+            this->gameTurn.wormLanded(dynamic_cast<const Player &>(subject).getId());
+            break;
         case Event::Hit: {
             this->gameTurn.wormHit(dynamic_cast<const Player &>(subject).getId());
             break;

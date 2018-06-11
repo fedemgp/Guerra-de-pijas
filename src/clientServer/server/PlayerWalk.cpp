@@ -15,6 +15,7 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
     if (!p.isOnGround()) {
         this->impulses[0] = -vel.x * mass;
         body->ApplyLinearImpulse(b2Vec2(impulses[0], impulses[1]), body->GetWorldCenter(), true);
+        p.notify(p, Event::WormFalling);
         p.setState(Worm::StateID::Falling);
         return;
     }

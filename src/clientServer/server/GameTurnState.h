@@ -7,6 +7,8 @@
 
 
 #include <cstdint>
+#include <vector>
+
 #include "GameStateMsg.h"
 #include "Subject.h"
 
@@ -23,6 +25,12 @@ namespace Worms {
         virtual void wormDrowning(GameTurn &gt, uint8_t wormId) = 0;
         virtual void wormDrowned(GameTurn &gt, uint8_t wormId) = 0;
         virtual void explosion() = 0;
+        virtual void wormFalling(uint8_t wormId);
+        virtual void wormLanded(uint8_t wormId);
+
+    protected:
+        std::vector<uint8_t> wormsFalling;
+        std::vector<uint8_t> wormsDrowning;
     };
 }
 

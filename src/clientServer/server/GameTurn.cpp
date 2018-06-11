@@ -83,3 +83,11 @@ void Worms::GameTurn::update(float dt) {
         this->newState = false;
     }
 }
+
+void Worms::GameTurn::wormFalling(uint8_t wormId) {
+    this->state->wormFalling(wormId);
+}
+
+void Worms::GameTurn::wormLanded(uint8_t wormId) {
+    this->state->wormLanded(wormId);
+}

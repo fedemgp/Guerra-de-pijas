@@ -7,7 +7,7 @@
 #define __OBSERVER_H__
 
 enum class Event { Explode, OnExplode, Shot, Drowning, Drowned, EndTurn, Hit, EndHit, NewWormToFollow, ImpactEnd,
-    TurnEnded
+    TurnEnded, WormFalling, WormLanded
 };
 
 class Subject;

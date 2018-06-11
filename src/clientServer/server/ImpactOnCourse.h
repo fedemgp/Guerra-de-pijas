@@ -29,7 +29,6 @@ namespace Worms {
 
     private:
         std::vector<uint8_t> wormsStillHit;
-        std::vector<uint8_t> wormsDrowning;
         std::vector<uint8_t> wormsHit;
         uint8_t wormToFollow{0};
         bool impactEnded{false};

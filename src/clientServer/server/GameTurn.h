@@ -32,6 +32,10 @@ namespace Worms {
         void restart();
         void update(float dt);
 
+        void wormFalling(uint8_t wormId);
+
+        void wormLanded(uint8_t wormId);
+
     private:
         std::shared_ptr<GameTurnState> state{nullptr};
         Observer &game;
