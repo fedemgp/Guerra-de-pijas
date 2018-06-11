@@ -7,7 +7,7 @@
 #include "StartTurn.h"
 
 void Worms::StartTurn::endTurn(GameTurn &gt) {
-    if (this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0) {
+    if (this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0 && !this->wormsDying) {
         this->notify(*this, Event::TurnEnded);
     }
 }

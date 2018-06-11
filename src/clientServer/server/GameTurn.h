@@ -38,6 +38,8 @@ namespace Worms {
 
         void wormDead();
 
+        void wormDying();
+
     private:
         std::shared_ptr<GameTurnState> state{nullptr};
         Observer &game;

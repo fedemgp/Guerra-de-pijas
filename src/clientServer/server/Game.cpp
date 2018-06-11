@@ -234,6 +234,9 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->gameTurn.wormDrowned(dynamic_cast<const Player &>(subject).getId());
             break;
         }
+        case Event::Dying:
+            this->gameTurn.wormDying();
+            break;
         case Event::Dead:
             this->gameTurn.wormDead();
             break;
@@ -249,11 +252,8 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
                     if (wormState != Worm::StateID::Die &&
                         wormState != Worm::StateID::Dead) {
                         this->players[worm].setState(Worm::StateID::Die);
-                        dynamic_cast<ImpactOnCourse &>(subject).wormDie(worm);
+//                        dynamic_cast<ImpactOnCourse &>(subject).wormDie(worm);
                     }
-//                    if (wormState != Worm::StateID::Dead) {
-//                        dynamic_cast<ImpactOnCourse &>(subject).impactNotEnded();
-//                    }
                 }
             }
             break;

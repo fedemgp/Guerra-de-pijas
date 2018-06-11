@@ -17,7 +17,7 @@ Game::Config::Config()
     : jumpVelocity(JUMP_VEL_X, JUMP_VEL_Y), backflipVelocity(BACKFLIP_VEL_X, BACKFLIP_VEL_Y) {}
 
 float Game::Config::getSafeFallDistance() const {
-    return 8.0f;
+    return 2.0f;
 }
 
 float Game::Config::getMaxFallDamage() const {

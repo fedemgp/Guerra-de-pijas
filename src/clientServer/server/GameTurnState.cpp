@@ -21,3 +21,7 @@ void Worms::GameTurnState::wormLanded(uint8_t wormId) {
 void Worms::GameTurnState::wormDead() {
     this->wormsDying--;
 }
+
+void Worms::GameTurnState::wormDying() {
+    this->wormsDying++;
+}

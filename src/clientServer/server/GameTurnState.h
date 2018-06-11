@@ -28,6 +28,7 @@ namespace Worms {
         virtual void explosion() = 0;
         virtual void wormFalling(uint8_t wormId);
         virtual void wormLanded(uint8_t wormId);
+        virtual void wormDying();
         virtual void wormDead();
 
     protected:

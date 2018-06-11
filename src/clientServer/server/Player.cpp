@@ -248,6 +248,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case Worm::StateID::Die:
+                this->notify(*this, Event::Dying);
                 this->state = std::shared_ptr<State>(new Die());
                 break;
             case Worm::StateID::Drowning:
@@ -401,9 +402,6 @@ void Worms::Player::landDamage(float yDistance) {
     if (yDistance > CONFIG.getSafeFallDistance()) {
         this->health -=
             (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
-        if (this->health < 0.0f) {
-            this->setState(Worm::StateID::Die);
-        }
     }
 }
 

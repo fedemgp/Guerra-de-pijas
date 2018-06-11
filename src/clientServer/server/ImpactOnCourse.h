@@ -26,7 +26,6 @@ namespace Worms {
         void explosion() override;
         uint8_t getWormToFollow() const;
         std::vector<uint8_t> & getWormsHit();
-        void wormDie(uint8_t wormId);
         void impactNotEnded();
 
     private:
