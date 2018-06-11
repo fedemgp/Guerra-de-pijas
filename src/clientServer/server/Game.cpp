@@ -120,11 +120,6 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
 }
 
 void Worms::Game::endTurn() {
-    if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
-        this->players[this->currentWorm].setState(Worm::StateID::Still);
-    }
-    this->currentPlayerShot = false;
-
     this->teams.endTurn(this->players);
     this->currentTeam = this->teams.getCurrentTeam();
     this->currentWorm = this->teams.getCurrentPlayerID();
@@ -272,6 +267,14 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::TurnEnded: {
+            if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
+                this->players[this->currentWorm].setState(Worm::StateID::Still);
+            }
+            this->currentPlayerShot = false;
+            this->gameClock.waitForNextTurn();
+            break;
+        }
+        case Event::NextTurn: {
             this->endTurn();
             break;
         }

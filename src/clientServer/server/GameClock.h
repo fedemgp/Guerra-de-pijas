@@ -15,13 +15,10 @@ public:
     ~GameClock() = default;
     void update(float dt);
     void playerShot();
-
     double getTimeElapsed() const;
-
     double getTurnTime() const;
-
+    void waitForNextTurn();
     void restart();
-
     void endTurn();
 
 private:
@@ -29,8 +26,8 @@ private:
     float turnTime;
     float extraTurnTime;
     float currentTurnTime;
-    bool waitForNextTurn{false};
     float waitForNextTurnTime;
+    bool waitingForNextTurn{false};
 };
 
 

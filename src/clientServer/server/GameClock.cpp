@@ -19,13 +19,12 @@ void GameClock::playerShot() {
 
 void GameClock::update(float dt) {
     this->timeElapsed += dt;
-    if (this->waitForNextTurn) {
-        if (this->timeElapsed > this->waitForNextTurnTime) {
-            this->timeElapsed = 0.0f;
-            this->waitForNextTurn = false;
-        }
-    } else if (this->timeElapsed > this->currentTurnTime) {
+    if (this->timeElapsed > this->currentTurnTime) {
+        if (this->waitingForNextTurn) {
+            this->notify(*this, Event::NextTurn);
+        } else {
             this->notify(*this, Event::EndTurn);
+        }
     }
 }
 
@@ -38,12 +37,18 @@ double GameClock::getTurnTime() const {
 }
 
 void GameClock::restart() {
+    this->waitingForNextTurn = false;
     this->timeElapsed = 0.0f;
     this->currentTurnTime = this->turnTime;
-//    this->waitForNextTurn = true;
 }
 
 void GameClock::endTurn() {
     this->timeElapsed = this->currentTurnTime + 1.0f;
     this->notify(*this, Event::EndTurn);
+}
+
+void GameClock::waitForNextTurn() {
+    this->timeElapsed = 0.0f;
+    this->currentTurnTime = this->waitForNextTurnTime;
+    this->waitingForNextTurn = true;
 }
