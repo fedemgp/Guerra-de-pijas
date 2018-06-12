@@ -42,6 +42,16 @@ A library to use sound from SDL.
 ## Build instructions
 
 Run `make help` to get more information about different build options.
+### Alternative
+create a folder build, then in that folder open a console and type:
+	
+	cmake ..
+	make
+
+It will generate the client and server executables and it will copy the assets folder in there so the user can execute the game with no problem.
+
+## Run
+It is necessary to open two clients to start the game.
 
 ## FeatureList
 
