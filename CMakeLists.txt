@@ -28,3 +28,5 @@ target_link_libraries(server Box2D SDL2 SDL2_image SDL2_ttf SDL2_mixer)
 #        ${CLIENT_SERVER_SOURCES})
 #
 #target_link_libraries(clientServer Box2D SDL2 SDL2_image SDL2_ttf)
+
+file(COPY assets DESTINATION ./)
