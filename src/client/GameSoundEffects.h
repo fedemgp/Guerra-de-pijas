@@ -15,7 +15,16 @@ enum class GameSoundEffects {
     Explosion,
     WormLanding,
     WormDrowning,
-    Splash
+    Splash,
+    WormJump,
+    WormBackFlip,
+    WormHit,
+    WormDie,
+    Holy,
+    AirStrike,
+    Teleport,
+    Shot,
+    Banana
 };
 
 /** Specialized SoundEffectManager class. */

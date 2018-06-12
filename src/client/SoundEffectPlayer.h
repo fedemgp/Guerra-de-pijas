@@ -12,8 +12,9 @@
 namespace GUI {
 class SoundEffectPlayer {
    public:
+    SoundEffectPlayer(const GUI::SoundEffect &soundEffect);
     SoundEffectPlayer(const SoundEffect &soundEffect, float duration);
-    SoundEffectPlayer(const SoundEffect &soundEffect);
+    SoundEffectPlayer(const GUI::SoundEffect &soundEffect, bool autoUpdate);
     ~SoundEffectPlayer();
     void update(float dt);
     void play();
@@ -22,6 +23,7 @@ class SoundEffectPlayer {
     const SoundEffect *soundEffect;
     float duration{0.0f};
     float timeElapsed{0.0f};
+    bool autoUpdate{false};
 };
 }
 

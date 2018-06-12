@@ -95,35 +95,53 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
     this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::BazookaIcon,
-                           "src/clientServer/assets/img/Weapon Icons/bazooka.2.png",
+                           "assets/img/Weapon Icons/bazooka.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::GrenadeIcon,
-                           "src/clientServer/assets/img/Weapon Icons/grenade.2.png",
+                           "assets/img/Weapon Icons/grenade.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::ClusterIcon,
-                           "src/clientServer/assets/img/Weapon Icons/cluster.2.png",
+                           "assets/img/Weapon Icons/cluster.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::MortarIcon,
-                           "src/clientServer/assets/img/Weapon Icons/mortar.2.png",
+                           "assets/img/Weapon Icons/mortar.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::BananaIcon,
-                           "src/clientServer/assets/img/Weapon Icons/banana.2.png",
+                           "assets/img/Weapon Icons/banana.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::HolyIcon,
-                           "src/clientServer/assets/img/Weapon Icons/hgrenade.2.png",
+                           "assets/img/Weapon Icons/hgrenade.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->armory.loadWeapons();
 
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
-                                "src/clientServer/assets/sound/Effects/Walk-Compress.wav");
+                                "assets/sound/Effects/Walk-Compress.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
+                                "assets/sound/Soundbanks/JUMP1.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormBackFlip,
+                                "assets/sound/Soundbanks/JUMP2.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WormLanding,
-                                "src/clientServer/assets/sound/Effects/WormLanding.wav");
+                                "assets/sound/Effects/WormLanding.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormHit,
+                                "assets/sound/Soundbanks/OUCH.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDrowning,
-                                "src/clientServer/assets/sound/Effects/UnderWaterLoop.wav");
+                                "assets/sound/Effects/UnderWaterLoop.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDie,
+                                "assets/sound/Soundbanks/BYEBYE.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Splash,
-                                "src/clientServer/assets/sound/Effects/Splash.wav");
+                                "assets/sound/Effects/Splash.wav");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
-                                "src/clientServer/assets/sound/Effects/Explosion1.wav");
+                                "assets/sound/Effects/Explosion1.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Holy,
+                                "assets/sound/Effects/HOLYGRENADE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::AirStrike,
+                                "assets/sound/Effects/Airstrike.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Teleport,
+                                "assets/sound/Effects/TELEPORT.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Shot,
+                                "assets/sound/Effects/ROCKETRELEASE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
+                                "assets/sound/Effects/BananaImpact.wav");
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;

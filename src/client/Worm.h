@@ -116,6 +116,8 @@ class Worm {
     void playSoundEffect(StateID state);
 
     std::shared_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
+
+    void playWeaponSoundEffect(const WeaponID &id);
 };
 }  // namespace Worm
 
