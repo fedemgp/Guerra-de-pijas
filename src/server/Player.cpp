@@ -93,18 +93,18 @@ void Worms::Player::update(float dt) {
 
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
-    /**
-     * after the server sends a WExplode state of the bullet, it is needed to
-     * remove every exploded bullet.
-     */
-    if (this->removeBullets) {
-        this->bullets.remove_if(Worms::ExplosionChecker());
-        this->removeBullets = false;
-    }
-
-    for (auto &bullet : this->bullets) {
-        bullet.update(dt, *this->weapon);
-    }
+//    /**
+//     * after the server sends a WExplode state of the bullet, it is needed to
+//     * remove every exploded bullet.
+//     */
+//    if (this->removeBullets) {
+//        this->bullets.remove_if(Worms::ExplosionChecker());
+//        this->removeBullets = false;
+//    }
+//
+//    for (auto &bullet : this->bullets) {
+//        bullet.update(dt, *this->weapon);
+//    }
 
     if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
         this->getStateId() != Worm::StateID::Drowning) {
@@ -262,8 +262,8 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-const std::list<Worms::Bullet> &Worms::Player::getBullets() const {
-    return this->bullets;
+std::list<Worms::Bullet> Worms::Player::getBullets() const {
+    return std::move(this->bullets);
 }
 
 void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
@@ -432,8 +432,9 @@ b2Body *Worms::Player::createBody(b2BodyType type) {
     return new_body;
 }
 
-void Worms::Player::onExplode(const Bullet &b, Physics &physics) {
-    this->bullets.merge(this->weapon->onExplode(b, physics));
+std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &physics) {
+    return std::move(this->weapon->onExplode(b, physics));
+//    this->bullets.merge(this->weapon->onExplode(b, physics));
 }
 
 void Worms::Player::addObserverToBullets(Observer *obs) {

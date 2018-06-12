@@ -68,13 +68,13 @@ class Player : public PhysicsEntity {
     void setId(uint8_t id);
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
-    const std::list<Bullet> &getBullets() const;
+    std::list<Bullet> getBullets() const;
     void cleanBullets();
     /**
      * calls weapon's onExplode and get new bullets if is necesary.
      */
-    void onExplode(const Bullet &bullet,
-                   Physics &physics);  // TODO return the list with move semantics
+    std::list<Bullet> onExplode(const Bullet &bullet,
+                                Physics &physics);  // TODO return the list with move semantics
     /**
      * Add observer to all bullets.
      * @param obs

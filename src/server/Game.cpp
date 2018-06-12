@@ -172,6 +172,19 @@ void Worms::Game::start() {
                 worm.update(dt);
             }
 
+            /**
+             * after the server sends a WExplode state of the bullet, it is needed to
+             * remove every exploded bullet.
+             */
+            if (this->removeBullets) {
+                this->bullets.remove_if(Worms::ExplosionChecker());
+                this->removeBullets = false;
+            }
+
+            for (auto &bullet : this->bullets) {
+                bullet.update(dt);
+            }
+
             /* updates the physics engine */
             for (int i = 0; i < 5 && lag > timeStep; i++) {
                 this->physics.update(timeStep);
@@ -225,9 +238,9 @@ IO::GameStateMsg Worms::Game::serialize() const {
     m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
 
-    m.bulletsQuantity = this->players[this->currentWorm].getBullets().size();
+    m.bulletsQuantity = this->bullets.size();
     uint8_t i = 0, j = 0;
-    for (auto &bullet : this->players[this->currentWorm].getBullets()) {
+    for (auto &bullet : this->bullets) {
         Math::Point<float> p = bullet.getPosition();
         m.bullets[i++] = p.x;
         m.bullets[i++] = p.y;
@@ -253,7 +266,11 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
          * the bullets and add the game as an observer
          */
         case Event::Shot: {
-             this->players[this->currentWorm].addObserverToBullets(this);
+//             this->players[this->currentWorm].addObserverToBullets(this);
+             this->bullets.merge(this->players[this->currentWorm].getBullets());
+             for (auto &bullet : this->bullets) {
+                 bullet.addObserver(this);
+             }
              this->gameClock.playerShot();
              this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
              this->currentPlayerShot = true;
@@ -275,8 +292,11 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::OnExplode: {
             auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->calculateDamage(bullet);
-            this->players[this->currentWorm].onExplode(bullet, this->physics);
-            this->players[this->currentWorm].addObserverToBullets(this);
+            this->bullets.merge(this->players[this->currentWorm].onExplode(bullet, this->physics));
+            for (auto &bullet : this->bullets) {
+                bullet.addObserver(this);
+            }
+//            this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
         case Event::WormFalling: {
@@ -358,5 +378,6 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }
-    this->players[this->currentWorm].cleanBullets();
+//    this->players[this->currentWorm].cleanBullets();
+    this->removeBullets = true;
 }
