@@ -12,7 +12,7 @@
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
-#include "Drown.h"
+#include "Drowning.h"
 #include "Falling.h"
 #include "GameStateMsg.h"
 #include "Grenade.h"
@@ -42,7 +42,7 @@ Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
     this->weapon = std::shared_ptr<Weapon>(new Bazooka(texture_mgr));
 }
 
-void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
+void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
@@ -100,11 +100,14 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out
             i = this->state->startShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone)
-        *out << i;
+    if (i != IO::PlayerInput::moveNone){
+        IO::PlayerMsg msg;
+        msg.input = i;
+        *out << msg;
+    }
 }
 
-void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) {
+void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerInput i = IO::PlayerInput::moveNone;
     switch (key) {
         case SDLK_RIGHT:
@@ -117,8 +120,11 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerInput> *out) 
             i = this->state->endShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone)
-        *out << i;
+    if (i != IO::PlayerInput::moveNone){
+        IO::PlayerMsg msg;
+        msg.input = i;
+        *out << msg;
+    }
 }
 
 void Worm::Worm::render(GUI::Position &p, GUI::Camera &cam) {
@@ -183,7 +189,7 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
-        case StateID::Drown:
+        case StateID::Drowning:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   DROWN_CENTER_FRAME, false};
         case StateID::Dead:
@@ -223,7 +229,7 @@ void Worm::Worm::playSoundEffect(StateID state) {
             break;
         case StateID::Die:
             break;
-        case StateID::Drown:
+        case StateID::Drowning:
             this->soundEffectPlayer =
                     std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDrowning)});
@@ -276,8 +282,8 @@ void Worm::Worm::setState(StateID state) {
             case StateID::Die:
                 this->state = std::shared_ptr<State>(new Die());
                 break;
-            case StateID::Drown:
-                this->state = std::shared_ptr<State>(new Drown());
+            case StateID::Drowning:
+                this->state = std::shared_ptr<State>(new Drowning());
                 break;
             case StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
@@ -317,6 +323,10 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
                 break;
+            case WeaponID::WExplode:
+                break;
+            case WeaponID::WFragment:
+                break;
         }
     }
 }
@@ -339,4 +349,11 @@ void Worm::Worm::startShot() {
 
 void Worm::Worm::endShot() {
     this->weapon->endShot();
+}
+
+void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out){
+    IO::PlayerMsg msg;
+    msg.input = IO::PlayerInput::positionSelected;
+    msg.position = position;
+    *out << msg;
 }

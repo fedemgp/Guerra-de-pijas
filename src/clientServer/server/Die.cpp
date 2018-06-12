@@ -11,6 +11,7 @@ Worms::Die::Die() : State(Worm::StateID::Die) {}
 void Worms::Die::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
     if (this->timeElapsed >= this->dyingTime) {
+        p.notify(p, Event::Dead);
         p.setState(Worm::StateID::Dead);
     }
 }

@@ -14,12 +14,12 @@ class Holy : public Worms::Weapon {
     Holy(float angle);
     ~Holy() override = default;
     void update(float dt) override;
-    void startShot() override;
-    void endShot(Worms::Player &p, Worms::Physics &physics) override;
+    void startShot(Worms::Player *player) override;
+    void endShot() override;
     void setTimeout(uint8_t time) override;
-
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) override;
+    void positionSelected(Worms::Player &p, Math::Point<float> point) override;
    private:
-    uint16_t timeLimit{5};
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

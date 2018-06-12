@@ -42,8 +42,15 @@ class Bullet {
     GUI::Position position{0, 0};
     Worm::Explosion explosion;
     bool explode{false};
+    Worm::WeaponID wid;
     std::shared_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
 };
+
+    struct ExplotionChekcer{
+        bool operator()(std::shared_ptr<Bullet> &bullet) {
+            return bullet->exploded();
+        }
+    };
 }
 
 #endif  //__Bullet_H__

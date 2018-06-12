@@ -7,6 +7,7 @@
 #define __WEAPON_H__
 
 #include <GameStateMsg.h>
+#include <list>
 #include <memory>
 
 #include "Bullet.h"
@@ -29,23 +30,32 @@ class Weapon {
     void increaseAngle();
     void decreaseAngle();
     float getAngle() const;
-    virtual void startShot() = 0;
-    virtual void endShot(Player &p, Physics &physics) = 0;
+    virtual void startShot(Worms::Player *player) = 0;
+    virtual void endShot() = 0;
+    BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
     /**
-     * sets bullet_ptr to null, and free its resources
+     * Used by te remote control weapons. Sends to the weapon the coordinates
+     * of the deploy of the bullets, and a reference of Player so that the
+     * weapons, if they are remote control. calls the appropiate method.
+     * @param player to call deploy method (if the weapon has this feature)
+     * @param point
      */
-    void destroyBullet();
-
-    std::shared_ptr<Bullet> getBullet() const;
+    virtual void positionSelected(Worms::Player &p, Math::Point<float> point) = 0;
+    /**
+     * Function that returns, using move semantics, a list of bullets
+     * depending on weapon's behavior after the main bullet explode.
+     * @return
+     */
+    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) = 0;
 
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
-    Game::Weapon::Config config;
+    const Game::Weapon::Config &config;
     Worm::WeaponID id;
     float angle{0};
-    std::shared_ptr<Bullet> bullet{nullptr};
+    uint8_t timeLimit;
 
    private:
     /**

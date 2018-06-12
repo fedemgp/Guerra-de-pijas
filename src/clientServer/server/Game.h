@@ -7,11 +7,16 @@
 #define __GAME_H__
 
 #include <atomic>
+#include <list>
 #include <unordered_map>
 
+#include "Bullet.h"
 #include "GameTeams.h"
+#include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
+#include "GameClock.h"
+#include "GameTurn.h"
 
 namespace Worms {
 struct Teamasd {
@@ -20,7 +25,7 @@ struct Teamasd {
     bool alive;
 };
 
-class Game {
+class Game : Observer {
    public:
     std::atomic<bool> quit{false};
 
@@ -29,29 +34,29 @@ class Game {
 
     Game(Game &&other) = delete;
 
-    void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerInput> *playerStream);
+    void start(IO::Stream<IO::GameStateMsg> *output, IO::Stream<IO::PlayerMsg> *playerStream);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const;
+    void onNotify(Subject &subject, Event event) override;
+    void calculateDamage(const Bullet &bullet);
     void exit();
+    void endTurn();
 
    private:
-    void makeTeams();
-
-    char currentWorm;
-    char currentTeam;
-    double currentTurnElapsed{0};
+    uint8_t currentWorm;
+    uint8_t currentTeam;
     Physics physics;
     Stage stage;
     std::vector<Player> players;
     const double maxTurnTime;
-    bool impactOnCourse{false};
-    bool shotOnCourse{false};
-    double currentPlayerTurnTime{0};
     bool processingClientInputs{true};
-    char currentWormToFollow{0};
+    uint8_t currentWormToFollow{0};
     bool currentPlayerShot{false};
     GameTeams teams;
+    std::list<Bullet> bullets;
 
     std::vector<uint8_t> deadTeams;
+    GameClock gameClock;
+    GameTurn gameTurn;
 };
 }  // namespace Worms
 

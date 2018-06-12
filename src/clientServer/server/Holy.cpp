@@ -17,37 +17,23 @@ void Weapon::Holy::update(float dt) {
             this->shotPower += dt / this->powerChargeTime * this->config.maxShotPower;
         }
     }
-
-    if (this->bullet != nullptr) {
-        this->bullet->update(dt, *this);
-    }
 }
 
-void Weapon::Holy::startShot() {
+void Weapon::Holy::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 
-void Weapon::Holy::endShot(Worms::Player &p, Worms::Physics &physics) {
+void Weapon::Holy::endShot(){
     this->increaseShotPower = false;
-    Math::Point<float> position = p.getPosition();
-    float safeNonContactDistance =
-        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    float angle = this->angle;
-    if (p.direction == Worms::Direction::right) {
-        if (angle < 0.0f) {
-            angle += 360.0f;
-        }
-    } else {
-        angle = 180.0f - angle;
-    }
-    this->bullet = std::shared_ptr<Worms::Bullet>(new Worms::Bullet(
-        Worms::BulletInfo{Worms::DamageInfo{this->config.damage, this->config.damageRadius}, angle,
-                          this->shotPower, p.getPosition(), safeNonContactDistance,
-                          this->config.restitution, this->config.friction},
-        physics, this->timeLimit));
     this->shotPower = 0;
 }
 
 void Weapon::Holy::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
+// TODO add bullets
+std::list<Worms::Bullet> Weapon::Holy::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
+    return std::move(std::list<Worms::Bullet>());
+}
+
+void Weapon::Holy::positionSelected(Worms::Player &p, Math::Point<float> point){}

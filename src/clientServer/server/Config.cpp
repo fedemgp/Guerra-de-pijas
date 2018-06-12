@@ -16,6 +16,14 @@ Game::Config &Game::Config::getInstance() {
 Game::Config::Config()
     : jumpVelocity(JUMP_VEL_X, JUMP_VEL_Y), backflipVelocity(BACKFLIP_VEL_X, BACKFLIP_VEL_Y) {}
 
+float Game::Config::getSafeFallDistance() const {
+    return 2.0f;
+}
+
+float Game::Config::getMaxFallDamage() const {
+    return 25.0f;
+}
+
 const Math::Vector Game::Config::getJumpVelocity() const {
     return this->jumpVelocity;
 }
@@ -98,4 +106,24 @@ const Game::Weapon::Config &Game::Config::getHolyConfig() const {
 
 const float Game::Config::getPowerChargeTime() const {
     return this->powerChargeTime;
+}
+
+const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const{
+    return this->clusterFragments;
+}
+
+const uint8_t Game::Config::getClusterFragmentQuantity() const{
+    return this->clusterFragmentQuantity;
+}
+
+const Game::Weapon::Config &Game::Config::getMortarFragmentConfig() const{
+    return this->mortarFragments;
+}
+
+const uint8_t Game::Config::getMortarFragmentQuantity() const{
+    return this->mortarFragmentQuantity;
+}
+
+const float Game::Config::getWaitForNextTurnTime() const {
+    return this->waitForNextTurnTime;
 }

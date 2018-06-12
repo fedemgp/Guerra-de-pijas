@@ -10,12 +10,15 @@
 
 #define PLAYER_HEIGHT 2.0f
 
+#include <list>
+
 #include "Bullet.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
+#include "TouchSensor.h"
 #include "Weapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
@@ -25,7 +28,7 @@ enum class Direction { right, left, up, down };
 
 class Player : public PhysicsEntity {
    public:
-    Direction direction;
+    Direction direction{Direction::left};
     Direction lastWalkDirection;
     bool canWalk{true};
     float health{0};
@@ -33,17 +36,23 @@ class Player : public PhysicsEntity {
     explicit Player(Physics &physics);
     ~Player() = default;
 
+    /* contact handlers */
+    virtual void contactWith(PhysicsEntity &other, b2Contact &contact);
+
+    bool isOnGround() const;
+
+    /**
+     * First remove all exploded bullets, then update its state, its weapon
+     * and all non-exploded bullets.
+     * @param dt
+     */
     void update(float dt);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
     void setPosition(const Math::Point<float> &newPos);
     Math::Point<float> getPosition() const;
-    void handleState(IO::PlayerInput pi);
+    void handleState(IO::PlayerMsg pi);
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
-    int getContactCount();
-    int getWormContactCount();
-    void startContact(Worms::PhysicsEntity *physicsEntity) override;
-    void endContact(Worms::PhysicsEntity *physicsEntity) override;
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
     void setWeapon(const Worm::WeaponID &id);
@@ -51,9 +60,7 @@ class Player : public PhysicsEntity {
     void decreaseWeaponAngle();
     void startShot();
     void endShot();
-    std::shared_ptr<Worms::Bullet> getBullet() const;
-    void destroyBullet();
-    void acknowledgeDamage(Worms::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
@@ -61,23 +68,37 @@ class Player : public PhysicsEntity {
     void setId(uint8_t id);
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
+    const std::list<Bullet> &getBullets() const;
+    void cleanBullets();
+    /**
+     * calls weapon's onExplode and get new bullets if is necesary.
+     */
+    void onExplode(const Bullet &bullet,
+                   Physics &physics);  // TODO return the list with move semantics
+    /**
+     * Add observer to all bullets.
+     * @param obs
+     */
+    void addObserverToBullets(Observer *obs);
+
+    bool operator!=(const Player &other);
+    bool operator==(const Player &other);
 
    private:
+    b2Body *createBody(b2BodyType type);
+
+    b2Body *body{nullptr};
+    b2Body *body_kinematic{nullptr};
+    TouchSensor *footSensor;
+
     std::shared_ptr<Worms::State> state{nullptr};
     std::shared_ptr<Worms::Weapon> weapon{nullptr};
-    b2Body *body{nullptr};
-    b2BodyDef bodyDef;
-    b2PolygonShape shape;
-    b2FixtureDef fixture;
     Physics &physics;
     const int waterLevel;
-    int numContacts{0};
     uint8_t team;
     uint8_t id;
-    int numWormContacts{0};
-    int numBulletContacs{0};
-    float safeFallDistance{2.0f};
-    float maxFallDamage{25.0f};
+    std::list<Bullet> bullets;
+    bool removeBullets{false};
 };
 }  // namespace Worms
 

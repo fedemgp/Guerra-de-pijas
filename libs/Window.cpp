@@ -14,7 +14,7 @@
 
 GUI::Window::Window() : Window(WINDOW_WIDTH, WINDOW_HEIGHT) {}
 
-GUI::Window::Window(int width, int height) : width(width), height(height) {
+GUI::Window::Window(int width, int height) {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
         throw Exception{"SDL could not initialize: %s", SDL_GetError()};
     }
@@ -24,7 +24,7 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
     }
 
     this->window = SDL_CreateWindow("Worms", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                    width, height, SDL_WINDOW_SHOWN);
+                                    width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     if (!this->window) {
         this->close();
         throw Exception{"Window could not be created: %s", SDL_GetError()};
@@ -47,6 +47,8 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
         throw Exception{"SDL_ttf could not initialize! SDL_ttf Error: %s", TTF_GetError()};
     }
 
+    SDL_SetWindowSize(this->window, width, height);
+
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         throw Exception("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
     }
@@ -54,6 +56,14 @@ GUI::Window::Window(int width, int height) : width(width), height(height) {
 
 GUI::Window::~Window() {
     this->close();
+}
+
+/**
+ * @brief Maximizes the window.
+ *
+ */
+void GUI::Window::maximize() {
+    SDL_MaximizeWindow(this->window);
 }
 
 void GUI::Window::close() {
@@ -88,4 +98,26 @@ void GUI::Window::render() {
 
 SDL_Renderer& GUI::Window::getRenderer() {
     return *this->renderer;
+}
+
+/**
+ * @brief Gets the window's height.
+ *
+ * @return int Window height.
+ */
+int GUI::Window::getHeight() {
+    int h, w;
+    SDL_GL_GetDrawableSize(this->window, &w, &h);
+    return h;
+}
+
+/**
+ * @brief Gets the window's width.
+ *
+ * @return int Window width.
+ */
+int GUI::Window::getWidth() {
+    int h, w;
+    SDL_GL_GetDrawableSize(this->window, &w, &h);
+    return w;
 }

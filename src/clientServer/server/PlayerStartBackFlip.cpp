@@ -27,8 +27,10 @@ void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
              */
             body->ApplyLinearImpulse(impulses, body->GetWorldCenter(), true);
             this->impulseApplied = true;
-        } else if (p.getContactCount() == 0) {
+        } else if (!p.isOnGround()) {
             p.setState(Worm::StateID::BackFlipping);
+        } else if (this->timeElapsed > 0.9f) {
+            p.setState(Worm::StateID::Still);
         }
     }
 }

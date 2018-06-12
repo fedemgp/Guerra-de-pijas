@@ -78,12 +78,13 @@ void GUI::Camera::moveTo(GUI::Position coord) {
     /* avoids the camera from going below the zero */
     coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2 - 10.0f);
 
-    if (this->dst == coord) {
-        return;
-    }
-
     coord.x -= (this->width / 2) / this->scale;
     coord.y += (this->height / 2) / this->scale;
+
+    if (this->dst.distance(coord) < 7.0f) {
+        this->dst = coord;
+        return;
+    }
 
     this->elapsed = 0.0f;
     this->dst = coord;
@@ -103,6 +104,20 @@ GUI::ScreenPosition GUI::Camera::globalToScreen(GUI::Position global) {
 
     /* calculates the screen coordinates */
     return ScreenPosition{int(local.x * this->scale), int(local.y * this->scale)};
+}
+
+/**
+ * @brief Converts some screen coordinates to global coordinates.
+ *
+ * @param global Screen coordinates.
+ * @return Corresponding global coordinates.
+ */
+GUI::Position GUI::Camera::screenToGlobal(GUI::ScreenPosition screen){
+    /* converts from screen to global coordinate */
+    Position global = {screen.x / this->scale, screen.y / this->scale};
+    global.y *= -1;
+    global += this->cur;
+    return global;
 }
 
 /**
