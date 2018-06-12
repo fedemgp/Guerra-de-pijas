@@ -34,7 +34,7 @@ Escenarios:
 Cámara:
   Se enfoca nuevamente al gusano activo por:
       ☐ desplazamiento
-      ☐ disparo
+      ✔ disparo @done (18-06-12 15:15)
   ✔ Muestra porción del escenario @done (18-06-03 03:13)
   ✔ centrada en el gusano activo @done (18-06-03 03:13)
   ✔ Sigue al gusano en desplazamiento @done (18-06-03 03:13)
@@ -69,7 +69,7 @@ Jugador:
     ✔ selecciona arma o herramienta @done (18-06-04 00:18)
   Cuando pierde:
     ☐ Es salteado de la ronda
-    ☐ puede seguir viendo la partida
+    ✔ puede seguir viendo la partida @done (18-06-12 15:15)
   Cuando gana:
     ☐ Fin de juego
     ☐ Pantalla de victoria (e ponemos a pablito lescano cantando ui ar de shempions de fondo)
@@ -92,11 +92,11 @@ Animaciones:
   ✔ explosiones @done (18-06-04 00:18)
 
 Sonidos:
-  ☐ Disparo
-  ☐ Explosión
+  ✔ Disparo @done (18-06-12 15:15)
+  ✔ Explosión @done (18-06-12 15:15)
   Gusano:
-    ☐ Salta
-    ☐ Muere
+    ✔ Salta @done (18-06-12 15:15)
+    ✔ Muere @done (18-06-12 15:15)
   ☐ Si hay muchos eventos, se evitan algunos.
   Musica ambiente:
     ☐ Volumen relativamente bajo (= death metal al palo)
@@ -144,7 +144,7 @@ Armas:
     ✔ Gusano adquiere velocidad inversamente proporcional al rango @done (18-06-03 03:17)
     ✔ Gusano adquiere dirección por la explosión @done (18-06-03 03:17)
       ✔ Depende de la distancia y dirección al epicentro @done (18-06-03 03:17)
-    ☐ Gusano puede rebotar contra las paredes cuando vuela
+    ✔ Gusano puede rebotar contra las paredes cuando vuela @done (18-06-12 15:16)
 
 Tipos de armas:
   Bazooka:
@@ -158,7 +158,7 @@ Tipos de armas:
     ✔ Daño: 50 (epicentro); 2mts radio @done (18-06-03 03:18)
   Mortero:
     ✔ Mira: SI @done (18-06-04 23:14)
-    ☐ Cuerpo a cuerpo: NO
+    ✔ Cuerpo a cuerpo: NO @done (18-06-12 15:16)
     ✔ Potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: NO @done (18-06-03 03:18)
     ✔ Teledirigido: NO @done (18-06-03 03:18)
@@ -265,7 +265,7 @@ Configuración:
     ✔ Distancia recorrida por el salto @done (18-06-03 03:19)
     ✔ Daño de las armas @done (18-06-03 03:19)
     ✔ Rango de las armas @done (18-06-03 03:19)
-    ☐ Elasticidad
+    ✔ Elasticidad @done (18-06-12 15:16)
     Si se afecta con el viento?
 
 Editor:
