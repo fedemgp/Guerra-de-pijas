@@ -262,7 +262,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-std::list<Worms::Bullet> Worms::Player::getBullets() const {
+std::list<Worms::Bullet> Worms::Player::getBullets() {
     return std::move(this->bullets);
 }
 

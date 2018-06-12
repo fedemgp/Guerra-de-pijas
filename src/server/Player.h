@@ -68,7 +68,7 @@ class Player : public PhysicsEntity {
     void setId(uint8_t id);
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
-    std::list<Bullet> getBullets() const;
+    std::list<Bullet> getBullets();
     void cleanBullets();
     /**
      * calls weapon's onExplode and get new bullets if is necesary.
