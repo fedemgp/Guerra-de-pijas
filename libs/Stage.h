@@ -12,36 +12,36 @@
 #include "Point.h"
 
 namespace Worms {
-    struct Girder {
-        float length;
-        float height;
-        Math::Point<float> pos;
-    };
+struct Girder {
+    float length;
+    float height;
+    Math::Point<float> pos;
+};
 
-    struct WormData {
-        uint16_t health;
-        Math::Point<float> position;
-    };
+struct WormData {
+    uint16_t health;
+    Math::Point<float> position;
+};
 
-    class Stage {
-    public:
-        uint8_t turnTime{10};
+class Stage {
+   public:
+    uint8_t turnTime{10};
 
-        Stage();
-        ~Stage() = default;
+    Stage();
+    ~Stage() = default;
 
-        const std::vector<WormData> &getWorms() const;
-        const std::vector<Girder> &getGirders() const;
+    const std::vector<WormData> &getWorms() const;
+    const std::vector<Girder> &getGirders() const;
 
-        float getHeight() const;
-        float getWidth() const;
+    float getHeight() const;
+    float getWidth() const;
 
-    private:
-        std::vector<WormData> players;
-        std::vector<Girder> girders;
-        float width{100.0f};
-        float height{30.0f};
-    };
+   private:
+    std::vector<WormData> players;
+    std::vector<Girder> girders;
+    float width{100.0f};
+    float height{30.0f};
+};
 }  // namespace Worms
 
 #endif  //__STAGE_H__

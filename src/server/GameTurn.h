@@ -5,49 +5,43 @@
 #ifndef INC_4_WORMS_GAMETURN_H
 #define INC_4_WORMS_GAMETURN_H
 
-
 #include <memory>
-#include "Subject.h"
 #include "GameTurnState.h"
+#include "Subject.h"
 
 namespace Worms {
-    enum class GameTurnStateID {
-        StartTurn,
-        PlayerShot,
-        ImpactOnCourse
-    };
-    class Game;
-    class GameTurn : public Subject {
-    public:
-        GameTurn(Observer &game);
-        ~GameTurn() override = default;
+enum class GameTurnStateID { StartTurn, PlayerShot, ImpactOnCourse };
+class Game;
+class GameTurn : public Subject {
+   public:
+    GameTurn(Observer &game);
+    ~GameTurn() override = default;
 
-        void playerShot(Worm::WeaponID weaponID);
-        void endTurn();
-        void wormHit(uint8_t wormId);
-        void explosion();
-        void wormEndHit(uint8_t wormId);
-        void wormDrowning(uint8_t wormId);
-        void wormDrowned(uint8_t wormId);
-        void restart();
-        void update(float dt);
+    void playerShot(Worm::WeaponID weaponID);
+    void endTurn();
+    void wormHit(uint8_t wormId);
+    void explosion();
+    void wormEndHit(uint8_t wormId);
+    void wormDrowning(uint8_t wormId);
+    void wormDrowned(uint8_t wormId);
+    void restart();
+    void update(float dt);
 
-        void wormFalling(uint8_t wormId);
+    void wormFalling(uint8_t wormId);
 
-        void wormLanded(uint8_t wormId);
+    void wormLanded(uint8_t wormId);
 
-        void wormDead();
+    void wormDead();
 
-        void wormDying();
+    void wormDying();
 
-    private:
-        std::shared_ptr<GameTurnState> state{nullptr};
-        Observer &game;
-        GameTurnStateID stateID;
-        bool newState{false};
-        uint8_t bulletFragments{1};
-    };
+   private:
+    std::shared_ptr<GameTurnState> state{nullptr};
+    Observer &game;
+    GameTurnStateID stateID;
+    bool newState{false};
+    uint8_t bulletFragments{1};
+};
 }
 
-
-#endif //INC_4_WORMS_GAMETURN_H
+#endif  // INC_4_WORMS_GAMETURN_H

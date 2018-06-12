@@ -44,8 +44,8 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr,
         case Worm::WeaponID::WExplode:
             break;
         case Worm::WeaponID::WFragment:
-            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Fragment), false,
-                                             0, true);
+            this->animation =
+                GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Fragment), false, 0, true);
             this->updateManually = false;
             break;
         case Worm::WeaponID::WNone:
@@ -98,8 +98,8 @@ bool Ammo::Bullet::exploded() {
 
 void Ammo::Bullet::madeImpact() {
     this->explode = true;
-    this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(
-        new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
+    this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+        this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
     this->soundEffectPlayer->play();
 }
 

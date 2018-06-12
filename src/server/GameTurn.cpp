@@ -2,9 +2,9 @@
 // Created by rodrigo on 10/06/18.
 //
 
+#include "GameTurn.h"
 #include "Config.h"
 #include "GameStateMsg.h"
-#include "GameTurn.h"
 #include "ImpactOnCourse.h"
 #include "PlayerShot.h"
 #include "StartTurn.h"
@@ -45,7 +45,7 @@ void Worms::GameTurn::explosion() {
         this->state->addObserver(&this->game);
     }
     this->state->explosion();
-//    this->newState = true;
+    //    this->newState = true;
 }
 
 void Worms::GameTurn::wormEndHit(uint8_t wormId) {
@@ -68,7 +68,7 @@ void Worms::GameTurn::restart() {
 
 void Worms::GameTurn::update(float dt) {
     if (this->newState) {
-        switch(this->stateID) {
+        switch (this->stateID) {
             case GameTurnStateID::StartTurn:
                 this->state = std::shared_ptr<GameTurnState>(new StartTurn());
                 break;
@@ -76,7 +76,8 @@ void Worms::GameTurn::update(float dt) {
                 this->state = std::shared_ptr<GameTurnState>(new PlayerShot());
                 break;
             case GameTurnStateID::ImpactOnCourse:
-//                this->state = std::shared_ptr<GameTurnState>(new ImpactOnCourse());
+                //                this->state = std::shared_ptr<GameTurnState>(new
+                //                ImpactOnCourse());
                 break;
         }
         this->state->addObserver(&this->game);

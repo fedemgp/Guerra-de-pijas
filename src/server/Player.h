@@ -75,10 +75,10 @@ class Player : public PhysicsEntity {
      */
     std::list<Bullet> onExplode(const Bullet &bullet,
                                 Physics &physics);  // TODO return the list with move semantics
-    /**
-     * Add observer to all bullets.
-     * @param obs
-     */
+                                                    /**
+                                                     * Add observer to all bullets.
+                                                     * @param obs
+                                                     */
     void addObserverToBullets(Observer *obs);
 
     bool operator!=(const Player &other);

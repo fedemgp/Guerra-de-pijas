@@ -100,7 +100,7 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             i = this->state->startShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone){
+    if (i != IO::PlayerInput::moveNone) {
         IO::PlayerMsg msg;
         msg.input = i;
         *out << msg;
@@ -120,7 +120,7 @@ void Worm::Worm::handleKeyUp(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) {
             i = this->state->endShot(*this);
             break;
     }
-    if (i != IO::PlayerInput::moveNone){
+    if (i != IO::PlayerInput::moveNone) {
         IO::PlayerMsg msg;
         msg.input = i;
         *out << msg;
@@ -211,14 +211,14 @@ void Worm::Worm::playSoundEffect(StateID state) {
             break;
         case StateID::StartBackFlip:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormBackFlip), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormBackFlip), true});
             this->soundEffectPlayer->play();
             break;
         case StateID::StartJump:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormJump), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormJump), true});
             this->soundEffectPlayer->play();
             break;
         case StateID::Jumping:
@@ -227,8 +227,8 @@ void Worm::Worm::playSoundEffect(StateID state) {
         case StateID::EndJump:
         case StateID::Land:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormLanding), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormLanding), true});
             this->soundEffectPlayer->play();
             break;
         case StateID::BackFlipping:
@@ -237,24 +237,25 @@ void Worm::Worm::playSoundEffect(StateID state) {
             break;
         case StateID::Hit:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormHit), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormHit), true});
             this->soundEffectPlayer->play();
             break;
         case StateID::Die:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDie), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDie), true});
             this->soundEffectPlayer->play();
             break;
         case StateID::Drowning:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDrowning)});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::WormDrowning)});
             break;
         case StateID::Dead:
-            this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(
-                    new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
+            this->soundEffectPlayer =
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
             this->soundEffectPlayer->play();
             break;
     }
@@ -373,7 +374,7 @@ void Worm::Worm::endShot() {
     this->playWeaponSoundEffect(this->getWeaponID());
 }
 
-void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out){
+void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerMsg msg;
     msg.input = IO::PlayerInput::positionSelected;
     msg.position = position;
@@ -386,38 +387,38 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
     switch (id) {
         case WeaponID::WBazooka:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WGrenade:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WCluster:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WMortar:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WBanana:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Shot), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WHoly:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::Holy), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Holy), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WNone:

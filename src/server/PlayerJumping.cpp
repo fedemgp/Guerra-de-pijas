@@ -35,7 +35,7 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body) {
 
         p.landDamage(this->startPosition.y - p.getPosition().y);
         p.setState(Worm::StateID::Land);
-//        p.setState(Worm::StateID::EndJump);
+        //        p.setState(Worm::StateID::EndJump);
     }
 }
 

@@ -15,6 +15,6 @@ void Subject::removeObserver(Observer *obs) {
 
 void Subject::notify(Subject &subject, Event event) {
     for (auto &observer : this->observers) {
-         observer->onNotify(subject, event);
+        observer->onNotify(subject, event);
     }
 }

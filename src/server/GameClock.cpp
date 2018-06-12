@@ -5,12 +5,10 @@
 #include "GameClock.h"
 
 GameClock::GameClock()
-        : turnTime(Game::Config::getInstance().getTurnTime()),
-          extraTurnTime(Game::Config::getInstance().getExtraTurnTime()),
-          currentTurnTime(turnTime),
-          waitForNextTurnTime(Game::Config::getInstance().getWaitForNextTurnTime()) {
-
-}
+    : turnTime(Game::Config::getInstance().getTurnTime()),
+      extraTurnTime(Game::Config::getInstance().getExtraTurnTime()),
+      currentTurnTime(turnTime),
+      waitForNextTurnTime(Game::Config::getInstance().getWaitForNextTurnTime()) {}
 
 void GameClock::playerShot() {
     this->currentTurnTime = this->extraTurnTime;

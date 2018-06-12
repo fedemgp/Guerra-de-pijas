@@ -14,12 +14,12 @@
 #include "Bullet.h"
 #include "CommunicationSocket.h"
 #include "DoubleBuffer.h"
+#include "GameClock.h"
 #include "GameTeams.h"
+#include "GameTurn.h"
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
-#include "GameClock.h"
-#include "GameTurn.h"
 
 namespace Worms {
 using PlayerInput = IO::Stream<IO::PlayerMsg>;

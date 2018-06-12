@@ -6,7 +6,8 @@
 #include "PlayerBackFlipping.h"
 #include "Player.h"
 
-Worms::BackFlipping::BackFlipping(GUI::Position p) : State(Worm::StateID::BackFlipping), startPosition(p) {}
+Worms::BackFlipping::BackFlipping(GUI::Position p)
+    : State(Worm::StateID::BackFlipping), startPosition(p) {}
 
 void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
     /*
@@ -28,7 +29,7 @@ void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
 
         p.landDamage(this->startPosition.y - p.getPosition().y);
         p.setState(Worm::StateID::Land);
-//        p.setState(Worm::StateID::EndBackFlip);
+        //        p.setState(Worm::StateID::EndBackFlip);
     }
 }
 

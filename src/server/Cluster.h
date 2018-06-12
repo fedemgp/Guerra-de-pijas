@@ -19,8 +19,10 @@ class Cluster : public Worms::Weapon {
     void startShot(Worms::Player *player) override;
     void endShot() override;
     void setTimeout(uint8_t time) override;
-    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) override;
+    std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
+                                       Worms::Physics &physics) override;
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
+
    private:
     const Game::Weapon::Config &fragmentConfig;
     float powerChargeTime{0.0f};

@@ -27,16 +27,16 @@ void Weapon::Bazooka::startShot(Worms::Player *player) {
     this->player = player;
 }
 
-void Weapon::Bazooka::endShot(){
+void Weapon::Bazooka::endShot() {
     this->increaseShotPower = false;
     this->shotPower = 0;
 }
 
 void Weapon::Bazooka::setTimeout(uint8_t time) {}
 
-std::list<Worms::Bullet> Weapon::Bazooka::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
+std::list<Worms::Bullet> Weapon::Bazooka::onExplode(const Worms::Bullet &mainBullet,
+                                                    Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
 
-void
-Weapon::Bazooka::positionSelected(Worms::Player &p, Math::Point<float> point){}
+void Weapon::Bazooka::positionSelected(Worms::Player &p, Math::Point<float> point) {}

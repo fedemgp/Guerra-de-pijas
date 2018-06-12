@@ -5,13 +5,12 @@
 #ifndef INC_4_WORMS_PLAYERSHOT_H
 #define INC_4_WORMS_PLAYERSHOT_H
 
-
-#include "Observer.h"
 #include "GameTurnState.h"
+#include "Observer.h"
 
 namespace Worms {
 class PlayerShot : public GameTurnState {
-public:
+   public:
     PlayerShot();
     ~PlayerShot() = default;
 
@@ -25,5 +24,4 @@ public:
 };
 }
 
-
-#endif //INC_4_WORMS_PLAYERSHOT_H
+#endif  // INC_4_WORMS_PLAYERSHOT_H

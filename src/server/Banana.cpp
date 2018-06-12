@@ -23,7 +23,7 @@ void Weapon::Banana::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 
-void Weapon::Banana::endShot(){
+void Weapon::Banana::endShot() {
     this->increaseShotPower = false;
     this->shotPower = 0;
 }
@@ -32,9 +32,9 @@ void Weapon::Banana::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 
-std::list<Worms::Bullet> Weapon::Banana::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
+std::list<Worms::Bullet> Weapon::Banana::onExplode(const Worms::Bullet &mainBullet,
+                                                   Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
 
-void
-Weapon::Banana::positionSelected(Worms::Player &p, Math::Point<float> point){}
+void Weapon::Banana::positionSelected(Worms::Player &p, Math::Point<float> point) {}

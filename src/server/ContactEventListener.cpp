@@ -17,9 +17,9 @@
  */
 void ContactEventListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
     Worms::PhysicsEntity *e1 =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
     Worms::PhysicsEntity *e2 =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
 
     if (!e1 || !e2) {
         return;
@@ -31,9 +31,9 @@ void ContactEventListener::PreSolve(b2Contact *contact, const b2Manifold *oldMan
 
 void ContactEventListener::BeginContact(b2Contact *contact) {
     Worms::PhysicsEntity *playerA =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
     Worms::PhysicsEntity *playerB =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
     /*
      * If fixture A is a Worm, then call startContact. This will delegate
      * the action to the internal state. For example, when a worm jump,
@@ -64,9 +64,9 @@ void ContactEventListener::BeginContact(b2Contact *contact) {
 
 void ContactEventListener::EndContact(b2Contact *contact) {
     Worms::PhysicsEntity *playerA =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
     Worms::PhysicsEntity *playerB =
-            static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
 
     if (playerA) {
         playerA->endContact(playerB);

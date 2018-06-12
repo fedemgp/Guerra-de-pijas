@@ -3,20 +3,20 @@
  *  date: 18/05/18
  */
 
+#include <Stage.h>
 #include <zconf.h>
 #include <atomic>
 #include <chrono>
 #include <iostream>
-#include <Stage.h>
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
 //#include <random>
 
 #include "Config.h"
 #include "Game.h"
+#include "ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
-#include "ImpactOnCourse.h"
 
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     : physics(b2Vec2{0.0f, -10.0f}),
@@ -266,15 +266,15 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
          * the bullets and add the game as an observer
          */
         case Event::Shot: {
-//             this->players[this->currentWorm].addObserverToBullets(this);
-             this->bullets.merge(this->players[this->currentWorm].getBullets());
-             for (auto &bullet : this->bullets) {
-                 bullet.addObserver(this);
-             }
-             this->gameClock.playerShot();
-             this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
-             this->currentPlayerShot = true;
-             break;
+            //             this->players[this->currentWorm].addObserverToBullets(this);
+            this->bullets.merge(this->players[this->currentWorm].getBullets());
+            for (auto &bullet : this->bullets) {
+                bullet.addObserver(this);
+            }
+            this->gameClock.playerShot();
+            this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
+            this->currentPlayerShot = true;
+            break;
         }
         /**
          * On explode, the game must check worms health.
@@ -296,7 +296,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             for (auto &bullet : this->bullets) {
                 bullet.addObserver(this);
             }
-//            this->players[this->currentWorm].addObserverToBullets(this);
+            //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
         case Event::WormFalling: {
@@ -333,7 +333,8 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::NewWormToFollow: {
-            this->currentWormToFollow = dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
+            this->currentWormToFollow =
+                dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
             break;
         }
         case Event::DamageOnLanding: {
@@ -345,8 +346,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             for (auto worm : wormsHit) {
                 Worm::StateID wormState = this->players[worm].getStateId();
                 if (this->players[worm].health == 0) {
-                    if (wormState != Worm::StateID::Die &&
-                        wormState != Worm::StateID::Dead) {
+                    if (wormState != Worm::StateID::Die && wormState != Worm::StateID::Dead) {
                         this->players[worm].setState(Worm::StateID::Die);
                     }
                 }
@@ -378,6 +378,6 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }
-//    this->players[this->currentWorm].cleanBullets();
+    //    this->players[this->currentWorm].cleanBullets();
     this->removeBullets = true;
 }

@@ -12,25 +12,24 @@
 
 #include <Animation.h>
 #include <Font.h>
-#include "GameTextures.h"
 #include <Text.h>
+#include "GameTextures.h"
 
-namespace GUI{
-    class Armory{
-    public:
-        Armory(const GameTextureManager &textureManager, Camera &cam, Font &font);
-        ~Armory() = default;
-        void loadWeapons();
-        void render();
+namespace GUI {
+class Armory {
+   public:
+    Armory(const GameTextureManager &textureManager, Camera &cam, Font &font);
+    ~Armory() = default;
+    void loadWeapons();
+    void render();
 
-    private:
-        const GameTextureManager &manager;
-        Camera &camera;
-        std::vector<const Texture *> weaponIcons;
-        const Font &font;
-        Text weaponButton;
-    };
-} // namespace GUI
+   private:
+    const GameTextureManager &manager;
+    Camera &camera;
+    std::vector<const Texture *> weaponIcons;
+    const Font &font;
+    Text weaponButton;
+};
+}  // namespace GUI
 
-
-#endif //__ARMORY_H__
+#endif  //__ARMORY_H__

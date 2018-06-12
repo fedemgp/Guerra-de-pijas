@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "Animation.h"
+#include "Armory.h"
 #include "Bullet.h"
 #include "Camera.h"
 #include "ClientSocket.h"
@@ -26,7 +27,6 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
-#include "Armory.h"
 
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;

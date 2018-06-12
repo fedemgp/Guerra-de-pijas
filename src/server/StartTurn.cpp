@@ -12,13 +12,9 @@ void Worms::StartTurn::endTurn(GameTurn &gt) {
     }
 }
 
-void Worms::StartTurn::wormHit(GameTurn &gt, uint8_t wormId) {
+void Worms::StartTurn::wormHit(GameTurn &gt, uint8_t wormId) {}
 
-}
-
-void Worms::StartTurn::wormEndHit(Worms::GameTurn &gt, uint8_t wormId) {
-
-}
+void Worms::StartTurn::wormEndHit(Worms::GameTurn &gt, uint8_t wormId) {}
 
 void Worms::StartTurn::wormDrowning(Worms::GameTurn &gt, uint8_t wormId) {
     this->wormsDrowning.emplace_back(wormId);
@@ -26,18 +22,13 @@ void Worms::StartTurn::wormDrowning(Worms::GameTurn &gt, uint8_t wormId) {
 }
 
 void Worms::StartTurn::wormDrowned(Worms::GameTurn &gt, uint8_t wormId) {
-    this->wormsDrowning.erase(std::remove(this->wormsDrowning.begin(), this->wormsDrowning.end(), wormId), this->wormsDrowning.end());
-
+    this->wormsDrowning.erase(
+        std::remove(this->wormsDrowning.begin(), this->wormsDrowning.end(), wormId),
+        this->wormsDrowning.end());
 }
 
-Worms::StartTurn::StartTurn() {
+Worms::StartTurn::StartTurn() {}
 
-}
+void Worms::StartTurn::explosion() {}
 
-void Worms::StartTurn::explosion() {
-
-}
-
-void Worms::StartTurn::update(float dt) {
-
-}
+void Worms::StartTurn::update(float dt) {}

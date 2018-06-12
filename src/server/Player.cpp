@@ -93,18 +93,18 @@ void Worms::Player::update(float dt) {
 
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
-//    /**
-//     * after the server sends a WExplode state of the bullet, it is needed to
-//     * remove every exploded bullet.
-//     */
-//    if (this->removeBullets) {
-//        this->bullets.remove_if(Worms::ExplosionChecker());
-//        this->removeBullets = false;
-//    }
-//
-//    for (auto &bullet : this->bullets) {
-//        bullet.update(dt, *this->weapon);
-//    }
+    //    /**
+    //     * after the server sends a WExplode state of the bullet, it is needed to
+    //     * remove every exploded bullet.
+    //     */
+    //    if (this->removeBullets) {
+    //        this->bullets.remove_if(Worms::ExplosionChecker());
+    //        this->removeBullets = false;
+    //    }
+    //
+    //    for (auto &bullet : this->bullets) {
+    //        bullet.update(dt, *this->weapon);
+    //    }
 
     if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
         this->getStateId() != Worm::StateID::Drowning) {
@@ -434,7 +434,7 @@ b2Body *Worms::Player::createBody(b2BodyType type) {
 
 std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &physics) {
     return std::move(this->weapon->onExplode(b, physics));
-//    this->bullets.merge(this->weapon->onExplode(b, physics));
+    //    this->bullets.merge(this->weapon->onExplode(b, physics));
 }
 
 void Worms::Player::addObserverToBullets(Observer *obs) {

@@ -5,12 +5,11 @@
 #ifndef INC_4_WORMS_GAMECLOCK_H
 #define INC_4_WORMS_GAMECLOCK_H
 
-
 #include "Config.h"
 #include "Subject.h"
 
 class GameClock : public Subject {
-public:
+   public:
     GameClock();
     ~GameClock() = default;
     void update(float dt);
@@ -21,7 +20,7 @@ public:
     void restart();
     void endTurn();
 
-private:
+   private:
     float timeElapsed{0.0f};
     float turnTime;
     float extraTurnTime;
@@ -30,5 +29,4 @@ private:
     bool waitingForNextTurn{false};
 };
 
-
-#endif //INC_4_WORMS_GAMECLOCK_H
+#endif  // INC_4_WORMS_GAMECLOCK_H

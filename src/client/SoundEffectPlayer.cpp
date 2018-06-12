@@ -4,20 +4,16 @@
 
 #include "SoundEffectPlayer.h"
 
-GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect) : soundEffect(&soundEffect) {
-
-}
+GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect)
+    : soundEffect(&soundEffect) {}
 
 GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect, float duration)
-        : soundEffect(&soundEffect),
-          duration(duration) {
-//    this->soundEffect->play();
+    : soundEffect(&soundEffect), duration(duration) {
+    //    this->soundEffect->play();
 }
 
 GUI::SoundEffectPlayer::SoundEffectPlayer(const GUI::SoundEffect &soundEffect, bool autoUpdate)
-        : soundEffect(&soundEffect),
-          autoUpdate(autoUpdate) {
-}
+    : soundEffect(&soundEffect), autoUpdate(autoUpdate) {}
 
 GUI::SoundEffectPlayer::~SoundEffectPlayer() {}
 

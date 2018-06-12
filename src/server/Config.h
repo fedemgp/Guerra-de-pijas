@@ -16,14 +16,14 @@ using Vector = Math::Point<float>;
 }
 
 namespace Game {
-    namespace Bullet{
-        struct DamageInfo {
-            uint16_t damage;
-            float radius;
-        };
-    } //namespaces Bullet
+namespace Bullet {
+struct DamageInfo {
+    uint16_t damage;
+    float radius;
+};
+}  // namespaces Bullet
 
-    namespace Weapon {
+namespace Weapon {
 struct Config {
    public:
     Bullet::DamageInfo dmgInfo;
@@ -37,13 +37,13 @@ struct Config {
     bool hasAfterExplode;
     float bulletRadius;
     float bulletDampingRatio;
-    };
+};
 }  // namespace Weapon
 
-   /**
-    *  Singleton class with all the game configuration (Velocity constants,
-    *  Weapons attributes, etc)
-    */
+/**
+ *  Singleton class with all the game configuration (Velocity constants,
+ *  Weapons attributes, etc)
+ */
 class Config {
    public:
     static Config &getInstance();
@@ -111,40 +111,100 @@ class Config {
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS},
-                           BAZOOKA_MIN_ANGLE,   BAZOOKA_MAX_ANGLE,
-        ANGLE_STEP,     MAX_SHOT_POWER,        BAZOOKA_RESTITUTION, BAZOOKA_FRCTION,
-        BAZOOKA_INITIAL_TIMEOUT, false, BAZOOKA_BULLET_RADIUS, BAZOOKA_DUMPING_RATIO};
-    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS}, GRENADE_MIN_ANGLE,
-                                GRENADE_MAX_ANGLE,   ANGLE_STEP,     MAX_SHOT_POWER,
-                                GRENADE_RESTITUTION, GRENADE_FRCTION,
-                                GRENADE_INITIAL_TIMEOUT, false, GRENADE_BULLET_RADIUS, GRENADE_DUMPING_RATIO};
+                           BAZOOKA_MIN_ANGLE,
+                           BAZOOKA_MAX_ANGLE,
+                           ANGLE_STEP,
+                           MAX_SHOT_POWER,
+                           BAZOOKA_RESTITUTION,
+                           BAZOOKA_FRCTION,
+                           BAZOOKA_INITIAL_TIMEOUT,
+                           false,
+                           BAZOOKA_BULLET_RADIUS,
+                           BAZOOKA_DUMPING_RATIO};
+    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS},
+                                GRENADE_MIN_ANGLE,
+                                GRENADE_MAX_ANGLE,
+                                ANGLE_STEP,
+                                MAX_SHOT_POWER,
+                                GRENADE_RESTITUTION,
+                                GRENADE_FRCTION,
+                                GRENADE_INITIAL_TIMEOUT,
+                                false,
+                                GRENADE_BULLET_RADIUS,
+                                GRENADE_DUMPING_RATIO};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
-    Weapon::Config clusterFragments{Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS},
-                                    CLUSTER_FRAGMENT_MIN_ANGLE, CLUSTER_FRAGMENT_MAX_ANGLE,
-                                    CLUSTER_FRAGMENT_ANGLE_STEP, CLUSTER_FRAGMENT_SHOT_POWER,
-                                    CLUSTER_FRAGMENT_RESTITUTION, CLUSTER_FRAGMENT_FRICTION,
-                                    CLUSTER_FRAGMENT_TIMEOUT, false, CLUSTER_FRAGMENT_BULLET_RADIUS, CLUSTER_FRAGMENT_DUMPING_RATIO};
-    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS}, CLUSTER_MIN_ANGLE,   CLUSTER_MAX_ANGLE,
-                           ANGLE_STEP,     MAX_SHOT_POWER, CLUSTER_RESTITUTION, CLUSTER_FRCTION,
-                           CLUSTER_INITIAL_TIMEOUT, true, CLUSTER_BULLET_RADIUS, CLUSTER_DUMPING_RATIO};
-    Weapon::Config mortarFragments{Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS},
-                                   MORTAR_FRAGMENT_MIN_ANGLE, MORTAR_FRAGMENT_MAX_ANGLE,
-                                   MORTAR_FRAGMENT_ANGLE_STEP, MORTAR_FRAGMENT_SHOT_POWER,
-                                   MORTAR_FRAGMENT_RESTITUTION, MORTAR_FRAGMENT_FRICTION,
-                                   MORTAR_FRAGMENT_TIMEOUT, false, MORTAR_FRAGMENT_BULLET_RADIUS, MORTAR_FRAGMENT_DUMPING_RATIO};
+    Weapon::Config clusterFragments{
+        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS},
+        CLUSTER_FRAGMENT_MIN_ANGLE,
+        CLUSTER_FRAGMENT_MAX_ANGLE,
+        CLUSTER_FRAGMENT_ANGLE_STEP,
+        CLUSTER_FRAGMENT_SHOT_POWER,
+        CLUSTER_FRAGMENT_RESTITUTION,
+        CLUSTER_FRAGMENT_FRICTION,
+        CLUSTER_FRAGMENT_TIMEOUT,
+        false,
+        CLUSTER_FRAGMENT_BULLET_RADIUS,
+        CLUSTER_FRAGMENT_DUMPING_RATIO};
+    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS},
+                           CLUSTER_MIN_ANGLE,
+                           CLUSTER_MAX_ANGLE,
+                           ANGLE_STEP,
+                           MAX_SHOT_POWER,
+                           CLUSTER_RESTITUTION,
+                           CLUSTER_FRCTION,
+                           CLUSTER_INITIAL_TIMEOUT,
+                           true,
+                           CLUSTER_BULLET_RADIUS,
+                           CLUSTER_DUMPING_RATIO};
+    Weapon::Config mortarFragments{
+        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS},
+        MORTAR_FRAGMENT_MIN_ANGLE,
+        MORTAR_FRAGMENT_MAX_ANGLE,
+        MORTAR_FRAGMENT_ANGLE_STEP,
+        MORTAR_FRAGMENT_SHOT_POWER,
+        MORTAR_FRAGMENT_RESTITUTION,
+        MORTAR_FRAGMENT_FRICTION,
+        MORTAR_FRAGMENT_TIMEOUT,
+        false,
+        MORTAR_FRAGMENT_BULLET_RADIUS,
+        MORTAR_FRAGMENT_DUMPING_RATIO};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},  MORTAR_MIN_ANGLE,   MORTAR_MAX_ANGLE,
-                          ANGLE_STEP,    MAX_SHOT_POWER, MORTAR_RESTITUTION, MORTAR_FRCTION,
-                          MORTAR_INITIAL_TIMEOUT, true, MORTAR_BULLET_RADIUS, MORTAR_DUMPING_RATIO};
-    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},  BANANA_MIN_ANGLE,   BANANA_MAX_ANGLE,
-                          ANGLE_STEP,    MAX_SHOT_POWER, BANANA_RESTITUTION, BANANA_FRCTION,
-                          BANANA_INITIAL_TIMEOUT, false, BANANA_BULLET_RADIUS, BANANA_DUMPING_RATIO};
-    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS},    HOLY_MIN_ANGLE,   HOLY_MAX_ANGLE,
-                        ANGLE_STEP,  MAX_SHOT_POWER, HOLY_RESTITUTION, HOLY_FRCTION,
-                        HOLY_INITIAL_TIMEOUT, false, HOLY_BULLET_RADIUS, HOLY_DUMPING_RATIO};
+    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},
+                          MORTAR_MIN_ANGLE,
+                          MORTAR_MAX_ANGLE,
+                          ANGLE_STEP,
+                          MAX_SHOT_POWER,
+                          MORTAR_RESTITUTION,
+                          MORTAR_FRCTION,
+                          MORTAR_INITIAL_TIMEOUT,
+                          true,
+                          MORTAR_BULLET_RADIUS,
+                          MORTAR_DUMPING_RATIO};
+    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},
+                          BANANA_MIN_ANGLE,
+                          BANANA_MAX_ANGLE,
+                          ANGLE_STEP,
+                          MAX_SHOT_POWER,
+                          BANANA_RESTITUTION,
+                          BANANA_FRCTION,
+                          BANANA_INITIAL_TIMEOUT,
+                          false,
+                          BANANA_BULLET_RADIUS,
+                          BANANA_DUMPING_RATIO};
+    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS},
+                        HOLY_MIN_ANGLE,
+                        HOLY_MAX_ANGLE,
+                        ANGLE_STEP,
+                        MAX_SHOT_POWER,
+                        HOLY_RESTITUTION,
+                        HOLY_FRCTION,
+                        HOLY_INITIAL_TIMEOUT,
+                        false,
+                        HOLY_BULLET_RADIUS,
+                        HOLY_DUMPING_RATIO};
 };
 
-    void endTurn();
+void endTurn();
 }  // namespace Game
 
 #endif  //__GAMECONFIG_H__

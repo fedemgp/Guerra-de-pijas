@@ -71,8 +71,7 @@ class Worm {
      * so it can handle it.
      * @param position
      */
-    void
-    mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *pStream);
+    void mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *pStream);
     GUI::Animation getAnimation(StateID state) const;
     /**
      * @brief Attributte that implements state pattern to change the behavior

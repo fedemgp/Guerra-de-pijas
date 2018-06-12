@@ -63,7 +63,7 @@ class Bullet : public PhysicsEntity {
     bool operator<(Worms::Bullet &other);
     Worm::WeaponID getWeaponID() const;
 
-private:
+   private:
     b2Body *body{nullptr};
     b2BodyDef bodyDef;
     b2CircleShape shape;

@@ -8,8 +8,7 @@
 
 Weapon::Mortar::Mortar(float angle)
     : Worms::Weapon(Game::Config::getInstance().getMortarConfig(), Worm::WeaponID::WMortar, angle),
-      fragmentConfig(Game::Config::getInstance().getMortarFragmentConfig()){
-}
+      fragmentConfig(Game::Config::getInstance().getMortarFragmentConfig()) {}
 
 void Weapon::Mortar::update(float dt) {
     if (this->increaseShotPower) {
@@ -25,33 +24,36 @@ void Weapon::Mortar::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 
-void Weapon::Mortar::endShot(){
+void Weapon::Mortar::endShot() {
     this->increaseShotPower = false;
     this->shotPower = 0;
 }
 
 void Weapon::Mortar::setTimeout(uint8_t time) {}
 
-std::list<Worms::Bullet> Weapon::Mortar::onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) {
-    uint8_t fragmentQuantity = Game::Config::getInstance()
-            .getMortarFragmentQuantity();
+std::list<Worms::Bullet> Weapon::Mortar::onExplode(const Worms::Bullet &mainBullet,
+                                                   Worms::Physics &physics) {
+    uint8_t fragmentQuantity = Game::Config::getInstance().getMortarFragmentQuantity();
     Math::Point<float> p = mainBullet.getPosition();
     Worms::BulletInfo bulletInfo = {this->fragmentConfig.dmgInfo,
-                                    p,this->fragmentConfig.minAngle,
+                                    p,
+                                    this->fragmentConfig.minAngle,
                                     (float)this->fragmentConfig.maxShotPower,
-                                    this->fragmentConfig.bulletRadius * 6, this->fragmentConfig.restitution,
+                                    this->fragmentConfig.bulletRadius * 6,
+                                    this->fragmentConfig.restitution,
                                     this->fragmentConfig.friction,
                                     this->fragmentConfig.explotionInitialTimeout,
-                                    Event::Explode, this->fragmentConfig.bulletRadius, this->fragmentConfig.bulletDampingRatio};
+                                    Event::Explode,
+                                    this->fragmentConfig.bulletRadius,
+                                    this->fragmentConfig.bulletDampingRatio};
 
     std::list<Worms::Bullet> ret;
-    for (int i = 0; i < fragmentQuantity; i++){
-        bulletInfo.angle =  i * this->fragmentConfig.angleStep + this->fragmentConfig.minAngle;
+    for (int i = 0; i < fragmentQuantity; i++) {
+        bulletInfo.angle = i * this->fragmentConfig.angleStep + this->fragmentConfig.minAngle;
         ret.emplace_back(bulletInfo, physics, Worm::WeaponID::WFragment);
     }
 
     return std::move(ret);
 }
 
-void
-Weapon::Mortar::positionSelected(Worms::Player &p, Math::Point<float> point){}
+void Weapon::Mortar::positionSelected(Worms::Player &p, Math::Point<float> point) {}

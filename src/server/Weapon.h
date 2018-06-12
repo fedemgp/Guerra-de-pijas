@@ -47,7 +47,8 @@ class Weapon {
      * depending on weapon's behavior after the main bullet explode.
      * @return
      */
-    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) = 0;
+    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
+                                               Worms::Physics &physics) = 0;
 
    protected:
     bool increaseShotPower{false};

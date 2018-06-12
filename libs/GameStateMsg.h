@@ -13,8 +13,8 @@
 #include <stdint.h>
 #include <cstring>
 
-#include "Point.h"
 #include "Exception.h"
+#include "Point.h"
 
 namespace Worm {
 enum class StateID {
@@ -33,9 +33,7 @@ enum class StateID {
     Falling,
     Land
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly,
-    WExplode, WFragment
-};
+enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly, WExplode, WFragment };
 }  // namespace Worm
 
 namespace IO {
@@ -64,7 +62,7 @@ enum class PlayerInput {
     positionSelected
 };
 
-struct PlayerMsg{
+struct PlayerMsg {
     PlayerInput input;
     Math::Point<float> position{0.0f, 0.0f};
 
@@ -73,7 +71,7 @@ struct PlayerMsg{
     }
 
     void serialize(void *buffer, std::size_t buffer_size) {
-        if(this->getSerializedSize() > buffer_size) {
+        if (this->getSerializedSize() > buffer_size) {
             throw Exception{"PlayerMsg: buffer too small"};
         }
 
@@ -82,7 +80,7 @@ struct PlayerMsg{
     }
 
     void deserialize(const void *buffer, std::size_t buffer_size) {
-        if(this->getSerializedSize() != buffer_size) {
+        if (this->getSerializedSize() != buffer_size) {
             throw Exception{"PlayerMsg: buffer size mismatch"};
         }
 
@@ -116,7 +114,7 @@ struct GameStateMsg {
     }
 
     void serialize(void *buffer, std::size_t buffer_size) {
-        if(this->getSerializedSize() > buffer_size) {
+        if (this->getSerializedSize() > buffer_size) {
             throw Exception{"GameStateMsg: buffer too small"};
         }
 
@@ -125,7 +123,7 @@ struct GameStateMsg {
     }
 
     void deserialize(const void *buffer, std::size_t buffer_size) {
-        if(this->getSerializedSize() != buffer_size) {
+        if (this->getSerializedSize() != buffer_size) {
             throw Exception{"GameStateMsg: buffer size mismatch"};
         }
 
