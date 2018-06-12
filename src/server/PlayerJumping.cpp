@@ -10,7 +10,7 @@
 #include "Player.h"
 #include "PlayerJumping.h"
 
-Worms::Jumping::Jumping() : State(Worm::StateID::Jumping) {}
+Worms::Jumping::Jumping(GUI::Position p) : State(Worm::StateID::Jumping), startPosition(p) {}
 
 void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body) {
     /*
@@ -33,7 +33,9 @@ void Worms::Jumping::update(Worms::Player &p, float dt, b2Body *body) {
         b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
         body->ApplyLinearImpulseToCenter(impulses, true);
 
-        p.setState(Worm::StateID::EndJump);
+        p.landDamage(this->startPosition.y - p.getPosition().y);
+        p.setState(Worm::StateID::Land);
+//        p.setState(Worm::StateID::EndJump);
     }
 }
 

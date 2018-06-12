@@ -6,7 +6,7 @@
 #include "PlayerBackFlipping.h"
 #include "Player.h"
 
-Worms::BackFlipping::BackFlipping() : State(Worm::StateID::BackFlipping) {}
+Worms::BackFlipping::BackFlipping(GUI::Position p) : State(Worm::StateID::BackFlipping), startPosition(p) {}
 
 void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
     /*
@@ -26,7 +26,9 @@ void Worms::BackFlipping::update(Worms::Player &p, float dt, b2Body *body) {
         b2Vec2 impulses = {mass * (0.0f - previousVel.x), 0.0f};
         body->ApplyLinearImpulseToCenter(impulses, true);
 
-        p.setState(Worm::StateID::EndBackFlip);
+        p.landDamage(this->startPosition.y - p.getPosition().y);
+        p.setState(Worm::StateID::Land);
+//        p.setState(Worm::StateID::EndBackFlip);
     }
 }
 

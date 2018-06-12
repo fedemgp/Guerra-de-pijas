@@ -224,7 +224,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new StartJump());
                 break;
             case Worm::StateID::Jumping:
-                this->state = std::shared_ptr<State>(new Jumping());
+                this->state = std::shared_ptr<State>(new Jumping(this->getPosition()));
                 break;
             case Worm::StateID::EndJump:
                 this->state = std::shared_ptr<State>(new EndJump());
@@ -233,7 +233,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new StartBackFlip());
                 break;
             case Worm::StateID::BackFlipping:
-                this->state = std::shared_ptr<State>(new BackFlipping());
+                this->state = std::shared_ptr<State>(new BackFlipping(this->getPosition()));
                 break;
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());

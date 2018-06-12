@@ -6,12 +6,13 @@
 #ifndef __PLAYER_BACK_FLIPPING_H__
 #define __PLAYER_BACK_FLIPPING_H__
 
+#include <Camera.h>
 #include "PlayerState.h"
 
 namespace Worms {
 class BackFlipping : public State {
    public:
-    BackFlipping();
+    BackFlipping(GUI::Position p);
     ~BackFlipping() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
@@ -35,6 +36,7 @@ class BackFlipping : public State {
 
    private:
     float timeElapsed{0.0f};
+    GUI::Position startPosition;
 };
 }  // namespace Worms
 
