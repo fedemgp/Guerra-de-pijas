@@ -142,6 +142,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                                 "assets/sound/Effects/ROCKETRELEASE.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Gemido,
+                                "assets/gemido.wav");
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;

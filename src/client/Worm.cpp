@@ -254,7 +254,7 @@ void Worm::Worm::playSoundEffect(StateID state) {
             break;
         case StateID::Dead:
             this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(
-                    new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
+                    new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Gemido), true});
             this->soundEffectPlayer->play();
             break;
     }

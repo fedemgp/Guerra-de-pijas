@@ -99,7 +99,7 @@ bool Ammo::Bullet::exploded() {
 void Ammo::Bullet::madeImpact() {
     this->explode = true;
     this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(
-        new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
+        new GUI::SoundEffectPlayer{this->sound_effect_mgr.get(GUI::GameSoundEffects::Gemido), true});
     this->soundEffectPlayer->play();
 }
 
