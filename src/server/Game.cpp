@@ -3,13 +3,13 @@
  *  date: 18/05/18
  */
 
-#include <Box2D/Box2D.h>
 #include <zconf.h>
-#include <algorithm>
 #include <atomic>
 #include <chrono>
-#include <functional>
 #include <iostream>
+#include <Stage.h>
+#include "Box2D/Box2D.h"
+#include "Chronometer.h"
 //#include <random>
 
 #include "Config.h"
@@ -18,11 +18,19 @@
 #include "Stage.h"
 #include "ImpactOnCourse.h"
 
-Worms::Game::Game(Stage &&stage)
+Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     : physics(b2Vec2{0.0f, -10.0f}),
       stage(std::move(stage)),
       maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()),
-      gameTurn(*this) {
+      gameTurn(*this),
+      sockets(sockets),
+      inputs(sockets.size()) {
+    this->inputThreads.reserve(sockets.size());
+    this->outputThreads.reserve(sockets.size());
+    for (std::size_t i = 0; i < sockets.size(); i++) {
+        this->inputThreads.emplace_back([this, i] { this->inputWorker(i); });
+        this->outputThreads.emplace_back([this, i] { this->outputWorker(i); });
+    }
     /* reserves the required space to avoid reallocations that may move the worm addresses */
     this->players.reserve(this->stage.getWorms().size());
     uint8_t id = 0;
@@ -36,7 +44,7 @@ Worms::Game::Game(Stage &&stage)
         id++;
     }
 
-    this->teams.makeTeams(this->players, this->stage.getNumTeams());
+    this->teams.makeTeams(this->players, (uint8_t)sockets.size());
 
     /* sets the girders */
     for (auto &girder : this->stage.getGirders()) {
@@ -61,30 +69,96 @@ Worms::Game::Game(Stage &&stage)
     this->gameClock.addObserver(this);
 }
 
-void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
-                        IO::Stream<IO::PlayerMsg> *playerStream) {
+Worms::Game::~Game() {
+    this->exit();
+    for (auto &t : this->outputThreads) {
+        t.join();
+    }
+
+    for (auto &t : this->inputThreads) {
+        t.join();
+    }
+}
+
+/**
+ * @brief Reads player messages from a socket and pushes them into the input queue.
+ *
+ * @param playerIndex The index of the player.
+ */
+void Worms::Game::inputWorker(std::size_t playerIndex) {
+    PlayerInput &input = this->inputs.at(playerIndex);
+    CommunicationSocket &socket = this->sockets.at(playerIndex);
+
+    /* TODO: avoid hardcoding the size */
+    IO::PlayerMsg msg;
+    char *buffer = new char[msg.getSerializedSize()];
+
+    try {
+        while (!this->quit) {
+            /* reads the raw data from the buffer */
+            socket.receive(buffer, msg.getSerializedSize());
+
+            /* sets the struct data from the buffer */
+            msg.deserialize(buffer, msg.getSerializedSize());
+
+            /* pushes the message into the player's input queue if it's the current player */
+            if (this->currentTeam == playerIndex) {
+                input.push(msg);
+            }
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+        this->quit = true;
+    }
+
+    delete buffer;
+}
+
+/**
+ * @brief Sends model snapshot messages to a socket.
+ *
+ * @param playerIndex The index of the player to send the spanshots to.
+ */
+void Worms::Game::outputWorker(std::size_t playerIndex) {
+    CommunicationSocket &socket = this->sockets.at(playerIndex);
+
+    IO::GameStateMsg msg;
+    char *buffer = new char[msg.getSerializedSize()];
+
+    try {
+        while (!this->quit) {
+            msg = this->snapshot.get(true);
+            msg.serialize(buffer, msg.getSerializedSize());
+            socket.send(buffer, msg.getSerializedSize());
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
+        this->quit = true;
+    }
+
+    delete buffer;
+}
+
+void Worms::Game::start() {
     try {
         /* game loop */
-        std::chrono::high_resolution_clock::time_point prev =
-            std::chrono::high_resolution_clock::now();
+        Utils::Chronometer chronometer;
         float lag = 0.0f;
         float32 timeStep = 1.0f / 60.0f;
 
         while (!quit) {
-            std::chrono::high_resolution_clock::time_point current =
-                std::chrono::high_resolution_clock::now();
-            double dt =
-                std::chrono::duration_cast<std::chrono::duration<double>>(current - prev).count();
+            double dt = chronometer.elapsed();
             lag += dt;
 
             this->gameClock.update(dt);
             this->gameTurn.update(dt);
 
             IO::PlayerMsg pMsg;
-            if (playerStream->pop(pMsg, false)) {
+            if (this->inputs.at(this->currentTeam).pop(pMsg, false)) {
                 if (this->processingClientInputs) {
                     if (this->currentPlayerShot) {
-                        if (pMsg.input != IO::PlayerInput::startShot && pMsg.input != IO::PlayerInput::endShot) {
+                        if (pMsg.input != IO::PlayerInput::startShot &&
+                            pMsg.input != IO::PlayerInput::endShot) {
                             this->players.at(this->currentWorm).handleState(pMsg);
                         }
                     } else {
@@ -104,14 +178,12 @@ void Worms::Game::start(IO::Stream<IO::GameStateMsg> *output,
                 lag -= timeStep;
             }
 
-            /* sends the current game state */
-            this->serialize(*output);
+            /* serializes and updates the game state */
+            this->snapshot.set(this->serialize());
+            this->snapshot.swap();
 
-            prev = current;
-            usleep(20 * 1000);
+            usleep(16 * 1000);
         }
-
-        output->close();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In Worms::Game::start" << std::endl;
     } catch (...) {
@@ -130,7 +202,7 @@ void Worms::Game::endTurn() {
     this->gameTurn.restart();
 }
 
-void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
+IO::GameStateMsg Worms::Game::serialize() const {
     assert(this->players.size() <= 20);
 
     IO::GameStateMsg m;
@@ -155,7 +227,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
 
     m.bulletsQuantity = this->players[this->currentWorm].getBullets().size();
     uint8_t i = 0, j = 0;
-    for (auto &bullet : this->players[this->currentWorm].getBullets()){
+    for (auto &bullet : this->players[this->currentWorm].getBullets()) {
         Math::Point<float> p = bullet.getPosition();
         m.bullets[i++] = p.x;
         m.bullets[i++] = p.y;
@@ -165,7 +237,7 @@ void Worms::Game::serialize(IO::Stream<IO::GameStateMsg> &s) const {
 
     m.processingInputs = this->processingClientInputs;
 
-    s << m;
+    return m;
 }
 
 void Worms::Game::exit() {
@@ -281,7 +353,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
     }
 }
 
-void Worms::Game::calculateDamage(const Worms::Bullet &bullet){
+void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     ::Game::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());

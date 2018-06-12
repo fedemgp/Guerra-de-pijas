@@ -6,7 +6,7 @@
 #ifndef __GAMECONFIG_H__
 #define __GAMECONFIG_H__
 
-#include <stdint-gcc.h>
+#include <stdint.h>
 
 #include "GameConstants.h"
 #include "Point.h"
@@ -62,7 +62,6 @@ class Config {
     const float getExtraTurnTime() const;
     const float getWaitForNextTurnTime() const;
     const float getPowerChargeTime() const;
-    const uint8_t getNumTeams() const;
     const float getGameWidth() const;
     const float getGameHeight() const;
     const float getDyingTime() const;

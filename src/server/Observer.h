@@ -13,7 +13,7 @@ enum class Event { Explode, OnExplode, Shot, Drowning, Drowned, EndTurn, Hit, En
 class Subject;
 
 class Observer {
-   public:
+public:
     virtual ~Observer() = default;
     virtual void onNotify(Subject &subject, Event event) = 0;
 };

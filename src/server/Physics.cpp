@@ -6,7 +6,7 @@
 #include "Physics.h"
 
 Worms::Physics::Physics(b2Vec2 gravity)
-    : gravity(gravity), world(this->gravity), contactEventListener(new ContactEventListener) {
+        : gravity(gravity), world(this->gravity), contactEventListener(new ContactEventListener) {
     this->world.SetContactListener(this->contactEventListener.get());
 }
 

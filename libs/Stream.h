@@ -17,13 +17,16 @@ template <typename Msg>
 class Stream {
    public:
     Stream() {}
+    Stream(Stream &&other) = default;
+    Stream &operator=(Stream &&other) = default;
+    Stream &operator=(Stream &other) = delete;
 
     ~Stream() {
         this->close();
     }
 
     void push(const Msg &m) {
-        std::lock_guard<std::mutex> lock(this->mutex);
+        std::unique_lock<std::mutex> lock(this->mutex);
         this->q.push(m);
         this->notEmpty.notify_all();
     }
@@ -70,5 +73,5 @@ class Stream {
     std::condition_variable notEmpty;
     std::atomic<bool> closed{false};
 };
-}  // namespaces IO
+}  // namespace IO
 #endif  //__STREAM_H__
