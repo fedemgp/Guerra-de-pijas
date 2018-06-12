@@ -9,10 +9,15 @@
 #include "ClientSocket.h"
 #include "GUIGame.h"
 
-int main() {
+int main(int argc, const char *argv[]) {
+    if (argc != 3) {
+        std::cout << "Usage: ./client HOST PORT" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     try {
-        std::string host = "localhost";
-        std::string port = "1051";
+        std::string host = argv[1];
+        std::string port = argv[2];
         ClientSocket socket(host.data(), port.data());
 
         GUI::Window window{};

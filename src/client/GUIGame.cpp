@@ -253,8 +253,6 @@ void GUI::Game::start() {
 
             this->update(dt);
             this->render();
-
-            usleep(5 * 1000);
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;

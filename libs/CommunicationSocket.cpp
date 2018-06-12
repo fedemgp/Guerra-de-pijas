@@ -4,6 +4,8 @@
  */
 
 #include <sys/socket.h>
+#include <errno.h>
+#include <string.h>
 
 #include "CommunicationSocket.h"
 #include "ErrorMessages.h"
@@ -27,7 +29,7 @@ unsigned int CommunicationSocket::send(const char *buffer, unsigned int length) 
         if (status == 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED);
         } else if (status < 0) {
-            throw Exception(ERR_MSG_SOCKET_CLOSED_UNEXPECTLY);
+            throw Exception(strerror(errno));
         } else {
             sent += status;
         }
@@ -52,7 +54,7 @@ unsigned int CommunicationSocket::receive(char *buffer, unsigned int length) {
         if (status == 0) {
             throw Exception(ERR_MSG_SOCKET_CLOSED);
         } else if (status < 0) {
-            throw Exception(ERR_MSG_SOCKET_CLOSED_UNEXPECTLY);
+            throw Exception(strerror(errno));
         } else {
             received += status;
         }

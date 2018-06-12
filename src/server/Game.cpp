@@ -106,7 +106,6 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
-        this->quit = true;
     }
 
     delete buffer;
@@ -131,7 +130,6 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
-        this->quit = true;
     }
 
     delete buffer;
