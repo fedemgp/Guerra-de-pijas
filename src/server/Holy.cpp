@@ -19,11 +19,11 @@ void Weapon::Holy::update(float dt) {
     }
 }
 
-void Weapon::Holy::startShot() {
+void Weapon::Holy::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 
-void Weapon::Holy::endShot(){
+void Weapon::Holy::endShot() {
     this->increaseShotPower = false;
     this->shotPower = 0;
 }
@@ -32,8 +32,9 @@ void Weapon::Holy::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 // TODO add bullets
-std::list<Worms::Bullet> Weapon::Holy::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
+std::list<Worms::Bullet> Weapon::Holy::onExplode(const Worms::Bullet &bullet,
+                                                 Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
 
-void Weapon::Holy::positionSelected(Worms::Player &p, Math::Point<float> point){}
+void Weapon::Holy::positionSelected(Worms::Player &p, Math::Point<float> point) {}

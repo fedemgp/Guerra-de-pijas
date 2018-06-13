@@ -31,7 +31,6 @@ class Animation {
     void setFrame(int frame);
     void setFlip(SDL_RendererFlip flipType);
     SDL_RendererFlip getFlip();
-
     void setAnimateOnce();
     bool finished();
 

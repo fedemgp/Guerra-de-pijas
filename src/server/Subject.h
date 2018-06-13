@@ -12,15 +12,17 @@
 
 class Subject {
    public:
+    Subject() = default;
+    virtual ~Subject() = default;
     void addObserver(Observer *obs);
     void removeObserver(Observer *obs);
     /**
      * Notify all observers with the Event id, so the Observer can do
      * what is necessary
-     * @param entity
+     * @param subject
      * @param event
      */
-    void notify(const Worms::PhysicsEntity &entity, Event event);
+    void notify(Subject &subject, Event event);
 
    private:
     std::set<Observer *> observers;

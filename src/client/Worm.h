@@ -17,8 +17,10 @@
 #include "Camera.h"
 #include "Direction.h"
 #include "Explosion.h"
+#include "GameSoundEffects.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
+#include "SoundEffectPlayer.h"
 #include "Stream.h"
 #include "Weapon.h"
 #include "WormState.h"
@@ -37,7 +39,8 @@ class Worm {
     float health{0};
     const ID id;
 
-    explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr);
+    explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr,
+                  const GUI::GameSoundEffectManager &sound_effect_mgr);
     ~Worm() {}
     /**
      * @brief Calls State::update to change frame of animation
@@ -68,8 +71,7 @@ class Worm {
      * so it can handle it.
      * @param position
      */
-    void
-    mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *pStream);
+    void mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *pStream);
     GUI::Animation getAnimation(StateID state) const;
     /**
      * @brief Attributte that implements state pattern to change the behavior
@@ -101,6 +103,7 @@ class Worm {
 
    private:
     const GUI::GameTextureManager &texture_mgr;
+    const GUI::GameSoundEffectManager &sound_effect_mgr;
     std::shared_ptr<State> state{nullptr};
     GUI::Animation animation;
     std::shared_ptr<Weapon> weapon{nullptr};
@@ -108,6 +111,12 @@ class Worm {
     GUI::Position position{0, 0};
     //    uint8_t team{0};
     std::shared_ptr<Explosion> explosion{nullptr};
+
+    void playSoundEffect(StateID state);
+
+    std::shared_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
+
+    void playWeaponSoundEffect(const WeaponID &id);
 };
 }  // namespace Worm
 

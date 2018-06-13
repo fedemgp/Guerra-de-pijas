@@ -46,7 +46,7 @@ T IO::DoubleBuffer<T>::get(bool waitNew) {
         this->dataSet.wait(lock);
     }
 
-    if(waitNew) {
+    if (waitNew) {
         this->hasData = false;
     }
 

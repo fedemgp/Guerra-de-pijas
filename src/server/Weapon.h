@@ -30,7 +30,7 @@ class Weapon {
     void increaseAngle();
     void decreaseAngle();
     float getAngle() const;
-    virtual void startShot() = 0;
+    virtual void startShot(Worms::Player *player) = 0;
     virtual void endShot() = 0;
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
@@ -47,7 +47,8 @@ class Weapon {
      * depending on weapon's behavior after the main bullet explode.
      * @return
      */
-    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet, Worms::Physics &physics) = 0;
+    virtual std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
+                                               Worms::Physics &physics) = 0;
 
    protected:
     bool increaseShotPower{false};

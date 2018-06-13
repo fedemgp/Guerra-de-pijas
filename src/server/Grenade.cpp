@@ -20,11 +20,11 @@ void Weapon::Grenade::update(float dt) {
     }
 }
 
-void Weapon::Grenade::startShot() {
+void Weapon::Grenade::startShot(Worms::Player *player) {
     this->increaseShotPower = true;
 }
 
-void Weapon::Grenade::endShot(){
+void Weapon::Grenade::endShot() {
     this->increaseShotPower = false;
     this->shotPower = 0;
 }
@@ -33,9 +33,9 @@ void Weapon::Grenade::setTimeout(uint8_t time) {
     this->timeLimit = time;
 }
 
-std::list<Worms::Bullet> Weapon::Grenade::onExplode(const Worms::Bullet &bullet, Worms::Physics &physics) {
+std::list<Worms::Bullet> Weapon::Grenade::onExplode(const Worms::Bullet &bullet,
+                                                    Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
 
-void
-Weapon::Grenade::positionSelected(Worms::Player &p, Math::Point<float> point){}
+void Weapon::Grenade::positionSelected(Worms::Player &p, Math::Point<float> point) {}

@@ -7,13 +7,14 @@
 #define __PLAYER_JUMPING_H__
 
 #include <Box2D/Dynamics/b2Body.h>
+#include <Camera.h>
 
 #include "PlayerState.h"
 
 namespace Worms {
 class Jumping : public State {
    public:
-    Jumping();
+    Jumping(GUI::Position p);
     ~Jumping() = default;
     void update(Player &p, float dt, b2Body *body) override;
     void moveRight(Player &p) override;
@@ -37,6 +38,7 @@ class Jumping : public State {
 
    private:
     float timeElapsed{0.0f};
+    GUI::Position startPosition;
 };
 }  // namespace Worms
 

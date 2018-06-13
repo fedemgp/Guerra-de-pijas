@@ -112,7 +112,7 @@ GUI::ScreenPosition GUI::Camera::globalToScreen(GUI::Position global) {
  * @param global Screen coordinates.
  * @return Corresponding global coordinates.
  */
-GUI::Position GUI::Camera::screenToGlobal(GUI::ScreenPosition screen){
+GUI::Position GUI::Camera::screenToGlobal(GUI::ScreenPosition screen) {
     /* converts from screen to global coordinate */
     Position global = {screen.x / this->scale, screen.y / this->scale};
     global.y *= -1;

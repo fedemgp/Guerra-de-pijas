@@ -3,6 +3,7 @@
  *  date: 18/05/18
  */
 
+#include <Stage.h>
 #include <zconf.h>
 #include <atomic>
 #include <chrono>
@@ -13,6 +14,7 @@
 
 #include "Config.h"
 #include "Game.h"
+#include "ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
 
@@ -20,6 +22,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     : physics(b2Vec2{0.0f, -10.0f}),
       stage(std::move(stage)),
       maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()),
+      gameTurn(*this),
       sockets(sockets),
       inputs(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
@@ -28,7 +31,6 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
         this->inputThreads.emplace_back([this, i] { this->inputWorker(i); });
         this->outputThreads.emplace_back([this, i] { this->outputWorker(i); });
     }
-
     /* reserves the required space to avoid reallocations that may move the worm addresses */
     this->players.reserve(this->stage.getWorms().size());
     uint8_t id = 0;
@@ -64,7 +66,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
 
-    this->currentPlayerTurnTime = this->stage.turnTime;
+    this->gameClock.addObserver(this);
 }
 
 Worms::Game::~Game() {
@@ -148,34 +150,8 @@ void Worms::Game::start() {
             double dt = chronometer.elapsed();
             lag += dt;
 
-            this->currentTurnElapsed += dt;
-            if (this->players[this->currentWorm].getBullets().size() > 0 &&
-                !this->currentPlayerShot) {
-                this->currentPlayerTurnTime = this->maxTurnTime;
-                this->currentTurnElapsed = 0.0f;
-                this->shotOnCourse = true;
-                this->currentPlayerShot = true;
-            }
-            if (this->currentTurnElapsed >= this->currentPlayerTurnTime) {
-                if (!this->shotOnCourse && this->drowningWormsQuantity == 0) {
-                    if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
-                        this->players[this->currentWorm].setState(Worm::StateID::Still);
-                    }
-                    this->currentTurnElapsed = 0;
-                    this->currentPlayerShot = false;
-
-                    this->teams.endTurn(this->players);
-                    this->currentTeam = this->teams.getCurrentTeam();
-                    this->currentWorm = this->teams.getCurrentPlayerID();
-                    this->currentWormToFollow = this->currentWorm;
-
-                    this->processingClientInputs = true;
-                    this->currentPlayerTurnTime = this->stage.turnTime;
-                } else {
-                    this->processingClientInputs = false;
-                    //                    this->players[this->currentWorm].setState(Worm::StateID::Still);
-                }
-            }
+            this->gameClock.update(dt);
+            this->gameTurn.update(dt);
 
             IO::PlayerMsg pMsg;
             if (this->inputs.at(this->currentTeam).pop(pMsg, false)) {
@@ -196,44 +172,23 @@ void Worms::Game::start() {
                 worm.update(dt);
             }
 
+            /**
+             * after the server sends a WExplode state of the bullet, it is needed to
+             * remove every exploded bullet.
+             */
+            if (this->removeBullets) {
+                this->bullets.remove_if(Worms::ExplosionChecker());
+                this->removeBullets = false;
+            }
+
+            for (auto &bullet : this->bullets) {
+                bullet.update(dt);
+            }
+
             /* updates the physics engine */
             for (int i = 0; i < 5 && lag > timeStep; i++) {
                 this->physics.update(timeStep);
                 lag -= timeStep;
-            }
-
-            if (this->players.at(this->currentWorm).getBullets().size() == 0) {
-                if (!this->impactOnCourse) {
-                    this->shotOnCourse = false;
-                }
-            }
-
-            if (this->impactOnCourse) {
-                this->impactOnCourse = false;
-                this->shotOnCourse = false;
-                for (size_t i = 0; i < this->players.size(); i++) {
-                    Worm::StateID wormState = this->players[i].getStateId();
-                    if (wormState != Worm::StateID::Still && wormState != Worm::StateID::Dead) {
-                        this->impactOnCourse = true;
-                        this->shotOnCourse = true;
-                        this->currentWormToFollow = i;
-                    }
-                }
-                if (!this->impactOnCourse) {
-                    for (auto &worm : this->players) {
-                        Worm::StateID wormState = worm.getStateId();
-                        if (worm.health == 0) {
-                            if (wormState != Worm::StateID::Die &&
-                                wormState != Worm::StateID::Dead) {
-                                worm.setState(Worm::StateID::Die);
-                            }
-                            if (wormState != Worm::StateID::Dead) {
-                                this->impactOnCourse = true;
-                                this->shotOnCourse = true;
-                            }
-                        }
-                    }
-                }
             }
 
             /* serializes and updates the game state */
@@ -247,6 +202,17 @@ void Worms::Game::start() {
     } catch (...) {
         std::cerr << "Unkown error in Worms::Game::start()" << std::endl;
     }
+}
+
+void Worms::Game::endTurn() {
+    this->teams.endTurn(this->players);
+    this->currentTeam = this->teams.getCurrentTeam();
+    this->currentWorm = this->teams.getCurrentPlayerID();
+    this->currentWormToFollow = this->currentWorm;
+
+    this->processingClientInputs = true;
+    this->gameClock.restart();
+    this->gameTurn.restart();
 }
 
 IO::GameStateMsg Worms::Game::serialize() const {
@@ -264,17 +230,17 @@ IO::GameStateMsg Worms::Game::serialize() const {
     }
 
     /* sets the current player's data */
-    m.elapsedTurnSeconds = this->currentTurnElapsed;
-    m.currentPlayerTurnTime = this->currentPlayerTurnTime;
+    m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
+    m.currentPlayerTurnTime = this->gameClock.getTurnTime();
     m.currentWorm = this->currentWorm;
     m.currentWormToFollow = this->currentWormToFollow;
     m.currentTeam = this->currentTeam;
     m.activePlayerAngle = this->players[this->currentWorm].getWeaponAngle();
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
 
-    m.bulletsQuantity = this->players[this->currentWorm].getBullets().size();
+    m.bulletsQuantity = this->bullets.size();
     uint8_t i = 0, j = 0;
-    for (auto &bullet : this->players[this->currentWorm].getBullets()) {
+    for (auto &bullet : this->bullets) {
         Math::Point<float> p = bullet.getPosition();
         m.bullets[i++] = p.x;
         m.bullets[i++] = p.y;
@@ -291,7 +257,7 @@ void Worms::Game::exit() {
     this->quit = true;
 }
 
-void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
+void Worms::Game::onNotify(Subject &subject, Event event) {
     switch (event) {
         /**
          * Because i didnt want to move all responsability of the bullets to
@@ -300,14 +266,23 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
          * the bullets and add the game as an observer
          */
         case Event::Shot: {
-            this->players[this->currentWorm].addObserverToBullets(this);
+            //             this->players[this->currentWorm].addObserverToBullets(this);
+            this->bullets.merge(this->players[this->currentWorm].getBullets());
+            for (auto &bullet : this->bullets) {
+                bullet.addObserver(this);
+            }
+            this->gameClock.playerShot();
+            this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
+            this->currentPlayerShot = true;
             break;
         }
         /**
          * On explode, the game must check worms health.
          */
         case Event::Explode: {
-            this->calculateDamage(dynamic_cast<const Bullet &>(entity));
+            auto &bullet = dynamic_cast<const Bullet &>(subject);
+            this->gameTurn.explosion();
+            this->calculateDamage(bullet);
             break;
         }
         /**
@@ -315,18 +290,84 @@ void Worms::Game::onNotify(const Worms::PhysicsEntity &entity, Event event) {
          * need to listen to them.
          */
         case Event::OnExplode: {
-            auto &bullet = dynamic_cast<const Bullet &>(entity);
+            auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->calculateDamage(bullet);
-            this->players[this->currentWorm].onExplode(bullet, this->physics);
-            this->players[this->currentWorm].addObserverToBullets(this);
+            this->bullets.merge(this->players[this->currentWorm].onExplode(bullet, this->physics));
+            for (auto &bullet : this->bullets) {
+                bullet.addObserver(this);
+            }
+            //            this->players[this->currentWorm].addObserverToBullets(this);
+            break;
+        }
+        case Event::WormFalling: {
+            this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::WormLanded: {
+            this->gameTurn.wormLanded(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::Hit: {
+            this->gameTurn.wormHit(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::EndHit: {
+            this->gameTurn.wormEndHit(dynamic_cast<const Player &>(subject).getId());
             break;
         }
         case Event::Drowning: {
-            this->drowningWormsQuantity++;
+            this->gameTurn.wormDrowning(dynamic_cast<const Player &>(subject).getId());
             break;
         }
         case Event::Drowned: {
-            this->drowningWormsQuantity--;
+            this->gameTurn.wormDrowned(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::Dying: {
+            this->gameTurn.wormDying();
+            break;
+        }
+        case Event::Dead: {
+            this->gameTurn.wormDead();
+            this->gameTurn.endTurn();
+            break;
+        }
+        case Event::NewWormToFollow: {
+            this->currentWormToFollow =
+                dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
+            break;
+        }
+        case Event::DamageOnLanding: {
+            this->gameClock.endTurn();
+            break;
+        }
+        case Event::ImpactEnd: {
+            auto &wormsHit = dynamic_cast<ImpactOnCourse &>(subject).getWormsHit();
+            for (auto worm : wormsHit) {
+                Worm::StateID wormState = this->players[worm].getStateId();
+                if (this->players[worm].health == 0) {
+                    if (wormState != Worm::StateID::Die && wormState != Worm::StateID::Dead) {
+                        this->players[worm].setState(Worm::StateID::Die);
+                    }
+                }
+            }
+            break;
+        }
+        case Event::EndTurn: {
+            this->processingClientInputs = false;
+            this->gameTurn.endTurn();
+            break;
+        }
+        case Event::TurnEnded: {
+            if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
+                this->players[this->currentWorm].setState(Worm::StateID::Still);
+            }
+            this->currentPlayerShot = false;
+            this->gameClock.waitForNextTurn();
+            break;
+        }
+        case Event::NextTurn: {
+            this->endTurn();
             break;
         }
     }
@@ -336,9 +377,7 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     ::Game::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
-        if (worm.getStateId() == Worm::StateID::Hit) {
-            this->impactOnCourse = true;
-        }
     }
-    this->players[this->currentWorm].cleanBullets();
+    //    this->players[this->currentWorm].cleanBullets();
+    this->removeBullets = true;
 }
