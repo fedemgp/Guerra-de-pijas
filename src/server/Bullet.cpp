@@ -11,8 +11,7 @@
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
-    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics),
-      weaponID(weapon), info(info){
+    : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics), weaponID(weapon), info(info) {
     float distance = info.safeNonContactDistance + info.radius;
     this->bodyDef.type = b2_dynamicBody;
     this->bodyDef.position.Set(info.point.x + distance * cos(info.angle * PI / 180.0f),
@@ -30,15 +29,17 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     this->body->CreateFixture(&this->fixture);
     this->body->SetUserData(this);
 
-//    this->body->SetTransform(this->body->GetPosition(), info.angle);
+    //    this->body->SetTransform(this->body->GetPosition(), info.angle);
 }
 
-void Worms::Bullet::update(float dt, Weapon &w) {
+void Worms::Bullet::update(float dt) {
     this->timeElapsed += dt;
     if (!this->impulseApplied) {
         float32 mass = this->body->GetMass();
-        b2Vec2 impulses = {mass * float32(this->info.power * this->info.dampingRatio * cos(this->info.angle * PI / 180.0f)),
-                           mass * float32(this->info.power * this->info.dampingRatio * sin(this->info.angle * PI / 180.0f))};
+        b2Vec2 impulses = {mass * float32(this->info.power * this->info.dampingRatio *
+                                          cos(this->info.angle * PI / 180.0f)),
+                           mass * float32(this->info.power * this->info.dampingRatio *
+                                          sin(this->info.angle * PI / 180.0f))};
         b2Vec2 position = this->body->GetWorldCenter();
         this->body->ApplyLinearImpulse(impulses, position, true);
         this->impulseApplied = true;
@@ -62,7 +63,8 @@ Math::Point<float> Worms::Bullet::getPosition() const {
 }
 
 float Worms::Bullet::getAngle() const {
-    return (this->info.angle >= 0 && this->info.angle < 90) ? this->info.angle + 360.0f : this->info.angle;
+    return (this->info.angle >= 0 && this->info.angle < 90) ? this->info.angle + 360.0f
+                                                            : this->info.angle;
 }
 
 void Worms::Bullet::startContact(Worms::PhysicsEntity *physicsEntity) {
@@ -90,10 +92,10 @@ Game::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
     return this->info.dmgInfo;
 }
 
-bool Worms::Bullet::operator<(Worms::Bullet &other){
+bool Worms::Bullet::operator<(Worms::Bullet &other) {
     return this->timeElapsed > other.timeElapsed;
 }
 
-Worm::WeaponID Worms::Bullet::getWeaponID() const{
+Worm::WeaponID Worms::Bullet::getWeaponID() const {
     return this->weaponID;
 }

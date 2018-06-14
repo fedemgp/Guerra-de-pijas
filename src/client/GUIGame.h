@@ -12,12 +12,14 @@
 #include <vector>
 
 #include "Animation.h"
+#include "Armory.h"
 #include "Bullet.h"
 #include "Camera.h"
 #include "ClientSocket.h"
 #include "DoubleBuffer.h"
 #include "Explosion.h"
 #include "Font.h"
+#include "GameSoundEffects.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "Stage.h"
@@ -47,6 +49,7 @@ class Game {
     float scale{13.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
+    GameSoundEffectManager sound_effect_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::list<std::shared_ptr<Ammo::Bullet>> bullets;
@@ -54,6 +57,7 @@ class Game {
     Font font;
     SDL_Color backgroundColor{0xba, 0x8d, 0xc6};
     std::vector<SDL_Color> teamColors;
+    Armory armory;
     std::thread inputThread;
     std::thread outputThread;
     IO::DoubleBuffer<IO::GameStateMsg> snapshotBuffer;

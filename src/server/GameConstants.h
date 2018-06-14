@@ -17,11 +17,12 @@
 // Stage and general game config
 #define TURN_TIME 10
 #define EXTRA_TURN_TIME 3
+#define WAIT_FOR_NEXT_TURN_TIME 3.0f
 #define NUM_TEAMS 2
 #define GAME_HEIGHT 30.0f
 #define GAME_WIDTH 30.0f
 #define DYING_TIME 2.6f
-#define DROWNING_TIME 2.6f
+#define DROWNING_TIME 1.0f
 #define WATER_LEVEL (-2)
 #define WORM_HEALTH 100
 #define POWER_CHARGE_MAX_TIME 1.0f

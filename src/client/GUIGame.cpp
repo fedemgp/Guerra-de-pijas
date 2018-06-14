@@ -19,9 +19,11 @@
 GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
     : window(w),
       texture_mgr(w.getRenderer()),
+      sound_effect_mgr(),
       stage(stage),
       cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
+      armory(this->texture_mgr, this->cam, this->font),
       socket(socket) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
@@ -92,12 +94,52 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::BazookaIcon, "assets/img/Weapon Icons/bazooka.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::GrenadeIcon, "assets/img/Weapon Icons/grenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::ClusterIcon, "assets/img/Weapon Icons/cluster.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::MortarIcon, "assets/img/Weapon Icons/mortar.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BananaIcon, "assets/img/Weapon Icons/banana.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::HolyIcon, "assets/img/Weapon Icons/hgrenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->armory.loadWeapons();
+
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
+                                "assets/sound/Effects/Walk-Compress.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
+                                "assets/sound/Soundbanks/JUMP1.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormBackFlip,
+                                "assets/sound/Soundbanks/JUMP2.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormLanding,
+                                "assets/sound/Effects/WormLanding.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormHit, "assets/sound/Soundbanks/OUCH.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDrowning,
+                                "assets/sound/Effects/UnderWaterLoop.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDie,
+                                "assets/sound/Soundbanks/BYEBYE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Splash, "assets/sound/Effects/Splash.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
+                                "assets/sound/Effects/Explosion1.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Holy,
+                                "assets/sound/Effects/HOLYGRENADE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::AirStrike,
+                                "assets/sound/Effects/Airstrike.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Teleport,
+                                "assets/sound/Effects/TELEPORT.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Shot,
+                                "assets/sound/Effects/ROCKETRELEASE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
+                                "assets/sound/Effects/BananaImpact.wav");
 
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
     this->worms.reserve(stage.getWorms().size());
     for (const auto &wormData : this->stage.getWorms()) {
-        this->worms.emplace_back(num_worms, this->texture_mgr);
+        this->worms.emplace_back(num_worms, this->texture_mgr, this->sound_effect_mgr);
         this->snapshot.positions[num_worms * 2] = wormData.position.x;
         this->snapshot.positions[num_worms * 2 + 1] = wormData.position.y;
         this->snapshot.wormsHealth[num_worms] = wormData.health;
@@ -210,8 +252,8 @@ void GUI::Game::start() {
                 //                        this->snapshot.activePlayerWeapon));
                 //                }
                 for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
-                    std::shared_ptr<Ammo::Bullet> p(
-                        new Ammo::Bullet(this->texture_mgr, this->snapshot.bulletType[i]));
+                    std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(
+                        this->texture_mgr, this->sound_effect_mgr, this->snapshot.bulletType[i]));
                     this->bullets.emplace_back(p);
                 }
                 int i = 0;
@@ -351,6 +393,7 @@ void GUI::Game::render() {
     Text text{this->font};
     text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
+    this->armory.render();
 
     this->window.render();
 }

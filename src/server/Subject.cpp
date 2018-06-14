@@ -13,8 +13,8 @@ void Subject::removeObserver(Observer *obs) {
     this->observers.erase(this->observers.find(obs));
 }
 
-void Subject::notify(const Worms::PhysicsEntity &entity, Event event) {
+void Subject::notify(Subject &subject, Event event) {
     for (auto &observer : this->observers) {
-         observer->onNotify(entity, event);
+        observer->onNotify(subject, event);
     }
 }

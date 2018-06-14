@@ -8,6 +8,27 @@
 #include "ContactEventListener.h"
 #include "Player.h"
 
+/**
+ * @brief Pre collision solver handler for Box2D. Notifies colliding objects so the can act
+ * appropriately.
+ *
+ * @param contact Collision contact.
+ * @param oldManifold Manifold.
+ */
+void ContactEventListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
+    Worms::PhysicsEntity *e1 =
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
+    Worms::PhysicsEntity *e2 =
+        static_cast<Worms::PhysicsEntity *>(contact->GetFixtureB()->GetBody()->GetUserData());
+
+    if (!e1 || !e2) {
+        return;
+    }
+
+    e1->contactWith(*e2, *contact);
+    e2->contactWith(*e1, *contact);
+}
+
 void ContactEventListener::BeginContact(b2Contact *contact) {
     Worms::PhysicsEntity *playerA =
         static_cast<Worms::PhysicsEntity *>(contact->GetFixtureA()->GetBody()->GetUserData());
@@ -27,6 +48,18 @@ void ContactEventListener::BeginContact(b2Contact *contact) {
     if (playerB) {
         playerB->startContact(playerA);
     }
+
+    void *fixtureData = contact->GetFixtureA()->GetUserData();
+    if (fixtureData) {
+        Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
+        sensor->startContact(playerB);
+    }
+
+    fixtureData = contact->GetFixtureB()->GetUserData();
+    if (fixtureData) {
+        Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
+        sensor->startContact(playerA);
+    }
 }
 
 void ContactEventListener::EndContact(b2Contact *contact) {
@@ -40,5 +73,17 @@ void ContactEventListener::EndContact(b2Contact *contact) {
     }
     if (playerB) {
         playerB->endContact(playerA);
+    }
+
+    void *fixtureData = contact->GetFixtureA()->GetUserData();
+    if (fixtureData) {
+        Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
+        sensor->endContact(playerB);
+    }
+
+    fixtureData = contact->GetFixtureB()->GetUserData();
+    if (fixtureData) {
+        Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
+        sensor->endContact(playerA);
     }
 }

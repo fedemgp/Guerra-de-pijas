@@ -30,54 +30,100 @@
 #include "PlayerWalk.h"
 #include "Weapon.h"
 
+#define CONFIG Game::Config::getInstance()
+
 Worms::Player::Player(Physics &physics)
-    : PhysicsEntity(Worms::EntityID::EtWorm),
-      physics(physics),
-      waterLevel(Game::Config::getInstance().getWaterLevel()) {
-    this->bodyDef.type = b2_dynamicBody;
-    this->bodyDef.position.Set(0.0f, 0.0f);
-    this->bodyDef.fixedRotation = true;
+    : PhysicsEntity(Worms::EntityID::EtWorm), physics(physics), waterLevel(CONFIG.getWaterLevel()) {
+    /* creates 2 bodies so players cannot move each other */
+    this->body = this->createBody(b2_dynamicBody);
+    this->body_kinematic = this->createBody(b2_kinematicBody);
 
-    this->body = this->physics.createBody(this->bodyDef);
-    this->shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
-    this->fixture.shape = &this->shape;
-    this->fixture.density = 1.0f;
-    this->fixture.restitution = 0.1f;
-    this->fixture.friction = 0.0f;
-
-    this->body->CreateFixture(&this->fixture);
-    this->body->SetUserData(this);
-
-    this->state = std::shared_ptr<State>(new Still());
-    this->direction = Direction::left;
-    this->lastWalkDirection = this->direction;
+    b2PolygonShape shape;
+    shape.SetAsBox(PLAYER_WIDTH / 2, 0.2f, b2Vec2{0, -PLAYER_HEIGHT / 2}, 0);
+    this->footSensor = new TouchSensor{*this->body, shape, -1};
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
 }
 
+/**
+ * @brief "Not equal" operator.
+ *
+ * @param other Other instance to compare.
+ * @return true if not equal.
+ */
+bool Worms::Player::operator!=(const Player &other) {
+    return !(*this == other);
+}
+
+/**
+ * @brief Comparisson operator.
+ *
+ * @param other Other instance to compare.
+ * @return true if equal.
+ */
+bool Worms::Player::operator==(const Player &other) {
+    return (this->id == other.id) && (this->team == other.team);
+}
+
+/**
+ * @brief Handles player-entity contact.
+ *
+ * @param other Other player that made contact.
+ * @param contact box2D collision contact.
+ */
+void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
+    if (entity.getEntityId() != Worms::EntityID::EtWorm) {
+        return;
+    }
+
+    /* checks if it's the player itself */
+    if (&entity == this) {
+        /* checks if it's the kinematic and dynamic bodies cooliding */
+        if (contact.GetFixtureA()->GetBody()->GetType() !=
+            contact.GetFixtureB()->GetBody()->GetType()) {
+            contact.SetEnabled(false);
+        }
+    }
+}
+
 void Worms::Player::update(float dt) {
+    /* sets the kinematic body to the position of the dynamic body */
+    this->body_kinematic->SetTransform(this->body->GetTransform().p, this->body->GetAngle());
+
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
-    /**
-     * after the server sends a WExplode state of the bullet, it is needed to
-     * remove every exploded bullet.
-     */
-    if (this->removeBullets){
-        this->bullets.remove_if(Worms::ExplosionChecker());
-        this->removeBullets = false;
-    }
+    //    /**
+    //     * after the server sends a WExplode state of the bullet, it is needed to
+    //     * remove every exploded bullet.
+    //     */
+    //    if (this->removeBullets) {
+    //        this->bullets.remove_if(Worms::ExplosionChecker());
+    //        this->removeBullets = false;
+    //    }
+    //
+    //    for (auto &bullet : this->bullets) {
+    //        bullet.update(dt, *this->weapon);
+    //    }
 
-    for (auto &bullet : this->bullets) {
-        bullet.update(dt, *this->weapon);
-    }
-
-    if (this->getPosition().y <= this->waterLevel && this->numContacts == 0 &&
-        this->getStateId() != Worm::StateID::Dead && this->getStateId() != Worm::StateID::Drowning) {
+    if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
+        this->getStateId() != Worm::StateID::Drowning) {
         this->health = 0.0f;
+        if (this->getStateId() == Worm::StateID::Hit) {
+            this->notify(*this, Event::EndHit);
+        }
         this->setState(Worm::StateID::Drowning);
         this->notify(*this, Event::Drowning);
     }
+}
+
+/**
+ * @brief Whether the player is touching the ground or not.
+ *
+ * @return true is touching the ground.
+ */
+bool Worms::Player::isOnGround() const {
+    return this->footSensor->isActive();
 }
 
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
@@ -91,206 +137,6 @@ Math::Point<float> Worms::Player::getPosition() const {
 
 Worm::StateID Worms::Player::getStateId() const {
     return this->state->getState();
-}
-
-void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity) {
-    if (physicsEntity != nullptr) {
-        switch (physicsEntity->getEntityId()) {
-            case EntityID::EtWorm:
-                this->numWormContacts++;
-                if (this->getStateId() == Worm::StateID::Walk) {
-                    this->canWalk = false;
-                }
-                break;
-            case EntityID::EtBullet:
-                this->numBulletContacs++;
-                break;
-        }
-    } else {
-        this->numContacts++;
-    }
-}
-
-void Worms::Player::endContact(Worms::PhysicsEntity *physicsEntity) {
-    if (physicsEntity != nullptr) {
-        switch (physicsEntity->getEntityId()) {
-            case EntityID::EtWorm:
-                if (this->numWormContacts > 0) {
-                    this->numWormContacts--;
-                }
-                break;
-            case EntityID::EtBullet:
-                if (this->numBulletContacs > 0) {
-                    this->numBulletContacs--;
-                }
-                break;
-        }
-    } else {
-        if (this->numContacts > 0) {
-            this->numContacts--;
-        }
-    }
-    //    if (this->numContacts == 0 && this->numWormContacts == 0 && this->getStateId() ==
-    //    Worm::StateID::Still) {
-    //        this->setState(Worm::StateID::Falling);
-    //    }
-}
-
-const std::list<Worms::Bullet> &Worms::Player::getBullets() const {
-    return this->bullets;
-}
-
-void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter) {
-    if (this->getStateId() != Worm::StateID::Dead) {
-        double distanceToEpicenter = this->getPosition().distance(
-                epicenter);  // std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position
-        // "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout
-        // << "distance to epicenter " << distanceToEpicenter << std::endl;
-        if (distanceToEpicenter <= damageInfo.radius) {
-            this->body->SetType(b2_dynamicBody);
-            double inflictedDamage =
-                    (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
-            this->health -= inflictedDamage;
-
-            Math::Point<float> positionToEpicenter = this->getPosition() - epicenter;
-            float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
-            float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
-            float32 mass = this->body->GetMass();
-            b2Vec2 impulses = {mass * float32(inflictedDamage) * xImpactDirection,
-                               mass * float32(inflictedDamage) * yImpactDirection};
-            b2Vec2 position = this->body->GetWorldCenter();
-            this->body->ApplyLinearImpulse(impulses, position, true);
-            this->setState(Worm::StateID::Hit);
-            this->health =
-                    (this->health < 0)
-                    ? 0
-                    : this->health;  // std::cout << "life " << this->health << std::endl;
-        }
-    }
-}
-
-// void Worms::Player::destroyBullet() {
-//    this->weapon->destroyBullet();
-//}
-
-float Worms::Player::getWeaponAngle() const {
-    return this->weapon->getAngle();
-}
-
-const Worm::WeaponID &Worms::Player::getWeaponID() const {
-    return this->weapon->getWeaponID();
-}
-// TODO add creation time in Team, and in this method ask for it. So that the
-// team tracks weapons quantity
-void Worms::Player::setWeapon(const Worm::WeaponID &id) {
-    if (this->weapon->getWeaponID() != id) {
-        // keep the last angle
-        float lastAngle = this->weapon->getAngle();
-        switch (id) {
-            case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
-                break;
-            case Worm::WeaponID::WGrenade:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
-                break;
-            case Worm::WeaponID::WCluster:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(lastAngle));
-                break;
-            case Worm::WeaponID::WMortar:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(lastAngle));
-                break;
-            case Worm::WeaponID::WBanana:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(lastAngle));
-                break;
-            case Worm::WeaponID::WHoly:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
-                break;
-            case Worm::WeaponID::WNone:
-                break;
-            case Worm::WeaponID::WExplode:
-                break;
-            case Worm::WeaponID::WFragment:
-                break;
-        }
-    }
-}
-
-void Worms::Player::increaseWeaponAngle() {
-    this->weapon->increaseAngle();
-}
-
-void Worms::Player::decreaseWeaponAngle() {
-    this->weapon->decreaseAngle();
-}
-
-void Worms::Player::startShot() {
-    this->weapon->startShot();
-}
-
-void Worms::Player::endShot() {
-    Math::Point<float> position = this->getPosition();
-    float safeNonContactDistance =
-            sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    BulletInfo info = this->weapon->getBulletInfo();
-    info.point = position;
-    info.safeNonContactDistance = safeNonContactDistance;
-    if (this->direction == Worms::Direction::right) {
-        if (info.angle < 0.0f) {
-            info.angle += 360.0f;
-        }
-    } else {
-        info.angle = 180.0f - info.angle;
-    }
-    this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
-    this->weapon->endShot();
-    this->notify(*this, Event::Shot);
-}
-
-void Worms::Player::setTeam(uint8_t team) {
-    this->team = team;
-}
-
-void Worms::Player::increaseHealth(float percentage) {
-    this->health += (percentage / 100.0f) * this->health;
-}
-
-uint8_t Worms::Player::getTeam() const {
-    return this->team;
-}
-
-void Worms::Player::setId(uint8_t id) {
-    this->id = id;
-}
-
-uint8_t Worms::Player::getId() const {
-    return this->id;
-}
-
-void Worms::Player::setWeaponTimeout(uint8_t time) {
-    this->weapon->setTimeout(time);
-}
-
-int Worms::Player::getWormContactCount() {
-    return this->numWormContacts;
-}
-
-void Worms::Player::landDamage(float yDistance) {
-    if (yDistance > this->safeFallDistance) {
-        this->health -= (yDistance > this->maxFallDamage) ? this->maxFallDamage : yDistance;
-        if (this->health < 0.0f) {
-            this->setState(Worm::StateID::Die);
-        }
-    }
-}
-
-void Worms::Player::onExplode(const Bullet &b, Physics &physics) {
-    this->bullets.merge(this->weapon->onExplode(b, physics));
-}
-
-void Worms::Player::addObserverToBullets(Observer *obs) {
-    for (auto &bullet : this->bullets) {
-        bullet.addObserver(obs);
-    }
 }
 
 void Worms::Player::handleState(IO::PlayerMsg pi) {
@@ -359,7 +205,6 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
             break;
         case IO::PlayerInput::positionSelected:
             this->weapon->positionSelected(*this, pi.position);
-            break;
     }
 }
 
@@ -379,7 +224,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new StartJump());
                 break;
             case Worm::StateID::Jumping:
-                this->state = std::shared_ptr<State>(new Jumping());
+                this->state = std::shared_ptr<State>(new Jumping(this->getPosition()));
                 break;
             case Worm::StateID::EndJump:
                 this->state = std::shared_ptr<State>(new EndJump());
@@ -388,7 +233,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new StartBackFlip());
                 break;
             case Worm::StateID::BackFlipping:
-                this->state = std::shared_ptr<State>(new BackFlipping());
+                this->state = std::shared_ptr<State>(new BackFlipping(this->getPosition()));
                 break;
             case Worm::StateID::EndBackFlip:
                 this->state = std::shared_ptr<State>(new EndBackFlip());
@@ -403,6 +248,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case Worm::StateID::Die:
+                this->notify(*this, Event::Dying);
                 this->state = std::shared_ptr<State>(new Die());
                 break;
             case Worm::StateID::Drowning:
@@ -416,10 +262,187 @@ void Worms::Player::setState(Worm::StateID stateID) {
     }
 }
 
-void Worms::Player::cleanBullets(){
-    this->removeBullets = true;
+std::list<Worms::Bullet> Worms::Player::getBullets() {
+    return std::move(this->bullets);
 }
 
-int Worms::Player::getContactCount() {
-    return this->numContacts;
+void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
+                                      Math::Point<float> epicenter) {
+    if (this->getStateId() != Worm::StateID::Dead) {
+        double distanceToEpicenter = this->getPosition().distance(
+            epicenter);  // std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position
+        // "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout
+        // << "distance to epicenter " << distanceToEpicenter << std::endl;
+        if (distanceToEpicenter <= damageInfo.radius) {
+            this->body->SetType(b2_dynamicBody);
+            double inflictedDamage =
+                (1.0f - (distanceToEpicenter / (damageInfo.radius * 1.01f))) * damageInfo.damage;
+            this->health -= inflictedDamage;
+
+            Math::Point<float> positionToEpicenter = this->getPosition() - epicenter;
+            float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
+            float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
+            float32 mass = this->body->GetMass();
+            b2Vec2 impulses = {mass * float32(inflictedDamage) * xImpactDirection,
+                               mass * float32(inflictedDamage) * yImpactDirection};
+            b2Vec2 position = this->body->GetWorldCenter();
+            this->body->ApplyLinearImpulse(impulses, position, true);
+            this->notify(*this, Event::Hit);
+            this->setState(Worm::StateID::Hit);
+            this->health =
+                (this->health < 0)
+                    ? 0
+                    : this->health;  // std::cout << "life " << this->health << std::endl;
+        }
+    }
+}
+
+// void Worms::Player::destroyBullet() {
+//    this->weapon->destroyBullet();
+//}
+
+float Worms::Player::getWeaponAngle() const {
+    return this->weapon->getAngle();
+}
+
+const Worm::WeaponID &Worms::Player::getWeaponID() const {
+    return this->weapon->getWeaponID();
+}
+// TODO add creation time in Team, and in this method ask for it. So that the
+// team tracks weapons quantity
+void Worms::Player::setWeapon(const Worm::WeaponID &id) {
+    if (this->weapon->getWeaponID() != id) {
+        // keep the last angle
+        float lastAngle = this->weapon->getAngle();
+        switch (id) {
+            case Worm::WeaponID::WBazooka:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
+                break;
+            case Worm::WeaponID::WGrenade:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
+                break;
+            case Worm::WeaponID::WCluster:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(lastAngle));
+                break;
+            case Worm::WeaponID::WMortar:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(lastAngle));
+                break;
+            case Worm::WeaponID::WBanana:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(lastAngle));
+                break;
+            case Worm::WeaponID::WHoly:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
+                break;
+            case Worm::WeaponID::WNone:
+                break;
+            case Worm::WeaponID::WExplode:
+                break;
+            case Worm::WeaponID::WFragment:
+                break;
+        }
+    }
+}
+
+void Worms::Player::increaseWeaponAngle() {
+    this->weapon->increaseAngle();
+}
+
+void Worms::Player::decreaseWeaponAngle() {
+    this->weapon->decreaseAngle();
+}
+
+void Worms::Player::startShot() {
+    this->weapon->startShot(this);
+}
+
+void Worms::Player::endShot() {
+    Math::Point<float> position = this->getPosition();
+    float safeNonContactDistance =
+        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+    BulletInfo info = this->weapon->getBulletInfo();
+    info.point = position;
+    info.safeNonContactDistance = safeNonContactDistance;
+    if (this->direction == Worms::Direction::right) {
+        if (info.angle < 0.0f) {
+            info.angle += 360.0f;
+        }
+    } else {
+        info.angle = 180.0f - info.angle;
+    }
+    this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
+    this->weapon->endShot();
+    this->notify(*this, Event::Shot);
+}
+
+void Worms::Player::setTeam(uint8_t team) {
+    this->team = team;
+}
+
+void Worms::Player::increaseHealth(float percentage) {
+    this->health += (percentage / 100.0f) * this->health;
+}
+
+uint8_t Worms::Player::getTeam() const {
+    return this->team;
+}
+
+void Worms::Player::setId(uint8_t id) {
+    this->id = id;
+}
+
+uint8_t Worms::Player::getId() const {
+    return this->id;
+}
+
+void Worms::Player::setWeaponTimeout(uint8_t time) {
+    this->weapon->setTimeout(time);
+}
+
+void Worms::Player::landDamage(float yDistance) {
+    if (yDistance > CONFIG.getSafeFallDistance()) {
+        this->health -=
+            (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
+        if (this->health > 0.0f) {
+            this->notify(*this, Event::DamageOnLanding);
+        }
+    }
+}
+
+/**
+ * @brief Creates a player's body with the given type.
+ *
+ * @param type Body type.
+ * @return Created body.
+ */
+b2Body *Worms::Player::createBody(b2BodyType type) {
+    b2BodyDef bodyDef;
+    bodyDef.type = type;
+    bodyDef.position.Set(0.0f, 0.0f);
+    bodyDef.fixedRotation = true;
+    b2Body *new_body = this->physics.createBody(bodyDef);
+    b2PolygonShape shape;
+    shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    b2FixtureDef fixture;
+    fixture.shape = &shape;
+    fixture.density = 1.0f;
+    fixture.restitution = 0.1f;
+    fixture.friction = 1.0f;
+    new_body->CreateFixture(&fixture);
+    new_body->SetUserData(this);
+    return new_body;
+}
+
+std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &physics) {
+    return std::move(this->weapon->onExplode(b, physics));
+    //    this->bullets.merge(this->weapon->onExplode(b, physics));
+}
+
+void Worms::Player::addObserverToBullets(Observer *obs) {
+    for (auto &bullet : this->bullets) {
+        bullet.addObserver(obs);
+    }
+}
+
+void Worms::Player::cleanBullets() {
+    this->removeBullets = true;
 }

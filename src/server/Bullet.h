@@ -42,7 +42,7 @@ class Bullet : public PhysicsEntity {
      * @param dt
      * @param w
      */
-    void update(float dt, Weapon &w);
+    void update(float dt);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     /**
@@ -63,7 +63,7 @@ class Bullet : public PhysicsEntity {
     bool operator<(Worms::Bullet &other);
     Worm::WeaponID getWeaponID() const;
 
-private:
+   private:
     b2Body *body{nullptr};
     b2BodyDef bodyDef;
     b2CircleShape shape;

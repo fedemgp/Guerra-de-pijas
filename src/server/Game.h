@@ -14,7 +14,9 @@
 #include "Bullet.h"
 #include "CommunicationSocket.h"
 #include "DoubleBuffer.h"
+#include "GameClock.h"
 #include "GameTeams.h"
+#include "GameTurn.h"
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
@@ -39,9 +41,10 @@ class Game : Observer {
 
     void start();
     IO::GameStateMsg serialize() const;
-    void onNotify(const PhysicsEntity &entity, Event event) override;
+    void onNotify(Subject &subject, Event event) override;
     void calculateDamage(const Bullet &bullet);
     void exit();
+    void endTurn();
 
    private:
     void inputWorker(std::size_t playerIndex);
@@ -49,14 +52,10 @@ class Game : Observer {
 
     uint8_t currentWorm;
     uint8_t currentTeam;
-    double currentTurnElapsed{0};
     Physics physics;
     Stage stage;
     std::vector<Player> players;
     const double maxTurnTime;
-    bool impactOnCourse{false};
-    bool shotOnCourse{false};
-    double currentPlayerTurnTime{0};
     bool processingClientInputs{true};
     uint8_t currentWormToFollow{0};
     bool currentPlayerShot{false};
@@ -64,7 +63,8 @@ class Game : Observer {
     std::list<Bullet> bullets;
 
     std::vector<uint8_t> deadTeams;
-    uint8_t drowningWormsQuantity{0};
+    GameClock gameClock;
+    GameTurn gameTurn;
 
     /* communication */
     std::vector<std::thread> inputThreads;
@@ -72,6 +72,7 @@ class Game : Observer {
     std::vector<CommunicationSocket> &sockets;
     std::vector<PlayerInput> inputs;
     IO::DoubleBuffer<IO::GameStateMsg> snapshot;
+    bool removeBullets{false};
 };
 }  // namespace Worms
 

@@ -7,9 +7,12 @@
 #include <iostream>
 
 #include "Bullet.h"
+#include "GameSoundEffects.h"
 
-Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID id)
+Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr,
+                     const GUI::GameSoundEffectManager &sound_effect_mgr, Worm::WeaponID id)
     : texture_mgr(texture_mgr),
+      sound_effect_mgr(sound_effect_mgr),
       animation(this->texture_mgr.get(GUI::GameTextures::Missile), true, MISSILE_0_DEG_FRAME,
                 false),
       explosion(this->texture_mgr) {
@@ -41,8 +44,8 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr, Worm::WeaponID 
         case Worm::WeaponID::WExplode:
             break;
         case Worm::WeaponID::WFragment:
-            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Fragment), false,
-                                             0, true);
+            this->animation =
+                GUI::Animation(this->texture_mgr.get(GUI::GameTextures::Fragment), false, 0, true);
             this->updateManually = false;
             break;
         case Worm::WeaponID::WNone:
@@ -95,6 +98,9 @@ bool Ammo::Bullet::exploded() {
 
 void Ammo::Bullet::madeImpact() {
     this->explode = true;
+    this->soundEffectPlayer = std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+        this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
+    this->soundEffectPlayer->play();
 }
 
 void Ammo::Bullet::setPosition(GUI::Position p) {
