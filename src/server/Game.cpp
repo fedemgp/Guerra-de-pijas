@@ -18,8 +18,10 @@
 #include "Player.h"
 #include "Stage.h"
 
+#define TIME_STEP (1.0f / 60.0f)
+
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
-    : physics(b2Vec2{0.0f, -10.0f}),
+    : physics(b2Vec2{0.0f, -10.0f}, TIME_STEP),
       stage(std::move(stage)),
       maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()),
       gameTurn(*this),
@@ -145,12 +147,9 @@ void Worms::Game::start() {
     try {
         /* game loop */
         Utils::Chronometer chronometer;
-        float lag = 0.0f;
-        float32 timeStep = 1.0f / 60.0f;
 
         while (!quit) {
             double dt = chronometer.elapsed();
-            lag += dt;
 
             this->gameClock.update(dt);
             this->gameTurn.update(dt);
@@ -187,11 +186,7 @@ void Worms::Game::start() {
                 bullet.update(dt);
             }
 
-            /* updates the physics engine */
-            for (int i = 0; i < 5 && lag > timeStep; i++) {
-                this->physics.update(timeStep);
-                lag -= timeStep;
-            }
+            this->physics.update(dt);
 
             /* serializes and updates the game state */
             auto msg = this->serialize();
@@ -200,8 +195,8 @@ void Worms::Game::start() {
                 snapshot.swap();
             }
 
-            if (timeStep > dt) {
-                usleep((timeStep - dt) * 1000000);
+            if (TIME_STEP > dt) {
+                usleep((TIME_STEP - dt) * 1000000);
             }
         }
     } catch (std::exception &e) {

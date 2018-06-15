@@ -5,8 +5,11 @@
 
 #include "Physics.h"
 
-Worms::Physics::Physics(b2Vec2 gravity)
-    : gravity(gravity), world(this->gravity), contactEventListener(new ContactEventListener) {
+Worms::Physics::Physics(b2Vec2 gravity, float timeStep)
+    : timeStep(timeStep),
+      gravity(gravity),
+      world(this->gravity),
+      contactEventListener(new ContactEventListener) {
     this->world.SetContactListener(this->contactEventListener.get());
 }
 
@@ -16,7 +19,13 @@ Worms::Physics::Physics(b2Vec2 gravity)
  * @param dt Seconds elapsed since last call to this function.
  */
 void Worms::Physics::update(float dt) {
-    this->world.Step(dt, this->vIterations, this->pIterations);
+    this->accumTime += dt;
+
+    /* updates the physics engine */
+    for (int i = 0; i < 5 && this->accumTime > this->timeStep; i++) {
+        this->world.Step(this->timeStep, this->vIterations, this->pIterations);
+        this->accumTime -= this->timeStep;
+    }
 }
 
 /**
