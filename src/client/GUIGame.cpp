@@ -178,7 +178,7 @@ void GUI::Game::inputWorker() {
         std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 void GUI::Game::outputWorker() {
@@ -187,7 +187,7 @@ void GUI::Game::outputWorker() {
 
     try {
         while (!this->quit) {
-            this->output.pop(msg);
+            this->output.pop(msg, true);
             msg.serialize(buffer, msg.getSerializedSize());
             this->socket.send(buffer, msg.getSerializedSize());
         }
@@ -195,7 +195,7 @@ void GUI::Game::outputWorker() {
         std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 void GUI::Game::start() {
@@ -295,8 +295,6 @@ void GUI::Game::start() {
 
             this->update(dt);
             this->render();
-
-            usleep(5 * 1000);
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;

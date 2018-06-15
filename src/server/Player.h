@@ -34,7 +34,7 @@ class Player : public PhysicsEntity {
     float health{0};
 
     explicit Player(Physics &physics);
-    ~Player() = default;
+    ~Player();
 
     /* contact handlers */
     virtual void contactWith(PhysicsEntity &other, b2Contact &contact);

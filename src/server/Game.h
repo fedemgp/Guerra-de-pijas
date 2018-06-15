@@ -23,6 +23,7 @@
 
 namespace Worms {
 using PlayerInput = IO::Stream<IO::PlayerMsg>;
+using GameSnapshot = IO::DoubleBuffer<IO::GameStateMsg>;
 
 struct Teamasd {
     std::vector<uint8_t> players;
@@ -51,7 +52,7 @@ class Game : Observer {
     void outputWorker(std::size_t playerIndex);
 
     uint8_t currentWorm;
-    uint8_t currentTeam;
+    uint8_t currentTeam{0};
     Physics physics;
     Stage stage;
     std::vector<Player> players;
@@ -71,7 +72,7 @@ class Game : Observer {
     std::vector<std::thread> outputThreads;
     std::vector<CommunicationSocket> &sockets;
     std::vector<PlayerInput> inputs;
-    IO::DoubleBuffer<IO::GameStateMsg> snapshot;
+    std::vector<GameSnapshot> snapshots;
     bool removeBullets{false};
 };
 }  // namespace Worms

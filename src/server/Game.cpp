@@ -6,11 +6,11 @@
 #include <Stage.h>
 #include <zconf.h>
 #include <atomic>
+#include <cassert>
 #include <chrono>
 #include <iostream>
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
-//#include <random>
 
 #include "Config.h"
 #include "Game.h"
@@ -18,13 +18,16 @@
 #include "Player.h"
 #include "Stage.h"
 
+#define TIME_STEP (1.0f / 60.0f)
+
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
-    : physics(b2Vec2{0.0f, -10.0f}),
+    : physics(b2Vec2{0.0f, -10.0f}, TIME_STEP),
       stage(std::move(stage)),
       maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()),
       gameTurn(*this),
       sockets(sockets),
-      inputs(sockets.size()) {
+      inputs(sockets.size()),
+      snapshots(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {
@@ -108,10 +111,9 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
-        this->quit = true;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 /**
@@ -121,34 +123,33 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
  */
 void Worms::Game::outputWorker(std::size_t playerIndex) {
     CommunicationSocket &socket = this->sockets.at(playerIndex);
+    GameSnapshot &snapshot = this->snapshots.at(playerIndex);
 
     IO::GameStateMsg msg;
     char *buffer = new char[msg.getSerializedSize()];
 
     try {
         while (!this->quit) {
-            msg = this->snapshot.get(true);
+            msg = snapshot.get(true);
             msg.serialize(buffer, msg.getSerializedSize());
             socket.send(buffer, msg.getSerializedSize());
         }
+    } catch (const IO::Interrupted &e) {
+        /* this means that the game is ready to exit */
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
-        this->quit = true;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 void Worms::Game::start() {
     try {
         /* game loop */
         Utils::Chronometer chronometer;
-        float lag = 0.0f;
-        float32 timeStep = 1.0f / 60.0f;
 
         while (!quit) {
             double dt = chronometer.elapsed();
-            lag += dt;
 
             this->gameClock.update(dt);
             this->gameTurn.update(dt);
@@ -185,17 +186,18 @@ void Worms::Game::start() {
                 bullet.update(dt);
             }
 
-            /* updates the physics engine */
-            for (int i = 0; i < 5 && lag > timeStep; i++) {
-                this->physics.update(timeStep);
-                lag -= timeStep;
-            }
+            this->physics.update(dt);
 
             /* serializes and updates the game state */
-            this->snapshot.set(this->serialize());
-            this->snapshot.swap();
+            auto msg = this->serialize();
+            for (auto &snapshot : this->snapshots) {
+                snapshot.set(msg);
+                snapshot.swap();
+            }
 
-            usleep(16 * 1000);
+            if (TIME_STEP > dt) {
+                usleep((TIME_STEP - dt) * 1000000);
+            }
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In Worms::Game::start" << std::endl;
@@ -219,6 +221,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
     assert(this->players.size() <= 20);
 
     IO::GameStateMsg m;
+    memset(&m, 0, sizeof(m));
+
     m.num_worms = 0;
     for (const auto &worm : this->players) {
         m.positions[m.num_worms * 2] = worm.getPosition().x;
@@ -255,6 +259,12 @@ IO::GameStateMsg Worms::Game::serialize() const {
 
 void Worms::Game::exit() {
     this->quit = true;
+    for (auto &snapshot : this->snapshots) {
+        snapshot.interrupt();
+    }
+    for (auto &socket : this->sockets) {
+        socket.shutdown();
+    }
 }
 
 void Worms::Game::onNotify(Subject &subject, Event event) {
