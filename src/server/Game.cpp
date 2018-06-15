@@ -6,11 +6,11 @@
 #include <Stage.h>
 #include <zconf.h>
 #include <atomic>
+#include <cassert>
 #include <chrono>
 #include <iostream>
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
-//#include <random>
 
 #include "Config.h"
 #include "Game.h"
@@ -24,7 +24,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
       maxTurnTime(::Game::Config::getInstance().getExtraTurnTime()),
       gameTurn(*this),
       sockets(sockets),
-      inputs(sockets.size()) {
+      inputs(sockets.size()),
+      snapshots(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {
@@ -110,7 +111,7 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 /**
@@ -120,21 +121,24 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
  */
 void Worms::Game::outputWorker(std::size_t playerIndex) {
     CommunicationSocket &socket = this->sockets.at(playerIndex);
+    GameSnapshot &snapshot = this->snapshots.at(playerIndex);
 
     IO::GameStateMsg msg;
     char *buffer = new char[msg.getSerializedSize()];
 
     try {
         while (!this->quit) {
-            msg = this->snapshot.get(true);
+            msg = snapshot.get(true);
             msg.serialize(buffer, msg.getSerializedSize());
             socket.send(buffer, msg.getSerializedSize());
         }
+    } catch (const IO::Interrupted &e) {
+        /* this means that the game is ready to exit */
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
     }
 
-    delete buffer;
+    delete[] buffer;
 }
 
 void Worms::Game::start() {
@@ -190,10 +194,15 @@ void Worms::Game::start() {
             }
 
             /* serializes and updates the game state */
-            this->snapshot.set(this->serialize());
-            this->snapshot.swap();
+            auto msg = this->serialize();
+            for (auto &snapshot : this->snapshots) {
+                snapshot.set(msg);
+                snapshot.swap();
+            }
 
-            usleep(16 * 1000);
+            if (timeStep > dt) {
+                usleep((timeStep - dt) * 1000000);
+            }
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In Worms::Game::start" << std::endl;
@@ -217,6 +226,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
     assert(this->players.size() <= 20);
 
     IO::GameStateMsg m;
+    memset(&m, 0, sizeof(m));
+
     m.num_worms = 0;
     for (const auto &worm : this->players) {
         m.positions[m.num_worms * 2] = worm.getPosition().x;
@@ -253,6 +264,12 @@ IO::GameStateMsg Worms::Game::serialize() const {
 
 void Worms::Game::exit() {
     this->quit = true;
+    for (auto &snapshot : this->snapshots) {
+        snapshot.interrupt();
+    }
+    for (auto &socket : this->sockets) {
+        socket.shutdown();
+    }
 }
 
 void Worms::Game::onNotify(Subject &subject, Event event) {

@@ -40,10 +40,16 @@ Worms::Player::Player(Physics &physics)
 
     b2PolygonShape shape;
     shape.SetAsBox(PLAYER_WIDTH / 2, 0.2f, b2Vec2{0, -PLAYER_HEIGHT / 2}, 0);
+
+    /* allocated in heap because it's address shouldn't change */
     this->footSensor = new TouchSensor{*this->body, shape, -1};
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
+}
+
+Worms::Player::~Player() {
+    delete this->footSensor;
 }
 
 /**
