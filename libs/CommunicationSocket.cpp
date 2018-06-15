@@ -3,9 +3,9 @@
  * Date: 02/05/2018.
  */
 
-#include <sys/socket.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/socket.h>
 
 #include "CommunicationSocket.h"
 #include "ErrorMessages.h"
