@@ -65,6 +65,7 @@ class Game {
     GameOutput output;
     CommunicationSocket &socket;
     bool doesAnyoneShot{false};
+    uint8_t explodedQuantity{0};
 };
 }  // namespace GUI
 

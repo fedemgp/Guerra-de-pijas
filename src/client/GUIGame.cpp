@@ -246,6 +246,7 @@ void GUI::Game::start() {
             }
             if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot){
                 this->bullets.erase(this->bullets.begin(), this->bullets.end());
+                this->explodedQuantity = 0;
                 this->doesAnyoneShot = false;
             }
             if (this->snapshot.bulletsQuantity > 0) {
@@ -259,6 +260,7 @@ void GUI::Game::start() {
                 for (auto &bullet : this->bullets) {
                         if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode && !bullet->exploded()) {
                             bullet->madeImpact();
+                            this->explodedQuantity++;
                         }
                         bullet->setAngle(this->snapshot.bulletsAngle[i++]);
                 }
@@ -269,7 +271,7 @@ void GUI::Game::start() {
             prev = current;
 
             /* move the camera to the current player */
-            if (this->snapshot.bulletsQuantity > 0) {
+            if (this->snapshot.bulletsQuantity > this->explodedQuantity) {
                 float cur_x{0};
                 float cur_y{0};
                 int i{0};
