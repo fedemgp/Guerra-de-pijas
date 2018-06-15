@@ -75,7 +75,7 @@ class Bullet : public PhysicsEntity {
     Worm::WeaponID weaponID;
     BulletInfo info;
     bool keepUpdating{true};
-    Math::Point<float>lastPosition{0,0};
+    Math::Point<float> lastPosition{0, 0};
 
     void destroyBody();
 };

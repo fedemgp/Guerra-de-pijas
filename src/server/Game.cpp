@@ -177,10 +177,10 @@ void Worms::Game::start() {
              * after the server sends a WExplode state of the bullet, it is needed to
              * remove every exploded bullet.
              */
-//            if (this->removeBullets) {
-//                this->bullets.remove_if(Worms::ExplosionChecker());
-//                this->removeBullets = false;
-//            }
+            //            if (this->removeBullets) {
+            //                this->bullets.remove_if(Worms::ExplosionChecker());
+            //                this->removeBullets = false;
+            //            }
 
             for (auto &bullet : this->bullets) {
                 bullet.update(dt);

@@ -33,27 +33,26 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
 }
 
 void Worms::Bullet::update(float dt) {
-    if (this->keepUpdating){
+    if (this->keepUpdating) {
         this->timeElapsed += dt;
-        if (!this->impulseApplied){
+        if (!this->impulseApplied) {
             float32 mass = this->body->GetMass();
-            b2Vec2 impulses = {
-                    mass * float32(this->info.power * this->info.dampingRatio *
-                                   cos(this->info.angle * PI / 180.0f)),
-                    mass * float32(this->info.power * this->info.dampingRatio *
-                                   sin(this->info.angle * PI / 180.0f))};
+            b2Vec2 impulses = {mass * float32(this->info.power * this->info.dampingRatio *
+                                              cos(this->info.angle * PI / 180.0f)),
+                               mass * float32(this->info.power * this->info.dampingRatio *
+                                              sin(this->info.angle * PI / 180.0f))};
             b2Vec2 position = this->body->GetWorldCenter();
             this->body->ApplyLinearImpulse(impulses, position, true);
             this->impulseApplied = true;
-        } else{
+        } else {
             b2Vec2 velocity = this->body->GetLinearVelocity();
             this->info.angle = atan2(velocity.y, velocity.x) * 180.0f / PI;
-            if (this->info.angle < 0){
+            if (this->info.angle < 0) {
                 this->info.angle += 360.0f;
             }
         }
 
-        if (this->hasExploded()){
+        if (this->hasExploded()) {
             this->notify(*this, this->info.explodeEvent);
             this->weaponID = Worm::WeaponID::WExplode;
             this->keepUpdating = false;
@@ -65,7 +64,7 @@ void Worms::Bullet::update(float dt) {
 }
 
 Math::Point<float> Worms::Bullet::getPosition() const {
-    if (this->keepUpdating){
+    if (this->keepUpdating) {
         b2Vec2 p = this->body->GetPosition();
         return Math::Point<float>(p.x, p.y);
     } else {
@@ -111,8 +110,8 @@ Worm::WeaponID Worms::Bullet::getWeaponID() const {
     return this->weaponID;
 }
 
-void Worms::Bullet::destroyBody(){
-    if (this->body != nullptr){
+void Worms::Bullet::destroyBody() {
+    if (this->body != nullptr) {
         this->body->GetWorld()->DestroyBody(this->body);
         this->body = nullptr;
     }
