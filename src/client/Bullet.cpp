@@ -62,9 +62,6 @@ void Ammo::Bullet::update(float dt) {
                 angle -= 360;
             }
             float angleStep = MISSILE_ANGLE_STEP;
-            if (this->wid == Worm::WeaponID::WFragment) {
-                angleStep = 60.0f;
-            }
             this->animation.setFrame((int)std::floor(angle / angleStep));
         } else {
             this->animation.update(dt);
@@ -75,16 +72,10 @@ void Ammo::Bullet::update(float dt) {
 }
 
 void Ammo::Bullet::render(GUI::Position p, GUI::Camera &cam) {
-    //    if (this->direction == Direction::left) {
-    //        this->animation.setFlip(SDL_FLIP_NONE);
-    //    } else {
-    //        this->animation.setFlip(SDL_FLIP_HORIZONTAL);
-    //    }
     if (!this->explode) {
         this->animation.render(p, cam, SDL_FLIP_HORIZONTAL);
     } else {
         this->explosion.render(cam);
-        //        this->explode = !this->explosion.finished();
     }
 }
 

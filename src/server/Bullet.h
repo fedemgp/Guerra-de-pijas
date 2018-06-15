@@ -74,12 +74,10 @@ class Bullet : public PhysicsEntity {
     bool madeImpact{false};
     Worm::WeaponID weaponID;
     BulletInfo info;
-};
+    bool keepUpdating{true};
+    Math::Point<float>lastPosition{0,0};
 
-struct ExplosionChecker {
-    bool operator()(const Bullet &bullet) {
-        return bullet.hasExploded();
-    }
+    void destroyBody();
 };
 }  // namespace Worms
 

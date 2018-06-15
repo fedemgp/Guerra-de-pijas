@@ -177,10 +177,10 @@ void Worms::Game::start() {
              * after the server sends a WExplode state of the bullet, it is needed to
              * remove every exploded bullet.
              */
-            if (this->removeBullets) {
-                this->bullets.remove_if(Worms::ExplosionChecker());
-                this->removeBullets = false;
-            }
+//            if (this->removeBullets) {
+//                this->bullets.remove_if(Worms::ExplosionChecker());
+//                this->removeBullets = false;
+//            }
 
             for (auto &bullet : this->bullets) {
                 bullet.update(dt);
@@ -207,6 +207,7 @@ void Worms::Game::start() {
 }
 
 void Worms::Game::endTurn() {
+    this->bullets.erase(this->bullets.begin(), this->bullets.end());
     this->teams.endTurn(this->players);
     this->currentTeam = this->teams.getCurrentTeam();
     this->currentWorm = this->teams.getCurrentPlayerID();
@@ -251,7 +252,6 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletsAngle[j] = bullet.getAngle();
         m.bulletType[j++] = bullet.getWeaponID();
     }
-
     m.processingInputs = this->processingClientInputs;
 
     return m;

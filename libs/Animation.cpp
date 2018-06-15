@@ -76,14 +76,12 @@ void GUI::Animation::advanceFrame() {
             this->step = -1;
         }
     }
-    //    if (!(this->playOnce &&
-    //          this->currentFrame == this->numFrames - 1)) {  // Por ahora ignora el playReversed
-    //        this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
-    //    }
+
     if (this->playOnce &&
         this->currentFrame == this->numFrames - 1) {  // Por ahora ignora el playReversed
         this->animationFinished = true;
     }
+
     if (!this->animationFinished) {
         this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
     }

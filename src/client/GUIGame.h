@@ -64,6 +64,7 @@ class Game {
     IO::GameStateMsg snapshot;
     GameOutput output;
     CommunicationSocket &socket;
+    bool doesAnyoneShot{false};
 };
 }  // namespace GUI
 
