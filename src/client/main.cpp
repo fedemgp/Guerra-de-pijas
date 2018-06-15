@@ -4,7 +4,6 @@
  */
 #include <iostream>
 #include <string>
-#include <vector>
 
 #include "ClientSocket.h"
 #include "GUIGame.h"
@@ -23,8 +22,8 @@ int main(int argc, const char *argv[]) {
         GUI::Window window{};
         window.clear();
 
-        GUI::Game gui_game{window, Worms::Stage{}, socket};
-        gui_game.start();
+        GUI::Game game{window, Worms::Stage{}, socket};
+        game.start();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
