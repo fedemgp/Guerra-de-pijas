@@ -81,6 +81,7 @@ class Config {
     const Weapon::Config &getMortarFragmentConfig() const;
     const uint8_t getMortarFragmentQuantity() const;
     const Weapon::Config &getAerialAttackConfig() const;
+    const Weapon::Config &getDynamiteConfig() const;
     const uint8_t getAerialAttackMissileQuantity() const;
     const float getAerialAttackMissileSeparation() const;
     const float getAerialAttackLaunchHeight() const;
@@ -225,6 +226,18 @@ class Config {
         AERIAL_ATTACK_BULLET_RADIUS,
         AERIAL_ATTACK_DUMPING_RATIO};
     const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
+    Weapon::Config dynamite{
+        Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DUMPING_RATIO},
+        DYNAMITE_MIN_ANGLE,
+        DYNAMITE_MAX_ANGLE,
+        ANGLE_STEP,
+        DYNAMITE_MAX_SHOT_POWER,
+        DYNAMITE_RESTITUTION,
+        DYNAMITE_FRICTION,
+        DYNAMITE_INITIAL_TIMEOUT,
+        false,
+        DYNAMITE_BULLET_RADIUS,
+        DYNAMITE_DUMPING_RATIO};
 };
 
 void endTurn();

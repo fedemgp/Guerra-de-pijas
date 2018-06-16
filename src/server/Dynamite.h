@@ -1,20 +1,18 @@
 /*
  *  Created by Federico Manuel Gomez Peter.
- *  date: 03/06/18
+ *  date: 16/06/18
  */
 
-#ifndef __CLUSTER_H__
-#define __CLUSTER_H__
+#ifndef __TNT_H__
+#define __TNT_H__
 
-#include "Physics.h"
-#include "Player.h"
 #include "Weapon.h"
 
 namespace Weapon {
-class Cluster : public Worms::Weapon {
+class Dynamite : public Worms::Weapon {
    public:
-    Cluster(float angle);
-    ~Cluster() override = default;
+    Dynamite();
+    ~Dynamite() override = default;
     void update(float dt) override;
     void startShot(Worms::Player *player) override;
     void endShot() override;
@@ -22,11 +20,9 @@ class Cluster : public Worms::Weapon {
     std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
                                        Worms::Physics &physics) override;
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
-
-   private:
-    const Game::Weapon::Config &fragmentConfig;
-    float powerChargeTime{0.0f};
+    void increaseAngle() override;
+    void decreaseAngle() override;
 };
 }  // namespace Weapon
 
-#endif  //__CLUSTER_H__
+#endif  //__TNT_H__

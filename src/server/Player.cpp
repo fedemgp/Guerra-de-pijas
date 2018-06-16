@@ -13,6 +13,7 @@
 #include "Dead.h"
 #include "Die.h"
 #include "Drowning.h"
+#include "Dynamite.h"
 #include "Falling.h"
 #include "Grenade.h"
 #include "Hit.h"
@@ -307,7 +308,7 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
         float lastAngle = this->weapon->getAngle();
         switch (id) {
             case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
                 break;
             case Worm::WeaponID::WGrenade:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));

@@ -139,3 +139,7 @@ const float Game::Config::getAerialAttackMissileSeparation() const {
 const float Game::Config::getAerialAttackLaunchHeight() const {
     return aerialAttackLaunchHeight;
 }
+
+const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {
+    return this->dynamite;
+}
