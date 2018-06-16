@@ -263,8 +263,7 @@ std::list<Worms::Bullet> Worms::Player::getBullets() {
 void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
                                       Math::Point<float> epicenter) {
     if (this->getStateId() != Worm::StateID::Dead) {
-        double distanceToEpicenter = this->getPosition().distance(
-            epicenter);
+        double distanceToEpicenter = this->getPosition().distance(epicenter);
         if (distanceToEpicenter <= damageInfo.radius) {
             this->body->SetType(b2_dynamicBody);
             double inflictedDamage =
@@ -281,10 +280,7 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
             this->body->ApplyLinearImpulse(impulses, position, true);
             this->notify(*this, Event::Hit);
             this->setState(Worm::StateID::Hit);
-            this->health =
-                (this->health < 0)
-                    ? 0
-                    : this->health;
+            this->health = (this->health < 0) ? 0 : this->health;
         }
     }
 }
@@ -424,7 +420,7 @@ std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &phys
     return std::move(this->weapon->onExplode(b, physics));
 }
 
-void Worms::Player::reset(){
+void Worms::Player::reset() {
     this->weapon->endShot();
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
