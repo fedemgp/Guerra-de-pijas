@@ -10,6 +10,10 @@
 // TODO move this in client and Server global Config
 #define POWER_CHARGE_TIME 5.0f
 
+#define COMMAND_CREATE_GAME 0
+#define COMMAND_GET_GAMES 1
+#define COMMAND_JOIN_GAME 2
+
 #include <stdint.h>
 #include <cstring>
 

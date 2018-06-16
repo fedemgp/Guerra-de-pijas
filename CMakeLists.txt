@@ -24,6 +24,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/Exception.*"
 	"libs/GameStateMsg.*"
 	"libs/Point.*"
+	"libs/Protocol.*"
 	"libs/Socket.*"
 	"libs/Stage.*"
 	"libs/Stream.*"
