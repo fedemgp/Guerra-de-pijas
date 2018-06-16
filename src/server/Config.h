@@ -21,7 +21,7 @@ struct DamageInfo {
     uint16_t damage;
     float radius;
 };
-}  // namespaces Bullet
+}  // namespace Bullet
 
 namespace Weapon {
 struct Config {
@@ -116,7 +116,7 @@ class Config {
                            ANGLE_STEP,
                            MAX_SHOT_POWER,
                            BAZOOKA_RESTITUTION,
-                           BAZOOKA_FRCTION,
+                           BAZOOKA_FRICTION,
                            BAZOOKA_INITIAL_TIMEOUT,
                            false,
                            BAZOOKA_BULLET_RADIUS,
@@ -127,7 +127,7 @@ class Config {
                                 ANGLE_STEP,
                                 MAX_SHOT_POWER,
                                 GRENADE_RESTITUTION,
-                                GRENADE_FRCTION,
+                                GRENADE_FRICTION,
                                 GRENADE_INITIAL_TIMEOUT,
                                 false,
                                 GRENADE_BULLET_RADIUS,
@@ -151,7 +151,7 @@ class Config {
                            ANGLE_STEP,
                            MAX_SHOT_POWER,
                            CLUSTER_RESTITUTION,
-                           CLUSTER_FRCTION,
+                           CLUSTER_FRICTION,
                            CLUSTER_INITIAL_TIMEOUT,
                            true,
                            CLUSTER_BULLET_RADIUS,
@@ -175,7 +175,7 @@ class Config {
                           ANGLE_STEP,
                           MAX_SHOT_POWER,
                           MORTAR_RESTITUTION,
-                          MORTAR_FRCTION,
+                          MORTAR_FRICTION,
                           MORTAR_INITIAL_TIMEOUT,
                           true,
                           MORTAR_BULLET_RADIUS,
@@ -186,7 +186,7 @@ class Config {
                           ANGLE_STEP,
                           MAX_SHOT_POWER,
                           BANANA_RESTITUTION,
-                          BANANA_FRCTION,
+                          BANANA_FRICTION,
                           BANANA_INITIAL_TIMEOUT,
                           false,
                           BANANA_BULLET_RADIUS,
@@ -197,7 +197,7 @@ class Config {
                         ANGLE_STEP,
                         MAX_SHOT_POWER,
                         HOLY_RESTITUTION,
-                        HOLY_FRCTION,
+                        HOLY_FRICTION,
                         HOLY_INITIAL_TIMEOUT,
                         false,
                         HOLY_BULLET_RADIUS,
