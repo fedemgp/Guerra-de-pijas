@@ -38,6 +38,8 @@ class Game {
     void update(float dt);
     void render();
 
+    void exit();
+
    private:
     void render_controls();
     void renderBackground();
