@@ -82,3 +82,7 @@ IO::PlayerInput Worm::Jumping::aerialAttack(Worm &w) {
 IO::PlayerInput Worm::Jumping::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jumping::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

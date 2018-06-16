@@ -86,3 +86,7 @@ IO::PlayerInput Worm::Dead::aerialAttack(Worm &w) {
 IO::PlayerInput Worm::Dead::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

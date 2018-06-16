@@ -205,6 +205,9 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::aerialAttack:
             this->state->aerialAttack(*this);
             break;
+        case IO::PlayerInput::dynamite:
+            this->state->dynamite(*this);
+            break;
     }
 }
 
@@ -308,7 +311,7 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
         float lastAngle = this->weapon->getAngle();
         switch (id) {
             case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
                 break;
             case Worm::WeaponID::WGrenade:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
@@ -327,6 +330,9 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
                 break;
             case Worm::WeaponID::WAerial:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
+                break;
+            case Worm::WeaponID::WDynamite:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
                 break;
             case Worm::WeaponID::WNone:
                 break;

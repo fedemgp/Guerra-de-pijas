@@ -82,3 +82,7 @@ IO::PlayerInput Worm::EndBackFlip::aerialAttack(Worm &w) {
 IO::PlayerInput Worm::EndBackFlip::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndBackFlip::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

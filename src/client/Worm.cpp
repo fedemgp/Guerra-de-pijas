@@ -32,6 +32,7 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "Dynamite.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -99,6 +100,9 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             break;
         case SDLK_F7:
             i = this->state->aerialAttack(*this);
+            break;
+        case SDLK_F8:
+            i = this->state->dynamite(*this);
             break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
@@ -349,6 +353,9 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WAerial:
                 this->weapon = std::shared_ptr<Weapon>(new AerialAttack(this->texture_mgr));
                 break;
+            case WeaponID::WDynamite:
+                this->weapon = std::shared_ptr<Weapon>(new Dynamite(this->texture_mgr));
+                break;
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
                 break;
@@ -442,6 +449,8 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
                 std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::AirStrike), true});
             this->soundEffectPlayer->play();
+            break;
+        case WeaponID::WDynamite:
             break;
         case WeaponID::WNone:
             break;

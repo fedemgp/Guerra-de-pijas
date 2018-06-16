@@ -104,3 +104,7 @@ IO::PlayerInput Worm::Still::aerialAttack(Worm &w) {
 IO::PlayerInput Worm::Still::positionSelected(Worm &w) {
     return IO::PlayerInput::positionSelected;
 }
+
+IO::PlayerInput Worm::Still::dynamite(Worm &w){
+    return IO::PlayerInput::dynamite;
+}

@@ -43,7 +43,7 @@ enum WeaponID {
     WHoly,
     WExplode,
     WFragment,
-    WAerial
+    WAerial, WDynamite
 };
 }  // namespace Worm
 
@@ -71,7 +71,7 @@ enum class PlayerInput {
     timeout4,
     timeout5,
     positionSelected,
-    aerialAttack
+    aerialAttack, dynamite
 };
 
 struct PlayerMsg {

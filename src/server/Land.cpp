@@ -55,3 +55,5 @@ void Worms::Land::holy(Worms::Player &p) {}
 void Worms::Land::setTimeout(Worms::Player &p, uint8_t time) {}
 
 void Worms::Land::aerialAttack(Worms::Player &p) {}
+
+void Worms::Land::dynamite(Worms::Player &p){}

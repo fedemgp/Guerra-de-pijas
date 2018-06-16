@@ -32,6 +32,7 @@ class Still : public State {
     virtual IO::PlayerInput banana(Worm &w) override;
     virtual IO::PlayerInput holy(Worm &w) override;
     virtual IO::PlayerInput aerialAttack(Worm &w) override;
+    virtual IO::PlayerInput dynamite(Worm &w) override;
     virtual IO::PlayerInput positionSelected(Worm &w) override;
 
     virtual IO::PlayerInput startShot(Worm &w) override;
