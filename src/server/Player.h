@@ -31,6 +31,7 @@ class Player : public PhysicsEntity {
     Direction direction{Direction::left};
     Direction lastWalkDirection;
     float health{0};
+    Math::Point<float> teleportPosition{0.0f, 0.0f};
 
     explicit Player(Physics &physics);
     ~Player();

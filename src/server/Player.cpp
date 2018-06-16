@@ -31,6 +31,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
+#include "AerialAttack.h"
+#include "Teleport.h"
+#include "Teleporting.h"
+#include "Teleported.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -208,6 +212,9 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::dynamite:
             this->state->dynamite(*this);
             break;
+        case IO::PlayerInput::teleport:
+            this->state->teleport(*this);
+            break;
     }
 }
 
@@ -246,6 +253,12 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
+                break;
+            case Worm::StateID::Teleporting:
+                this->state = std::shared_ptr<State>(new Teleporting(this->teleportPosition));
+                break;
+            case Worm::StateID::Teleported:
+                this->state = std::shared_ptr<State>(new Teleported());
                 break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
@@ -333,6 +346,9 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
                 break;
             case Worm::WeaponID::WDynamite:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+                break;
+            case Worm::WeaponID::WTeleport:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
                 break;
             case Worm::WeaponID::WNone:
                 break;

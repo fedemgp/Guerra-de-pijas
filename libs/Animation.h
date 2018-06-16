@@ -35,7 +35,9 @@ class Animation {
     void setAutoUpdate(bool autoUpdate);
     bool finished();
 
-   private:
+    void setPlayInverse();
+
+private:
     /** SDL texture of the raw image. */
     const Texture *texture;
     /**
@@ -61,6 +63,7 @@ class Animation {
     /** Frame step. */
     int step{1};
     bool animationFinished{false};
+    bool playInverse{false};
 };
 }  // namespace GUI
 

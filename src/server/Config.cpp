@@ -137,7 +137,15 @@ const float Game::Config::getAerialAttackMissileSeparation() const {
 }
 
 const float Game::Config::getAerialAttackLaunchHeight() const {
-    return aerialAttackLaunchHeight;
+    return this->aerialAttackLaunchHeight;
+}
+
+const Game::Weapon::Config &Game::Config::getTeleportConfig() const {
+    return this->teleport;
+}
+
+const float Game::Config::getTeleportTime() const {
+    return this->teleportTime;
 }
 
 const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {

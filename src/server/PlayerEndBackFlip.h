@@ -29,6 +29,7 @@ class EndBackFlip : public State {
     void holy(Player &p) override;
     void aerialAttack(Player &p) override;
     void dynamite(Player &p) override;
+    void teleport(Player &p) override;
 
     void startShot(Player &p) override;
     void endShot(Player &p) override;

@@ -23,6 +23,7 @@
 #define GAME_WIDTH 30.0f
 #define DYING_TIME 2.6f
 #define DROWNING_TIME 1.0f
+#define TELEPORT_TIME 2.0f
 #define WATER_LEVEL (-2)
 #define WORM_HEALTH 100
 #define POWER_CHARGE_MAX_TIME 1.0f

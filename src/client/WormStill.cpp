@@ -108,3 +108,7 @@ IO::PlayerInput Worm::Still::positionSelected(Worm &w) {
 IO::PlayerInput Worm::Still::dynamite(Worm &w){
     return IO::PlayerInput::dynamite;
 }
+
+IO::PlayerInput Worm::Still::teleport(Worm &w) {
+    return IO::PlayerInput::teleport;
+}

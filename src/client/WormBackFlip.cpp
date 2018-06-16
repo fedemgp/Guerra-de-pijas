@@ -86,3 +86,7 @@ IO::PlayerInput Worm::BackFlip::positionSelected(Worm &w) {
 IO::PlayerInput Worm::BackFlip::dynamite(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

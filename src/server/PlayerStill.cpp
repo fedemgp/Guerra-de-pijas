@@ -92,3 +92,7 @@ void Worms::Still::aerialAttack(Worms::Player &p) {
 void Worms::Still::dynamite(Worms::Player &p){
     p.setWeapon(Worm::WeaponID::WDynamite);
 }
+
+void Worms::Still::teleport(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WTeleport);
+}

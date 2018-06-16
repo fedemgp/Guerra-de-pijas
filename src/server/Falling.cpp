@@ -48,3 +48,5 @@ void Worms::Falling::setTimeout(Worms::Player &p, uint8_t time) {}
 void Worms::Falling::aerialAttack(Worms::Player &p) {}
 
 void Worms::Falling::dynamite(Worms::Player &p){}
+
+void Worms::Falling::teleport(Worms::Player &p) {}

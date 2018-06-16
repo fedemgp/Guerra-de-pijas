@@ -27,6 +27,7 @@ class State {
     virtual void holy(Player &p) = 0;
     virtual void aerialAttack(Player &p) = 0;
     virtual void dynamite(Player &p) = 0;
+    virtual void teleport(Player &p) = 0;
 
     virtual void startShot(Player &p) = 0;
     virtual void endShot(Player &p) = 0;

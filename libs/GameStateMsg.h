@@ -31,7 +31,9 @@ enum class StateID {
     Dead,
     Drowning,
     Falling,
-    Land
+    Land,
+    Teleporting,
+    Teleported
 };
 enum WeaponID {
     WNone,
@@ -43,7 +45,9 @@ enum WeaponID {
     WHoly,
     WExplode,
     WFragment,
-    WAerial, WDynamite
+    WAerial,
+    WDynamite,
+    WTeleport
 };
 }  // namespace Worm
 
@@ -71,7 +75,9 @@ enum class PlayerInput {
     timeout4,
     timeout5,
     positionSelected,
-    aerialAttack, dynamite
+    aerialAttack,
+    dynamite,
+    teleport
 };
 
 struct PlayerMsg {

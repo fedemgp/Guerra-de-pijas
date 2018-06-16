@@ -33,6 +33,7 @@ class BackFlipping : public State {
     virtual IO::PlayerInput aerialAttack(Worm &w) override;
     virtual IO::PlayerInput dynamite(Worm &w) override;
 
+    virtual IO::PlayerInput teleport(Worm &w) override;
     virtual IO::PlayerInput positionSelected(Worm &w) override;
     virtual IO::PlayerInput startShot(Worm &w) override;
     virtual IO::PlayerInput endShot(Worm &w) override;

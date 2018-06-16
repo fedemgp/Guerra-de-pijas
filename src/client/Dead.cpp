@@ -90,3 +90,7 @@ IO::PlayerInput Worm::Dead::positionSelected(Worm &w) {
 IO::PlayerInput Worm::Dead::dynamite(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

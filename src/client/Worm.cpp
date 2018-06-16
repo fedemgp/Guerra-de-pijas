@@ -33,6 +33,9 @@
 #include "WormStill.h"
 #include "WormWalk.h"
 #include "Dynamite.h"
+#include "Teleporting.h"
+#include "Teleported.h"
+#include "Teleport.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -103,6 +106,9 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             break;
         case SDLK_F8:
             i = this->state->dynamite(*this);
+            break;
+        case SDLK_F10:
+            i = this->state->teleport(*this);
             break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
@@ -189,6 +195,16 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Teleporting: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting), true};
+            animation.setAnimateOnce();
+            return animation;
+        }
+        case StateID::Teleported: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting), true};
+            animation.setPlayInverse();
+            return animation;
+        }
         case StateID::Hit:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   FLY_CENTER_FRAME, false};
@@ -242,6 +258,10 @@ void Worm::Worm::playSoundEffect(StateID state) {
         case StateID::BackFlipping:
             break;
         case StateID::Falling:
+            break;
+        case StateID::Teleporting:
+            break;
+        case StateID::Teleported:
             break;
         case StateID::Hit:
             this->soundEffectPlayer =
@@ -306,6 +326,12 @@ void Worm::Worm::setState(StateID state) {
             case StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
                 break;
+            case StateID::Teleporting:
+                this->state = std::shared_ptr<State>(new Teleporting());
+                break;
+            case StateID::Teleported:
+                this->state = std::shared_ptr<State>(new Teleported());
+                break;
             case StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
@@ -355,6 +381,9 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
                 break;
             case WeaponID::WDynamite:
                 this->weapon = std::shared_ptr<Weapon>(new Dynamite(this->texture_mgr));
+                break;
+            case WeaponID::WTeleport:
+                this->weapon = std::shared_ptr<Weapon>(new Teleport(this->texture_mgr));
                 break;
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
@@ -451,6 +480,8 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WDynamite:
+            break;
+        case WeaponID::WTeleport:
             break;
         case WeaponID::WNone:
             break;

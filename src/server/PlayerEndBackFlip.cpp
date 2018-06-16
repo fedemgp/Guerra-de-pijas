@@ -53,3 +53,5 @@ void Worms::EndBackFlip::setTimeout(Worms::Player &p, uint8_t time) {}
 void Worms::EndBackFlip::aerialAttack(Worms::Player &p) {}
 
 void Worms::EndBackFlip::dynamite(Worms::Player &p){}
+
+void Worms::EndBackFlip::teleport(Worms::Player &p) {}

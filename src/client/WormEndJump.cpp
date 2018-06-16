@@ -86,3 +86,7 @@ IO::PlayerInput Worm::EndJump::positionSelected(Worm &w) {
 IO::PlayerInput Worm::EndJump::dynamite(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndJump::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

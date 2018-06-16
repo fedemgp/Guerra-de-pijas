@@ -85,3 +85,7 @@ IO::PlayerInput Worm::Falling::aerialAttack(Worm &w) {
 IO::PlayerInput Worm::Falling::dynamite(Worm &w){
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Falling::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

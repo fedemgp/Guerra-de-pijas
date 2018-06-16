@@ -67,6 +67,7 @@ class Config {
     const float getGameHeight() const;
     const float getDyingTime() const;
     const float getDrowningTime() const;
+    const float getTeleportTime() const;
     const int getWaterLevel() const;
     const uint16_t getWormHealth() const;
 
@@ -85,6 +86,7 @@ class Config {
     const uint8_t getAerialAttackMissileQuantity() const;
     const float getAerialAttackMissileSeparation() const;
     const float getAerialAttackLaunchHeight() const;
+    const Weapon::Config &getTeleportConfig() const;
 
    private:
     /**
@@ -113,6 +115,7 @@ class Config {
     float gameHeight{GAME_HEIGHT};
     float dyingTime{DYING_TIME};
     float drowningTime{DROWNING_TIME};
+    float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
@@ -238,6 +241,18 @@ class Config {
         false,
         DYNAMITE_BULLET_RADIUS,
         DYNAMITE_DUMPING_RATIO};
+    Weapon::Config teleport{
+            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
+            AERIAL_ATTACK_MIN_ANGLE,
+            AERIAL_ATTACK_MAX_ANGLE,
+            AERIAL_ATTACK_ANGLE_STEP,
+            AERIAL_ATTACK_SHOT_POWER,
+            AERIAL_ATTACK_RESTITUTION,
+            AERIAL_ATTACK_FRICTION,
+            AERIAL_ATTACK_TIMEOUT,
+            false,
+            AERIAL_ATTACK_BULLET_RADIUS,
+            AERIAL_ATTACK_DUMPING_RATIO};
 };
 
 void endTurn();
