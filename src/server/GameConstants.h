@@ -27,6 +27,7 @@
 #define WORM_HEALTH 100
 #define POWER_CHARGE_MAX_TIME 1.0f
 // Weapons
+#define IMPULSE_DUMPING_RATIO 0.4f
 // Bazooka
 #define BAZOOKA_DAMAGE 50
 #define BAZOOKA_DAMAGE_RADIUS 2.0f

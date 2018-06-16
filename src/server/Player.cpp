@@ -279,8 +279,12 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
             float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
             float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
             float32 mass = this->body->GetMass();
-            b2Vec2 impulses = {mass * float32(inflictedDamage) * xImpactDirection,
-                               mass * float32(inflictedDamage) * yImpactDirection};
+            b2Vec2 impulses = {mass * float32(inflictedDamage)
+                               * xImpactDirection
+                               * damageInfo.impulseDampingRatio,
+                               mass * float32(inflictedDamage)
+                               * yImpactDirection
+                               * damageInfo.impulseDampingRatio} ;
             b2Vec2 position = this->body->GetWorldCenter();
             this->body->ApplyLinearImpulse(impulses, position, true);
             this->notify(*this, Event::Hit);

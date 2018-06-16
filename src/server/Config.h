@@ -20,6 +20,7 @@ namespace Bullet {
 struct DamageInfo {
     uint16_t damage;
     float radius;
+    float impulseDampingRatio;
 };
 }  // namespace Bullet
 
@@ -114,7 +115,7 @@ class Config {
     int waterLevel{WATER_LEVEL};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
-    Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS},
+    Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
                            BAZOOKA_MIN_ANGLE,
                            BAZOOKA_MAX_ANGLE,
                            ANGLE_STEP,
@@ -125,7 +126,7 @@ class Config {
                            false,
                            BAZOOKA_BULLET_RADIUS,
                            BAZOOKA_DUMPING_RATIO};
-    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS},
+    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DUMPING_RATIO},
                                 GRENADE_MIN_ANGLE,
                                 GRENADE_MAX_ANGLE,
                                 ANGLE_STEP,
@@ -138,7 +139,7 @@ class Config {
                                 GRENADE_DUMPING_RATIO};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
     Weapon::Config clusterFragments{
-        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS},
+        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
         CLUSTER_FRAGMENT_MIN_ANGLE,
         CLUSTER_FRAGMENT_MAX_ANGLE,
         CLUSTER_FRAGMENT_ANGLE_STEP,
@@ -149,7 +150,7 @@ class Config {
         false,
         CLUSTER_FRAGMENT_BULLET_RADIUS,
         CLUSTER_FRAGMENT_DUMPING_RATIO};
-    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS},
+    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DUMPING_RATIO},
                            CLUSTER_MIN_ANGLE,
                            CLUSTER_MAX_ANGLE,
                            ANGLE_STEP,
@@ -161,7 +162,7 @@ class Config {
                            CLUSTER_BULLET_RADIUS,
                            CLUSTER_DUMPING_RATIO};
     Weapon::Config mortarFragments{
-        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS},
+        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
         MORTAR_FRAGMENT_MAX_ANGLE,
         MORTAR_FRAGMENT_ANGLE_STEP,
@@ -173,7 +174,7 @@ class Config {
         MORTAR_FRAGMENT_BULLET_RADIUS,
         MORTAR_FRAGMENT_DUMPING_RATIO};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},
+    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DUMPING_RATIO},
                           MORTAR_MIN_ANGLE,
                           MORTAR_MAX_ANGLE,
                           ANGLE_STEP,
@@ -184,7 +185,7 @@ class Config {
                           true,
                           MORTAR_BULLET_RADIUS,
                           MORTAR_DUMPING_RATIO};
-    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},
+    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DUMPING_RATIO},
                           BANANA_MIN_ANGLE,
                           BANANA_MAX_ANGLE,
                           ANGLE_STEP,
@@ -195,7 +196,7 @@ class Config {
                           false,
                           BANANA_BULLET_RADIUS,
                           BANANA_DUMPING_RATIO};
-    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS},
+    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DUMPING_RATIO},
                         HOLY_MIN_ANGLE,
                         HOLY_MAX_ANGLE,
                         ANGLE_STEP,
@@ -209,7 +210,7 @@ class Config {
     uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
     float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
     Weapon::Config aerialAttack{
-            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS},
+            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
             AERIAL_ATTACK_MIN_ANGLE,
             AERIAL_ATTACK_MAX_ANGLE,
             AERIAL_ATTACK_ANGLE_STEP,
