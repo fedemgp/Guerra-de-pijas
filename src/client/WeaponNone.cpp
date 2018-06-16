@@ -18,6 +18,6 @@ void Worm::WeaponNone::startShot() {}
 
 void Worm::WeaponNone::endShot() {}
 
-bool Worm::WeaponNone::positionSelected(){
+bool Worm::WeaponNone::positionSelected() {
     return false;
 }

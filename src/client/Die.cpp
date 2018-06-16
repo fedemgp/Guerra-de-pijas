@@ -75,10 +75,10 @@ IO::PlayerInput Worm::Die::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Die::aerialAttack(Worm &w){
+IO::PlayerInput Worm::Die::aerialAttack(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Die::positionSelected(Worm &w){
+IO::PlayerInput Worm::Die::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

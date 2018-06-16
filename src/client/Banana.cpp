@@ -38,6 +38,6 @@ void Worm::Banana::endShot() {
     this->powerBar.endShot();
 }
 
-bool Worm::Banana::positionSelected(){
+bool Worm::Banana::positionSelected() {
     return false;
 }

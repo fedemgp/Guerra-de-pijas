@@ -38,6 +38,6 @@ void Worm::Bazooka::endShot() {
     this->powerBar.endShot();
 }
 
-bool Worm::Bazooka::positionSelected(){
+bool Worm::Bazooka::positionSelected() {
     return false;
 }

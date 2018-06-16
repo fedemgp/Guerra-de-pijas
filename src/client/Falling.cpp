@@ -74,10 +74,10 @@ IO::PlayerInput Worm::Falling::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Falling::positionSelected(Worm &w){
+IO::PlayerInput Worm::Falling::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Falling::aerialAttack(Worm &w){
+IO::PlayerInput Worm::Falling::aerialAttack(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

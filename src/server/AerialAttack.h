@@ -9,9 +9,9 @@
 #include "Player.h"
 #include "Weapon.h"
 
-namespace Weapon{
-class AerialAttack: public Worms::Weapon {
-public:
+namespace Weapon {
+class AerialAttack : public Worms::Weapon {
+   public:
     AerialAttack();
     ~AerialAttack() override = default;
     void update(float dt) override;
@@ -22,11 +22,10 @@ public:
                                        Worms::Physics &physics) override;
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
 
-private:
+   private:
     const uint8_t bulletsQuantity{0};
     const float missileSeparation{0};
 };
 }  // namespace Weapon
 
-
-#endif //__AERIAL_ATTACK_H__
+#endif  //__AERIAL_ATTACK_H__

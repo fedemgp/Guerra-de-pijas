@@ -6,6 +6,7 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
+#include "AerialAttack.h"
 #include "Banana.h"
 #include "Bazooka.h"
 #include "Cluster.h"
@@ -29,7 +30,6 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
-#include "AerialAttack.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -279,12 +279,10 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
             float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
             float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
             float32 mass = this->body->GetMass();
-            b2Vec2 impulses = {mass * float32(inflictedDamage)
-                               * xImpactDirection
-                               * damageInfo.impulseDampingRatio,
-                               mass * float32(inflictedDamage)
-                               * yImpactDirection
-                               * damageInfo.impulseDampingRatio} ;
+            b2Vec2 impulses = {
+                mass * float32(inflictedDamage) * xImpactDirection * damageInfo.impulseDampingRatio,
+                mass * float32(inflictedDamage) * yImpactDirection *
+                    damageInfo.impulseDampingRatio};
             b2Vec2 position = this->body->GetWorldCenter();
             this->body->ApplyLinearImpulse(impulses, position, true);
             this->notify(*this, Event::Hit);
@@ -370,7 +368,7 @@ void Worms::Player::endShot() {
     this->notify(*this, Event::Shot);
 }
 
-void Worms::Player::endShot(std::list<Worms::Bullet> &bullets){
+void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
     this->bullets = std::move(bullets);
     this->notify(*this, Event::Shot);
 }
@@ -442,7 +440,6 @@ void Worms::Player::reset() {
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
 
-Worms::Physics &Worms::Player::getPhysics(){
+Worms::Physics &Worms::Player::getPhysics() {
     return this->physics;
 }
-

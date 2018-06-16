@@ -38,6 +38,6 @@ void Worm::Grenade::endShot() {
     this->powerBar.endShot();
 }
 
-bool Worm::Grenade::positionSelected(){
+bool Worm::Grenade::positionSelected() {
     return false;
 }

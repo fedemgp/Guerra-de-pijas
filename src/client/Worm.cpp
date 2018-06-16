@@ -7,6 +7,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "AerialAttack.h"
 #include "Banana.h"
 #include "Bazooka.h"
 #include "Cluster.h"
@@ -31,7 +32,6 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "AerialAttack.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -388,8 +388,7 @@ void Worm::Worm::endShot() {
 
 void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out) {
     IO::PlayerInput i = this->state->positionSelected(*this);
-    if (i != IO::PlayerInput::moveNone && !this->hasFired
-            && this->weapon->positionSelected()) {
+    if (i != IO::PlayerInput::moveNone && !this->hasFired && this->weapon->positionSelected()) {
         this->playWeaponSoundEffect(this->weapon->getWeaponID());
         IO::PlayerMsg msg;
         msg.input = i;
@@ -440,8 +439,8 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
             break;
         case WeaponID::WAerial:
             this->soundEffectPlayer =
-                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                            this->sound_effect_mgr.get(GUI::GameSoundEffects::AirStrike), true});
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::AirStrike), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WNone:

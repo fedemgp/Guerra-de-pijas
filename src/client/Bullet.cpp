@@ -42,8 +42,8 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr,
                                              MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WAerial:
-            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::AirMissile), false,
-                                             MISSILE_0_DEG_FRAME, false);
+            this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::AirMissile),
+                                             false, MISSILE_0_DEG_FRAME, false);
             break;
         case Worm::WeaponID::WExplode:
             break;

@@ -124,18 +124,18 @@ const float Game::Config::getWaitForNextTurnTime() const {
     return this->waitForNextTurnTime;
 }
 
-const Game::Weapon::Config &Game::Config::getAerialAttackConfig() const{
+const Game::Weapon::Config &Game::Config::getAerialAttackConfig() const {
     return this->aerialAttack;
 }
 
-const uint8_t Game::Config::getAerialAttackMissileQuantity() const{
+const uint8_t Game::Config::getAerialAttackMissileQuantity() const {
     return this->aerialAttackMissileQuantity;
 }
 
-const float Game::Config::getAerialAttackMissileSeparation() const{
+const float Game::Config::getAerialAttackMissileSeparation() const {
     return this->aerialAttackMissileSeparation;
 }
 
-const float Game::Config::getAerialAttackLaunchHeight() const{
+const float Game::Config::getAerialAttackLaunchHeight() const {
     return aerialAttackLaunchHeight;
 }

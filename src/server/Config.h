@@ -115,28 +115,30 @@ class Config {
     int waterLevel{WATER_LEVEL};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
-    Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
-                           BAZOOKA_MIN_ANGLE,
-                           BAZOOKA_MAX_ANGLE,
-                           ANGLE_STEP,
-                           MAX_SHOT_POWER,
-                           BAZOOKA_RESTITUTION,
-                           BAZOOKA_FRICTION,
-                           BAZOOKA_INITIAL_TIMEOUT,
-                           false,
-                           BAZOOKA_BULLET_RADIUS,
-                           BAZOOKA_DUMPING_RATIO};
-    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DUMPING_RATIO},
-                                GRENADE_MIN_ANGLE,
-                                GRENADE_MAX_ANGLE,
-                                ANGLE_STEP,
-                                MAX_SHOT_POWER,
-                                GRENADE_RESTITUTION,
-                                GRENADE_FRICTION,
-                                GRENADE_INITIAL_TIMEOUT,
-                                false,
-                                GRENADE_BULLET_RADIUS,
-                                GRENADE_DUMPING_RATIO};
+    Weapon::Config bazooka{
+        Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
+        BAZOOKA_MIN_ANGLE,
+        BAZOOKA_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        BAZOOKA_RESTITUTION,
+        BAZOOKA_FRICTION,
+        BAZOOKA_INITIAL_TIMEOUT,
+        false,
+        BAZOOKA_BULLET_RADIUS,
+        BAZOOKA_DUMPING_RATIO};
+    Weapon::Config greenGrenade{
+        Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DUMPING_RATIO},
+        GRENADE_MIN_ANGLE,
+        GRENADE_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        GRENADE_RESTITUTION,
+        GRENADE_FRICTION,
+        GRENADE_INITIAL_TIMEOUT,
+        false,
+        GRENADE_BULLET_RADIUS,
+        GRENADE_DUMPING_RATIO};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
     Weapon::Config clusterFragments{
         Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
@@ -150,17 +152,18 @@ class Config {
         false,
         CLUSTER_FRAGMENT_BULLET_RADIUS,
         CLUSTER_FRAGMENT_DUMPING_RATIO};
-    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DUMPING_RATIO},
-                           CLUSTER_MIN_ANGLE,
-                           CLUSTER_MAX_ANGLE,
-                           ANGLE_STEP,
-                           MAX_SHOT_POWER,
-                           CLUSTER_RESTITUTION,
-                           CLUSTER_FRICTION,
-                           CLUSTER_INITIAL_TIMEOUT,
-                           true,
-                           CLUSTER_BULLET_RADIUS,
-                           CLUSTER_DUMPING_RATIO};
+    Weapon::Config cluster{
+        Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DUMPING_RATIO},
+        CLUSTER_MIN_ANGLE,
+        CLUSTER_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        CLUSTER_RESTITUTION,
+        CLUSTER_FRICTION,
+        CLUSTER_INITIAL_TIMEOUT,
+        true,
+        CLUSTER_BULLET_RADIUS,
+        CLUSTER_DUMPING_RATIO};
     Weapon::Config mortarFragments{
         Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
@@ -210,17 +213,17 @@ class Config {
     uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
     float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
     Weapon::Config aerialAttack{
-            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
-            AERIAL_ATTACK_MIN_ANGLE,
-            AERIAL_ATTACK_MAX_ANGLE,
-            AERIAL_ATTACK_ANGLE_STEP,
-            AERIAL_ATTACK_SHOT_POWER,
-            AERIAL_ATTACK_RESTITUTION,
-            AERIAL_ATTACK_FRICTION,
-            AERIAL_ATTACK_TIMEOUT,
-            false,
-            AERIAL_ATTACK_BULLET_RADIUS,
-            AERIAL_ATTACK_DUMPING_RATIO};
+        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
+        AERIAL_ATTACK_MIN_ANGLE,
+        AERIAL_ATTACK_MAX_ANGLE,
+        AERIAL_ATTACK_ANGLE_STEP,
+        AERIAL_ATTACK_SHOT_POWER,
+        AERIAL_ATTACK_RESTITUTION,
+        AERIAL_ATTACK_FRICTION,
+        AERIAL_ATTACK_TIMEOUT,
+        false,
+        AERIAL_ATTACK_BULLET_RADIUS,
+        AERIAL_ATTACK_DUMPING_RATIO};
     const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
 };
 

@@ -65,4 +65,4 @@ void Worms::BackFlipping::holy(Worms::Player &p) {}
 
 void Worms::BackFlipping::setTimeout(Worms::Player &p, uint8_t time) {}
 
-void Worms::BackFlipping::aerialAttack(Worms::Player &p){}
+void Worms::BackFlipping::aerialAttack(Worms::Player &p) {}

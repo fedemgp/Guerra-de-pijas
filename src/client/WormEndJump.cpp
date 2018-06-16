@@ -75,10 +75,10 @@ IO::PlayerInput Worm::EndJump::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndJump::aerialAttack(Worm &w){
+IO::PlayerInput Worm::EndJump::aerialAttack(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::EndJump::positionSelected(Worm &w){
+IO::PlayerInput Worm::EndJump::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }

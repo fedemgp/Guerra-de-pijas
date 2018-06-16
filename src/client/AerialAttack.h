@@ -11,8 +11,8 @@
 #include "Weapon.h"
 
 namespace Worm {
-class AerialAttack: public Weapon {
-public:
+class AerialAttack : public Weapon {
+   public:
     explicit AerialAttack(const GUI::GameTextureManager &textureManager);
     ~AerialAttack() = default;
     void update(float dt) override;
@@ -22,11 +22,9 @@ public:
     void endShot() override;
     bool positionSelected() override;
 
-private:
+   private:
     void endAnimation();
-
 };
 }  // namespace Worm
 
-
-#endif //__AerialAttack_H__
+#endif  //__AerialAttack_H__

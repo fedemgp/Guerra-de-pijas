@@ -109,6 +109,6 @@ bool GUI::Animation::finished() {
     return this->animationFinished;
 }
 
-void GUI::Animation::setAutoUpdate(bool autoUpdate){
+void GUI::Animation::setAutoUpdate(bool autoUpdate) {
     this->autoUpdate = autoUpdate;
 }

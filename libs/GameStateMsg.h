@@ -33,7 +33,16 @@ enum class StateID {
     Falling,
     Land
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly, WExplode, WFragment,
+enum WeaponID {
+    WNone,
+    WBazooka,
+    WGrenade,
+    WCluster,
+    WMortar,
+    WBanana,
+    WHoly,
+    WExplode,
+    WFragment,
     WAerial
 };
 }  // namespace Worm

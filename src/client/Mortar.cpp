@@ -38,6 +38,6 @@ void Worm::Mortar::endShot() {
     this->powerBar.endShot();
 }
 
-bool Worm::Mortar::positionSelected(){
+bool Worm::Mortar::positionSelected() {
     return false;
 }

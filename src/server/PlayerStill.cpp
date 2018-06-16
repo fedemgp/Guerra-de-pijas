@@ -85,6 +85,6 @@ void Worms::Still::setTimeout(Worms::Player &p, uint8_t time) {
     p.setWeaponTimeout(time);
 }
 
-void Worms::Still::aerialAttack(Worms::Player &p){
+void Worms::Still::aerialAttack(Worms::Player &p) {
     p.setWeapon(Worm::WeaponID::WAerial);
 }

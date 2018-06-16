@@ -114,7 +114,7 @@ class Player : public PhysicsEntity {
 
     void endShot(std::list<Worms::Bullet> &bullets);
 
-private:
+   private:
     b2Body *createBody(b2BodyType type);
 
     b2Body *body{nullptr};
