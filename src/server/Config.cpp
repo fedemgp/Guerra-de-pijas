@@ -52,6 +52,10 @@ const float Game::Config::getGameHeight() const {
     return this->gameHeight;
 }
 
+const uint16_t Game::Config::getWormHealth() const {
+    return this->wormHealth;
+}
+
 const Game::Weapon::Config &Game::Config::getBazookaConfig() const {
     return this->bazooka;
 }
@@ -74,10 +78,6 @@ const int Game::Config::getWaterLevel() const {
 
 const float Game::Config::getWalkVelocity() const {
     return this->walkVelocity;
-}
-
-const uint16_t Game::Config::getWormHealth() const {
-    return this->wormHealth;
 }
 
 const Game::Weapon::Config &Game::Config::getGreenGrenadeConfig() const {
@@ -122,4 +122,20 @@ const uint8_t Game::Config::getMortarFragmentQuantity() const {
 
 const float Game::Config::getWaitForNextTurnTime() const {
     return this->waitForNextTurnTime;
+}
+
+const Game::Weapon::Config &Game::Config::getAerialAttackConfig() const{
+    return this->aerialAttack;
+}
+
+const uint8_t Game::Config::getAerialAttackMissileQuantity() const{
+    return this->aerialAttackMissileQuantity;
+}
+
+const float Game::Config::getAerialAttackMissileSeparation() const{
+    return this->aerialAttackMissileSeparation;
+}
+
+const float Game::Config::getAerialAttackLaunchHeight() const{
+    return aerialAttackLaunchHeight;
 }

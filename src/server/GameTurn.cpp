@@ -25,6 +25,10 @@ void Worms::GameTurn::playerShot(Worm::WeaponID weaponID) {
         case Worm::WeaponID::WCluster:
             this->bulletFragments = ::Game::Config::getInstance().getClusterFragmentQuantity();
             break;
+            //TODO change it to aerialAttack
+        case Worm::WeaponID::WBazooka:
+            this->bulletFragments = ::Game::Config::getInstance().getAerialAttackMissileQuantity();
+            break;
         default:
             break;
     }

@@ -93,6 +93,7 @@ class Player : public PhysicsEntity {
     uint8_t getTeam() const;
     void setId(uint8_t id);
     uint8_t getId() const;
+    Physics &getPhysics();
     void setWeaponTimeout(uint8_t time);
     /**
      * Moves the bullets to the caller (the Game)
@@ -113,7 +114,9 @@ class Player : public PhysicsEntity {
     bool operator!=(const Player &other);
     bool operator==(const Player &other);
 
-   private:
+    void endShot(std::list<Worms::Bullet> &bullets);
+
+private:
     b2Body *createBody(b2BodyType type);
 
     b2Body *body{nullptr};
@@ -127,7 +130,6 @@ class Player : public PhysicsEntity {
     uint8_t team;
     uint8_t id;
     std::list<Bullet> bullets;
-    bool removeBullets{false};
 };
 }  // namespace Worms
 

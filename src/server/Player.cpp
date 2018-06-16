@@ -29,6 +29,7 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
+#include "AerialAttack.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -304,7 +305,7 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
         float lastAngle = this->weapon->getAngle();
         switch (id) {
             case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
                 break;
             case Worm::WeaponID::WGrenade:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
@@ -359,6 +360,11 @@ void Worms::Player::endShot() {
     }
     this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
     this->weapon->endShot();
+    this->notify(*this, Event::Shot);
+}
+
+void Worms::Player::endShot(std::list<Worms::Bullet> &bullets){
+    this->bullets = std::move(bullets);
     this->notify(*this, Event::Shot);
 }
 
@@ -428,3 +434,8 @@ void Worms::Player::reset(){
     this->weapon->endShot();
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
+
+Worms::Physics &Worms::Player::getPhysics(){
+    return this->physics;
+}
+

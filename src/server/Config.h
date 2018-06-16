@@ -79,6 +79,10 @@ class Config {
     const Weapon::Config &getClusterFragmentConfig() const;
     const Weapon::Config &getMortarFragmentConfig() const;
     const uint8_t getMortarFragmentQuantity() const;
+    const Weapon::Config &getAerialAttackConfig() const;
+    const uint8_t getAerialAttackMissileQuantity() const;
+    const float getAerialAttackMissileSeparation() const;
+    const float getAerialAttackLaunchHeight() const;
 
    private:
     /**
@@ -202,6 +206,21 @@ class Config {
                         false,
                         HOLY_BULLET_RADIUS,
                         HOLY_DUMPING_RATIO};
+    uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
+    float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
+    Weapon::Config aerialAttack{
+            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS},
+            AERIAL_ATTACK_MIN_ANGLE,
+            AERIAL_ATTACK_MAX_ANGLE,
+            AERIAL_ATTACK_ANGLE_STEP,
+            AERIAL_ATTACK_SHOT_POWER,
+            AERIAL_ATTACK_RESTITUTION,
+            AERIAL_ATTACK_FRICTION,
+            AERIAL_ATTACK_TIMEOUT,
+            false,
+            AERIAL_ATTACK_BULLET_RADIUS,
+            AERIAL_ATTACK_DUMPING_RATIO};
+    const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
 };
 
 void endTurn();

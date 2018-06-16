@@ -30,7 +30,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/utils.*")
 add_executable(server
         ${SERVER_SOURCES}
-        ${SERVER_LIBS_SOURCES})
+        ${SERVER_LIBS_SOURCES} src/server/AerialAttack.cpp src/server/AerialAttack.h)
 
 target_link_libraries(server Box2D)
 file(COPY assets DESTINATION ./)
