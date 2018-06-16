@@ -99,18 +99,6 @@ void Worms::Player::update(float dt) {
 
     this->state->update(*this, dt, this->body);
     this->weapon->update(dt);
-    //    /**
-    //     * after the server sends a WExplode state of the bullet, it is needed to
-    //     * remove every exploded bullet.
-    //     */
-    //    if (this->removeBullets) {
-    //        this->bullets.remove_if(Worms::ExplosionChecker());
-    //        this->removeBullets = false;
-    //    }
-    //
-    //    for (auto &bullet : this->bullets) {
-    //        bullet.update(dt, *this->weapon);
-    //    }
 
     if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
         this->getStateId() != Worm::StateID::Drowning) {
@@ -276,9 +264,7 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
                                       Math::Point<float> epicenter) {
     if (this->getStateId() != Worm::StateID::Dead) {
         double distanceToEpicenter = this->getPosition().distance(
-            epicenter);  // std::cout << "epicenter " << epicenter.x << " "<<epicenter.y<<" position
-        // "<<this->getPosition().x <<" "<<this->getPosition().y<< std::endl;std::cout
-        // << "distance to epicenter " << distanceToEpicenter << std::endl;
+            epicenter);
         if (distanceToEpicenter <= damageInfo.radius) {
             this->body->SetType(b2_dynamicBody);
             double inflictedDamage =
@@ -298,14 +284,10 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
             this->health =
                 (this->health < 0)
                     ? 0
-                    : this->health;  // std::cout << "life " << this->health << std::endl;
+                    : this->health;
         }
     }
 }
-
-// void Worms::Player::destroyBullet() {
-//    this->weapon->destroyBullet();
-//}
 
 float Worms::Player::getWeaponAngle() const {
     return this->weapon->getAngle();
@@ -440,15 +422,9 @@ b2Body *Worms::Player::createBody(b2BodyType type) {
 
 std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &physics) {
     return std::move(this->weapon->onExplode(b, physics));
-    //    this->bullets.merge(this->weapon->onExplode(b, physics));
 }
 
-void Worms::Player::addObserverToBullets(Observer *obs) {
-    for (auto &bullet : this->bullets) {
-        bullet.addObserver(obs);
-    }
-}
-
-void Worms::Player::cleanBullets() {
-    this->removeBullets = true;
+void Worms::Player::reset(){
+    this->weapon->endShot();
+    this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }

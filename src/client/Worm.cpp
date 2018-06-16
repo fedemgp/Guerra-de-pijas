@@ -366,12 +366,17 @@ void Worm::Worm::setPosition(GUI::Position p) {
 }
 
 void Worm::Worm::startShot() {
-    this->weapon->startShot();
+    if (!this->hasFired){
+        this->weapon->startShot();
+    }
 }
 
 void Worm::Worm::endShot() {
-    this->weapon->endShot();
-    this->playWeaponSoundEffect(this->getWeaponID());
+    if (!this->hasFired){
+        this->weapon->endShot();
+        this->playWeaponSoundEffect(this->getWeaponID());
+        this->hasFired = true;
+    }
 }
 
 void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out) {
@@ -428,4 +433,8 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
         case WeaponID::WFragment:
             break;
     }
+}
+
+void Worm::Worm::reset(){
+    this->hasFired = false;
 }

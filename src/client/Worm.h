@@ -100,6 +100,10 @@ class Worm {
      * @brief End PowerBar's rendering, freeing its container
      */
     void endShot();
+    /**
+     * @brief resets some attributes when the turn ends
+     */
+    void reset();
 
    private:
     const GUI::GameTextureManager &texture_mgr;
@@ -109,13 +113,10 @@ class Worm {
     std::shared_ptr<Weapon> weapon{nullptr};
     bool active{false};
     GUI::Position position{0, 0};
-    //    uint8_t team{0};
     std::shared_ptr<Explosion> explosion{nullptr};
-
-    void playSoundEffect(StateID state);
-
+    bool hasFired{false};
     std::shared_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
-
+    void playSoundEffect(StateID state);
     void playWeaponSoundEffect(const WeaponID &id);
 };
 }  // namespace Worm

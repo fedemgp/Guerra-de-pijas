@@ -248,6 +248,7 @@ void GUI::Game::start() {
                 this->bullets.erase(this->bullets.begin(), this->bullets.end());
                 this->explodedQuantity = 0;
                 this->doesAnyoneShot = false;
+                this->worms[this->snapshot.currentWorm].reset();
             }
             if (this->snapshot.bulletsQuantity > 0) {
                 this->doesAnyoneShot = true;

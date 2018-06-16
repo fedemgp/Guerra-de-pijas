@@ -42,23 +42,49 @@ class Player : public PhysicsEntity {
     bool isOnGround() const;
 
     /**
-     * First remove all exploded bullets, then update its state, its weapon
-     * and all non-exploded bullets.
+     * Updates its state, its weapon
      * @param dt
      */
     void update(float dt);
     void serialize(IO::Stream<IO::GameStateMsg> &s) const {}
+    /**
+     * @brief moves the player to newPos position
+     * @param newPos
+     */
     void setPosition(const Math::Point<float> &newPos);
+    /**
+     * @brief asks box2D from current position.
+     * @return
+     */
     Math::Point<float> getPosition() const;
+    /**
+     * @brief given playerInput, changes its state (or its weapon) accordingly
+     * @param pi
+     */
     void handleState(IO::PlayerMsg pi);
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
     float getWeaponAngle() const;
     const Worm::WeaponID &getWeaponID() const;
     void setWeapon(const Worm::WeaponID &id);
+    /**
+     * @brief delegates on its weapon the action of increase the angle, if
+     * the weapon handles it.
+     */
     void increaseWeaponAngle();
+    /**
+     * @brief delegates on its weapon the action of decrease the angle, if
+     * the weapon handles it.
+     */
     void decreaseWeaponAngle();
+    /**
+     * @brief delegates on its weapon the action of starting a shot, increasing
+     * its powerShot if it handles it
+     */
     void startShot();
+    /**
+     * @brief creates a bullet that needs to be moved using getBullet()
+     */
     void endShot();
     void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void landDamage(float yDistance);
@@ -68,18 +94,21 @@ class Player : public PhysicsEntity {
     void setId(uint8_t id);
     uint8_t getId() const;
     void setWeaponTimeout(uint8_t time);
-    std::list<Bullet> getBullets();
-    void cleanBullets();
     /**
-     * calls weapon's onExplode and get new bullets if is necesary.
+     * Moves the bullets to the caller (the Game)
+     * @return bullets
+     */
+    std::list<Bullet> getBullets();
+    /**
+     * Resets the weapon's powershot and erase every possible bullet
+     * inside his container.
+     */
+    void reset();
+    /**
+     * calls weapon's onExplode and get new bullets if it is necesary.
      */
     std::list<Bullet> onExplode(const Bullet &bullet,
-                                Physics &physics);  // TODO return the list with move semantics
-                                                    /**
-                                                     * Add observer to all bullets.
-                                                     * @param obs
-                                                     */
-    void addObserverToBullets(Observer *obs);
+                                Physics &physics);
 
     bool operator!=(const Player &other);
     bool operator==(const Player &other);
