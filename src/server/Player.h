@@ -107,8 +107,7 @@ class Player : public PhysicsEntity {
     /**
      * calls weapon's onExplode and get new bullets if it is necesary.
      */
-    std::list<Bullet> onExplode(const Bullet &bullet,
-                                Physics &physics);
+    std::list<Bullet> onExplode(const Bullet &bullet, Physics &physics);
 
     bool operator!=(const Player &other);
     bool operator==(const Player &other);

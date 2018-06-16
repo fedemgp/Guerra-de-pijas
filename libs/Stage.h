@@ -15,6 +15,7 @@ namespace Worms {
 struct Girder {
     float length;
     float height;
+    float angle;
     Math::Point<float> pos;
 };
 

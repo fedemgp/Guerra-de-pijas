@@ -342,7 +342,7 @@ void GUI::Game::render() {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
 
         GUI::WrapTexture wt{texture, girder.length, girder.height};
-        wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
+        wt.render(GUI::Position{girder.pos.x, girder.pos.y}, girder.angle, this->cam);
     }
 
     int i = 0, j = 0;

@@ -373,13 +373,13 @@ void Worm::Worm::setPosition(GUI::Position p) {
 }
 
 void Worm::Worm::startShot() {
-    if (!this->hasFired){
+    if (!this->hasFired) {
         this->weapon->startShot();
     }
 }
 
 void Worm::Worm::endShot() {
-    if (!this->hasFired){
+    if (!this->hasFired) {
         this->weapon->endShot();
         this->playWeaponSoundEffect(this->getWeaponID());
         this->hasFired = true;
@@ -453,6 +453,6 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
     }
 }
 
-void Worm::Worm::reset(){
+void Worm::Worm::reset() {
     this->hasFired = false;
 }

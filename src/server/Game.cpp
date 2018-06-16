@@ -62,7 +62,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
         fixture.density = 1;
         fixture.shape = &poly;
 
-        poly.SetAsBox(girder.length / 2, girder.height / 2, b2Vec2(girder.pos.x, girder.pos.y), 0);
+        poly.SetAsBox(girder.length / 2, girder.height / 2, b2Vec2(girder.pos.x, girder.pos.y),
+                      girder.angle * (PI / 180.0f));
         staticBody->CreateFixture(&fixture);
     }
 
