@@ -116,6 +116,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::AirIcon, "assets/img/Weapon Icons/airstrke.1.png",
                            GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::DynamiteIcon, "assets/img/Weapon Icons/dynamite.1.png",
+                           GUI::Color{0x00, 0x00, 0x00});
 
 
     this->armory.loadWeapons();

@@ -49,7 +49,7 @@ enum class GameTextures {
     HolyIcon,
     WormAirAttack,
     AirMissile,
-    AirIcon, WormDynamite, Dynamite
+    AirIcon, WormDynamite, Dynamite, DynamiteIcon
 };
 
 /** Specialized TextureManager class. */
