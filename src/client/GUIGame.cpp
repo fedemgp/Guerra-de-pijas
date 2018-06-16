@@ -211,7 +211,7 @@ void GUI::Game::start() {
             while (SDL_PollEvent(&e) != 0) {
                 switch (e.type) {
                     case SDL_QUIT:
-                        quit = true;
+                        this->exit();
                         break;
                     case SDL_KEYDOWN:
                         if (this->snapshot.processingInputs) {
@@ -244,10 +244,11 @@ void GUI::Game::start() {
                 cur.getWeaponID() != Worm::WeaponID::WNone) {
                 cur.setWeaponAngle(this->snapshot.activePlayerAngle);
             }
-            if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot){
+            if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot) {
                 this->bullets.erase(this->bullets.begin(), this->bullets.end());
                 this->explodedQuantity = 0;
                 this->doesAnyoneShot = false;
+                this->worms[this->snapshot.currentWorm].reset();
             }
             if (this->snapshot.bulletsQuantity > 0) {
                 this->doesAnyoneShot = true;
@@ -258,11 +259,12 @@ void GUI::Game::start() {
                 }
                 int i = 0;
                 for (auto &bullet : this->bullets) {
-                        if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode && !bullet->exploded()) {
-                            bullet->madeImpact();
-                            this->explodedQuantity++;
-                        }
-                        bullet->setAngle(this->snapshot.bulletsAngle[i++]);
+                    if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode &&
+                        !bullet->exploded()) {
+                        bullet->madeImpact();
+                        this->explodedQuantity++;
+                    }
+                    bullet->setAngle(this->snapshot.bulletsAngle[i++]);
                 }
             }
 
@@ -275,8 +277,8 @@ void GUI::Game::start() {
                 float cur_x{0};
                 float cur_y{0};
                 int i{0};
-                for (int j = 0; i < this->snapshot.bulletsQuantity; i++){
-                    if (this->snapshot.bulletType[i] != Worm::WExplode){
+                for (int j = 0; i < this->snapshot.bulletsQuantity; i++) {
+                    if (this->snapshot.bulletType[i] != Worm::WExplode) {
                         cur_x = this->snapshot.bullets[j++];
                         cur_y = this->snapshot.bullets[j];
                         break;
@@ -346,7 +348,7 @@ void GUI::Game::render() {
             bullet->setPosition(GUI::Position{local_x, local_y});
         }
 
-        if (!bullet->exploded()){
+        if (!bullet->exploded()) {
             bullet->render(GUI::Position{local_x, local_y}, this->cam);
         }
     }
@@ -379,6 +381,16 @@ void GUI::Game::render() {
     this->armory.render();
 
     this->window.render();
+}
+
+/**
+ * @brief interrupts all current game operations and leaves the main loop.
+ *
+ */
+void GUI::Game::exit() {
+    this->quit = true;
+    this->output.close();
+    this->socket.shutdown();
 }
 
 /**
