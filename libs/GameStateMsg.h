@@ -33,7 +33,9 @@ enum class StateID {
     Falling,
     Land
 };
-enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly, WExplode, WFragment };
+enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly, WExplode, WFragment,
+    WAerial
+};
 }  // namespace Worm
 
 namespace IO {
@@ -59,7 +61,8 @@ enum class PlayerInput {
     timeout3,
     timeout4,
     timeout5,
-    positionSelected
+    positionSelected,
+    aerialAttack
 };
 
 struct PlayerMsg {

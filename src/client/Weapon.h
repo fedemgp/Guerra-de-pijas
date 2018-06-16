@@ -48,6 +48,11 @@ class Weapon {
      * End PowerBar's rendering, freeing its container
      */
     virtual void endShot() = 0;
+    /**
+     * When using remoteControl weapons, starts the animation of the worm
+     * and return
+     */
+    virtual bool positionSelected() = 0;
 
    protected:
     const GUI::GameTextureManager &textureMgr;

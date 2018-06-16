@@ -87,3 +87,11 @@ IO::PlayerInput Worm::Walk::holy(Worm &w) {
 IO::PlayerInput Worm::Walk::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::aerialAttack(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Walk::positionSelected(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

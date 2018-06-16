@@ -94,6 +94,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormAirAttack, "assets/img/Worms/wairtlk.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::AirMissile, "assets/img/Weapons/airmisl.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::BazookaIcon, "assets/img/Weapon Icons/bazooka.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::GrenadeIcon, "assets/img/Weapon Icons/grenade.2.png",
@@ -105,6 +109,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
     this->texture_mgr.load(GUI::GameTextures::BananaIcon, "assets/img/Weapon Icons/banana.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::HolyIcon, "assets/img/Weapon Icons/hgrenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::AirIcon, "assets/img/Weapon Icons/airstrke.1.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->armory.loadWeapons();
 

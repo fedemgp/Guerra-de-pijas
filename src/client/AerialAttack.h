@@ -1,24 +1,20 @@
 /*
  *  Created by Federico Manuel Gomez Peter.
- *  date: 04/06/18
+ *  date: 16/06/18
  */
 
-#ifndef __HOLY_H__
-#define __HOLY_H__
+#ifndef __AerialAttack_H__
+#define __AerialAttack_H__
 
-#include <vector>
+#define AERIAL_ATTACK_CENTER_FRAME 0
 
-#include "PowerBar.h"
-#include "Scope.h"
 #include "Weapon.h"
 
-#define HOLY_CENTER_FRAME 15
-
 namespace Worm {
-class Holy : public Weapon {
-   public:
-    explicit Holy(const GUI::GameTextureManager &textureManager);
-    ~Holy() = default;
+class AerialAttack: public Weapon {
+public:
+    explicit AerialAttack(const GUI::GameTextureManager &textureManager);
+    ~AerialAttack() = default;
     void update(float dt) override;
     void render(GUI::Position &p, GUI::Camera &cam, SDL_RendererFlip &flip) override;
     void setAngle(float angle, Direction d) override;
@@ -26,10 +22,11 @@ class Holy : public Weapon {
     void endShot() override;
     bool positionSelected() override;
 
-   private:
-    ::Weapon::Scope scope;
-    ::Weapon::PowerBar powerBar;
+private:
+    void endAnimation();
+
 };
 }  // namespace Worm
 
-#endif  //__HOLY_H__
+
+#endif //__AerialAttack_H__

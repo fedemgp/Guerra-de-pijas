@@ -46,7 +46,7 @@ enum class GameTextures {
     ClusterIcon,
     MortarIcon,
     BananaIcon,
-    HolyIcon
+    HolyIcon, WormAirAttack, AirMissile, AirIcon
 };
 
 /** Specialized TextureManager class. */

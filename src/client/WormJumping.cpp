@@ -74,3 +74,11 @@ IO::PlayerInput Worm::Jumping::holy(Worm &w) {
 IO::PlayerInput Worm::Jumping::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Jumping::aerialAttack(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Jumping::positionSelected(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

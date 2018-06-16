@@ -78,3 +78,11 @@ IO::PlayerInput Worm::Dead::holy(Worm &w) {
 IO::PlayerInput Worm::Dead::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::aerialAttack(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Dead::positionSelected(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

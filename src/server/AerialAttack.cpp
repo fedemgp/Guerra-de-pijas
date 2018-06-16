@@ -7,7 +7,7 @@
 #define CONFIG Game::Config::getInstance()
 
 Weapon::AerialAttack::AerialAttack():
-        Weapon::Weapon(CONFIG.getAerialAttackConfig(), Worm::WeaponID::WBazooka,
+        Weapon::Weapon(CONFIG.getAerialAttackConfig(), Worm::WeaponID::WAerial,
                        0.0),
         bulletsQuantity(CONFIG.getAerialAttackMissileQuantity()),
         missileSeparation(CONFIG.getAerialAttackMissileSeparation()){
@@ -47,7 +47,7 @@ void Weapon::AerialAttack::positionSelected(Worms::Player &p,
     for (int i = 0; i < this->bulletsQuantity; i++) {
         point.x += this->missileSeparation;
         bulletInfo.point = point;
-        ret.emplace_back(bulletInfo, p.getPhysics(), Worm::WeaponID::WFragment);
+        ret.emplace_back(bulletInfo, p.getPhysics(), Worm::WeaponID::WAerial);
     }
 
     p.endShot(ret);

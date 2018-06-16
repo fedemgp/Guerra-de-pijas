@@ -29,6 +29,8 @@ class Falling : public State {
     virtual IO::PlayerInput mortar(Worm &w) override;
     virtual IO::PlayerInput banana(Worm &w) override;
     virtual IO::PlayerInput holy(Worm &w) override;
+    virtual IO::PlayerInput aerialAttack(Worm &w) override;
+    virtual IO::PlayerInput positionSelected(Worm &w) override;
 
     virtual IO::PlayerInput endShot(Worm &w) override;
     virtual IO::PlayerInput startShot(Worm &w) override;

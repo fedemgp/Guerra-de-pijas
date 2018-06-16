@@ -25,8 +25,7 @@ void Worms::GameTurn::playerShot(Worm::WeaponID weaponID) {
         case Worm::WeaponID::WCluster:
             this->bulletFragments = ::Game::Config::getInstance().getClusterFragmentQuantity();
             break;
-            //TODO change it to aerialAttack
-        case Worm::WeaponID::WBazooka:
+        case Worm::WeaponID::WAerial:
             this->bulletFragments = ::Game::Config::getInstance().getAerialAttackMissileQuantity();
             break;
         default:
@@ -49,7 +48,6 @@ void Worms::GameTurn::explosion() {
         this->state->addObserver(&this->game);
     }
     this->state->explosion();
-    //    this->newState = true;
 }
 
 void Worms::GameTurn::wormEndHit(uint8_t wormId) {
@@ -80,8 +78,6 @@ void Worms::GameTurn::update(float dt) {
                 this->state = std::shared_ptr<GameTurnState>(new PlayerShot());
                 break;
             case GameTurnStateID::ImpactOnCourse:
-                //                this->state = std::shared_ptr<GameTurnState>(new
-                //                ImpactOnCourse());
                 break;
         }
         this->state->addObserver(&this->game);

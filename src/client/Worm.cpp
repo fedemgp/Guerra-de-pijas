@@ -31,6 +31,7 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
+#include "AerialAttack.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -95,6 +96,9 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             break;
         case SDLK_F6:
             i = this->state->holy(*this);
+            break;
+        case SDLK_F7:
+            i = this->state->aerialAttack(*this);
             break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
@@ -342,6 +346,9 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WHoly:
                 this->weapon = std::shared_ptr<Weapon>(new Holy(this->texture_mgr));
                 break;
+            case WeaponID::WAerial:
+                this->weapon = std::shared_ptr<Weapon>(new AerialAttack(this->texture_mgr));
+                break;
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
                 break;
@@ -380,10 +387,15 @@ void Worm::Worm::endShot() {
 }
 
 void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out) {
-    IO::PlayerMsg msg;
-    msg.input = IO::PlayerInput::positionSelected;
-    msg.position = position;
-    *out << msg;
+    IO::PlayerInput i = this->state->positionSelected(*this);
+    if (i != IO::PlayerInput::moveNone && !this->hasFired
+            && this->weapon->positionSelected()) {
+        this->playWeaponSoundEffect(this->weapon->getWeaponID());
+        IO::PlayerMsg msg;
+        msg.input = i;
+        msg.position = position;
+        *out << msg;
+    }
 }
 
 void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
@@ -424,6 +436,12 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
             this->soundEffectPlayer =
                 std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::Holy), true});
+            this->soundEffectPlayer->play();
+            break;
+        case WeaponID::WAerial:
+            this->soundEffectPlayer =
+                    std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                            this->sound_effect_mgr.get(GUI::GameSoundEffects::AirStrike), true});
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WNone:

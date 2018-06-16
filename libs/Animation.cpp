@@ -108,3 +108,7 @@ void GUI::Animation::setAnimateOnce() {
 bool GUI::Animation::finished() {
     return this->animationFinished;
 }
+
+void GUI::Animation::setAutoUpdate(bool autoUpdate){
+    this->autoUpdate = autoUpdate;
+}

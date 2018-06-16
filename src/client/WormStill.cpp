@@ -96,3 +96,11 @@ IO::PlayerInput Worm::Still::setTimeoutTo(Worm &w, int time) {
             return IO::PlayerInput::moveNone;
     }
 }
+
+IO::PlayerInput Worm::Still::aerialAttack(Worm &w){
+    return IO::PlayerInput::aerialAttack;
+}
+
+IO::PlayerInput Worm::Still::positionSelected(Worm &w){
+    return IO::PlayerInput::positionSelected;
+}

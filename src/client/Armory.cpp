@@ -36,4 +36,5 @@ void GUI::Armory::loadWeapons() {
     this->weaponIcons.emplace_back(&this->manager.get(GUI::GameTextures::MortarIcon));
     this->weaponIcons.emplace_back(&this->manager.get(GUI::GameTextures::BananaIcon));
     this->weaponIcons.emplace_back(&this->manager.get(GUI::GameTextures::HolyIcon));
+    this->weaponIcons.emplace_back(&this->manager.get(GUI::GameTextures::AirIcon));
 }

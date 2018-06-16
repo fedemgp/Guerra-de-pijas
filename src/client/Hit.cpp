@@ -74,3 +74,11 @@ IO::PlayerInput Worm::Hit::holy(Worm &w) {
 IO::PlayerInput Worm::Hit::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Hit::aerialAttack(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Hit::positionSelected(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

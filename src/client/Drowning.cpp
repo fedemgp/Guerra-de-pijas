@@ -74,3 +74,11 @@ IO::PlayerInput Worm::Drowning::holy(Worm &w) {
 IO::PlayerInput Worm::Drowning::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Drowning::aerialAttack(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Drowning::positionSelected(Worm &w){
+    return IO::PlayerInput::moveNone;
+}

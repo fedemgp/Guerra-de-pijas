@@ -32,6 +32,7 @@ class Animation {
     void setFlip(SDL_RendererFlip flipType);
     SDL_RendererFlip getFlip();
     void setAnimateOnce();
+    void setAutoUpdate(bool autoUpdate);
     bool finished();
 
    private:
