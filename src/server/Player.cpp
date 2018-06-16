@@ -31,10 +31,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
-#include "AerialAttack.h"
 #include "Teleport.h"
 #include "Teleporting.h"
 #include "Teleported.h"
+#include "BaseballBat.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -212,6 +212,9 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::dynamite:
             this->state->dynamite(*this);
             break;
+        case IO::PlayerInput::baseballBat:
+            this->state->baseballBat(*this);
+            break;
         case IO::PlayerInput::teleport:
             this->state->teleport(*this);
             break;
@@ -346,6 +349,9 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
                 break;
             case Worm::WeaponID::WDynamite:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+                break;
+            case Worm::WeaponID::WBaseballBat:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(lastAngle));
                 break;
             case Worm::WeaponID::WTeleport:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());

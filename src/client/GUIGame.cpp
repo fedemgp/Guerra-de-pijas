@@ -102,6 +102,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Dynamite, "assets/img/Weapons/dynamite.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBat, "assets/img/Worms/wbsbaim.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBatting, "assets/img/Worms/wbsbswn.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::WormTeleport, "assets/img/Worms/wteltlk.png",
                            GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::WormTeleporting, "assets/img/Worms/wteldsv.png",

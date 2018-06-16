@@ -112,3 +112,7 @@ IO::PlayerInput Worm::Still::dynamite(Worm &w){
 IO::PlayerInput Worm::Still::teleport(Worm &w) {
     return IO::PlayerInput::teleport;
 }
+
+IO::PlayerInput Worm::Still::baseballBat(Worm &w) {
+    return IO::PlayerInput::baseballBat;
+}

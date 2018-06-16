@@ -87,6 +87,7 @@ class Config {
     const float getAerialAttackMissileSeparation() const;
     const float getAerialAttackLaunchHeight() const;
     const Weapon::Config &getTeleportConfig() const;
+    const Weapon::Config &getBaseballBatConfig() const;
 
    private:
     /**
@@ -253,6 +254,19 @@ class Config {
             false,
             AERIAL_ATTACK_BULLET_RADIUS,
             AERIAL_ATTACK_DUMPING_RATIO};
+    Weapon::Config baseballBat {
+            Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
+            BASEBALL_BAT_MIN_ANGLE,
+            BASEBALL_BAT_MAX_ANGLE,
+            ANGLE_STEP,
+            MAX_SHOT_POWER,
+            BASEBALL_BAT_RESTITUTION,
+            BASEBALL_BAT_FRICTION,
+            BASEBALL_BAT_INITIAL_TIMEOUT,
+            false,
+            BASEBALL_BAT_BULLET_RADIUS,
+            BASEBALL_BAT_DUMPING_RATIO
+    };
 };
 
 void endTurn();

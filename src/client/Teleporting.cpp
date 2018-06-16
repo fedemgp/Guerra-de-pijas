@@ -89,3 +89,7 @@ IO::PlayerInput Worm::Teleporting::positionSelected(Worm &w){
 IO::PlayerInput Worm::Teleporting::teleport(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Teleporting::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

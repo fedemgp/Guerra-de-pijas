@@ -151,3 +151,7 @@ const float Game::Config::getTeleportTime() const {
 const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {
     return this->dynamite;
 }
+
+const Game::Weapon::Config &Game::Config::getBaseballBatConfig() const {
+    return this->baseballBat;
+}

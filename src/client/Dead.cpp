@@ -94,3 +94,7 @@ IO::PlayerInput Worm::Dead::dynamite(Worm &w){
 IO::PlayerInput Worm::Dead::teleport(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Dead::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

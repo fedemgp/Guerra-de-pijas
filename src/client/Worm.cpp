@@ -36,6 +36,7 @@
 #include "Teleporting.h"
 #include "Teleported.h"
 #include "Teleport.h"
+#include "BaseballBat.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -106,6 +107,9 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             break;
         case SDLK_F8:
             i = this->state->dynamite(*this);
+            break;
+        case SDLK_F9:
+            i = this->state->baseballBat(*this);
             break;
         case SDLK_F10:
             i = this->state->teleport(*this);
@@ -382,6 +386,9 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WDynamite:
                 this->weapon = std::shared_ptr<Weapon>(new Dynamite(this->texture_mgr));
                 break;
+            case WeaponID::WBaseballBat:
+                this->weapon = std::shared_ptr<Weapon>(new BaseballBat(this->texture_mgr));
+                break;
             case WeaponID::WTeleport:
                 this->weapon = std::shared_ptr<Weapon>(new Teleport(this->texture_mgr));
                 break;
@@ -480,6 +487,8 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
             this->soundEffectPlayer->play();
             break;
         case WeaponID::WDynamite:
+            break;
+        case WeaponID::WBaseballBat:
             break;
         case WeaponID::WTeleport:
             break;

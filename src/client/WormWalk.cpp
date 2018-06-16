@@ -103,3 +103,7 @@ IO::PlayerInput Worm::Walk::dynamite(Worm &w){
 IO::PlayerInput Worm::Walk::teleport(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Walk::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

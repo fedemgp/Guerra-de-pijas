@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <memory>
+#include <cstdint>
 
 #include "Player.h"
 #include "PlayerStill.h"
@@ -95,4 +96,8 @@ void Worms::Still::dynamite(Worms::Player &p){
 
 void Worms::Still::teleport(Worms::Player &p) {
     p.setWeapon(Worm::WeaponID::WTeleport);
+}
+
+void Worms::Still::baseballBat(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WBaseballBat);
 }

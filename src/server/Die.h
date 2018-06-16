@@ -6,6 +6,7 @@
 #ifndef __DIE_H__
 #define __DIE_H__
 
+#include <cstdint>
 #include "Config.h"
 #include "PlayerState.h"
 
@@ -30,6 +31,7 @@ class Die : public State {
     void holy(Player &p) override;
     void aerialAttack(Player &p) override;
     void dynamite(Player &p) override;
+    void baseballBat(Player &p) override;
     void teleport(Player &p) override;
 
     void startShot(Player &p) override;

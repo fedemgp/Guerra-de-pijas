@@ -45,6 +45,8 @@ Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr,
             this->animation = GUI::Animation(this->texture_mgr.get(GUI::GameTextures::AirMissile),
                                              false, MISSILE_0_DEG_FRAME, false);
             break;
+        case Worm::WeaponID::WBaseballBat:
+            break;
         case Worm::WeaponID::WTeleport:
             break;
         case Worm::WeaponID::WExplode:

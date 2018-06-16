@@ -90,3 +90,7 @@ IO::PlayerInput Worm::BackFlip::dynamite(Worm &w){
 IO::PlayerInput Worm::BackFlip::teleport(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
