@@ -74,3 +74,19 @@ IO::PlayerInput Worm::StartJump::holy(Worm &w) {
 IO::PlayerInput Worm::StartJump::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::StartJump::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::StartJump::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::StartJump::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::StartJump::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

@@ -5,11 +5,12 @@
 
 #include "Cluster.h"
 
+#define CONFIG Game::Config::getInstance()
+
 Weapon::Cluster::Cluster(float angle)
-    : Worms::Weapon(Game::Config::getInstance().getClusterConfig(), Worm::WeaponID::WCluster,
-                    angle),
-      fragmentConfig(Game::Config::getInstance().getClusterFragmentConfig()) {
-    this->powerChargeTime = Game::Config::getInstance().getPowerChargeTime();
+    : Worms::Weapon(CONFIG.getClusterConfig(), Worm::WeaponID::WCluster, angle),
+      fragmentConfig(CONFIG.getClusterFragmentConfig()) {
+    this->powerChargeTime = CONFIG.getPowerChargeTime();
 }
 
 void Weapon::Cluster::update(float dt) {
@@ -35,7 +36,7 @@ void Weapon::Cluster::setTimeout(uint8_t time) {
 
 std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBullet,
                                                     Worms::Physics &physics) {
-    uint8_t fragmentQuantity = Game::Config::getInstance().getClusterFragmentQuantity();
+    uint8_t fragmentQuantity = CONFIG.getClusterFragmentQuantity();
     Math::Point<float> p = mainBullet.getPosition();
     Worms::BulletInfo bulletInfo = {this->fragmentConfig.dmgInfo,
                                     p,

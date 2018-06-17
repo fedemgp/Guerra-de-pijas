@@ -65,3 +65,9 @@ void Worms::Hit::banana(Worms::Player &p) {}
 void Worms::Hit::holy(Worms::Player &p) {}
 
 void Worms::Hit::setTimeout(Worms::Player &p, uint8_t time) {}
+
+void Worms::Hit::aerialAttack(Worms::Player &p) {}
+
+void Worms::Hit::dynamite(Worms::Player &p){}
+
+void Worms::Hit::teleport(Worms::Player &p) {}

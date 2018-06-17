@@ -6,12 +6,14 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
+#include "AerialAttack.h"
 #include "Banana.h"
 #include "Bazooka.h"
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drowning.h"
+#include "Dynamite.h"
 #include "Falling.h"
 #include "Girder.h"
 #include "Grenade.h"
@@ -31,6 +33,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
+#include "AerialAttack.h"
+#include "Teleport.h"
+#include "Teleporting.h"
+#include "Teleported.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -240,6 +246,16 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
             break;
         case IO::PlayerInput::positionSelected:
             this->weapon->positionSelected(*this, pi.position);
+            break;
+        case IO::PlayerInput::aerialAttack:
+            this->state->aerialAttack(*this);
+            break;
+        case IO::PlayerInput::dynamite:
+            this->state->dynamite(*this);
+            break;
+        case IO::PlayerInput::teleport:
+            this->state->teleport(*this);
+            break;
     }
 }
 
@@ -278,6 +294,12 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 break;
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
+                break;
+            case Worm::StateID::Teleporting:
+                this->state = std::shared_ptr<State>(new Teleporting(this->teleportPosition));
+                break;
+            case Worm::StateID::Teleported:
+                this->state = std::shared_ptr<State>(new Teleported());
                 break;
             case Worm::StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
@@ -318,8 +340,10 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
             float xImpactDirection = (positionToEpicenter.x > 0) - (positionToEpicenter.x < 0);
             float yImpactDirection = (positionToEpicenter.y > 0) - (positionToEpicenter.y < 0);
             float32 mass = this->body->GetMass();
-            b2Vec2 impulses = {mass * float32(inflictedDamage) * xImpactDirection,
-                               mass * float32(inflictedDamage) * yImpactDirection};
+            b2Vec2 impulses = {
+                mass * float32(inflictedDamage) * xImpactDirection * damageInfo.impulseDampingRatio,
+                mass * float32(inflictedDamage) * yImpactDirection *
+                    damageInfo.impulseDampingRatio};
             b2Vec2 position = this->body->GetWorldCenter();
             this->body->ApplyLinearImpulse(impulses, position, true);
             this->notify(*this, Event::Hit);
@@ -361,6 +385,15 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
             case Worm::WeaponID::WHoly:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
                 break;
+            case Worm::WeaponID::WAerial:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
+                break;
+            case Worm::WeaponID::WDynamite:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+                break;
+            case Worm::WeaponID::WTeleport:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
+                break;
             case Worm::WeaponID::WNone:
                 break;
             case Worm::WeaponID::WExplode:
@@ -399,6 +432,11 @@ void Worms::Player::endShot() {
     }
     this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
     this->weapon->endShot();
+    this->notify(*this, Event::Shot);
+}
+
+void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
+    this->bullets = std::move(bullets);
     this->notify(*this, Event::Shot);
 }
 
@@ -480,4 +518,8 @@ std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &phys
 void Worms::Player::reset() {
     this->weapon->endShot();
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
+}
+
+Worms::Physics &Worms::Player::getPhysics() {
+    return this->physics;
 }

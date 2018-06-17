@@ -65,3 +65,9 @@ void Worms::Sliding::banana(Worms::Player &p) {}
 void Worms::Sliding::holy(Worms::Player &p) {}
 
 void Worms::Sliding::setTimeout(Worms::Player &p, uint8_t time) {}
+
+void Worms::Sliding::aerialAttack(Worms::Player &p) {}
+
+void Worms::Sliding::dynamite(Worms::Player &p) {}
+
+void Worms::Sliding::teleport(Worms::Player &p) {}

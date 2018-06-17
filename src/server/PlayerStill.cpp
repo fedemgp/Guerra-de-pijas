@@ -84,3 +84,15 @@ void Worms::Still::holy(Worms::Player &p) {
 void Worms::Still::setTimeout(Worms::Player &p, uint8_t time) {
     p.setWeaponTimeout(time);
 }
+
+void Worms::Still::aerialAttack(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WAerial);
+}
+
+void Worms::Still::dynamite(Worms::Player &p){
+    p.setWeapon(Worm::WeaponID::WDynamite);
+}
+
+void Worms::Still::teleport(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WTeleport);
+}

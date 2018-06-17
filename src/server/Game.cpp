@@ -290,6 +290,10 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
+        case Event::Teleported: {
+            this->gameClock.playerShot();
+            this->currentPlayerShot = true;
+        }
         case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
             break;

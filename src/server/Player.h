@@ -31,6 +31,7 @@ class Player : public PhysicsEntity {
     Direction direction{Direction::left};
     Direction lastWalkDirection;
     float health{0};
+    Math::Point<float> teleportPosition{0.0f, 0.0f};
 
     explicit Player(Physics &physics);
     ~Player();
@@ -95,6 +96,7 @@ class Player : public PhysicsEntity {
     uint8_t getTeam() const;
     void setId(uint8_t id);
     uint8_t getId() const;
+    Physics &getPhysics();
     void setWeaponTimeout(uint8_t time);
     /**
      * Moves the bullets to the caller (the Game)
@@ -114,6 +116,8 @@ class Player : public PhysicsEntity {
     bool operator!=(const Player &other);
     bool operator==(const Player &other);
 
+    void endShot(std::list<Worms::Bullet> &bullets);
+
    private:
     b2Body *createBody(b2BodyType type);
 
@@ -128,7 +132,6 @@ class Player : public PhysicsEntity {
     uint8_t team;
     uint8_t id;
     std::list<Bullet> bullets;
-    bool removeBullets{false};
     b2Vec2 lastGroundNormal{0.0f, 0.0f};
 };
 }  // namespace Worms

@@ -69,3 +69,19 @@ IO::PlayerInput Worm::Sliding::holy(Worm &w) {
 IO::PlayerInput Worm::Sliding::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Sliding::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Sliding::dynamite(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Sliding::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Sliding::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

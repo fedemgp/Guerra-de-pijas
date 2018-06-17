@@ -69,21 +69,29 @@ void GUI::Animation::reset() {
 }
 
 void GUI::Animation::advanceFrame() {
-    if (this->playReversed) {
-        if (this->currentFrame == 0 && this->step < 0) {
-            this->step = 1;
-        } else if (this->currentFrame == this->numFrames - 1 && this->step > 0) {
-            this->step = -1;
+    if (!this->playInverse) {
+        if (this->playReversed) {
+            if (this->currentFrame == 0 && this->step < 0) {
+                this->step = 1;
+            } else if (this->currentFrame == this->numFrames - 1 && this->step > 0) {
+                this->step = -1;
+            }
         }
-    }
 
-    if (this->playOnce &&
-        this->currentFrame == this->numFrames - 1) {  // Por ahora ignora el playReversed
-        this->animationFinished = true;
-    }
+        if (this->playOnce &&
+            this->currentFrame == this->numFrames - 1) {  // Por ahora ignora el playReversed
+            this->animationFinished = true;
+        }
 
-    if (!this->animationFinished) {
-        this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
+        if (!this->animationFinished) {
+            this->currentFrame = (this->currentFrame + this->step) % this->numFrames;
+        }
+    } else {
+        if (this->currentFrame == 0) {
+            this->animationFinished = true;
+        } else {
+            this->currentFrame -= 1;
+        }
     }
 }
 
@@ -107,4 +115,13 @@ void GUI::Animation::setAnimateOnce() {
 
 bool GUI::Animation::finished() {
     return this->animationFinished;
+}
+
+void GUI::Animation::setAutoUpdate(bool autoUpdate) {
+    this->autoUpdate = autoUpdate;
+}
+
+void GUI::Animation::setPlayInverse() {
+    this->playInverse = true;
+    this->currentFrame = this->numFrames - 1;
 }

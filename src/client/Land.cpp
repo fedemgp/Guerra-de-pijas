@@ -73,3 +73,19 @@ IO::PlayerInput Worm::Land::holy(Worm &w) {
 IO::PlayerInput Worm::Land::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Land::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Land::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Land::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Land::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

@@ -74,3 +74,19 @@ IO::PlayerInput Worm::BackFlip::holy(Worm &w) {
 IO::PlayerInput Worm::BackFlip::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::BackFlip::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::dynamite(Worm &w){
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::BackFlip::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
