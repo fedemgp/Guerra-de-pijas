@@ -32,6 +32,7 @@ class StartJump : public State {
     virtual IO::PlayerInput holy(Worm &w) override;
     virtual IO::PlayerInput aerialAttack(Worm &w) override;
     virtual IO::PlayerInput dynamite(Worm &w) override;
+    virtual IO::PlayerInput baseballBat(Worm &w) override;
     virtual IO::PlayerInput teleport(Worm &w) override;
     virtual IO::PlayerInput positionSelected(Worm &w) override;
 

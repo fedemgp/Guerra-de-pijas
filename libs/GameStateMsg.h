@@ -48,7 +48,8 @@ enum WeaponID {
     WFragment,
     WAerial,
     WDynamite,
-    WTeleport
+    WTeleport,
+    WBaseballBat
 };
 }  // namespace Worm
 
@@ -78,7 +79,8 @@ enum class PlayerInput {
     positionSelected,
     aerialAttack,
     dynamite,
-    teleport
+    teleport,
+    baseballBat
 };
 
 struct PlayerMsg {

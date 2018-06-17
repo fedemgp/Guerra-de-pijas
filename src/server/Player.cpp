@@ -33,10 +33,10 @@
 #include "PlayerStill.h"
 #include "PlayerWalk.h"
 #include "Weapon.h"
-#include "AerialAttack.h"
 #include "Teleport.h"
 #include "Teleporting.h"
 #include "Teleported.h"
+#include "BaseballBat.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -253,6 +253,9 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::dynamite:
             this->state->dynamite(*this);
             break;
+        case IO::PlayerInput::baseballBat:
+            this->state->baseballBat(*this);
+            break;
         case IO::PlayerInput::teleport:
             this->state->teleport(*this);
             break;
@@ -353,6 +356,43 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
     }
 }
 
+void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info, Math::Point<float> shooterPosition,
+                                      Direction shooterDirection) {
+    if (this->getStateId() != Worm::StateID::Dead) {
+        if ((shooterDirection == Direction::right && this->getPosition().x - shooterPosition.x > 0)
+            || (shooterDirection == Direction::left && this->getPosition().x - shooterPosition.x < 0)) {
+            double distanceToTheWeapon = this->getPosition().distance(info.position);
+            if (distanceToTheWeapon <= info.dmgInfo.radius &&
+                distanceToTheWeapon > 0) {
+                this->body->SetType(b2_dynamicBody);
+                this->health -= info.dmgInfo.damage;
+                this->health = (this->health < 0) ? 0 : this->health;
+
+                float32 mass = this->body->GetMass();
+                Math::Point<float> direction{0, 0};
+                direction.x = info.dmgInfo.radius * cos(info.angle * PI / 180.0f);
+                direction.y = info.dmgInfo.radius * sin(info.angle * PI / 180.0f);
+                Math::Point<float> positionToShooter = this->getPosition() - shooterPosition;
+                float xImpactDirection = (positionToShooter.x > 0) - (positionToShooter.x < 0);
+                float yImpactDirection = (direction.y > 0) - (direction.y < 0);
+                b2Vec2 impulses = {mass * float32(info.dmgInfo.damage) *
+                                   direction.x *
+                                   xImpactDirection *
+                                   info.dmgInfo.impulseDampingRatio,
+                                   mass * float32(info.dmgInfo.damage) *
+                                   direction.y *
+                                   yImpactDirection *
+                                   info.dmgInfo.impulseDampingRatio};
+
+
+                this->body->ApplyLinearImpulse(impulses, this->body->GetWorldCenter(), true);
+                this->notify(*this, Event::Hit);
+                this->setState(Worm::StateID::Hit);
+            }
+        }
+    }
+}
+
 float Worms::Player::getWeaponAngle() const {
     return this->weapon->getAngle();
 }
@@ -369,30 +409,43 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
         switch (id) {
             case Worm::WeaponID::WBazooka:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WGrenade:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WCluster:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WMortar:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WBanana:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WHoly:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WAerial:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WDynamite:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+                this->isP2PWeapon = false;
+                break;
+            case Worm::WeaponID::WBaseballBat:
+                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(lastAngle));
+                this->isP2PWeapon = true;
                 break;
             case Worm::WeaponID::WTeleport:
                 this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
+                this->isP2PWeapon = false;
                 break;
             case Worm::WeaponID::WNone:
                 break;
@@ -417,22 +470,28 @@ void Worms::Player::startShot() {
 }
 
 void Worms::Player::endShot() {
-    Math::Point<float> position = this->getPosition();
-    float safeNonContactDistance =
-        sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) + (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-    BulletInfo info = this->weapon->getBulletInfo();
-    info.point = position;
-    info.safeNonContactDistance = safeNonContactDistance;
-    if (this->direction == Worms::Direction::right) {
-        if (info.angle < 0.0f) {
-            info.angle += 360.0f;
+    if (!this->isP2PWeapon){
+        Math::Point<float> position = this->getPosition();
+        float safeNonContactDistance =
+                sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
+                     (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+        BulletInfo info = this->weapon->getBulletInfo();
+        info.point = position;
+        info.safeNonContactDistance = safeNonContactDistance;
+        if (this->direction == Direction::right){
+            if (info.angle < 0.0f){
+                info.angle += 360.0f;
+            }
+        } else{
+            info.angle = 180.0f - info.angle;
         }
+        this->bullets.emplace_back(info, this->physics,
+                                   this->weapon->getWeaponID());
+        this->weapon->endShot();
+        this->notify(*this, Event::Shot);
     } else {
-        info.angle = 180.0f - info.angle;
+        this->notify(*this, Event::P2PWeaponUsed);
     }
-    this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
-    this->weapon->endShot();
-    this->notify(*this, Event::Shot);
 }
 
 void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
@@ -522,4 +581,8 @@ void Worms::Player::reset() {
 
 Worms::Physics &Worms::Player::getPhysics() {
     return this->physics;
+}
+
+const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const{
+    return this->weapon;
 }

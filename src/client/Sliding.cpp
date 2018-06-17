@@ -85,3 +85,7 @@ IO::PlayerInput Worm::Sliding::teleport(Worm &w) {
 IO::PlayerInput Worm::Sliding::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Sliding::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

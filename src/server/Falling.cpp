@@ -50,3 +50,5 @@ void Worms::Falling::aerialAttack(Worms::Player &p) {}
 void Worms::Falling::dynamite(Worms::Player &p){}
 
 void Worms::Falling::teleport(Worms::Player &p) {}
+
+void Worms::Falling::baseballBat(Worms::Player &p) {}

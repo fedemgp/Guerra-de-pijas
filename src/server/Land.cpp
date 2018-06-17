@@ -59,3 +59,5 @@ void Worms::Land::aerialAttack(Worms::Player &p) {}
 void Worms::Land::dynamite(Worms::Player &p){}
 
 void Worms::Land::teleport(Worms::Player &p) {}
+
+void Worms::Land::baseballBat(Worms::Player &p) {}

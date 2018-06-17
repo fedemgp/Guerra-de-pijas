@@ -76,3 +76,5 @@ void Worms::Jumping::aerialAttack(Worms::Player &p) {}
 void Worms::Jumping::dynamite(Worms::Player &p){}
 
 void Worms::Jumping::teleport(Worms::Player &p) {}
+
+void Worms::Jumping::baseballBat(Worms::Player &p) {}

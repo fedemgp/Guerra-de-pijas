@@ -89,3 +89,7 @@ IO::PlayerInput Worm::Land::dynamite(Worm &w){
 IO::PlayerInput Worm::Land::teleport(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Land::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

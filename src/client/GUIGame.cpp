@@ -104,6 +104,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Dynamite, "assets/img/Weapons/dynamite.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBat, "assets/img/Worms/wbsbaim.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBatting, "assets/img/Worms/wbsbswn.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::WormTeleport, "assets/img/Worms/wteltlk.png",
                            GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::WormTeleporting, "assets/img/Worms/wteldsv.png",
@@ -123,6 +127,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
     this->texture_mgr.load(GUI::GameTextures::AirIcon, "assets/img/Weapon Icons/airstrke.1.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::DynamiteIcon, "assets/img/Weapon Icons/dynamite.1.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BaseballBatIcon, "assets/img/Weapon Icons/baseball.1.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::TeleportIcon, "assets/img/Weapon Icons/teleport.1.png",
                            GUI::Color{0x00, 0x00, 0x00});

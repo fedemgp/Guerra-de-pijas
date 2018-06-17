@@ -56,7 +56,10 @@ enum class GameTextures {
     DynamiteIcon,
     WormTeleport,
     WormTeleporting,
-    TeleportIcon
+    TeleportIcon,
+    WormBaseballBat,
+    WormBaseballBatting,
+    BaseballBatIcon
 };
 
 /** Specialized TextureManager class. */

@@ -23,6 +23,7 @@ class Sliding : public State {
     void holy(Player &p) override;
     void aerialAttack(Player &p) override;
     void dynamite(Player &p) override;
+    void baseballBat(Player &p) override;
     void teleport(Player &p) override;
 
     void startShot(Player &p) override;

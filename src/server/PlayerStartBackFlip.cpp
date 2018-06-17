@@ -72,3 +72,5 @@ void Worms::StartBackFlip::aerialAttack(Worms::Player &p) {}
 void Worms::StartBackFlip::dynamite(Worms::Player &p){}
 
 void Worms::StartBackFlip::teleport(Worms::Player &p) {}
+
+void Worms::StartBackFlip::baseballBat(Worms::Player &p) {}

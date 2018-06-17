@@ -2,6 +2,8 @@
 #define TOUCH_SENSOR_H_
 
 #include <unordered_map>
+#include <vector>
+
 #include "Physics.h"
 #include "PhysicsEntity.h"
 

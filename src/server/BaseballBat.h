@@ -1,0 +1,32 @@
+//
+// Created by rodrigo on 16/06/18.
+//
+
+#ifndef INC_4_WORMS_BASEBALLBAT_H
+#define INC_4_WORMS_BASEBALLBAT_H
+
+
+#include "Weapon.h"
+
+namespace Weapon {
+    class BaseballBat : public Worms::Weapon {
+    public:
+        BaseballBat(float angle);
+        ~BaseballBat() = default;
+        void update(float dt) override;
+        void startShot(Worms::Player *player) override;
+        void endShot() override;
+        void setTimeout(uint8_t time) override;
+        std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
+                                           Worms::Physics &physics) override;
+        void positionSelected(Worms::Player &p, Math::Point<float> point) override;
+        Game::Weapon::P2PWeaponInfo& getWeaponInfo();
+
+    private:
+        Game::Weapon::P2PWeaponInfo weaponInfo;
+    };
+}  // namespace Weapon
+
+
+#endif //INC_4_WORMS_BASEBALLBAT_H
+
