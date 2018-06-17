@@ -20,6 +20,7 @@ enum class GameTextures {
     Fly,
     Die,
     Dead,
+    Sliding,
     StaticBackground,
     Background1,
     Background2,

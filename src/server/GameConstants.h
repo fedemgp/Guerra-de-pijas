@@ -8,8 +8,8 @@
 // Jumping
 #define START_JUMP_TIME 0.6f
 #define JUMP_LAND_TIME 0.3f
-#define JUMP_VEL_X 2.0f
-#define JUMP_VEL_Y 6.0f
+#define JUMP_VEL_X 4.0f
+#define JUMP_VEL_Y 7.0f
 #define BACKFLIP_VEL_X (-1.2f)
 #define BACKFLIP_VEL_Y 9.4f
 // Moving

@@ -31,7 +31,8 @@ enum class StateID {
     Dead,
     Drowning,
     Falling,
-    Land
+    Land,
+    Sliding,
 };
 enum WeaponID { WNone, WBazooka, WGrenade, WCluster, WMortar, WBanana, WHoly, WExplode, WFragment };
 }  // namespace Worm

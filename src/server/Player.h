@@ -30,7 +30,6 @@ class Player : public PhysicsEntity {
    public:
     Direction direction{Direction::left};
     Direction lastWalkDirection;
-    bool canWalk{true};
     float health{0};
 
     explicit Player(Physics &physics);
@@ -52,6 +51,9 @@ class Player : public PhysicsEntity {
      * @param newPos
      */
     void setPosition(const Math::Point<float> &newPos);
+    b2Vec2 getGroundNormal() const;
+    void startContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact);
+
     /**
      * @brief asks box2D from current position.
      * @return
@@ -127,6 +129,7 @@ class Player : public PhysicsEntity {
     uint8_t id;
     std::list<Bullet> bullets;
     bool removeBullets{false};
+    b2Vec2 lastGroundNormal{0.0f, 0.0f};
 };
 }  // namespace Worms
 

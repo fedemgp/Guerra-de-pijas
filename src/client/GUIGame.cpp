@@ -48,6 +48,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Die, "assets/img/Worms/wdie.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Sliding, "assets/img/Worms/wslided.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Dead, "assets/img/Misc/grave4.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::Missile, "assets/img/Weapons/missile.png",

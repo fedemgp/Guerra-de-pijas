@@ -20,6 +20,7 @@
 #include "Holy.h"
 #include "Land.h"
 #include "Mortar.h"
+#include "Sliding.h"
 #include "Text.h"
 #include "WeaponNone.h"
 #include "Worm.h"
@@ -194,6 +195,8 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
                                   DROWN_CENTER_FRAME, false};
         case StateID::Dead:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
+        case StateID::Sliding:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Sliding), true};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
@@ -258,6 +261,8 @@ void Worm::Worm::playSoundEffect(StateID state) {
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
             this->soundEffectPlayer->play();
             break;
+        case StateID::Sliding:
+            break;
     }
 }
 
@@ -311,6 +316,9 @@ void Worm::Worm::setState(StateID state) {
                 this->state = std::shared_ptr<State>(new Dead());
                 this->explosion = std::shared_ptr<Explosion>(new Explosion(this->texture_mgr));
                 this->explosion->position = this->position;
+                break;
+            case StateID::Sliding:
+                this->state = std::shared_ptr<State>(new Sliding());
                 break;
         }
     }

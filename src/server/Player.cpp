@@ -13,6 +13,7 @@
 #include "Die.h"
 #include "Drowning.h"
 #include "Falling.h"
+#include "Girder.h"
 #include "Grenade.h"
 #include "Hit.h"
 #include "Holy.h"
@@ -24,6 +25,7 @@
 #include "PlayerEndBackFlip.h"
 #include "PlayerEndJump.h"
 #include "PlayerJumping.h"
+#include "PlayerSliding.h"
 #include "PlayerStartBackFlip.h"
 #include "PlayerStartJump.h"
 #include "PlayerStill.h"
@@ -38,11 +40,14 @@ Worms::Player::Player(Physics &physics)
     this->body = this->createBody(b2_dynamicBody);
     this->body_kinematic = this->createBody(b2_kinematicBody);
 
-    b2PolygonShape shape;
-    shape.SetAsBox(PLAYER_WIDTH / 2, 0.2f, b2Vec2{0, -PLAYER_HEIGHT / 2}, 0);
+    /* creates the sensor as a circle */
+    b2CircleShape sensorShape;
+    sensorShape.m_radius = PLAYER_HEIGHT / 4;
+    sensorShape.m_p.Set(0.0f, -PLAYER_HEIGHT / 4 - 0.2);
 
     /* allocated in heap because it's address shouldn't change */
-    this->footSensor = new TouchSensor{*this->body, shape, -1};
+    this->footSensor = new TouchSensor{*this->body, sensorShape};
+    this->footSensor->ignore(*this);
 
     this->setState(Worm::StateID::Falling);
     this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
@@ -79,13 +84,22 @@ bool Worms::Player::operator==(const Player &other) {
  * @param contact box2D collision contact.
  */
 void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
+    if (entity.getEntityId() == Worms::EntityID::EtGirder) {
+        Worms::Girder girder = dynamic_cast<Worms::Girder &>(entity);
+        if (std::abs(girder.angle) > PI / 4.0f) {
+            this->lastGroundNormal = contact.GetManifold()->localNormal;
+        } else {
+            this->lastGroundNormal = {0.0f, 0.1f};
+        }
+    }
+
     if (entity.getEntityId() != Worms::EntityID::EtWorm) {
         return;
     }
 
     /* checks if it's the player itself */
     if (&entity == this) {
-        /* checks if it's the kinematic and dynamic bodies cooliding */
+        /* checks if it's the kinematic and dynamic bodies colliding */
         if (contact.GetFixtureA()->GetBody()->GetType() !=
             contact.GetFixtureB()->GetBody()->GetType()) {
             contact.SetEnabled(false);
@@ -108,6 +122,17 @@ void Worms::Player::update(float dt) {
         }
         this->setState(Worm::StateID::Drowning);
         this->notify(*this, Event::Drowning);
+    } else if (this->isOnGround()) {
+        /* checks if the ground slope is too tilted */
+        try {
+            b2Vec2 normal = this->getGroundNormal();
+            float slope = std::abs(std::atan2(normal.y, normal.x));
+            if ((slope < PI / 4.0f) || (slope > (PI * 3.0f) / 4.0f)) {
+                this->setState(Worm::StateID::Sliding);
+                return;
+            }
+        } catch (const Exception &e) {
+        }
     }
 }
 
@@ -123,6 +148,22 @@ bool Worms::Player::isOnGround() const {
 void Worms::Player::setPosition(const Math::Point<float> &new_pos) {
     this->body->SetTransform(b2Vec2(new_pos.x, new_pos.y), body->GetAngle());
 }
+
+/**
+ * @brief Returns a unit vector with the direction normal to the floor where the player is standing.
+ *
+ * @return b2Vec2 Floor normal.
+ */
+b2Vec2 Worms::Player::getGroundNormal() const {
+    for (auto &contact : *this->footSensor) {
+        if (contact.first->getEntityId() == Worms::EntityID::EtGirder) {
+            return this->lastGroundNormal;
+        }
+    }
+    throw Exception{"No ground normal"};
+}
+
+void Worms::Player::startContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact) {}
 
 Math::Point<float> Worms::Player::getPosition() const {
     const b2Vec2 &pos = this->body->GetPosition();
@@ -251,6 +292,9 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Dead:
                 this->state = std::shared_ptr<State>(new Dead());
                 this->body->SetType(b2_staticBody);
+                break;
+            case Worm::StateID::Sliding:
+                this->state = std::shared_ptr<State>(new Sliding());
                 break;
         }
     }
@@ -399,19 +443,32 @@ void Worms::Player::landDamage(float yDistance) {
  * @return Created body.
  */
 b2Body *Worms::Player::createBody(b2BodyType type) {
+    /* the players consists of a rectangle as the upper part of the body and a cicle for the
+     * bottom */
     b2BodyDef bodyDef;
     bodyDef.type = type;
     bodyDef.position.Set(0.0f, 0.0f);
     bodyDef.fixedRotation = true;
     b2Body *new_body = this->physics.createBody(bodyDef);
+
     b2PolygonShape shape;
-    shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 2);
+    shape.SetAsBox(PLAYER_WIDTH / 2, PLAYER_HEIGHT / 4, b2Vec2{0.0f, PLAYER_HEIGHT / 4}, 0.0f);
+
+    /* creates the upper square */
     b2FixtureDef fixture;
     fixture.shape = &shape;
     fixture.density = 1.0f;
     fixture.restitution = 0.1f;
     fixture.friction = 1.0f;
     new_body->CreateFixture(&fixture);
+
+    /* creates the bottom circle */
+    b2CircleShape bottom;
+    bottom.m_radius = PLAYER_HEIGHT / 4;
+    bottom.m_p.Set(0.0f, -PLAYER_HEIGHT / 4);
+    fixture.shape = &bottom;
+    new_body->CreateFixture(&fixture);
+
     new_body->SetUserData(this);
     return new_body;
 }

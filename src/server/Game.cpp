@@ -50,21 +50,9 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
 
     /* sets the girders */
+    this->girders.reserve(this->stage.getGirders().size());
     for (auto &girder : this->stage.getGirders()) {
-        b2PolygonShape poly;
-
-        b2BodyDef bdef;
-        bdef.type = b2_staticBody;
-        bdef.position.Set(0.0f, 0.0f);
-        b2Body *staticBody = this->physics.createBody(bdef);
-
-        b2FixtureDef fixture;
-        fixture.density = 1;
-        fixture.shape = &poly;
-
-        poly.SetAsBox(girder.length / 2, girder.height / 2, b2Vec2(girder.pos.x, girder.pos.y),
-                      girder.angle * (PI / 180.0f));
-        staticBody->CreateFixture(&fixture);
+        this->girders.emplace_back(girder, this->physics);
     }
 
     this->currentWorm = this->teams.getCurrentPlayerID();

@@ -11,14 +11,16 @@
 #include "Subject.h"
 
 namespace Worms {
-enum EntityID { EtWorm, EtBullet, Sensor };
+enum EntityID { EtWorm, EtBullet, Sensor, EtGirder };
 class PhysicsEntity : public Subject {
    public:
     explicit PhysicsEntity(EntityID id);
 
     virtual EntityID getEntityId();
     virtual void startContact(Worms::PhysicsEntity *physicsEntity) {}
+    virtual void startContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact) {}
     virtual void endContact(Worms::PhysicsEntity *physicsEntity) {}
+    virtual void endContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact) {}
     virtual void contactWith(PhysicsEntity &physicsEntity, b2Contact &contact) {}
 
    private:

@@ -17,6 +17,7 @@
 #include "GameClock.h"
 #include "GameTeams.h"
 #include "GameTurn.h"
+#include "Girder.h"
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
@@ -55,6 +56,7 @@ class Game : Observer {
     uint8_t currentTeam{0};
     Physics physics;
     Stage stage;
+    std::vector<Girder> girders;
     std::vector<Player> players;
     const double maxTurnTime;
     bool processingClientInputs{true};
