@@ -3,14 +3,18 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "BaseballBat.h"
 
 Worm::BaseballBat::BaseballBat(const GUI::GameTextureManager &tex)
         : Weapon(tex, GUI::GameTextures::WormBaseballBat, BASEBALL_BAT_CENTER_FRAME, WeaponID::WBaseballBat),
           scope(this->textureMgr) {}
 
-void Worm::BaseballBat::update(float dt) {
+void Worm::BaseballBat::update(float dt) {std::cout<<"asd ";
     this->weaponAnimation.update(dt);
+    if (this->weaponAnimation.finished()) {
+        this->weaponAnimation = GUI::Animation(this->textureMgr.get(GUI::GameTextures::WormBaseballBat), false, this->centerFrame, false);
+    }
     this->scope.update(dt);
 }
 
@@ -28,8 +32,8 @@ void Worm::BaseballBat::startShot() {
 }
 
 void Worm::BaseballBat::endShot() {
-    this->weaponAnimation = GUI::Animation{this->textureMgr.get(GUI::GameTextures::WormBaseballBat)};
-    this->weaponAnimation.setAnimateOnce();
+    this->weaponAnimation = GUI::Animation{this->textureMgr.get(GUI::GameTextures::WormBaseballBatting)};
+    this->weaponAnimation.setAnimateOnce();std::cout<<"baseball\n";
 }
 
 bool Worm::BaseballBat::positionSelected() {

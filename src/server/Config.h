@@ -134,7 +134,7 @@ class Config {
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{
-        Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
         BAZOOKA_MIN_ANGLE,
         BAZOOKA_MAX_ANGLE,
         ANGLE_STEP,
@@ -144,9 +144,9 @@ class Config {
         BAZOOKA_INITIAL_TIMEOUT,
         false,
         BAZOOKA_BULLET_RADIUS,
-        BAZOOKA_DUMPING_RATIO};
+        BAZOOKA_DAMPING_RATIO};
     Weapon::Config greenGrenade{
-        Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
         GRENADE_MIN_ANGLE,
         GRENADE_MAX_ANGLE,
         ANGLE_STEP,
@@ -156,10 +156,10 @@ class Config {
         GRENADE_INITIAL_TIMEOUT,
         false,
         GRENADE_BULLET_RADIUS,
-        GRENADE_DUMPING_RATIO};
+        GRENADE_DAMPING_RATIO};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
     Weapon::Config clusterFragments{
-        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_FRAGMENT_MIN_ANGLE,
         CLUSTER_FRAGMENT_MAX_ANGLE,
         CLUSTER_FRAGMENT_ANGLE_STEP,
@@ -169,9 +169,9 @@ class Config {
         CLUSTER_FRAGMENT_TIMEOUT,
         false,
         CLUSTER_FRAGMENT_BULLET_RADIUS,
-        CLUSTER_FRAGMENT_DUMPING_RATIO};
+        CLUSTER_FRAGMENT_DAMPING_RATIO};
     Weapon::Config cluster{
-        Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_MIN_ANGLE,
         CLUSTER_MAX_ANGLE,
         ANGLE_STEP,
@@ -181,9 +181,9 @@ class Config {
         CLUSTER_INITIAL_TIMEOUT,
         true,
         CLUSTER_BULLET_RADIUS,
-        CLUSTER_DUMPING_RATIO};
+        CLUSTER_DAMPING_RATIO};
     Weapon::Config mortarFragments{
-        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
         MORTAR_FRAGMENT_MAX_ANGLE,
         MORTAR_FRAGMENT_ANGLE_STEP,
@@ -193,9 +193,9 @@ class Config {
         MORTAR_FRAGMENT_TIMEOUT,
         false,
         MORTAR_FRAGMENT_BULLET_RADIUS,
-        MORTAR_FRAGMENT_DUMPING_RATIO};
+        MORTAR_FRAGMENT_DAMPING_RATIO};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DUMPING_RATIO},
+    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
                           MORTAR_MIN_ANGLE,
                           MORTAR_MAX_ANGLE,
                           ANGLE_STEP,
@@ -205,8 +205,8 @@ class Config {
                           MORTAR_INITIAL_TIMEOUT,
                           true,
                           MORTAR_BULLET_RADIUS,
-                          MORTAR_DUMPING_RATIO};
-    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DUMPING_RATIO},
+                          MORTAR_DAMPING_RATIO};
+    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
                           BANANA_MIN_ANGLE,
                           BANANA_MAX_ANGLE,
                           ANGLE_STEP,
@@ -216,8 +216,8 @@ class Config {
                           BANANA_INITIAL_TIMEOUT,
                           false,
                           BANANA_BULLET_RADIUS,
-                          BANANA_DUMPING_RATIO};
-    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DUMPING_RATIO},
+                          BANANA_DAMPING_RATIO};
+    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
                         HOLY_MIN_ANGLE,
                         HOLY_MAX_ANGLE,
                         ANGLE_STEP,
@@ -227,11 +227,11 @@ class Config {
                         HOLY_INITIAL_TIMEOUT,
                         false,
                         HOLY_BULLET_RADIUS,
-                        HOLY_DUMPING_RATIO};
+                        HOLY_DAMPING_RATIO};
     uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
     float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
     Weapon::Config aerialAttack{
-        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
         AERIAL_ATTACK_MIN_ANGLE,
         AERIAL_ATTACK_MAX_ANGLE,
         AERIAL_ATTACK_ANGLE_STEP,
@@ -241,10 +241,10 @@ class Config {
         AERIAL_ATTACK_TIMEOUT,
         false,
         AERIAL_ATTACK_BULLET_RADIUS,
-        AERIAL_ATTACK_DUMPING_RATIO};
+        AERIAL_ATTACK_DAMPING_RATIO};
     const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
     Weapon::Config dynamite{
-        Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DUMPING_RATIO},
+        Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
         DYNAMITE_MIN_ANGLE,
         DYNAMITE_MAX_ANGLE,
         ANGLE_STEP,
@@ -254,9 +254,9 @@ class Config {
         DYNAMITE_INITIAL_TIMEOUT,
         false,
         DYNAMITE_BULLET_RADIUS,
-        DYNAMITE_DUMPING_RATIO};
+        DYNAMITE_DAMPING_RATIO};
     Weapon::Config teleport{
-            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DUMPING_RATIO},
+            Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
             AERIAL_ATTACK_MIN_ANGLE,
             AERIAL_ATTACK_MAX_ANGLE,
             AERIAL_ATTACK_ANGLE_STEP,
@@ -266,9 +266,9 @@ class Config {
             AERIAL_ATTACK_TIMEOUT,
             false,
             AERIAL_ATTACK_BULLET_RADIUS,
-            AERIAL_ATTACK_DUMPING_RATIO};
+            AERIAL_ATTACK_DAMPING_RATIO};
     Weapon::Config baseballBat {
-            Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS, BASEBALL_IMPULSE_DUMPING_RATIO},
+            Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS, BASEBALL_IMPULSE_DAMPING_RATIO},
             BASEBALL_BAT_MIN_ANGLE,
             BASEBALL_BAT_MAX_ANGLE,
             ANGLE_STEP,
@@ -278,7 +278,7 @@ class Config {
             BASEBALL_BAT_INITIAL_TIMEOUT,
             false,
             BASEBALL_BAT_BULLET_RADIUS,
-            BASEBALL_BAT_DUMPING_RATIO
+            BASEBALL_BAT_DAMPING_RATIO
     };
 };
 

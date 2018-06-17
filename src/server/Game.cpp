@@ -292,6 +292,10 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::P2PWeaponUsed: {
             auto  &player = dynamic_cast<const Worms::Player &>(subject);
             const std::shared_ptr<Worms::Weapon> weapon = player.getWeapon();
+            this->gameClock.playerShot();
+            this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
+            this->currentPlayerShot = true;
+            this->gameTurn.explosion();
             this->calculateDamage(weapon, player.getPosition(), player.direction);
             break;
         }
