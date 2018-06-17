@@ -23,11 +23,11 @@ Worms::Stage::Stage() {
     this->girders.push_back(GirderData{7, 1.42f, 0.0f, Math::Point<float>{5.0f, 2.0f}});
     this->girders.push_back(GirderData{13.4f, 1.42f, 0.0f, Math::Point<float>{30.0f, 15.0f}});
     this->girders.push_back(GirderData{13.4f, 1.42f, 0.0f, Math::Point<float>{11.0f, 2.0f}});
-    this->girders.push_back(GirderData{4.0f, 1.42f, -45.0f, Math::Point<float>{15.0f, 10.0f}});
+    this->girders.push_back(GirderData{6.0f, 1.42f, 45.0f, Math::Point<float>{21.5f, 13.0f}});
     this->girders.push_back(GirderData{8.0f, 1.42f, -30.0f, Math::Point<float>{40.0f, 13.0f}});
     this->girders.push_back(GirderData{8.0f, 1.42f, -46.0f, Math::Point<float>{7.5f, 11.0f}});
     this->girders.push_back(GirderData{10.0f, 1.42f, -60.0f, Math::Point<float>{57.0f, 6.0f}});
-    this->girders.push_back(GirderData{10.0f, 1.42f, -46.0f, Math::Point<float>{61.5f, 0.0f}});
+    this->girders.push_back(GirderData{10.0f, 1.42f, -44.0f, Math::Point<float>{61.5f, 0.0f}});
 }
 
 const std::vector<Worms::WormData>& Worms::Stage::getWorms() const {
