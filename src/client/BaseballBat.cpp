@@ -2,6 +2,7 @@
 // Created by rodrigo on 16/06/18.
 //
 
+#include <cmath>
 #include "BaseballBat.h"
 
 Worm::BaseballBat::BaseballBat(const GUI::GameTextureManager &tex)

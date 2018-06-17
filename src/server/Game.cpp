@@ -17,6 +17,7 @@
 #include "ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
+#include "BaseballBat.h"
 
 #define TIME_STEP (1.0f / 60.0f)
 
@@ -288,6 +289,12 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->calculateDamage(bullet);
             break;
         }
+        case Event::P2PWeaponUsed: {
+            auto  &player = dynamic_cast<const Worms::Player &>(subject);
+            const std::shared_ptr<Worms::Weapon> weapon = player.getWeapon();
+            this->calculateDamage(weapon);
+            break;
+        }
         /**
          * onExplode will create new Bullets in player's container, and we
          * need to listen to them.
@@ -385,6 +392,21 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }
-    //    this->players[this->currentWorm].cleanBullets();
+    this->removeBullets = true;
+}
+/**
+ * @brief calculate damage for p2p weapons. Because the only one is the
+ * baseball bat and because we are running out of time, there will be
+ * a cast to a baseballWeapon.
+ * TODO make a class between weapon and baseballBat, that represents a
+ * p2pWeapon.
+ * @param weapon
+ */
+void Worms::Game::calculateDamage(const std::shared_ptr<Worms::Weapon> weapon) {
+    auto *baseball = (::Weapon::BaseballBat *)  weapon.get();
+    ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
+    for (auto &worm : this->players) {
+        worm.acknowledgeDamage(weaponInfo);
+    }
     this->removeBullets = true;
 }

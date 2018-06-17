@@ -20,8 +20,13 @@ namespace Weapon {
         std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
                                            Worms::Physics &physics) override;
         void positionSelected(Worms::Player &p, Math::Point<float> point) override;
+        Game::Weapon::P2PWeaponInfo& getWeaponInfo();
+
+    private:
+        Game::Weapon::P2PWeaponInfo weaponInfo;
     };
 }  // namespace Weapon
 
 
 #endif //INC_4_WORMS_BASEBALLBAT_H
+

@@ -7,13 +7,17 @@
 
 Weapon::BaseballBat::BaseballBat(float angle)
         : Worms::Weapon(Game::Config::getInstance().getBaseballBatConfig(), Worm::WeaponID::WBaseballBat,
-                        angle) {
+                        angle), weaponInfo{this->config.dmgInfo,
+                                           Worms::Direction::left, {0,0}}{
 }
 
 void Weapon::BaseballBat::update(float dt) {
 }
 
 void Weapon::BaseballBat::startShot(Worms::Player *player) {
+    this->weaponInfo.position = player->getPosition();
+    this->weaponInfo.direction = player->direction;
+    this->weaponInfo.angle = this->angle;
 }
 
 void Weapon::BaseballBat::endShot() {
@@ -27,3 +31,7 @@ std::list<Worms::Bullet> Weapon::BaseballBat::onExplode(const Worms::Bullet &mai
 }
 
 void Weapon::BaseballBat::positionSelected(Worms::Player &p, Math::Point<float> point) {}
+
+Game::Weapon::P2PWeaponInfo& Weapon::BaseballBat::getWeaponInfo(){
+    return this->weaponInfo;
+}

@@ -6,6 +6,8 @@
 #ifndef __GAMECONFIG_H__
 #define __GAMECONFIG_H__
 
+
+
 #include <stdint.h>
 
 #include "GameConstants.h"
@@ -13,6 +15,10 @@
 
 namespace Math {
 using Vector = Math::Point<float>;
+}
+
+namespace Worms{
+    enum class Direction { right, left, up, down };
 }
 
 namespace Game {
@@ -39,6 +45,13 @@ struct Config {
     float bulletRadius;
     float bulletDampingRatio;
 };
+
+    struct P2PWeaponInfo{
+        Bullet::DamageInfo dmgInfo;
+        Worms::Direction direction;
+        Math::Point<float> position;
+        float angle;
+    };
 }  // namespace Weapon
 
 /**
@@ -255,7 +268,7 @@ class Config {
             AERIAL_ATTACK_BULLET_RADIUS,
             AERIAL_ATTACK_DUMPING_RATIO};
     Weapon::Config baseballBat {
-            Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS, IMPULSE_DUMPING_RATIO},
+            Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS, BASEBALL_IMPULSE_DUMPING_RATIO},
             BASEBALL_BAT_MIN_ANGLE,
             BASEBALL_BAT_MAX_ANGLE,
             ANGLE_STEP,

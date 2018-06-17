@@ -43,7 +43,21 @@ class Game : Observer {
     void start();
     IO::GameStateMsg serialize() const;
     void onNotify(Subject &subject, Event event) override;
+    /**
+     * @brief calculates damage for weapons that throw bullets. It gives
+     * information of the bullet to all players so them can calculate his damage
+     * and apply an impulse if this was hitted.
+     * @param bullet
+     */
     void calculateDamage(const Bullet &bullet);
+    /**
+     * @brief calculates damage for p2p weapons (baseball). It gives
+     * information of the weapon (direction, point and damageInfo) to the
+     * players so that they can calculate his damage and apply an impulse if
+     * this was hitted.
+     * @param weapon
+     */
+    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon);
     void exit();
     void endTurn();
 
