@@ -292,7 +292,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::P2PWeaponUsed: {
             auto  &player = dynamic_cast<const Worms::Player &>(subject);
             const std::shared_ptr<Worms::Weapon> weapon = player.getWeapon();
-            this->calculateDamage(weapon);
+            this->calculateDamage(weapon, player.getPosition(), player.direction);
             break;
         }
         /**
@@ -402,11 +402,11 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
  * p2pWeapon.
  * @param weapon
  */
-void Worms::Game::calculateDamage(const std::shared_ptr<Worms::Weapon> weapon) {
+void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition, Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)  weapon.get();
     ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
-        worm.acknowledgeDamage(weaponInfo);
+        worm.acknowledgeDamage(weaponInfo, shooterPosition, shooterDirection);
     }
     this->removeBullets = true;
 }

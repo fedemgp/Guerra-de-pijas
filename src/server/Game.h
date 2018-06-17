@@ -57,7 +57,7 @@ class Game : Observer {
      * this was hitted.
      * @param weapon
      */
-    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon);
+    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition, Direction shooterDirection);
     void exit();
     void endTurn();
 

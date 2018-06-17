@@ -312,32 +312,39 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
     }
 }
 
-void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info){
+void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info, Math::Point<float> shooterPosition,
+                                      Direction shooterDirection) {
     if (this->getStateId() != Worm::StateID::Dead) {
-        double distanceToTheWeapon = this->getPosition().distance(info.position);
-        if (distanceToTheWeapon <= info.dmgInfo.radius &&
-                distanceToTheWeapon > 0){
-            this->body->SetType(b2_dynamicBody);
-            this->health -= info.dmgInfo.damage;
-            this->health = (this->health < 0) ? 0 : this->health;
+        if ((shooterDirection == Direction::right && this->getPosition().x - shooterPosition.x > 0)
+            || (shooterDirection == Direction::left && this->getPosition().x - shooterPosition.x < 0)) {
+            double distanceToTheWeapon = this->getPosition().distance(info.position);
+            if (distanceToTheWeapon <= info.dmgInfo.radius &&
+                distanceToTheWeapon > 0) {
+                this->body->SetType(b2_dynamicBody);
+                this->health -= info.dmgInfo.damage;
+                this->health = (this->health < 0) ? 0 : this->health;
 
-            float32 mass = this->body->GetMass();
-            Math::Point<float> direction{0,0};
-            direction.x = info.dmgInfo.radius * cos(info.angle * PI / 180.0f);
-            direction.y = info.dmgInfo.radius * sin(info.angle * PI / 180.0f);
-            float xImpactDirection = (direction.x > 0) - (direction.x < 0);
-            float yImpactDirection = (direction.y > 0) - (direction.y < 0);
-            b2Vec2 impulses = { mass * float32(info.dmgInfo.damage) *
-                                        xImpactDirection *
-                                        info.dmgInfo.impulseDampingRatio,
-                                mass * float32(info.dmgInfo.damage) *
-                                        yImpactDirection *
-                                        info.dmgInfo.impulseDampingRatio};
+                float32 mass = this->body->GetMass();
+                Math::Point<float> direction{0, 0};
+                direction.x = info.dmgInfo.radius * cos(info.angle * PI / 180.0f);
+                direction.y = info.dmgInfo.radius * sin(info.angle * PI / 180.0f);
+                Math::Point<float> positionToShooter = this->getPosition() - shooterPosition;
+                float xImpactDirection = (positionToShooter.x > 0) - (positionToShooter.x < 0);
+                float yImpactDirection = (direction.y > 0) - (direction.y < 0);
+                b2Vec2 impulses = {mass * float32(info.dmgInfo.damage) *
+                                   direction.x *
+                                   xImpactDirection *
+                                   info.dmgInfo.impulseDampingRatio,
+                                   mass * float32(info.dmgInfo.damage) *
+                                   direction.y *
+                                   yImpactDirection *
+                                   info.dmgInfo.impulseDampingRatio};
 
 
-            this->body->ApplyLinearImpulse(impulses, this->body->GetWorldCenter(), true);
-            this->notify(*this, Event::Hit);
-            this->setState(Worm::StateID::Hit);
+                this->body->ApplyLinearImpulse(impulses, this->body->GetWorldCenter(), true);
+                this->notify(*this, Event::Hit);
+                this->setState(Worm::StateID::Hit);
+            }
         }
     }
 }
