@@ -6,20 +6,25 @@
 #define INC_4_WORMS_LOBBIES_H
 
 
+#include <mutex>
 #include <vector>
+
+#include "GamesGetter.h"
 #include "Lobby.h"
 
 namespace Worms {
     class Lobbies {
     public:
-        Lobbies();
+        Lobbies() = default;
 
         void createGame(int playerID);
-        const std::vector<Lobby> & getGames();
+        void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID);
 
     private:
+        std::mutex mutex;
         std::vector<Lobby> lobbies;
+        uint8_t idLobby{0};
     };
 }
 

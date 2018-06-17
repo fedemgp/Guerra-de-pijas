@@ -7,6 +7,8 @@
 
 
 #include <Protocol.h>
+#include <sstream>
+
 #include "Thread.h"
 #include "Lobbies.h"
 
@@ -22,7 +24,7 @@ namespace Worms {
         Protocol protocol;
         Lobbies &lobbies;
         int id;
-
+        void clearScreen();
         void createGame();
         void getGames();
         void joinGame();
