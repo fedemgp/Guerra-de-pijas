@@ -45,7 +45,6 @@ void GUI::Animation::update(float dt) {
             this->elapsed -= this->frameRate;
         }
     }
-    std::cout<<this->currentFrame<<std::endl;
 }
 
 /**
