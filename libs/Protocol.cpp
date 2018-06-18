@@ -6,7 +6,7 @@
 #include "Protocol.h"
 
 Protocol::Protocol(CommunicationSocket &communicationSocket) :
-        socket(communicationSocket){
+        socket(std::move(communicationSocket)) {
 }
 
 bool Protocol::isDataOk() {
@@ -44,6 +44,13 @@ void Protocol::operator<<(const std::vector<std::string> &stringVector) {
     }
 }
 
+void Protocol::operator<<(std::vector<std::uint8_t> &uintVector) {
+    *this << uintVector.size();
+    for (auto &uint : uintVector) {
+        *this << uint;
+    }
+}
+
 Protocol &Protocol::operator>>(unsigned char &command) {
     char buffer;
     this->socket.receive(&buffer, COMMAND_LENGTH);
@@ -74,7 +81,19 @@ Protocol &Protocol::operator>>(std::vector<std::string> &stringVector) {
     for (unsigned int i = 0; i < elements; i++) {
         std::string string;
         *this >> string;
-        stringVector[i] = std::move(string);
+        stringVector.emplace_back(std::move(string));
+    }
+
+    return *this;
+}
+
+Protocol &Protocol::operator>>(std::vector<std::uint8_t> &uintVector) {
+    unsigned int elements{0};
+    *this >> elements;
+    for (unsigned int i = 0; i < elements; i++) {
+        uint8_t uint;
+        *this >> uint;
+        uintVector.emplace_back(uint);
     }
 
     return *this;

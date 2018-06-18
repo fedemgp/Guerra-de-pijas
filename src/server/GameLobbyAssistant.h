@@ -15,7 +15,7 @@
 namespace Worms {
     class GameLobbyAssistant : public Thread {
     public:
-        explicit GameLobbyAssistant(CommunicationSocket &communicationSocket, Lobbies &lobbies, int id);
+        explicit GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id);
 
         void run() override;
         void stop() override;

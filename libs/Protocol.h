@@ -17,7 +17,7 @@
 
 class Protocol {
 private:
-    CommunicationSocket &socket;
+    CommunicationSocket socket;
 
 public:
     explicit Protocol(CommunicationSocket &communicationSocket);
@@ -59,6 +59,8 @@ public:
      */
     void operator<<(const std::vector<std::string> &stringVector);
 
+    void operator<<(std::vector<std::uint8_t> &uintVector);
+
     /* Recibe un comando.
      */
     Protocol & operator>>(unsigned char &command);
@@ -78,6 +80,8 @@ public:
      * de la forma ya indicada.
      */
     Protocol & operator>>(std::vector<std::string> &stringVector);
+
+    Protocol & operator>>(std::vector<std::uint8_t> &uintVector);
 
     CommunicationSocket &getSocket();
 };

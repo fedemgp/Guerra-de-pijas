@@ -13,7 +13,7 @@
 struct GamesGetter{
 public:
     void operator()(const std::vector<Worms::Lobby> &lobbies);
-    std::vector<std::string> lobbies;
+    std::vector<uint8_t> lobbies;
 };
 
 
