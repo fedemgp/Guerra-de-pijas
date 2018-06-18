@@ -16,7 +16,7 @@ void Worm::LobbyAssistant::run(){
 //    this->protocol >> commandInfo;
 
     this->clearScreen();
-//    this->printCommands(commandInfo);
+    this->printCommands();
     std::cin >> this->command;
     this->command -= 48;
     switch(this->command){
@@ -35,11 +35,10 @@ void Worm::LobbyAssistant::clearScreen(){
     std::cout << std::string(100, '\n');
 }
 
-void Worm::LobbyAssistant::printCommands(std::vector<std::string> &vector){
+void Worm::LobbyAssistant::printCommands() {
     std::cout << "Select option" << std::endl;
-    for (auto &string : vector){
-        std::cout << string << std::endl;
-    }
+    std::cout << COMMAND_CREATE_GAME << " Create game." << std::endl
+              << COMMAND_JOIN_GAME << " Shows current lobbies. Must select one." << std::endl;
 }
 //TODO notify to the main thread that player select this so it can render properly
 void Worm::LobbyAssistant::createGame(){
@@ -62,10 +61,11 @@ void Worm::LobbyAssistant::getGames(){
 void Worm::LobbyAssistant::joinGame(){
     this->getGames();
     unsigned char gameToJoin;
+    std::cout<< "Choose lobby." << std::endl;
     std::cin >> gameToJoin;
     gameToJoin -= 48;
     this->command = COMMAND_JOIN_GAME;
-    this->protocol << this->command;
+    this->protocol << this->command;std::cout<<"mando sala "<<(int) gameToJoin<<std::endl;
     this->protocol << gameToJoin;
     this->waitGameStart();
 }
@@ -76,7 +76,7 @@ CommunicationSocket Worm::LobbyAssistant::getSocket() {
 
 void Worm::LobbyAssistant::waitGameStart() {
     while (this->playersQuantity < 2){
-        this->protocol >> this->playersQuantity;
+        this->protocol >> this->playersQuantity;std::cout<<(int)this->playersQuantity<<std::endl;
     }std::cout<<"Empieza\n";
 }
 

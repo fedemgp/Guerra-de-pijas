@@ -21,7 +21,7 @@ namespace Worm{
     private:
         Protocol protocol;
         void clearScreen();
-        void printCommands(std::vector<std::string> &vector);
+        void printCommands();
         void createGame();
         unsigned char command{0};
         unsigned int playersQuantity{0};

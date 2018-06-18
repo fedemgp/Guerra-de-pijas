@@ -25,6 +25,8 @@ void Worms::GameLobby::start() {
             this->players.back().start();
             id++;
 
+
+
             std::cout << "hubo una conexión" << std::endl;
 
 //            auto it = players.begin();

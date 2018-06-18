@@ -9,7 +9,7 @@
 void Worms::Lobbies::createGame(int playerID, std::vector<Observer *> lobbyObservers) {
     std::lock_guard<std::mutex> lock(this->mutex);
     this->lobbies.emplace_back(playerID, this->idLobby);
-    for (auto *lobbyObserver : lobbyObservers) {
+    for (auto lobbyObserver : lobbyObservers) {
         this->lobbies.back().addObserver(lobbyObserver);
     }
     this->idLobby++;

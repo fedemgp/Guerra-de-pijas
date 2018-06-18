@@ -22,18 +22,21 @@ Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicatio
 void Worms::GameLobbyAssistant::run() {
     try {
         std::cout<<"asdasdas\n";
-        unsigned char command;
-        this->protocol >> command;
-        switch (command) {
-            case COMMAND_CREATE_GAME:
-                this->createGame();
-                break;
-            case COMMAND_GET_GAMES:
-                this->getGames();
-                break;
-            case COMMAND_JOIN_GAME:
-                this->joinGame();
-                break;
+        unsigned char command{COMMAND_GET_GAMES};
+        while (command == COMMAND_GET_GAMES) {
+            this->protocol >> command;
+            std::cout << (int) command << std::endl;
+            switch (command) {
+                case COMMAND_CREATE_GAME:
+                    this->createGame();
+                    break;
+                case COMMAND_GET_GAMES:
+                    this->getGames();
+                    break;
+                case COMMAND_JOIN_GAME:
+                    this->joinGame();
+                    break;
+            }
         }
 //        this->createGame();
 //        this->createGame();
@@ -65,14 +68,14 @@ void Worms::GameLobbyAssistant::getGames() {
 
 void Worms::GameLobbyAssistant::joinGame() {
     unsigned char gameID{0};
-    this->protocol >> gameID;
+    this->protocol >> gameID;std::cout<<(int) gameID<<std::endl;
     this->lobbies.joinGame(gameID, this->id, this);
 }
 
 void Worms::GameLobbyAssistant::onNotify(Subject &subject, Event event) {
     switch (event) {
         case Event::NewPlayer: {
-            auto &lobby = dynamic_cast<Lobby &>(subject);
+            auto &lobby = dynamic_cast<Lobby &>(subject);std::cout<<"notificacion "<<lobby.getActualPlayers()<<std::endl;
             this->protocol << lobby.getActualPlayers();
             break;
         }

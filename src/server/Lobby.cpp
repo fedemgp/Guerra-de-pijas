@@ -17,8 +17,8 @@ void Worms::Lobby::join(int playerID) {
     this->notify(*this, Event::NewPlayer);
     if (this->actualPlayers == this->playersQuantity) {
         this->notify(*this, Event::StartGame);
+        this->startGame();
     }
-    this->startGame();
 }
 
 uint8_t Worms::Lobby::getPlayersQuantity() const{
@@ -38,12 +38,13 @@ uint8_t Worms::Lobby::getID() const{
 }
 
 void Worms::Lobby::addPlayerSocket(CommunicationSocket &&player) {
-//    this->players.push_back(player);
+    this->players.emplace_back(std::move(player));
 }
 
 void Worms::Lobby::startGame() {
     std::cout << "game starts" << std::endl;
-//    Worms::Game game{Worms::Stage{}, this->players};
+    Worms::Game game{Worms::Stage{}, this->players};
+    game.start();
 }
 
 Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
