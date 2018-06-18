@@ -18,7 +18,7 @@ namespace Worms {
     public:
         explicit GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id,
                                     Observer *lobbyObs);
-
+        GameLobbyAssistant(GameLobbyAssistant &copy) = delete;
         void run() override;
         void stop() override;
         void onNotify(Subject &subject, Event event) override;

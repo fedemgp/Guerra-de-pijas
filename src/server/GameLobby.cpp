@@ -60,7 +60,7 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
 //            break;
 //        }
         case Event::StartGame: {
-            auto lobby = dynamic_cast<Lobby &>(subject);
+            auto &lobby = dynamic_cast<Lobby &>(subject);
 
             /** En algún momento le tengo que sacar el socket al GameLobbyAssistant
              *  para crear un vector con los sockets de todos los jugadores, que es lo que

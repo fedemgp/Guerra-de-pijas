@@ -428,3 +428,26 @@ void Worms::Player::reset(){
     this->weapon->endShot();
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
+
+Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(player)), physics(player.physics), waterLevel(player.waterLevel){
+
+    this->body = player.body;
+    this->body_kinematic = player.body_kinematic;
+    this->footSensor = player.footSensor;
+
+    this->state = player.state;
+    this->weapon = player.weapon;
+    this->team = player.team;
+    this->id = player.id;
+    this->bullets = std::move(player.bullets);
+    this->removeBullets = player.removeBullets;
+
+    player.body = nullptr;
+    player.body_kinematic = nullptr;
+    player.footSensor = nullptr;
+    player.state = nullptr;
+    player.weapon = nullptr;
+    player.team = 0;
+    player.id = 0;
+    player.removeBullets = false;
+}

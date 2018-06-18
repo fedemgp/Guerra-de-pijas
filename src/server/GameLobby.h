@@ -18,6 +18,7 @@ namespace Worms {
     class GameLobby : public Observer {
     public:
         GameLobby(std::string port);
+        GameLobby(GameLobby &copy) = delete;
 
         void start();
         void onNotify(Subject &subject, Event event) override;

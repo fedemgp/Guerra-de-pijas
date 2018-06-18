@@ -72,7 +72,7 @@ void Worms::GameLobbyAssistant::joinGame() {
 void Worms::GameLobbyAssistant::onNotify(Subject &subject, Event event) {
     switch (event) {
         case Event::NewPlayer: {
-            auto lobby = dynamic_cast<Lobby &>(subject);
+            auto &lobby = dynamic_cast<Lobby &>(subject);
             this->protocol << lobby.getActualPlayers();
             break;
         }

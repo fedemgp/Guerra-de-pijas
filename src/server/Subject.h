@@ -13,6 +13,7 @@
 class Subject {
    public:
     Subject() = default;
+    Subject(Subject &copy) = delete;
     virtual ~Subject() = default;
     void addObserver(Observer *obs);
     void removeObserver(Observer *obs);

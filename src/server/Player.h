@@ -34,6 +34,9 @@ class Player : public PhysicsEntity {
     float health{0};
 
     explicit Player(Physics &physics);
+    Player(Player &&player) noexcept;
+    Player(Player &copy) = delete;
+
     ~Player();
 
     /* contact handlers */
