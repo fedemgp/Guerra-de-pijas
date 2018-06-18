@@ -16,7 +16,7 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),

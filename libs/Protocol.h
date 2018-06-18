@@ -79,6 +79,7 @@ public:
      */
     Protocol & operator>>(std::vector<std::string> &stringVector);
 
+    CommunicationSocket &getSocket();
 };
 
 

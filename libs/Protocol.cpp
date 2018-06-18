@@ -80,6 +80,10 @@ Protocol &Protocol::operator>>(std::vector<std::string> &stringVector) {
     return *this;
 }
 
+CommunicationSocket &Protocol::getSocket() {
+    return this->socket;
+}
+
 //Protocol::Protocol(Protocol &&protocol) :
 //        socket(std::move(protocol.socket)){
 //}

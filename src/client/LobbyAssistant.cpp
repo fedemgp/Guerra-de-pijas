@@ -65,4 +65,8 @@ void Worm::LobbyAssistant::joinGame(){
 
 }
 
+CommunicationSocket &Worm::LobbyAssistant::getSocket() {
+    return this->protocol.getSocket();
+}
+
 

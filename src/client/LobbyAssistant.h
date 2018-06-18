@@ -16,6 +16,8 @@ namespace Worm{
         //TODO overrrite
         void run();
 
+        CommunicationSocket & getSocket();
+
     private:
         Protocol protocol;
         void clearScreen();
