@@ -46,10 +46,9 @@ void Worms::Lobby::startGame() {
 //    Worms::Game game{Worms::Stage{}, this->players};
 }
 
-Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id){
+Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
     this->playersQuantity = other.playersQuantity;
     this->actualPlayers = other.actualPlayers;
     this->playerIDs = std::move(other.playerIDs);
     this->players = std::move(other.players);
-
 }
