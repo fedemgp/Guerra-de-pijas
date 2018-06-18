@@ -48,7 +48,8 @@ std::list<Worms::Bullet> Weapon::Cluster::onExplode(const Worms::Bullet &mainBul
                                     this->fragmentConfig.explotionInitialTimeout,
                                     Event::Explode,
                                     this->fragmentConfig.bulletRadius,
-                                    this->fragmentConfig.bulletDampingRatio};
+                                    this->fragmentConfig.bulletDampingRatio,
+                                    this->config.windAffected};
 
     std::list<Worms::Bullet> ret;
     for (int i = 0; i < fragmentQuantity; i++) {

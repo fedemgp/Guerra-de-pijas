@@ -26,6 +26,7 @@ struct BulletInfo {
     Event explodeEvent;
     float radius;
     float dampingRatio;
+    bool windAffected;
 };
 /**
  * forward declaration of weapon.

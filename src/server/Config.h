@@ -18,6 +18,8 @@ using Vector = Math::Point<float>;
 namespace Worms {
 enum class Direction { right, left, up, down };
 struct Wind {
+    float minIntensity;
+    float maxIntensity;
     int xDirection;
     float instensity;
 };
@@ -74,6 +76,8 @@ class Config {
     const float getWalkVelocity() const;
     float getSafeFallDistance() const;
     float getMaxFallDamage() const;
+    float getMinWindIntensity() const;
+    float getMaxWindIntensity() const;
 
     const uint8_t getTurnTime() const;
     const float getExtraTurnTime() const;
@@ -134,6 +138,8 @@ class Config {
     float drowningTime{DROWNING_TIME};
     float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
+    float minWindIntensity{0.2f};
+    float maxWindIntensity{10.0f};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{

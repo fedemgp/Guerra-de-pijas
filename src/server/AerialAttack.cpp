@@ -38,7 +38,8 @@ void Weapon::AerialAttack::positionSelected(Worms::Player &p, Math::Point<float>
                                     this->config.explotionInitialTimeout,
                                     Event::Explode,
                                     this->config.bulletRadius,
-                                    this->config.bulletDampingRatio};
+                                    this->config.bulletDampingRatio,
+                                    this->config.windAffected};
 
     std::list<Worms::Bullet> ret;
     for (int i = 0; i < this->bulletsQuantity; i++) {

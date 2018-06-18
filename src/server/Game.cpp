@@ -20,6 +20,7 @@
 #include "Player.h"
 #include "Stage.h"
 
+#define CONFIG ::Game::Config::getInstance()
 #define TIME_STEP (1.0f / 60.0f)
 
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
@@ -50,6 +51,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+    this->wind.minIntensity = CONFIG.getMinWindIntensity();
+    this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
     this->calculateWind();
 
     /* sets the girders */

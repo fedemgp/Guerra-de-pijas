@@ -52,7 +52,9 @@ void Worms::Bullet::update(float dt, Worms::Wind wind) {
             }
         }
 
-        this->body->ApplyForceToCenter(b2Vec2{wind.instensity * wind.xDirection, 0.0f}, true);
+        if (this->info.windAffected) {
+            this->body->ApplyForceToCenter(b2Vec2{wind.instensity * wind.xDirection, 0.0f}, true);
+        }
 
         if (this->hasExploded()) {
             this->notify(*this, this->info.explodeEvent);

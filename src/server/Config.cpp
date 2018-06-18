@@ -155,3 +155,11 @@ const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {
 const Game::Weapon::Config &Game::Config::getBaseballBatConfig() const {
     return this->baseballBat;
 }
+
+float Game::Config::getMinWindIntensity() const {
+    return this->minWindIntensity;
+}
+
+float Game::Config::getMaxWindIntensity() const {
+    return this->maxWindIntensity;
+}
