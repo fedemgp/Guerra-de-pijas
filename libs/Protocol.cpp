@@ -5,8 +5,8 @@
 #include <netinet/in.h>
 #include "Protocol.h"
 
-Protocol::Protocol(CommunicationSocket &&communicationSocket) :
-        socket(std::move(communicationSocket)){
+Protocol::Protocol(CommunicationSocket &communicationSocket) :
+        socket(communicationSocket){
 }
 
 bool Protocol::isDataOk() {
@@ -19,8 +19,8 @@ bool Protocol::isDataOk() {
 //    this->socket.stopCommunication();
 //}
 
-void Protocol::operator<<(const char command) {
-    this->socket.send(&command, sizeof(command));
+void Protocol::operator<<(const unsigned char command) {
+    this->socket.send((const char *) &command, sizeof(command));
 }
 
 void Protocol::operator<<(const unsigned int i) {
@@ -38,6 +38,7 @@ void Protocol::operator<<(const std::string &string) {
 }
 
 void Protocol::operator<<(const std::vector<std::string> &stringVector) {
+    *this << stringVector.size();
     for (auto &string : stringVector) {
         *this << string;
     }
@@ -68,7 +69,8 @@ Protocol &Protocol::operator>>(std::string &string) {
 }
 
 Protocol &Protocol::operator>>(std::vector<std::string> &stringVector) {
-    unsigned int elements = stringVector.size();
+    unsigned int elements{0};
+    *this >> elements;
     for (unsigned int i = 0; i < elements; i++) {
         std::string string;
         *this >> string;

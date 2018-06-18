@@ -10,8 +10,8 @@
 #include "Lobbies.h"
 #include "GamesGetter.h"
 
-Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id) :
-        protocol(std::move(communicationSocket)),
+Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &communicationSocket, Lobbies &lobbies, int id) :
+        protocol(communicationSocket),
         lobbies(lobbies),
         id(id) {
 }
@@ -53,17 +53,13 @@ void Worms::GameLobbyAssistant::createGame() {
 
 void Worms::GameLobbyAssistant::getGames() {
     GamesGetter getter;
-    this->clearScreen();
     this->lobbies.getGames(getter);
-    for (std::string &str : getter.lobbies){
-        std::cout << str;
-    }
+    this->protocol << getter.lobbies;
+//    for (std::string &str : getter.lobbies){
+//        std::cout << str;
+//    }
 }
 
 void Worms::GameLobbyAssistant::joinGame() {
 
-}
-
-void Worms::GameLobbyAssistant::clearScreen(){
-    std::cout << std::string(100, '\n');
 }

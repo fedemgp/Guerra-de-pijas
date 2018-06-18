@@ -10,16 +10,17 @@
 #include <vector>
 
 #include "CommunicationSocket.h"
+#include "../src/client/ClientSocket.h"
 
 #define COMMAND_LENGTH 1
 #define INT_LENGTH 4
 
 class Protocol {
 private:
-    CommunicationSocket socket;
+    CommunicationSocket &socket;
 
 public:
-    explicit Protocol(CommunicationSocket &&communicationSocket);
+    explicit Protocol(CommunicationSocket &communicationSocket);
 
 //    /* Constructor por movimiento
 //     */
@@ -37,7 +38,7 @@ public:
     /* El tipo char en este protocolo está asociado a los comandos.
      * En este caso se envía un comando.
      */
-    void operator<<(char command);
+    void operator<<(unsigned char command);
 
     /* Envía un entero de 4 bytes sin signo en big endian.
      */
@@ -77,6 +78,7 @@ public:
      * de la forma ya indicada.
      */
     Protocol & operator>>(std::vector<std::string> &stringVector);
+
 };
 
 
