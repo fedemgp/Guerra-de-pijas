@@ -15,6 +15,7 @@ namespace Worms {
     class Lobby : public Subject {
     public:
         Lobby(int playerID, uint8_t id);
+        Lobby(Lobby &&other);
 
         void join(int playerID);
         uint8_t getPlayersQuantity() const;
