@@ -2,9 +2,9 @@
 // Created by Gorco on 19/05/18.
 //
 
+#include <cstdint>
 #include <iostream>
 #include <memory>
-#include <cstdint>
 
 #include "Player.h"
 #include "PlayerStill.h"
@@ -90,7 +90,7 @@ void Worms::Still::aerialAttack(Worms::Player &p) {
     p.setWeapon(Worm::WeaponID::WAerial);
 }
 
-void Worms::Still::dynamite(Worms::Player &p){
+void Worms::Still::dynamite(Worms::Player &p) {
     p.setWeapon(Worm::WeaponID::WDynamite);
 }
 

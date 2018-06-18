@@ -2,11 +2,13 @@
 // Created by rodrigo on 16/06/18.
 //
 
+#include "Teleported.h"
 #include "Config.h"
 #include "Player.h"
-#include "Teleported.h"
 
-Worms::Teleported::Teleported() : State(Worm::StateID::Teleported), teleportTime(Game::Config::getInstance().getTeleportTime()) {}
+Worms::Teleported::Teleported()
+    : State(Worm::StateID::Teleported),
+      teleportTime(Game::Config::getInstance().getTeleportTime()) {}
 
 void Worms::Teleported::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;

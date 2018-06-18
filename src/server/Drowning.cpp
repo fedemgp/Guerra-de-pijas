@@ -51,7 +51,7 @@ void Worms::Drowning::setTimeout(Worms::Player &p, uint8_t time) {}
 
 void Worms::Drowning::aerialAttack(Worms::Player &p) {}
 
-void Worms::Drowning::dynamite(Worms::Player &p){}
+void Worms::Drowning::dynamite(Worms::Player &p) {}
 
 void Worms::Drowning::teleport(Worms::Player &p) {}
 

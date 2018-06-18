@@ -83,7 +83,7 @@ IO::PlayerInput Worm::Die::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Die::dynamite(Worm &w){
+IO::PlayerInput Worm::Die::dynamite(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

@@ -5,8 +5,8 @@
 #ifndef __WORMS_PLAYER_JUMP_RIGHT_H__
 #define __WORMS_PLAYER_JUMP_RIGHT_H__
 
-#include <cstdint>
 #include <stdint-gcc.h>
+#include <cstdint>
 #include "Config.h"
 #include "Player.h"
 

@@ -83,7 +83,7 @@ IO::PlayerInput Worm::Drowning::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Drowning::dynamite(Worm &w){
+IO::PlayerInput Worm::Drowning::dynamite(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

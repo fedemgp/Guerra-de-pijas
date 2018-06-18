@@ -82,7 +82,7 @@ IO::PlayerInput Worm::Land::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Land::dynamite(Worm &w){
+IO::PlayerInput Worm::Land::dynamite(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

@@ -58,7 +58,9 @@ class Game : Observer {
      * this was hitted.
      * @param weapon
      */
-    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition, Direction shooterDirection);
+    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition,
+                         Direction shooterDirection);
+    void calculateWind();
     void exit();
     void endTurn();
 
@@ -78,6 +80,7 @@ class Game : Observer {
     bool currentPlayerShot{false};
     GameTeams teams;
     std::list<Bullet> bullets;
+    Worms::Wind wind;
 
     std::vector<uint8_t> deadTeams;
     GameClock gameClock;

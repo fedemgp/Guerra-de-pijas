@@ -37,7 +37,7 @@ class Animation {
 
     void setPlayInverse();
 
-private:
+   private:
     /** SDL texture of the raw image. */
     const Texture *texture;
     /**

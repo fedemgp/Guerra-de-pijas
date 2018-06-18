@@ -2,12 +2,15 @@
 // Created by rodrigo on 16/06/18.
 //
 
+#include "Teleporting.h"
 #include <Camera.h>
 #include "Config.h"
 #include "Player.h"
-#include "Teleporting.h"
 
-Worms::Teleporting::Teleporting(GUI::Position p) : State(Worm::StateID::Teleporting), newPosition(p), teleportTime(Game::Config::getInstance().getTeleportTime()) {}
+Worms::Teleporting::Teleporting(GUI::Position p)
+    : State(Worm::StateID::Teleporting),
+      newPosition(p),
+      teleportTime(Game::Config::getInstance().getTeleportTime()) {}
 
 void Worms::Teleporting::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;

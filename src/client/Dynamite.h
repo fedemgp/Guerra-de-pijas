@@ -10,9 +10,9 @@
 
 #define DYNAMITE_CENTER_FRAME 0
 
-namespace Worm{
-class Dynamite: public Weapon {
-public:
+namespace Worm {
+class Dynamite : public Weapon {
+   public:
     explicit Dynamite(const GUI::GameTextureManager &textureManager);
     ~Dynamite() = default;
     void update(float dt) override;
@@ -24,5 +24,4 @@ public:
 };
 }  // namespace Worm
 
-
-#endif //__DYNAMITE_H__
+#endif  //__DYNAMITE_H__

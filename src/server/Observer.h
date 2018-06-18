@@ -24,7 +24,8 @@ enum class Event {
     Dying,
     DamageOnLanding,
     NextTurn,
-    Teleported, P2PWeaponUsed
+    Teleported,
+    P2PWeaponUsed
 };
 
 class Subject;

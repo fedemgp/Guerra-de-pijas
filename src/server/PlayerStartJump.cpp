@@ -71,7 +71,7 @@ void Worms::StartJump::setTimeout(Worms::Player &p, uint8_t time) {}
 
 void Worms::StartJump::aerialAttack(Worms::Player &p) {}
 
-void Worms::StartJump::dynamite(Worms::Player &p){}
+void Worms::StartJump::dynamite(Worms::Player &p) {}
 
 void Worms::StartJump::teleport(Worms::Player &p) {}
 

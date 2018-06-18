@@ -9,15 +9,16 @@
 #include <cassert>
 #include <chrono>
 #include <iostream>
+#include <random>
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
 
+#include "BaseballBat.h"
 #include "Config.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
-#include "BaseballBat.h"
 
 #define TIME_STEP (1.0f / 60.0f)
 
@@ -49,6 +50,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+    this->calculateWind();
 
     /* sets the girders */
     this->girders.reserve(this->stage.getGirders().size());
@@ -164,7 +166,7 @@ void Worms::Game::start() {
             }
 
             for (auto &bullet : this->bullets) {
-                bullet.update(dt);
+                bullet.update(dt, this->wind);
             }
 
             this->physics.update(dt);
@@ -198,6 +200,7 @@ void Worms::Game::endTurn() {
     this->processingClientInputs = true;
     this->gameClock.restart();
     this->gameTurn.restart();
+    this->calculateWind();
 }
 
 IO::GameStateMsg Worms::Game::serialize() const {
@@ -278,7 +281,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::P2PWeaponUsed: {
-            auto  &player = dynamic_cast<const Worms::Player &>(subject);
+            auto &player = dynamic_cast<const Worms::Player &>(subject);
             const std::shared_ptr<Worms::Weapon> weapon = player.getWeapon();
             this->gameClock.playerShot();
             this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
@@ -394,11 +397,22 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
  * p2pWeapon.
  * @param weapon
  */
-void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition, Direction shooterDirection) {
-    auto *baseball = (::Weapon::BaseballBat *)  weapon.get();
+void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
+                                  Math::Point<float> shooterPosition, Direction shooterDirection) {
+    auto *baseball = (::Weapon::BaseballBat *)weapon.get();
     ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(weaponInfo, shooterPosition, shooterDirection);
     }
     this->removeBullets = true;
+}
+
+void Worms::Game::calculateWind() {
+    std::random_device rnd_device;
+    std::mt19937 mersenne_engine(rnd_device());
+    std::uniform_real_distribution<> distr(0.2, 10.0);
+
+    this->wind.xDirection = (distr(mersenne_engine) > (10.0f - 0.2f) / 2.0f) ? 1 : -1;
+    this->wind.instensity = distr(mersenne_engine);
+    /*std::cout<<this->wind.xDirection<<" "<<this->wind.instensity<<std::endl;*/
 }

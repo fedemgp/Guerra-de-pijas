@@ -6,13 +6,11 @@
 #include "Player.h"
 
 Weapon::BaseballBat::BaseballBat(float angle)
-        : Worms::Weapon(Game::Config::getInstance().getBaseballBatConfig(), Worm::WeaponID::WBaseballBat,
-                        angle), weaponInfo{this->config.dmgInfo,
-                                           Worms::Direction::left, {0,0}}{
-}
+    : Worms::Weapon(Game::Config::getInstance().getBaseballBatConfig(),
+                    Worm::WeaponID::WBaseballBat, angle),
+      weaponInfo{this->config.dmgInfo, Worms::Direction::left, {0, 0}} {}
 
-void Weapon::BaseballBat::update(float dt) {
-}
+void Weapon::BaseballBat::update(float dt) {}
 
 void Weapon::BaseballBat::startShot(Worms::Player *player) {
     this->weaponInfo.position = player->getPosition();
@@ -20,18 +18,17 @@ void Weapon::BaseballBat::startShot(Worms::Player *player) {
     this->weaponInfo.angle = this->angle;
 }
 
-void Weapon::BaseballBat::endShot() {
-}
+void Weapon::BaseballBat::endShot() {}
 
 void Weapon::BaseballBat::setTimeout(uint8_t time) {}
 
 std::list<Worms::Bullet> Weapon::BaseballBat::onExplode(const Worms::Bullet &mainBullet,
-                                                    Worms::Physics &physics) {
+                                                        Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }
 
 void Weapon::BaseballBat::positionSelected(Worms::Player &p, Math::Point<float> point) {}
 
-Game::Weapon::P2PWeaponInfo& Weapon::BaseballBat::getWeaponInfo(){
+Game::Weapon::P2PWeaponInfo &Weapon::BaseballBat::getWeaponInfo() {
     return this->weaponInfo;
 }

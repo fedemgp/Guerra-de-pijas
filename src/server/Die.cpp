@@ -50,7 +50,7 @@ void Worms::Die::setTimeout(Worms::Player &p, uint8_t time) {}
 
 void Worms::Die::aerialAttack(Worms::Player &p) {}
 
-void Worms::Die::dynamite(Worms::Player &p){}
+void Worms::Die::dynamite(Worms::Player &p) {}
 
 void Worms::Die::teleport(Worms::Player &p) {}
 

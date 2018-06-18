@@ -9,11 +9,13 @@
 
 #include "AerialAttack.h"
 #include "Banana.h"
+#include "BaseballBat.h"
 #include "Bazooka.h"
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drowning.h"
+#include "Dynamite.h"
 #include "Falling.h"
 #include "GameStateMsg.h"
 #include "Grenade.h"
@@ -22,6 +24,9 @@
 #include "Land.h"
 #include "Mortar.h"
 #include "Sliding.h"
+#include "Teleport.h"
+#include "Teleported.h"
+#include "Teleporting.h"
 #include "Text.h"
 #include "WeaponNone.h"
 #include "Worm.h"
@@ -33,11 +38,6 @@
 #include "WormStartJump.h"
 #include "WormStill.h"
 #include "WormWalk.h"
-#include "Dynamite.h"
-#include "Teleporting.h"
-#include "Teleported.h"
-#include "Teleport.h"
-#include "BaseballBat.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -201,12 +201,14 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             return animation;
         }
         case StateID::Teleporting: {
-            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting), true};
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
+                                     true};
             animation.setAnimateOnce();
             return animation;
         }
         case StateID::Teleported: {
-            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting), true};
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
+                                     true};
             animation.setPlayInverse();
             return animation;
         }

@@ -42,7 +42,7 @@ class Bullet : public PhysicsEntity {
      * @param dt
      * @param w
      */
-    void update(float dt);
+    void update(float dt, Worms::Wind wind);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     /**

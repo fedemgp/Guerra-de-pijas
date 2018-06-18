@@ -74,7 +74,7 @@ IO::PlayerInput Worm::Teleporting::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Teleporting::aerialAttack(Worm &w){
+IO::PlayerInput Worm::Teleporting::aerialAttack(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
@@ -82,7 +82,7 @@ IO::PlayerInput Worm::Teleporting::dynamite(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 
-IO::PlayerInput Worm::Teleporting::positionSelected(Worm &w){
+IO::PlayerInput Worm::Teleporting::positionSelected(Worm &w) {
     return IO::PlayerInput::moveNone;
 }
 

@@ -26,7 +26,7 @@ enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
 
-    class Player : public PhysicsEntity {
+class Player : public PhysicsEntity {
    public:
     Direction direction{Direction::left};
     Direction lastWalkDirection;
@@ -91,8 +91,8 @@ namespace Worms {
      */
     void endShot();
     void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
-    void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info, Math::Point<float> shooterPosition,
-                               Direction shooterDirection);
+    void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+                           Math::Point<float> shooterPosition, Direction shooterDirection);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
