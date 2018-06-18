@@ -8,9 +8,11 @@
 
 #include <stdint-gcc.h>
 #include <vector>
+#include <CommunicationSocket.h>
+#include "Subject.h"
 
 namespace Worms {
-    class Lobby {
+    class Lobby : public Subject {
     public:
         Lobby(int playerID, uint8_t id);
 
@@ -19,11 +21,16 @@ namespace Worms {
         uint8_t getActualPlayers() const;
         const std::vector<int> &getPlayerIDs() const;
         uint8_t getID() const;
+        void addPlayerSocket(CommunicationSocket &&player);
+
     private:
         const uint8_t id;
         uint8_t playersQuantity{2};
         uint8_t actualPlayers{0};
         std::vector<int> playerIDs;
+        std::vector<CommunicationSocket> players;
+
+        void startGame();
     };
 }
 

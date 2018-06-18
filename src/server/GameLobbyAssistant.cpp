@@ -10,10 +10,13 @@
 #include "Lobbies.h"
 #include "GamesGetter.h"
 
-Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id) :
+Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id,
+                                              Observer *lobbyObs) :
         protocol(communicationSocket),
         lobbies(lobbies),
         id(id) {
+    this->lobbyObservers.emplace_back(this);
+    this->lobbyObservers.emplace_back(lobbyObs);
 }
 
 void Worms::GameLobbyAssistant::run() {
@@ -48,7 +51,7 @@ void Worms::GameLobbyAssistant::stop() {
 }
 
 void Worms::GameLobbyAssistant::createGame() {std::cout<<"adfsawrf"<<std::endl;
-    this->lobbies.createGame(this->id);
+    this->lobbies.createGame(this->id, this->lobbyObservers);
 }
 
 void Worms::GameLobbyAssistant::getGames() {
@@ -61,5 +64,24 @@ void Worms::GameLobbyAssistant::getGames() {
 }
 
 void Worms::GameLobbyAssistant::joinGame() {
+    unsigned char gameID{0};
+    this->protocol >> gameID;
+    this->lobbies.joinGame(gameID, this->id, this);
+}
 
+void Worms::GameLobbyAssistant::onNotify(Subject &subject, Event event) {
+    switch (event) {
+        case Event::NewPlayer: {
+            auto lobby = dynamic_cast<Lobby &>(subject);
+            this->protocol << lobby.getActualPlayers();
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
+
+CommunicationSocket Worms::GameLobbyAssistant::getSocket() {
+    return std::move(this->protocol.getSocket());
 }

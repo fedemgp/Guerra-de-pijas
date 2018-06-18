@@ -16,7 +16,7 @@ namespace Worm{
         //TODO overrrite
         void run();
 
-        CommunicationSocket & getSocket();
+        CommunicationSocket getSocket();
 
     private:
         Protocol protocol;
@@ -29,6 +29,8 @@ namespace Worm{
         void getGames();
 
         void joinGame();
+
+        void waitGameStart();
     };
 } //namespace Worm
 

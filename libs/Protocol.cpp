@@ -99,8 +99,8 @@ Protocol &Protocol::operator>>(std::vector<std::uint8_t> &uintVector) {
     return *this;
 }
 
-CommunicationSocket &Protocol::getSocket() {
-    return this->socket;
+CommunicationSocket Protocol::getSocket() {
+    return std::move(this->socket);
 }
 
 //Protocol::Protocol(Protocol &&protocol) :

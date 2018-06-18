@@ -15,11 +15,12 @@
 #include "GameLobbyAssistant.h"
 
 namespace Worms {
-    class GameLobby {
+    class GameLobby : public Observer {
     public:
         GameLobby(std::string port);
 
         void start();
+        void onNotify(Subject &subject, Event event) override;
         void exit();
 
     private:

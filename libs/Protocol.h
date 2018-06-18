@@ -83,7 +83,7 @@ public:
 
     Protocol & operator>>(std::vector<std::uint8_t> &uintVector);
 
-    CommunicationSocket &getSocket();
+    CommunicationSocket getSocket();
 };
 
 

@@ -11,15 +11,16 @@
 
 #include "GamesGetter.h"
 #include "Lobby.h"
+#include "Observer.h"
 
 namespace Worms {
     class Lobbies {
     public:
         Lobbies() = default;
 
-        void createGame(int playerID);
+        void createGame(int playerID, std::vector<Observer *> lobbyObservers);
         void getGames(GamesGetter &getter);
-        void joinGame(int gameID, int playerID);
+        void joinGame(int gameID, int playerID, Observer *lobbyObserver);
 
     private:
         std::mutex mutex;

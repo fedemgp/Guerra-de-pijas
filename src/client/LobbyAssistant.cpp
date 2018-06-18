@@ -44,10 +44,7 @@ void Worm::LobbyAssistant::printCommands(std::vector<std::string> &vector){
 //TODO notify to the main thread that player select this so it can render properly
 void Worm::LobbyAssistant::createGame(){
     this->protocol << this->command;
-    while (this->playersQuantity < 2){
-        this->protocol >> this->playersQuantity;
-    }
-
+    this->waitGameStart();
 }
 
 void Worm::LobbyAssistant::getGames(){
@@ -66,11 +63,21 @@ void Worm::LobbyAssistant::joinGame(){
     this->getGames();
     unsigned char gameToJoin;
     std::cin >> gameToJoin;
+    gameToJoin -= 48;
+    this->command = COMMAND_JOIN_GAME;
+    this->protocol << this->command;
     this->protocol << gameToJoin;
+    this->waitGameStart();
 }
 
-CommunicationSocket &Worm::LobbyAssistant::getSocket() {
-    return this->protocol.getSocket();
+CommunicationSocket Worm::LobbyAssistant::getSocket() {
+    return std::move(this->protocol.getSocket());
+}
+
+void Worm::LobbyAssistant::waitGameStart() {
+    while (this->playersQuantity < 2){
+        this->protocol >> this->playersQuantity;
+    }std::cout<<"Empieza\n";
 }
 
 

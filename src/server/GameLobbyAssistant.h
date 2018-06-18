@@ -11,19 +11,25 @@
 
 #include "Thread.h"
 #include "Lobbies.h"
+#include "Observer.h"
 
 namespace Worms {
-    class GameLobbyAssistant : public Thread {
+    class GameLobbyAssistant : public Thread, public Observer {
     public:
-        explicit GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id);
+        explicit GameLobbyAssistant(CommunicationSocket &&communicationSocket, Lobbies &lobbies, int id,
+                                    Observer *lobbyObs);
 
         void run() override;
         void stop() override;
+        void onNotify(Subject &subject, Event event) override;
+        CommunicationSocket getSocket();
 
     private:
         Protocol protocol;
         Lobbies &lobbies;
         int id;
+        std::vector<Observer *> lobbyObservers;
+
         void createGame();
         void getGames();
         void joinGame();
