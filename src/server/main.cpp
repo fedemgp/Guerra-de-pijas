@@ -9,6 +9,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <cstdlib>
 
 #include "CommunicationSocket.h"
 #include "Game.h"
@@ -58,6 +59,9 @@ int main(int argc, const char *argv[]) {
         std::vector<CommunicationSocket> players;
         for (uint8_t i = 0; i < numTeams; i++) {
             players.push_back(s.accept());
+            char buffer[1];
+            buffer[0] = i;
+            players.back().send(buffer, sizeof(buffer));
             std::cout << "hubo conexión" << std::endl;
         }
 
@@ -66,6 +70,7 @@ int main(int argc, const char *argv[]) {
 
         std::thread exit_handler([&] { _exit_handler(game); });
         game.start();
+        std::cout << "game ends" << std::endl;
         exit_handler.join();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

@@ -93,6 +93,8 @@ class Game : Observer {
     std::vector<PlayerInput> inputs;
     std::vector<GameSnapshot> snapshots;
     bool removeBullets{false};
+    bool gameEnded{false};
+    std::uint8_t winnerTeam{0};
 };
 }  // namespace Worms
 

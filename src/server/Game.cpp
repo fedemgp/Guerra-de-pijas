@@ -180,6 +180,10 @@ void Worms::Game::start() {
                 snapshot.set(msg);
                 snapshot.swap();
             }
+            
+            if (this->gameEnded) {
+                this->quit = true;
+            }
 
             if (TIME_STEP > dt) {
                 usleep((TIME_STEP - dt) * 1000000);
@@ -195,7 +199,10 @@ void Worms::Game::start() {
 void Worms::Game::endTurn() {
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
     this->players[this->currentWorm].reset();
-    this->teams.endTurn(this->players);
+    this->gameEnded = this->teams.endTurn(this->players);
+    if (this->gameEnded) {
+        this->winnerTeam = this->teams.getWinner();
+    }
     this->currentTeam = this->teams.getCurrentTeam();
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
@@ -241,6 +248,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletType[j++] = bullet.getWeaponID();
     }
     m.processingInputs = this->processingClientInputs;
+    m.gameEnded = this->gameEnded;
+    m.winner = this->winnerTeam;
 
     return m;
 }

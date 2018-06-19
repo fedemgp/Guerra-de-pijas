@@ -47,14 +47,15 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
 }
 
 void Worms::GameTeams::checkAlive(std::vector<Worms::Player> &players) {
-    uint8_t numTeam = 0;
     for (auto &team : this->teams) {
         team.checkAlive(players);
-        numTeam++;
+        if (!team.isAlive()) {
+            this->deadTeams++;
+        }
     }
 }
 
-void Worms::GameTeams::endTurn(std::vector<Player> &players) {
+bool Worms::GameTeams::endTurn(std::vector<Player> &players) {
     this->checkAlive(players);
 
     do {
@@ -62,6 +63,12 @@ void Worms::GameTeams::endTurn(std::vector<Player> &players) {
     } while (!this->teams[this->currentTeam].isAlive());
 
     this->teams[this->currentTeam].endTurn(players);
+
+    if (this->deadTeams >= this->teams.size() - 1) {
+        return true;
+    } else{
+        return false;
+    }
 }
 
 char Worms::GameTeams::getCurrentPlayerID() {
@@ -70,4 +77,15 @@ char Worms::GameTeams::getCurrentPlayerID() {
 
 uint8_t Worms::GameTeams::getCurrentTeam() {
     return this->currentTeam;
+}
+
+uint8_t Worms::GameTeams::getWinner() {
+    std::uint8_t winner{0};
+    for (auto &team : this->teams) {
+        if (team.isAlive()) {
+            return winner;
+        }
+        winner++;
+    }
+    return winner;
 }

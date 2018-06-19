@@ -128,6 +128,8 @@ struct GameStateMsg {
 
     bool processingInputs;
     double currentPlayerTurnTime;
+    bool gameEnded;
+    std::uint8_t winner;
     char currentTeam;
 
     std::size_t getSerializedSize() {

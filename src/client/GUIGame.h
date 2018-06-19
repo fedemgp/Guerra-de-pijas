@@ -32,7 +32,7 @@ namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {
    public:
-    Game(Window &w, Worms::Stage &&stage, ClientSocket &socket);
+    Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team);
     ~Game();
     void start();
     void update(float dt);
@@ -66,6 +66,7 @@ class Game {
     IO::GameStateMsg snapshot;
     GameOutput output;
     CommunicationSocket &socket;
+    std::uint8_t team{0};
     bool doesAnyoneShot{false};
     uint8_t explodedQuantity{0};
 };
