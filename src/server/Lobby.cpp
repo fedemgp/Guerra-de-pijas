@@ -65,11 +65,15 @@ void Worms::Lobby::run() {
             Worms::Game game{Worms::Stage{}, this->players};
             game.start();
             this->gameStarted = false;
-            this->notify(*this, Event::EndGame);
+            this->finished = true;
         }
     }
 }
 
 void Worms::Lobby::stop() {
     this->finished = true;
+}
+
+bool Worms::Lobby::itsOver() {
+    return this->finished;
 }

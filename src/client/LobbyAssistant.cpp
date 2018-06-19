@@ -50,8 +50,15 @@ void Worm::LobbyAssistant::getGames(){
     this->protocol >> games;
 //    this->clearScreen();
     std::cout << "Lobby ID\t\tIn room\t\t\tTotal players\n";
+    std::uint8_t i{0};
     for (auto &uint : games){
         std::cout << (int) uint << "\t\t\t\t";
+        if (i == 2) {
+            std::cout << std::endl;
+            i = 0;
+        } else {
+            i++;
+        }
     }
     std::cout << std::endl;
 }

@@ -73,7 +73,10 @@ class Game : Observer {
     std::vector<CommunicationSocket> &sockets;
     std::vector<PlayerInput> inputs;
     std::vector<GameSnapshot> snapshots;
+    std::uint8_t playersConnected;
     bool removeBullets{false};
+
+    void playerDisconnected();
 };
 }  // namespace Worms
 

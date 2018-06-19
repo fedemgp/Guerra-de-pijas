@@ -6,8 +6,8 @@
 #define INC_4_WORMS_LOBBIES_H
 
 
+#include <list>
 #include <mutex>
-#include <vector>
 
 #include "GamesGetter.h"
 #include "Lobby.h"
@@ -21,10 +21,11 @@ namespace Worms {
         void createGame(int playerID, std::vector<Observer *> lobbyObservers);
         void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID, Observer *lobbyObserver);
+        std::list<Lobby> &getLobbies();
 
     private:
         std::mutex mutex;
-        std::vector<Lobby> lobbies;
+        std::list<Lobby> lobbies;
         uint8_t idLobby{0};
     };
 }

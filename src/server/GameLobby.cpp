@@ -8,6 +8,7 @@
 #include "ServerSocket.h"
 #include "Lobbies.h"
 #include "Game.h"
+#include "LobbyJoiner.h"
 
 Worms::GameLobby::GameLobby(std::string port) :
         serverSocket(port.c_str()) {
@@ -17,6 +18,8 @@ Worms::GameLobby::GameLobby(std::string port) :
 void Worms::GameLobby::start() {
     try {
         Lobbies lobbies{};
+        LobbyJoiner lobbyJoiner{lobbies};
+        lobbyJoiner.start();
         int id = 0;
 
         while (!quit) {
@@ -72,12 +75,6 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
                 }
             }
 
-            break;
-        }
-        case Event::EndGame: {
-            auto &lobby = dynamic_cast<Lobby &>(subject);
-            lobby.stop();
-            lobby.join();
             break;
         }
         default: {

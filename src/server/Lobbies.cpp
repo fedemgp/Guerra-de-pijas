@@ -23,6 +23,14 @@ void Worms::Lobbies::getGames(GamesGetter &getter) {
 
 void Worms::Lobbies::joinGame(int gameID, int playerID, Observer *lobbyObserver) {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->lobbies[gameID].addObserver(lobbyObserver);
-    this->lobbies[gameID].joinGame(playerID);
+    auto it = this->lobbies.begin();
+    while ((*it).getID() != gameID && it != this->lobbies.end()){
+        it++;
+    }
+    (*it).addObserver(lobbyObserver);
+    (*it).joinGame(playerID);
+}
+
+std::list<Worms::Lobby> &Worms::Lobbies::getLobbies() {
+    return this->lobbies;
 }

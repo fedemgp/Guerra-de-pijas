@@ -22,6 +22,7 @@ namespace Worms {
 
         void run() override;
         void stop() override;
+        bool itsOver(); 
 
         void joinGame(int playerID);
         std::uint8_t getPlayersQuantity() const;

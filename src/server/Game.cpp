@@ -27,7 +27,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
       gameTurn(*this),
       sockets(sockets),
       inputs(sockets.size()),
-      snapshots(sockets.size()) {
+      snapshots(sockets.size()),
+      playersConnected(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {
@@ -138,6 +139,7 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
         /* this means that the game is ready to exit */
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
+        this->playerDisconnected(/*playerIndex*/);
     }
 
     delete[] buffer;
@@ -385,4 +387,11 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     }
     //    this->players[this->currentWorm].cleanBullets();
     this->removeBullets = true;
+}
+
+void Worms::Game::playerDisconnected() {
+    this->playersConnected--;
+    if (this->playersConnected <= 1) {
+        this->quit = true;
+    }
 }
