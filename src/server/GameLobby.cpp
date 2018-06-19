@@ -74,6 +74,12 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
 
             break;
         }
+        case Event::EndGame: {
+            auto &lobby = dynamic_cast<Lobby &>(subject);
+            lobby.stop();
+            lobby.join();
+            break;
+        }
         default: {
             break;
         }

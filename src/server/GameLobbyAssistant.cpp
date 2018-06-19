@@ -15,8 +15,8 @@ Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicatio
         protocol(communicationSocket),
         lobbies(lobbies),
         playerID(id) {
-    this->lobbyObservers.emplace_back(this);
     this->lobbyObservers.emplace_back(lobbyObs);
+    this->lobbyObservers.emplace_back(this);
 }
 
 void Worms::GameLobbyAssistant::run() {

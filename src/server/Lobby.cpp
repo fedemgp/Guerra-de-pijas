@@ -8,17 +8,24 @@
 #include "Game.h"
 
 Worms::Lobby::Lobby(int playerID, uint8_t id): id(id) {
-    this->join(playerID);
+    this->joinGame(playerID);
 }
 
-void Worms::Lobby::join(int playerID) {
-    std::lock_guard<std::mutex> lock(this->mutex);
+void Worms::Lobby::joinGame(int playerID) {
+//    std::lock_guard<std::mutex> lock(this->mutex);
     this->playerIDs.emplace_back(playerID);
     this->actualPlayers++;
     this->notify(*this, Event::NewPlayer);
     if (this->actualPlayers == this->playersQuantity) {
         this->notify(*this, Event::StartGame);
-        this->startGame();
+        std::uint8_t i{0};
+        for (auto *obs : this->observers) {
+            if (i != 0) {
+                this->removeObserver(obs);
+            }
+            i++;
+        }
+        this->gameStarted = true;
     }
 }
 
@@ -42,12 +49,6 @@ void Worms::Lobby::addPlayerSocket(CommunicationSocket &&player) {
     this->players.emplace_back(std::move(player));
 }
 
-void Worms::Lobby::startGame() {
-    std::cout << "game starts" << std::endl;
-    Worms::Game game{Worms::Stage{}, this->players};
-    game.start();
-}
-
 Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
     if (this != &other){
         this->playersQuantity = other.playersQuantity;
@@ -55,4 +56,20 @@ Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
         this->playerIDs = std::move(other.playerIDs);
         this->players = std::move(other.players);
     }
+}
+
+void Worms::Lobby::run() {
+    while (!this->finished) {
+        if (this->gameStarted) {
+            std::cout << "game starts" << std::endl;
+            Worms::Game game{Worms::Stage{}, this->players};
+            game.start();
+            this->gameStarted = false;
+            this->notify(*this, Event::EndGame);
+        }
+    }
+}
+
+void Worms::Lobby::stop() {
+    this->finished = true;
 }

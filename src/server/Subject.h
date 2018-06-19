@@ -25,7 +25,7 @@ class Subject {
      */
     void notify(Subject &subject, Event event);
 
-   private:
+   protected:
     std::set<Observer *> observers;
     int numObservers;
 };

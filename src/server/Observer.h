@@ -25,7 +25,8 @@ enum class Event {
     DamageOnLanding,
     NextTurn,
     StartGame,
-    NewPlayer
+    NewPlayer,
+    EndGame
 };
 
 class Subject;

@@ -11,15 +11,19 @@
 #include <CommunicationSocket.h>
 #include <mutex>
 #include "Subject.h"
+#include "Thread.h"
 
 namespace Worms {
-    class Lobby : public Subject {
+    class Lobby : public Thread, public Subject {
     public:
         Lobby(int playerID, std::uint8_t id);
         Lobby(Lobby &&other);
         Lobby(Lobby &copy) = delete;
 
-        void join(int playerID);
+        void run() override;
+        void stop() override;
+
+        void joinGame(int playerID);
         std::uint8_t getPlayersQuantity() const;
         std::uint8_t getActualPlayers() const;
         const std::vector<int> &getPlayerIDs() const;
@@ -34,7 +38,8 @@ namespace Worms {
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
 
-        void startGame();
+        bool finished{false};
+        bool gameStarted{false};
     };
 }
 
