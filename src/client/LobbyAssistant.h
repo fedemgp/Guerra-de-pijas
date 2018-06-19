@@ -12,19 +12,19 @@
 namespace Worm{
     class LobbyAssistant{
     public:
-        explicit LobbyAssistant(CommunicationSocket &socket);
+        explicit LobbyAssistant(ClientSocket &socket);
         //TODO overrrite
         void run();
 
-        CommunicationSocket getSocket();
+        ClientSocket getSocket();
 
     private:
-        Protocol protocol;
+        Protocol<ClientSocket> protocol;
         void clearScreen();
         void printCommands();
         void createGame();
         unsigned char command{0};
-        unsigned int playersQuantity{0};
+        std::uint8_t playersQuantity{0};
 
         void getGames();
 

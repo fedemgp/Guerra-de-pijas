@@ -28,6 +28,11 @@ namespace Worms {
         ServerSocket serverSocket;
         std::list<GameLobbyAssistant> players;
         bool quit{false};
+        /**
+         * @brief check if the GameLobbyAssistant thread is over. If so, join
+         * it and erase it (because the sockets was already moved to the Lobby)
+         */
+        void removePlayers();
     };
 }
 

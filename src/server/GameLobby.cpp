@@ -16,7 +16,6 @@ Worms::GameLobby::GameLobby(std::string port) :
 
 void Worms::GameLobby::start() {
     try {
-
         Lobbies lobbies{};
         int id = 0;
 
@@ -25,19 +24,9 @@ void Worms::GameLobby::start() {
             this->players.back().start();
             id++;
 
-
+            this->removePlayers();
 
             std::cout << "hubo una conexión" << std::endl;
-
-//            auto it = players.begin();
-//            while (it != players.end()) {
-//                if (it->hasFinished()) {
-//                    it->join();
-//                    it = this->players.erase(it);
-//                } else {
-//                    it++;
-//                }
-//            }
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
@@ -72,15 +61,34 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
              */
 
             const std::vector<int> &playerIDs = lobby.getPlayerIDs();
-            for (auto playerID : playerIDs) {
-                auto it = std::next(this->players.begin(), playerID);
-                lobby.addPlayerSocket(std::move((*it).getSocket()));
+            for (auto &playerID : playerIDs) {
+//                auto it = std::next(this->players.begin(), playerID);
+                for (auto &player : this->players){
+                    if ( player.getPlayerID() == playerID){
+                        //TODO revisar el lugar donde se setea terminado el hilo
+                        player.stop();
+                        lobby.addPlayerSocket(std::move(player.getSocket()));
+                    };
+                }
             }
 
             break;
         }
         default: {
             break;
+        }
+    }
+}
+
+void Worms::GameLobby::removePlayers(){
+    std::list<GameLobbyAssistant>::iterator playerIt;
+    playerIt = this->players.begin();
+    while (playerIt != this->players.end()){
+        if (playerIt->itsOver()){
+            playerIt->join();
+            playerIt = this->players.erase(playerIt);
+        } else {
+            playerIt++;
         }
     }
 }

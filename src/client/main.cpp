@@ -18,8 +18,7 @@ int main(int argc, const char *argv[]) {
     try {
         std::string host = argv[1];
         std::string port = argv[2];
-        CommunicationSocket socket;
-        socket.connect(host.data(), port.data());
+        ClientSocket socket(host.data(), port.data());
 
         //TODO start a thread running this
         Worm::LobbyAssistant lobby(socket);

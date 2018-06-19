@@ -16,8 +16,10 @@
  * ClientSocket, la cual tiene la capacidad de realizar un connect al servidor.
  */
 class CommunicationSocket : public Socket {
-   public:
+protected:
     CommunicationSocket() = default;
+
+public:
     explicit CommunicationSocket(int fd);
     /**
      * Envia length bytes, contenidos en el buffer. Si la conexion falla, se

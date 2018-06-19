@@ -12,6 +12,7 @@ Worms::Lobby::Lobby(int playerID, uint8_t id): id(id) {
 }
 
 void Worms::Lobby::join(int playerID) {
+    std::lock_guard<std::mutex> lock(this->mutex);
     this->playerIDs.emplace_back(playerID);
     this->actualPlayers++;
     this->notify(*this, Event::NewPlayer);
@@ -21,11 +22,11 @@ void Worms::Lobby::join(int playerID) {
     }
 }
 
-uint8_t Worms::Lobby::getPlayersQuantity() const{
+std::uint8_t Worms::Lobby::getPlayersQuantity() const{
     return this->playersQuantity;
 }
 
-uint8_t Worms::Lobby::getActualPlayers() const{
+std::uint8_t Worms::Lobby::getActualPlayers() const{
     return this->actualPlayers;
 }
 
@@ -33,7 +34,7 @@ const std::vector<int> &Worms::Lobby::getPlayerIDs() const{
     return this->playerIDs;
 }
 
-uint8_t Worms::Lobby::getID() const{
+std::uint8_t Worms::Lobby::getID() const{
     return this->id;
 }
 
@@ -48,8 +49,10 @@ void Worms::Lobby::startGame() {
 }
 
 Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
-    this->playersQuantity = other.playersQuantity;
-    this->actualPlayers = other.actualPlayers;
-    this->playerIDs = std::move(other.playerIDs);
-    this->players = std::move(other.players);
+    if (this != &other){
+        this->playersQuantity = other.playersQuantity;
+        this->actualPlayers = other.actualPlayers;
+        this->playerIDs = std::move(other.playerIDs);
+        this->players = std::move(other.players);
+    }
 }

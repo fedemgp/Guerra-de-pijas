@@ -21,20 +21,22 @@ namespace Worms {
         GameLobbyAssistant(GameLobbyAssistant &copy) = delete;
         void run() override;
         void stop() override;
+        bool itsOver() const;
         void onNotify(Subject &subject, Event event) override;
+        int getPlayerID() const;
         CommunicationSocket getSocket();
 
     private:
-        Protocol protocol;
+        Protocol<CommunicationSocket> protocol;
         Lobbies &lobbies;
-        int id;
+        int playerID;
         std::vector<Observer *> lobbyObservers;
+        bool finished{false};
 
         void createGame();
         void getGames();
         void joinGame();
     };
 }
-
 
 #endif //INC_4_WORMS_GAMELOBBYASSISTANT_H

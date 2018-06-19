@@ -8,17 +8,14 @@
 
 #include "LobbyAssistant.h"
 
-Worm::LobbyAssistant::LobbyAssistant(CommunicationSocket &socket):
+Worm::LobbyAssistant::LobbyAssistant(ClientSocket &socket):
         protocol(socket){}
 
 void Worm::LobbyAssistant::run(){
-//    std::vector<std::string> commandInfo;
-//    this->protocol >> commandInfo;
-
     this->clearScreen();
     this->printCommands();
     std::cin >> this->command;
-    this->command -= 48;
+    this->command -= 48; //TODO encapsulate this
     switch(this->command){
         case COMMAND_CREATE_GAME: {
             this->createGame();
@@ -52,31 +49,34 @@ void Worm::LobbyAssistant::getGames(){
     std::vector<std::uint8_t> games;
     this->protocol >> games;
 //    this->clearScreen();
-    std::cout << "Lobby ID\t\tPlayers in room\t\tTotal players\n";
+    std::cout << "Lobby ID\t\tIn room\t\t\tTotal players\n";
     for (auto &uint : games){
-        std::cout << (int) uint << "\t\t" << std::endl;
+        std::cout << (int) uint << "\t\t\t\t";
     }
+    std::cout << std::endl;
 }
 
 void Worm::LobbyAssistant::joinGame(){
     this->getGames();
-    unsigned char gameToJoin;
+    std::uint8_t gameToJoin;
     std::cout<< "Choose lobby." << std::endl;
     std::cin >> gameToJoin;
     gameToJoin -= 48;
     this->command = COMMAND_JOIN_GAME;
-    this->protocol << this->command;std::cout<<"mando sala "<<(int) gameToJoin<<std::endl;
+    this->protocol << this->command;
+    std::cout<<"mando sala "<< (int) gameToJoin<<std::endl;
     this->protocol << gameToJoin;
     this->waitGameStart();
 }
 
-CommunicationSocket Worm::LobbyAssistant::getSocket() {
+ClientSocket Worm::LobbyAssistant::getSocket() {
     return std::move(this->protocol.getSocket());
 }
 
 void Worm::LobbyAssistant::waitGameStart() {
     while (this->playersQuantity < 2){
-        this->protocol >> this->playersQuantity;std::cout<<(int)this->playersQuantity<<std::endl;
+        this->protocol >> this->playersQuantity;
+        std::cout<< "players quantity " << (int) this->playersQuantity<<std::endl;
     }std::cout<<"Empieza\n";
 }
 

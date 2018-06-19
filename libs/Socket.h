@@ -25,7 +25,6 @@ class Socket {
     Socket &operator=(Socket &&other) noexcept;
     Socket(Socket &other) = delete;
     Socket &operator=(Socket &other) = delete;
-    void connect(const char *hostName, const char *port);
     /**
      *  Termina la comunicacion del socket.
      */

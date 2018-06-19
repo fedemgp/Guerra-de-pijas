@@ -9,26 +9,28 @@
 #include <stdint-gcc.h>
 #include <vector>
 #include <CommunicationSocket.h>
+#include <mutex>
 #include "Subject.h"
 
 namespace Worms {
     class Lobby : public Subject {
     public:
-        Lobby(int playerID, uint8_t id);
+        Lobby(int playerID, std::uint8_t id);
         Lobby(Lobby &&other);
         Lobby(Lobby &copy) = delete;
 
         void join(int playerID);
-        uint8_t getPlayersQuantity() const;
-        uint8_t getActualPlayers() const;
+        std::uint8_t getPlayersQuantity() const;
+        std::uint8_t getActualPlayers() const;
         const std::vector<int> &getPlayerIDs() const;
-        uint8_t getID() const;
+        std::uint8_t getID() const;
         void addPlayerSocket(CommunicationSocket &&player);
 
     private:
-        const uint8_t id;
-        uint8_t playersQuantity{2};
-        uint8_t actualPlayers{0};
+        std::mutex mutex;
+        const std::uint8_t id;
+        std::uint8_t playersQuantity{2};
+        std::uint8_t actualPlayers{0};
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
 
