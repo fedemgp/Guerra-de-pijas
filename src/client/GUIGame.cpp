@@ -21,7 +21,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
       stage(stage),
-      cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
+      cam(w, this->scale),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
@@ -243,20 +243,24 @@ void GUI::Game::start() {
                             this->exit();
                             break;
                         case SDL_KEYDOWN:
-                            if (this->snapshot.processingInputs) {
+                            if (this->snapshot.processingInputs &&
+                                this->team == this->snapshot.currentTeam) {
                                 cur.handleKeyDown(e.key.keysym.sym, &this->output);
                             }
                             break;
                         case SDL_KEYUP:
-                            if (this->snapshot.processingInputs) {
+                            if (this->snapshot.processingInputs &&
+                                this->team == this->snapshot.currentTeam) {
                                 cur.handleKeyUp(e.key.keysym.sym, &this->output);
                             }
                             break;
                         case SDL_MOUSEBUTTONDOWN: {
                             int x, y;
                             SDL_GetMouseState(&x, &y);
-                            GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
+                            GUI::Position global =
+                                this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
                             cur.mouseButtonDown(global, &this->output);
+                            break;
                         }
                     }
                 }
@@ -265,8 +269,8 @@ void GUI::Game::start() {
                 for (std::size_t i = 0; i < this->worms.size(); i++) {
                     this->worms[i].setState(this->snapshot.stateIDs[i]);
                     this->worms[i].setWeapon((i != this->snapshot.currentWorm)
-                                             ? Worm::WeaponID::WNone
-                                             : this->snapshot.activePlayerWeapon);
+                                                 ? Worm::WeaponID::WNone
+                                                 : this->snapshot.activePlayerWeapon);
                 }
 
                 if (cur.getState() == Worm::StateID::Still &&
@@ -282,8 +286,9 @@ void GUI::Game::start() {
                 if (this->snapshot.bulletsQuantity > 0) {
                     this->doesAnyoneShot = true;
                     for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
-                        std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(
-                                this->texture_mgr, this->sound_effect_mgr, this->snapshot.bulletType[i]));
+                        std::shared_ptr<Ammo::Bullet> p(
+                            new Ammo::Bullet(this->texture_mgr, this->sound_effect_mgr,
+                                             this->snapshot.bulletType[i]));
                         this->bullets.emplace_back(p);
                     }
                     int i = 0;
@@ -301,31 +306,7 @@ void GUI::Game::start() {
                 float dt = static_cast<float>(current - prev) / 1000.0f;
                 prev = current;
 
-                /* move the camera to the current player */
-                if (this->snapshot.bulletsQuantity > this->explodedQuantity) {
-                    float cur_x{0};
-                    float cur_y{0};
-                    int i{0};
-                    for (int j = 0; i < this->snapshot.bulletsQuantity; i++) {
-                        if (this->snapshot.bulletType[i] != Worm::WExplode) {
-                            cur_x = this->snapshot.bullets[j++];
-                            cur_y = this->snapshot.bullets[j];
-                            break;
-                        }
-                        j += 2;
-                    }
-
-                    this->cam.moveTo(GUI::Position{cur_x, cur_y});
-                } else {
-                    float cur_follow_x =
-                            this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
-                    float cur_follow_y =
-                            this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
-
-                    /* move the camera to the current player */
-                    this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
-                }
-
+                this->handleCamera(dt);
                 this->update(dt);
             }
             this->render();
@@ -481,4 +462,71 @@ void GUI::Game::renderBackground() {
  */
 void GUI::Game::render_controls() {
     /* draws the remaining time */
+}
+
+/**
+ * @brief Handles the camera actions.
+ *
+ * @param dt Seconds elapsed since the last call to this function.
+ */
+void GUI::Game::handleCamera(float dt) {
+    this->lastCameraUpdate += dt;
+
+    /* checks the mouse to see if the user wishes to move the camera */
+    int mx, my;
+    SDL_GetMouseState(&mx, &my);
+
+    const float cameraSpeed = 15.0f;
+
+    /* checks if the camera should be moved horizontally */
+    if (this->window.containsMouse()) {
+        if (mx < 20) {
+            auto p = this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt;
+            this->cam.moveTo(this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt);
+            this->lastCameraUpdate = 0.0f;
+        } else if (mx > this->window.getWidth() - 20) {
+            this->cam.moveTo(this->cam.getPosition() + GUI::Position{cameraSpeed, 0.0f} * dt);
+            this->lastCameraUpdate = 0.0f;
+        }
+
+        /* checks if the camera should be moved vertically */
+        if (my < 20) {
+            this->cam.moveTo(this->cam.getPosition() + GUI::Position{0.0f, cameraSpeed} * dt);
+            this->lastCameraUpdate = 0.0f;
+        } else if (my > this->window.getHeight() - 20) {
+            this->cam.moveTo(this->cam.getPosition() - GUI::Position{0.0f, cameraSpeed} * dt);
+            this->lastCameraUpdate = 0.0f;
+        }
+    }
+
+    /* if the user hasn't changed the camera in a while, it becomes automatic again */
+    if (this->lastCameraUpdate < 2.0f) {
+        return;
+    } else {
+        /* avoids overflow */
+        this->lastCameraUpdate = 2.0f;
+    }
+
+    /* move the camera to the current player */
+    if (this->snapshot.bulletsQuantity > this->explodedQuantity) {
+        float cur_x{0};
+        float cur_y{0};
+        int i{0};
+        for (int j = 0; i < this->snapshot.bulletsQuantity; i++) {
+            if (this->snapshot.bulletType[i] != Worm::WExplode) {
+                cur_x = this->snapshot.bullets[j++];
+                cur_y = this->snapshot.bullets[j];
+                break;
+            }
+            j += 2;
+        }
+
+        this->cam.moveTo(GUI::Position{cur_x, cur_y});
+    } else {
+        float cur_follow_x = this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
+        float cur_follow_y = this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
+
+        /* move the camera to the current player */
+        this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
+    }
 }

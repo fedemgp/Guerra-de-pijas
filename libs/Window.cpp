@@ -105,7 +105,7 @@ SDL_Renderer& GUI::Window::getRenderer() {
  *
  * @return int Window height.
  */
-int GUI::Window::getHeight() {
+int GUI::Window::getHeight() const {
     int h, w;
     SDL_GL_GetDrawableSize(this->window, &w, &h);
     return h;
@@ -116,8 +116,17 @@ int GUI::Window::getHeight() {
  *
  * @return int Window width.
  */
-int GUI::Window::getWidth() {
+int GUI::Window::getWidth() const {
     int h, w;
     SDL_GL_GetDrawableSize(this->window, &w, &h);
     return w;
+}
+
+/**
+ * @brief Checks if the mouse cursor is contained in this window.
+ *
+ * @return true is the mouse is in the current window.
+ */
+bool GUI::Window::containsMouse() const {
+    return (SDL_GetMouseFocus() == this->window);
 }

@@ -118,6 +118,7 @@ struct GameStateMsg {
     double elapsedTurnSeconds;
     uint8_t currentWorm;
     uint8_t currentWormToFollow;
+    std::uint8_t currentTeam;
     uint8_t num_worms;
     uint8_t wormsTeam[WORMS_QUANTITY];
     float wormsHealth[WORMS_QUANTITY];
@@ -134,7 +135,6 @@ struct GameStateMsg {
     double currentPlayerTurnTime;
     bool gameEnded;
     std::uint8_t winner;
-    char currentTeam;
 
     std::size_t getSerializedSize() {
         return sizeof(*this);
