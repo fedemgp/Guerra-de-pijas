@@ -138,8 +138,8 @@ class Config {
     float drowningTime{DROWNING_TIME};
     float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
-    float minWindIntensity{0.2f};
-    float maxWindIntensity{10.0f};
+    float minWindIntensity{MIN_WIND_INTENSITY};
+    float maxWindIntensity{MAX_WIND_INTENSITY};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{
