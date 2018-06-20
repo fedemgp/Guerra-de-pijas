@@ -181,7 +181,7 @@ void Worms::Game::start() {
                 snapshot.set(msg);
                 snapshot.swap();
             }
-            
+
             if (this->gameEnded) {
                 this->quit = true;
             }
@@ -231,9 +231,9 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.num_worms++;
     }
     /* sets wind data */
-    m.windIntensity = (char) (127.0f * this->wind.instensity /
-            (this->wind.maxIntensity - this->wind.minIntensity)
-                              * this->wind.xDirection);
+    m.windIntensity =
+        (char)(127.0f * this->wind.instensity /
+               (this->wind.maxIntensity - this->wind.minIntensity) * this->wind.xDirection);
 
     /* sets the current player's data */
     m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
@@ -416,7 +416,8 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
  * @param weapon
  */
 void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
-                                  Math::Point<float> shooterPosition, Worm::Direction shooterDirection) {
+                                  Math::Point<float> shooterPosition,
+                                  Worm::Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)weapon.get();
     ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
@@ -428,17 +429,17 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
 void Worms::Game::calculateWind() {
     std::random_device rnd_device;
     std::mt19937 mersenne_engine(rnd_device());
-    std::uniform_real_distribution<> distr(this->wind.minIntensity,
-                                           this->wind.maxIntensity);
+    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
 
-    this->wind.xDirection = (distr(mersenne_engine) > (this->wind.maxIntensity -
-            this->wind.minIntensity) / 2.0f) ? 1 : -1;
+    this->wind.xDirection =
+        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
+                                                                                              : -1;
     this->wind.instensity = distr(mersenne_engine);
 
-//    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
-//                                                                    - this->wind.minIntensity)
-//                                 * this->wind.xDirection);
-//    std::cout << "wind intensity: " << this->wind.instensity << std::endl
-//              << "wind direction: " << this->wind.xDirection << std::endl
-//              << "message.windIntensity: " << (int) windIntensity << std::endl;
+    //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
+    //                                                                    - this->wind.minIntensity)
+    //                                 * this->wind.xDirection);
+    //    std::cout << "wind intensity: " << this->wind.instensity << std::endl
+    //              << "wind direction: " << this->wind.xDirection << std::endl
+    //              << "message.windIntensity: " << (int) windIntensity << std::endl;
 }

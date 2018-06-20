@@ -26,7 +26,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
       team(team),
-      wind(this->texture_mgr, this->cam){
+      wind(this->texture_mgr, this->cam) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WindLeft, "assets/img/Misc/windl.png",
                            GUI::Color{0x00, 0x00, 0x00});

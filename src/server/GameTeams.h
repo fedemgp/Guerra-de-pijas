@@ -26,7 +26,7 @@ class GameTeams {
 
     std::uint8_t getWinner();
 
-private:
+   private:
     std::vector<Team> teams;
     std::uint8_t deadTeams{0};
     uint8_t currentTeam{0};

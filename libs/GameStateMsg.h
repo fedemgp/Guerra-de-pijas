@@ -13,9 +13,9 @@
 #include <stdint.h>
 #include <cstring>
 
+#include "Direction.h"
 #include "Exception.h"
 #include "Point.h"
-#include "Direction.h"
 
 namespace Worm {
 enum class StateID {

@@ -3,8 +3,8 @@
  *  date: 20/05/18
  */
 
-#include "Direction.h"
 #include "PlayerStartBackFlip.h"
+#include "Direction.h"
 
 Worms::StartBackFlip::StartBackFlip()
     : State(Worm::StateID::StartBackFlip),

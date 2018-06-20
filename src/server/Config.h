@@ -8,8 +8,8 @@
 
 #include <stdint.h>
 
-#include "GameConstants.h"
 #include "Direction.h"
+#include "GameConstants.h"
 #include "Point.h"
 
 namespace Math {

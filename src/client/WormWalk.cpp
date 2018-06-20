@@ -3,8 +3,8 @@
  *  date: 18/05/18
  */
 
-#include <iostream>
 #include "WormWalk.h"
+#include <iostream>
 
 Worm::Walk::Walk() : State(StateID::Walk) {}
 

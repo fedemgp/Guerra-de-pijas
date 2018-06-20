@@ -66,7 +66,7 @@ bool Worms::GameTeams::endTurn(std::vector<Player> &players) {
 
     if (this->deadTeams >= this->teams.size() - 1) {
         return true;
-    } else{
+    } else {
         return false;
     }
 }

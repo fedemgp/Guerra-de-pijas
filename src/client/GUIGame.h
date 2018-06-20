@@ -25,9 +25,9 @@
 #include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
+#include "Wind.h"
 #include "Window.h"
 #include "Worm.h"
-#include "Wind.h"
 
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
@@ -50,7 +50,7 @@ class Game {
     void outputWorker();
 
     std::atomic<bool> quit{false};
-    float scale{13.0f};  // pixels per meter
+    float scale{13.0f};            // pixels per meter
     float lastCameraUpdate{0.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;

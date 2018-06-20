@@ -5,9 +5,9 @@
 #ifndef INC_4_WORMS_TELEPORTING_H
 #define INC_4_WORMS_TELEPORTING_H
 
+#include <Camera.h>
 #include <stdint-gcc.h>
 #include <cstdint>
-#include <Camera.h>
 #include "PlayerState.h"
 
 namespace Worms {
