@@ -237,18 +237,18 @@ void GUI::Game::start() {
 
                 /* handle events on queue */
                 SDL_Event e;
-                while (SDL_PollEvent(&e) != 0 && this->team == this->snapshot.currentTeam) {
+                while (SDL_PollEvent(&e) != 0) {
                     switch (e.type) {
                         case SDL_QUIT:
                             this->exit();
                             break;
                         case SDL_KEYDOWN:
-                            if (this->snapshot.processingInputs) {
+                            if (this->snapshot.processingInputs && this->team == this->snapshot.currentTeam) {
                                 cur.handleKeyDown(e.key.keysym.sym, &this->output);
                             }
                             break;
                         case SDL_KEYUP:
-                            if (this->snapshot.processingInputs) {
+                            if (this->snapshot.processingInputs && this->team == this->snapshot.currentTeam) {
                                 cur.handleKeyUp(e.key.keysym.sym, &this->output);
                             }
                             break;
