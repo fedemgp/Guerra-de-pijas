@@ -5,13 +5,21 @@
 
 #include <iostream>
 #include <GameStateMsg.h>
+#include <SDL2/SDL.h>
 
 #include "LobbyAssistant.h"
+#include "Text.h"
+#include "Window.h"
+#include "SelectActionWindow.h"
 
-Worm::LobbyAssistant::LobbyAssistant(ClientSocket &socket):
-        protocol(socket){}
+GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
+        protocol(socket),
+        window(window) {
+}
 
-void Worm::LobbyAssistant::run(){
+void GUI::LobbyAssistant::run(){
+    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window});
+
     this->clearScreen();
     this->printCommands();
     std::cin >> this->command;
@@ -28,22 +36,22 @@ void Worm::LobbyAssistant::run(){
     }
 }
 
-void Worm::LobbyAssistant::clearScreen(){
+void GUI::LobbyAssistant::clearScreen(){
     std::cout << std::string(100, '\n');
 }
 
-void Worm::LobbyAssistant::printCommands() {
+void GUI::LobbyAssistant::printCommands() {
     std::cout << "Select option" << std::endl;
     std::cout << COMMAND_CREATE_GAME << " Create game." << std::endl
               << COMMAND_JOIN_GAME << " Shows current lobbies. Must select one." << std::endl;
 }
 //TODO notify to the main thread that player select this so it can render properly
-void Worm::LobbyAssistant::createGame(){
+void GUI::LobbyAssistant::createGame(){
     this->protocol << this->command;
     this->waitGameStart();
 }
 
-void Worm::LobbyAssistant::getGames(){
+void GUI::LobbyAssistant::getGames(){
     this->command = COMMAND_GET_GAMES;
     this->protocol << this->command;
     std::vector<std::uint8_t> games;
@@ -63,7 +71,7 @@ void Worm::LobbyAssistant::getGames(){
     std::cout << std::endl;
 }
 
-void Worm::LobbyAssistant::joinGame(){
+void GUI::LobbyAssistant::joinGame(){
     this->getGames();
     std::uint8_t gameToJoin;
     std::cout<< "Choose lobby." << std::endl;
@@ -76,11 +84,11 @@ void Worm::LobbyAssistant::joinGame(){
     this->waitGameStart();
 }
 
-ClientSocket Worm::LobbyAssistant::getSocket() {
+ClientSocket GUI::LobbyAssistant::getSocket() {
     return std::move(this->protocol.getSocket());
 }
 
-void Worm::LobbyAssistant::waitGameStart() {
+void GUI::LobbyAssistant::waitGameStart() {
     while (this->playersQuantity < 2){
         this->protocol >> this->playersQuantity;
         std::cout<< "players quantity " << (int) this->playersQuantity<<std::endl;

@@ -20,12 +20,12 @@ int main(int argc, const char *argv[]) {
         std::string port = argv[2];
         ClientSocket socket(host.data(), port.data());
 
-        //TODO start a thread running this
-        Worm::LobbyAssistant lobby(socket);
-        lobby.run();
-        //TODO join Lobby thread
         GUI::Window window{};
         window.clear();
+        //TODO start a thread running this
+        GUI::LobbyAssistant lobby(socket, window);
+        lobby.run();
+        //TODO join Lobby thread
 
         socket = std::move(lobby.getSocket());
 
