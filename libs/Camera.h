@@ -5,6 +5,7 @@
 
 #include "Point.h"
 #include "Texture.h"
+#include "Window.h"
 
 namespace GUI {
 using Position = Math::Point<float>;
@@ -12,7 +13,7 @@ using ScreenPosition = Math::Point<int>;
 
 class Camera {
    public:
-    Camera(float scale, int width, int height, SDL_Renderer &renderer);
+    Camera(GUI::Window &window, float scale);
     ~Camera();
 
     bool isMoving() const;
@@ -39,14 +40,13 @@ class Camera {
     void update(float dt);
 
    private:
+    GUI::Window &window;
     /* current camera coordinates. */
     Position cur{0, 0};
     /* the position that the camera is moving towards to and the one that it started moving from. */
     Position start, dst;
     /* Distance scale factor. */
     float scale;
-    /* camera width and height. */
-    int width, height;
     /* elapsed time accumulator. */
     float elapsed{0};
     /* The SDL renderer. */

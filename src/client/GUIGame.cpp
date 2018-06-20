@@ -21,7 +21,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
       stage(stage),
-      cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
+      cam(w, this->scale),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
