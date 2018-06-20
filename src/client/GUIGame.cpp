@@ -340,6 +340,7 @@ void GUI::Game::start() {
 void GUI::Game::update(float dt) {
     for (auto &worm : this->worms) {
         worm.health = this->snapshot.wormsHealth[static_cast<int>(worm.id)];
+        worm.direction = this->snapshot.wormsDirection[static_cast<int>(worm.id)];
         worm.update(dt);
     }
 

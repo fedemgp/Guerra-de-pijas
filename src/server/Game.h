@@ -13,6 +13,7 @@
 
 #include "Bullet.h"
 #include "CommunicationSocket.h"
+#include "Direction.h"
 #include "DoubleBuffer.h"
 #include "GameClock.h"
 #include "GameTeams.h"
@@ -59,7 +60,7 @@ class Game : Observer {
      * @param weapon
      */
     void calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition,
-                         Direction shooterDirection);
+                         Worm::Direction shooterDirection);
     void calculateWind();
     void exit();
     void endTurn();

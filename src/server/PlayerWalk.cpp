@@ -21,7 +21,7 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
         return;
     }
 
-    if (p.direction == Direction::left) {
+    if (p.direction == Worm::Direction::left) {
         final_vel = -this->walkVelocity;
     } else {
         final_vel = this->walkVelocity;
@@ -37,11 +37,11 @@ void Worms::Walk::update(Player &p, float dt, b2Body *body) {
 }
 
 void Worms::Walk::moveRight(Worms::Player &p) {
-    p.direction = Direction::right;
+    p.direction = Worm::Direction::right;
 }
 
 void Worms::Walk::moveLeft(Worms::Player &p) {
-    p.direction = Direction::left;
+    p.direction = Worm::Direction::left;
 }
 
 void Worms::Walk::stopMove(Worms::Player &p) {

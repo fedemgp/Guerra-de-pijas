@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "GameConstants.h"
+#include "Direction.h"
 #include "Point.h"
 
 namespace Math {
@@ -16,7 +17,6 @@ using Vector = Math::Point<float>;
 }
 
 namespace Worms {
-enum class Direction { right, left, up, down };
 struct Wind {
     float minIntensity;
     float maxIntensity;
@@ -53,7 +53,7 @@ struct Config {
 
 struct P2PWeaponInfo {
     Bullet::DamageInfo dmgInfo;
-    Worms::Direction direction;
+    Worm::Direction direction;
     Math::Point<float> position;
     float angle;
 };

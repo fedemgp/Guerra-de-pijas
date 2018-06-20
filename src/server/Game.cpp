@@ -15,6 +15,7 @@
 
 #include "BaseballBat.h"
 #include "Config.h"
+#include "Direction.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
 #include "Player.h"
@@ -226,6 +227,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.stateIDs[m.num_worms] = worm.getStateId();
         m.wormsHealth[m.num_worms] = worm.health;
         m.wormsTeam[m.num_worms] = worm.getTeam();
+        m.wormsDirection[m.num_worms] = worm.direction;
         m.num_worms++;
     }
 
@@ -410,7 +412,7 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
  * @param weapon
  */
 void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
-                                  Math::Point<float> shooterPosition, Direction shooterDirection) {
+                                  Math::Point<float> shooterPosition, Worm::Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)weapon.get();
     ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {

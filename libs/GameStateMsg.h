@@ -15,6 +15,7 @@
 
 #include "Exception.h"
 #include "Point.h"
+#include "Direction.h"
 
 namespace Worm {
 enum class StateID {
@@ -117,6 +118,7 @@ struct GameStateMsg {
     std::uint8_t currentTeam;
     uint8_t num_worms;
     uint8_t wormsTeam[WORMS_QUANTITY];
+    Worm::Direction wormsDirection[WORMS_QUANTITY];
     float wormsHealth[WORMS_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];

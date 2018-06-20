@@ -13,6 +13,7 @@
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
+#include "Direction.h"
 #include "Drowning.h"
 #include "Dynamite.h"
 #include "Falling.h"
@@ -358,11 +359,11 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
 
 void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
                                       Math::Point<float> shooterPosition,
-                                      Direction shooterDirection) {
+                                      Worm::Direction shooterDirection) {
     if (this->getStateId() != Worm::StateID::Dead) {
-        if ((shooterDirection == Direction::right &&
+        if ((shooterDirection == Worm::Direction::right &&
              this->getPosition().x - shooterPosition.x > 0) ||
-            (shooterDirection == Direction::left &&
+            (shooterDirection == Worm::Direction::left &&
              this->getPosition().x - shooterPosition.x < 0)) {
             double distanceToTheWeapon = this->getPosition().distance(info.position);
             if (distanceToTheWeapon <= info.dmgInfo.radius && distanceToTheWeapon > 0) {
@@ -474,7 +475,7 @@ void Worms::Player::endShot() {
         BulletInfo info = this->weapon->getBulletInfo();
         info.point = position;
         info.safeNonContactDistance = safeNonContactDistance;
-        if (this->direction == Direction::right) {
+        if (this->direction == Worm::Direction::right) {
             if (info.angle < 0.0f) {
                 info.angle += 360.0f;
             }
