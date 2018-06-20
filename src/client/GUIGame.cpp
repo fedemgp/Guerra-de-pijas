@@ -260,12 +260,16 @@ void GUI::Game::start() {
                             }
                             break;
                         case SDL_MOUSEBUTTONDOWN: {
-                            int x, y;
-                            SDL_GetMouseState(&x, &y);
-                            GUI::Position global =
-                                this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
-                            cur.mouseButtonDown(global, &this->output);
-                            break;
+                            if (this->snapshot.processingInputs &&
+                                this->team == this->snapshot.currentTeam){
+                                int x, y;
+                                SDL_GetMouseState(&x, &y);
+                                GUI::Position global =
+                                        this->cam.screenToGlobal(
+                                                GUI::ScreenPosition{x, y});
+                                cur.mouseButtonDown(global, &this->output);
+                                break;
+                            }
                         }
                     }
                 }
