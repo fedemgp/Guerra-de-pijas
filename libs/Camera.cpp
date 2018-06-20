@@ -50,7 +50,8 @@ float GUI::Camera::getScale() const {
  * @return Position Camera position.
  */
 GUI::Position GUI::Camera::getPosition() const {
-    return this->cur;
+    Position offset{(this->width / 2) / this->scale, -(this->height / 2) / this->scale};
+    return this->cur + offset;
 }
 
 /**
