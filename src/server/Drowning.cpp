@@ -48,3 +48,11 @@ void Worms::Drowning::banana(Worms::Player &p) {}
 void Worms::Drowning::holy(Worms::Player &p) {}
 
 void Worms::Drowning::setTimeout(Worms::Player &p, uint8_t time) {}
+
+void Worms::Drowning::aerialAttack(Worms::Player &p) {}
+
+void Worms::Drowning::dynamite(Worms::Player &p) {}
+
+void Worms::Drowning::teleport(Worms::Player &p) {}
+
+void Worms::Drowning::baseballBat(Worms::Player &p) {}

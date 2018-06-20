@@ -38,10 +38,16 @@ class State {
     virtual IO::PlayerInput mortar(Worm &w) = 0;
     virtual IO::PlayerInput banana(Worm &w) = 0;
     virtual IO::PlayerInput holy(Worm &w) = 0;
+    virtual IO::PlayerInput aerialAttack(Worm &w) = 0;
+    virtual IO::PlayerInput dynamite(Worm &w) = 0;
+    virtual IO::PlayerInput baseballBat(Worm &w) = 0;
+    virtual IO::PlayerInput teleport(Worm &w) = 0;
 
     virtual IO::PlayerInput startShot(Worm &w) = 0;
     virtual IO::PlayerInput endShot(Worm &w) = 0;
     virtual IO::PlayerInput backFlip(Worm &w) = 0;
+    virtual IO::PlayerInput positionSelected(Worm &w) = 0;
+
     virtual StateID &getState() {
         return this->stateID;
     };

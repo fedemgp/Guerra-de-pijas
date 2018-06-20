@@ -16,7 +16,7 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team)
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
@@ -24,7 +24,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
       cam(this->scale, w.getWidth(), w.getHeight(), w.getRenderer()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
-      socket(socket) {
+      socket(socket),
+      team(team) {
     /* loads the required textures */
     this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
@@ -47,6 +48,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
     this->texture_mgr.load(GUI::GameTextures::Fly, "assets/img/Worms/wfly1.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Die, "assets/img/Worms/wdie.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Sliding, "assets/img/Worms/wslided.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Dead, "assets/img/Misc/grave4.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
@@ -94,6 +97,22 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormAirAttack, "assets/img/Worms/wairtlk.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::AirMissile, "assets/img/Weapons/airmisl.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormDynamite, "assets/img/Worms/wdynbak.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Dynamite, "assets/img/Weapons/dynamite.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBat, "assets/img/Worms/wbsbaim.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBatting, "assets/img/Worms/wbsbswn.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormTeleport, "assets/img/Worms/wteltlk.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormTeleporting, "assets/img/Worms/wteldsv.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
     this->texture_mgr.load(GUI::GameTextures::BazookaIcon, "assets/img/Weapon Icons/bazooka.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::GrenadeIcon, "assets/img/Weapon Icons/grenade.2.png",
@@ -106,6 +125,15 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, CommunicationSocket &socket)
                            GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::HolyIcon, "assets/img/Weapon Icons/hgrenade.2.png",
                            GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::AirIcon, "assets/img/Weapon Icons/airstrke.1.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::DynamiteIcon,
+                           "assets/img/Weapon Icons/dynamite.1.png", GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BaseballBatIcon,
+                           "assets/img/Weapon Icons/baseball.1.png", GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
+                           "assets/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
+
     this->armory.loadWeapons();
 
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
@@ -204,100 +232,102 @@ void GUI::Game::start() {
         while (!this->quit) {
             /* updates the snapshot */
             this->snapshot = this->snapshotBuffer.get();
-            Worm::Worm &cur = this->worms[this->snapshot.currentWorm];
+            if (!this->snapshot.gameEnded) {
+                Worm::Worm &cur = this->worms[this->snapshot.currentWorm];
 
-            /* handle events on queue */
-            SDL_Event e;
-            while (SDL_PollEvent(&e) != 0) {
-                switch (e.type) {
-                    case SDL_QUIT:
-                        this->exit();
-                        break;
-                    case SDL_KEYDOWN:
-                        if (this->snapshot.processingInputs) {
-                            cur.handleKeyDown(e.key.keysym.sym, &this->output);
+                /* handle events on queue */
+                SDL_Event e;
+                while (SDL_PollEvent(&e) != 0) {
+                    switch (e.type) {
+                        case SDL_QUIT:
+                            this->exit();
+                            break;
+                        case SDL_KEYDOWN:
+                            if (this->snapshot.processingInputs) {
+                                cur.handleKeyDown(e.key.keysym.sym, &this->output);
+                            }
+                            break;
+                        case SDL_KEYUP:
+                            if (this->snapshot.processingInputs) {
+                                cur.handleKeyUp(e.key.keysym.sym, &this->output);
+                            }
+                            break;
+                        case SDL_MOUSEBUTTONDOWN: {
+                            int x, y;
+                            SDL_GetMouseState(&x, &y);
+                            GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
+                            cur.mouseButtonDown(global, &this->output);
                         }
-                        break;
-                    case SDL_KEYUP:
-                        if (this->snapshot.processingInputs) {
-                            cur.handleKeyUp(e.key.keysym.sym, &this->output);
-                        }
-                        break;
-                    case SDL_MOUSEBUTTONDOWN: {
-                        int x, y;
-                        SDL_GetMouseState(&x, &y);
-                        GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
-                        cur.mouseButtonDown(global, &this->output);
                     }
                 }
-            }
 
-            /* synchronizes the worms states with the server's */
-            for (std::size_t i = 0; i < this->worms.size(); i++) {
-                this->worms[i].setState(this->snapshot.stateIDs[i]);
-                this->worms[i].setWeapon((i != this->snapshot.currentWorm)
+                /* synchronizes the worms states with the server's */
+                for (std::size_t i = 0; i < this->worms.size(); i++) {
+                    this->worms[i].setState(this->snapshot.stateIDs[i]);
+                    this->worms[i].setWeapon((i != this->snapshot.currentWorm)
                                              ? Worm::WeaponID::WNone
                                              : this->snapshot.activePlayerWeapon);
-            }
-
-            if (cur.getState() == Worm::StateID::Still &&
-                cur.getWeaponID() != Worm::WeaponID::WNone) {
-                cur.setWeaponAngle(this->snapshot.activePlayerAngle);
-            }
-            if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot) {
-                this->bullets.erase(this->bullets.begin(), this->bullets.end());
-                this->explodedQuantity = 0;
-                this->doesAnyoneShot = false;
-                this->worms[this->snapshot.currentWorm].reset();
-            }
-            if (this->snapshot.bulletsQuantity > 0) {
-                this->doesAnyoneShot = true;
-                for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
-                    std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(
-                        this->texture_mgr, this->sound_effect_mgr, this->snapshot.bulletType[i]));
-                    this->bullets.emplace_back(p);
                 }
-                int i = 0;
-                for (auto &bullet : this->bullets) {
-                    if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode &&
-                        !bullet->exploded()) {
-                        bullet->madeImpact();
-                        this->explodedQuantity++;
+
+                if (cur.getState() == Worm::StateID::Still &&
+                    cur.getWeaponID() != Worm::WeaponID::WNone) {
+                    cur.setWeaponAngle(this->snapshot.activePlayerAngle);
+                }
+                if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot) {
+                    this->bullets.erase(this->bullets.begin(), this->bullets.end());
+                    this->explodedQuantity = 0;
+                    this->doesAnyoneShot = false;
+                    this->worms[this->snapshot.currentWorm].reset();
+                }
+                if (this->snapshot.bulletsQuantity > 0) {
+                    this->doesAnyoneShot = true;
+                    for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
+                        std::shared_ptr<Ammo::Bullet> p(new Ammo::Bullet(
+                                this->texture_mgr, this->sound_effect_mgr, this->snapshot.bulletType[i]));
+                        this->bullets.emplace_back(p);
                     }
-                    bullet->setAngle(this->snapshot.bulletsAngle[i++]);
-                }
-            }
-
-            uint32_t current = SDL_GetTicks();
-            float dt = static_cast<float>(current - prev) / 1000.0f;
-            prev = current;
-
-            /* move the camera to the current player */
-            if (this->snapshot.bulletsQuantity > this->explodedQuantity) {
-                float cur_x{0};
-                float cur_y{0};
-                int i{0};
-                for (int j = 0; i < this->snapshot.bulletsQuantity; i++) {
-                    if (this->snapshot.bulletType[i] != Worm::WExplode) {
-                        cur_x = this->snapshot.bullets[j++];
-                        cur_y = this->snapshot.bullets[j];
-                        break;
+                    int i = 0;
+                    for (auto &bullet : this->bullets) {
+                        if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode &&
+                            !bullet->exploded()) {
+                            bullet->madeImpact();
+                            this->explodedQuantity++;
+                        }
+                        bullet->setAngle(this->snapshot.bulletsAngle[i++]);
                     }
-                    j += 2;
                 }
 
-                this->cam.moveTo(GUI::Position{cur_x, cur_y});
-            } else {
-                float cur_follow_x =
-                    this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
-                float cur_follow_y =
-                    this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
+                uint32_t current = SDL_GetTicks();
+                float dt = static_cast<float>(current - prev) / 1000.0f;
+                prev = current;
 
                 /* move the camera to the current player */
-                this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
-            }
+                if (this->snapshot.bulletsQuantity > this->explodedQuantity) {
+                    float cur_x{0};
+                    float cur_y{0};
+                    int i{0};
+                    for (int j = 0; i < this->snapshot.bulletsQuantity; i++) {
+                        if (this->snapshot.bulletType[i] != Worm::WExplode) {
+                            cur_x = this->snapshot.bullets[j++];
+                            cur_y = this->snapshot.bullets[j];
+                            break;
+                        }
+                        j += 2;
+                    }
 
-            this->update(dt);
+                    this->cam.moveTo(GUI::Position{cur_x, cur_y});
+                } else {
+                    float cur_follow_x =
+                            this->snapshot.positions[this->snapshot.currentWormToFollow * 2];
+                    float cur_follow_y =
+                            this->snapshot.positions[this->snapshot.currentWormToFollow * 2 + 1];
+
+                    /* move the camera to the current player */
+                    this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
+                }
+
+                this->update(dt);
+            }
             this->render();
         }
     } catch (std::exception &e) {
@@ -336,7 +366,7 @@ void GUI::Game::render() {
         const GUI::Texture &texture = this->texture_mgr.get(GUI::GameTextures::LongGirder);
 
         GUI::WrapTexture wt{texture, girder.length, girder.height};
-        wt.render(GUI::Position{girder.pos.x, girder.pos.y}, this->cam);
+        wt.render(GUI::Position{girder.pos.x, girder.pos.y}, girder.angle, this->cam);
     }
 
     int i = 0, j = 0;
@@ -379,6 +409,18 @@ void GUI::Game::render() {
     text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
     this->armory.render();
+
+    if (this->snapshot.gameEnded) {
+        int x = this->window.getWidth() / 2;
+        int y = this->window.getHeight() / 2;
+        Text textGameEnd{this->font};
+        if (this->snapshot.winner == this->team) {
+            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
+        } else {
+            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
+        }
+        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
+    }
 
     this->window.render();
 }

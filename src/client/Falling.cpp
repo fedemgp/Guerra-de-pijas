@@ -73,3 +73,23 @@ IO::PlayerInput Worm::Falling::holy(Worm &w) {
 IO::PlayerInput Worm::Falling::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::Falling::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Falling::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Falling::dynamite(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Falling::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::Falling::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

@@ -11,6 +11,7 @@ class WrapTexture {
     ~WrapTexture();
 
     void render(Position p, Camera &camera);
+    void render(Position p, float angle, Camera &camera);
 
    private:
     const Texture &texture;

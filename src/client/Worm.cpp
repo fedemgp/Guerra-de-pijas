@@ -7,12 +7,15 @@
 #include <cmath>
 #include <iostream>
 
+#include "AerialAttack.h"
 #include "Banana.h"
+#include "BaseballBat.h"
 #include "Bazooka.h"
 #include "Cluster.h"
 #include "Dead.h"
 #include "Die.h"
 #include "Drowning.h"
+#include "Dynamite.h"
 #include "Falling.h"
 #include "GameStateMsg.h"
 #include "Grenade.h"
@@ -20,6 +23,10 @@
 #include "Holy.h"
 #include "Land.h"
 #include "Mortar.h"
+#include "Sliding.h"
+#include "Teleport.h"
+#include "Teleported.h"
+#include "Teleporting.h"
 #include "Text.h"
 #include "WeaponNone.h"
 #include "Worm.h"
@@ -95,6 +102,18 @@ void Worm::Worm::handleKeyDown(SDL_Keycode key, IO::Stream<IO::PlayerMsg> *out) 
             break;
         case SDLK_F6:
             i = this->state->holy(*this);
+            break;
+        case SDLK_F7:
+            i = this->state->aerialAttack(*this);
+            break;
+        case SDLK_F8:
+            i = this->state->dynamite(*this);
+            break;
+        case SDLK_F9:
+            i = this->state->baseballBat(*this);
+            break;
+        case SDLK_F10:
+            i = this->state->teleport(*this);
             break;
         case SDLK_SPACE:
             i = this->state->startShot(*this);
@@ -181,6 +200,18 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Teleporting: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
+                                     true};
+            animation.setAnimateOnce();
+            return animation;
+        }
+        case StateID::Teleported: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
+                                     true};
+            animation.setPlayInverse();
+            return animation;
+        }
         case StateID::Hit:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Fly), true,
                                   FLY_CENTER_FRAME, false};
@@ -194,6 +225,8 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
                                   DROWN_CENTER_FRAME, false};
         case StateID::Dead:
             return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Dead), true};
+        case StateID::Sliding:
+            return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::Sliding), true};
     }
     return GUI::Animation{this->texture_mgr.get(GUI::GameTextures::WormIdle), true};
 }
@@ -235,6 +268,10 @@ void Worm::Worm::playSoundEffect(StateID state) {
             break;
         case StateID::Falling:
             break;
+        case StateID::Teleporting:
+            break;
+        case StateID::Teleported:
+            break;
         case StateID::Hit:
             this->soundEffectPlayer =
                 std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
@@ -257,6 +294,8 @@ void Worm::Worm::playSoundEffect(StateID state) {
                 std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::Explosion), true});
             this->soundEffectPlayer->play();
+            break;
+        case StateID::Sliding:
             break;
     }
 }
@@ -298,6 +337,12 @@ void Worm::Worm::setState(StateID state) {
             case StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
                 break;
+            case StateID::Teleporting:
+                this->state = std::shared_ptr<State>(new Teleporting());
+                break;
+            case StateID::Teleported:
+                this->state = std::shared_ptr<State>(new Teleported());
+                break;
             case StateID::Hit:
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
@@ -311,6 +356,9 @@ void Worm::Worm::setState(StateID state) {
                 this->state = std::shared_ptr<State>(new Dead());
                 this->explosion = std::shared_ptr<Explosion>(new Explosion(this->texture_mgr));
                 this->explosion->position = this->position;
+                break;
+            case StateID::Sliding:
+                this->state = std::shared_ptr<State>(new Sliding());
                 break;
         }
     }
@@ -342,6 +390,18 @@ void Worm::Worm::setWeapon(const WeaponID &id) {
             case WeaponID::WHoly:
                 this->weapon = std::shared_ptr<Weapon>(new Holy(this->texture_mgr));
                 break;
+            case WeaponID::WAerial:
+                this->weapon = std::shared_ptr<Weapon>(new AerialAttack(this->texture_mgr));
+                break;
+            case WeaponID::WDynamite:
+                this->weapon = std::shared_ptr<Weapon>(new Dynamite(this->texture_mgr));
+                break;
+            case WeaponID::WBaseballBat:
+                this->weapon = std::shared_ptr<Weapon>(new BaseballBat(this->texture_mgr));
+                break;
+            case WeaponID::WTeleport:
+                this->weapon = std::shared_ptr<Weapon>(new Teleport(this->texture_mgr));
+                break;
             case WeaponID::WNone:
                 this->weapon = std::shared_ptr<Weapon>(new WeaponNone(this->texture_mgr));
                 break;
@@ -366,13 +426,13 @@ void Worm::Worm::setPosition(GUI::Position p) {
 }
 
 void Worm::Worm::startShot() {
-    if (!this->hasFired){
+    if (!this->hasFired) {
         this->weapon->startShot();
     }
 }
 
 void Worm::Worm::endShot() {
-    if (!this->hasFired){
+    if (!this->hasFired) {
         this->weapon->endShot();
         this->playWeaponSoundEffect(this->getWeaponID());
         this->hasFired = true;
@@ -380,10 +440,14 @@ void Worm::Worm::endShot() {
 }
 
 void Worm::Worm::mouseButtonDown(GUI::Position position, IO::Stream<IO::PlayerMsg> *out) {
-    IO::PlayerMsg msg;
-    msg.input = IO::PlayerInput::positionSelected;
-    msg.position = position;
-    *out << msg;
+    IO::PlayerInput i = this->state->positionSelected(*this);
+    if (i != IO::PlayerInput::moveNone && !this->hasFired && this->weapon->positionSelected()) {
+        this->playWeaponSoundEffect(this->weapon->getWeaponID());
+        IO::PlayerMsg msg;
+        msg.input = i;
+        msg.position = position;
+        *out << msg;
+    }
 }
 
 void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
@@ -426,6 +490,18 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
                     this->sound_effect_mgr.get(GUI::GameSoundEffects::Holy), true});
             this->soundEffectPlayer->play();
             break;
+        case WeaponID::WAerial:
+            this->soundEffectPlayer =
+                std::shared_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::AirStrike), true});
+            this->soundEffectPlayer->play();
+            break;
+        case WeaponID::WDynamite:
+            break;
+        case WeaponID::WBaseballBat:
+            break;
+        case WeaponID::WTeleport:
+            break;
         case WeaponID::WNone:
             break;
         case WeaponID::WExplode:
@@ -435,6 +511,6 @@ void Worm::Worm::playWeaponSoundEffect(const WeaponID &id) {
     }
 }
 
-void Worm::Worm::reset(){
+void Worm::Worm::reset() {
     this->hasFired = false;
 }

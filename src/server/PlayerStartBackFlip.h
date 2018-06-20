@@ -6,6 +6,8 @@
 #ifndef __PLAYER_START_BACK_FLIP_H__
 #define __PLAYER_START_BACK_FLIP_H__
 
+#include <stdint-gcc.h>
+#include <cstdint>
 #include "Config.h"
 #include "Player.h"
 
@@ -28,6 +30,10 @@ class StartBackFlip : public State {
     void mortar(Player &p) override;
     void banana(Player &p) override;
     void holy(Player &p) override;
+    void aerialAttack(Player &p) override;
+    void dynamite(Player &p) override;
+    void baseballBat(Player &p) override;
+    void teleport(Player &p) override;
 
     void startShot(Player &p) override;
     void endShot(Player &p) override;

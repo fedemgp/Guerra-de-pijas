@@ -12,9 +12,10 @@
 #include "Point.h"
 
 namespace Worms {
-struct Girder {
+struct GirderData {
     float length;
     float height;
+    float angle;
     Math::Point<float> pos;
 };
 
@@ -31,14 +32,14 @@ class Stage {
     ~Stage() = default;
 
     const std::vector<WormData> &getWorms() const;
-    const std::vector<Girder> &getGirders() const;
+    const std::vector<GirderData> &getGirders() const;
 
     float getHeight() const;
     float getWidth() const;
 
    private:
     std::vector<WormData> players;
-    std::vector<Girder> girders;
+    std::vector<GirderData> girders;
     float width{100.0f};
     float height{30.0f};
 };

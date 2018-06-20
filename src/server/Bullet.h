@@ -26,6 +26,7 @@ struct BulletInfo {
     Event explodeEvent;
     float radius;
     float dampingRatio;
+    bool windAffected;
 };
 /**
  * forward declaration of weapon.
@@ -42,7 +43,7 @@ class Bullet : public PhysicsEntity {
      * @param dt
      * @param w
      */
-    void update(float dt);
+    void update(float dt, Worms::Wind wind);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     /**

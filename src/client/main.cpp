@@ -4,8 +4,9 @@
  */
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
-#include "Socket.h"
+#include "ClientSocket.h"
 #include "GUIGame.h"
 #include "LobbyAssistant.h"
 
@@ -19,6 +20,8 @@ int main(int argc, const char *argv[]) {
         std::string host = argv[1];
         std::string port = argv[2];
         ClientSocket socket(host.data(), port.data());
+        char buffer[1];
+        socket.receive(buffer, sizeof(buffer));
 
         //TODO start a thread running this
         Worm::LobbyAssistant lobby(socket);
@@ -29,7 +32,7 @@ int main(int argc, const char *argv[]) {
 
         socket = std::move(lobby.getSocket());
 
-        GUI::Game game{window, Worms::Stage{}, socket};
+        GUI::Game game{window, Worms::Stage{}, socket, (std::uint8_t) buffer[0]};
         game.start();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

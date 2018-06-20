@@ -6,6 +6,7 @@
 #define INC_4_WORMS_FALLING_H
 
 #include <Camera.h>
+#include <cstdint>
 #include "Player.h"
 
 namespace Worms {
@@ -26,6 +27,10 @@ class Falling : public State {
     void mortar(Player &p) override;
     void banana(Player &p) override;
     void holy(Player &p) override;
+    void aerialAttack(Player &p) override;
+    void dynamite(Player &p) override;
+    void baseballBat(Player &p) override;
+    void teleport(Player &p) override;
 
     void startShot(Player &p) override;
     void endShot(Player &p) override;

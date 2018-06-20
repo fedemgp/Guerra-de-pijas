@@ -20,6 +20,7 @@ enum class GameTextures {
     Fly,
     Die,
     Dead,
+    Sliding,
     StaticBackground,
     Background1,
     Background2,
@@ -46,7 +47,19 @@ enum class GameTextures {
     ClusterIcon,
     MortarIcon,
     BananaIcon,
-    HolyIcon
+    HolyIcon,
+    WormAirAttack,
+    AirMissile,
+    AirIcon,
+    WormDynamite,
+    Dynamite,
+    DynamiteIcon,
+    WormTeleport,
+    WormTeleporting,
+    TeleportIcon,
+    WormBaseballBat,
+    WormBaseballBatting,
+    BaseballBatIcon
 };
 
 /** Specialized TextureManager class. */

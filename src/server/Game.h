@@ -17,6 +17,7 @@
 #include "GameClock.h"
 #include "GameTeams.h"
 #include "GameTurn.h"
+#include "Girder.h"
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
@@ -43,7 +44,23 @@ class Game : Observer {
     void start();
     IO::GameStateMsg serialize() const;
     void onNotify(Subject &subject, Event event) override;
+    /**
+     * @brief calculates damage for weapons that throw bullets. It gives
+     * information of the bullet to all players so them can calculate his damage
+     * and apply an impulse if this was hitted.
+     * @param bullet
+     */
     void calculateDamage(const Bullet &bullet);
+    /**
+     * @brief calculates damage for p2p weapons (baseball). It gives
+     * information of the weapon (direction, point and damageInfo) to the
+     * players so that they can calculate his damage and apply an impulse if
+     * this was hitted.
+     * @param weapon
+     */
+    void calculateDamage(std::shared_ptr<Worms::Weapon> weapon, Math::Point<float> shooterPosition,
+                         Direction shooterDirection);
+    void calculateWind();
     void exit();
     void endTurn();
 
@@ -55,6 +72,7 @@ class Game : Observer {
     uint8_t currentTeam{0};
     Physics physics;
     Stage stage;
+    std::vector<Girder> girders;
     std::vector<Player> players;
     const double maxTurnTime;
     bool processingClientInputs{true};
@@ -62,6 +80,7 @@ class Game : Observer {
     bool currentPlayerShot{false};
     GameTeams teams;
     std::list<Bullet> bullets;
+    Worms::Wind wind;
 
     std::vector<uint8_t> deadTeams;
     GameClock gameClock;
@@ -75,6 +94,8 @@ class Game : Observer {
     std::vector<GameSnapshot> snapshots;
     std::uint8_t playersConnected;
     bool removeBullets{false};
+    bool gameEnded{false};
+    std::uint8_t winnerTeam{0};
 
     void playerDisconnected();
 };

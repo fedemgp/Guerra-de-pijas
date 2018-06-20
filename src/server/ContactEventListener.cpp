@@ -52,13 +52,13 @@ void ContactEventListener::BeginContact(b2Contact *contact) {
     void *fixtureData = contact->GetFixtureA()->GetUserData();
     if (fixtureData) {
         Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
-        sensor->startContact(playerB);
+        sensor->startContact(playerB, *contact);
     }
 
     fixtureData = contact->GetFixtureB()->GetUserData();
     if (fixtureData) {
         Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
-        sensor->startContact(playerA);
+        sensor->startContact(playerA, *contact);
     }
 }
 
@@ -78,12 +78,12 @@ void ContactEventListener::EndContact(b2Contact *contact) {
     void *fixtureData = contact->GetFixtureA()->GetUserData();
     if (fixtureData) {
         Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
-        sensor->endContact(playerB);
+        sensor->endContact(playerB, *contact);
     }
 
     fixtureData = contact->GetFixtureB()->GetUserData();
     if (fixtureData) {
         Worms::PhysicsEntity *sensor = static_cast<Worms::TouchSensor *>(fixtureData);
-        sensor->endContact(playerA);
+        sensor->endContact(playerA, *contact);
     }
 }
