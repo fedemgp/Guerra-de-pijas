@@ -27,7 +27,6 @@ IO::PlayerInput Worm::Walk::moveRight(Worm &w) {
 }
 
 IO::PlayerInput Worm::Walk::stopMove(Worm &w) {
-    std::cout << "Walk::stopMove" << std::endl;
     return IO::PlayerInput::stopMove;
 }
 
