@@ -18,7 +18,7 @@ GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
 }
 
 void GUI::LobbyAssistant::run(){
-    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window});
+//    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window});
 
     this->clearScreen();
     this->printCommands();

@@ -29,7 +29,7 @@ namespace GUI {
         unsigned char command{0};
         std::uint8_t playersQuantity{0};
         bool quit{false};
-        std::shared_ptr<GameWindow> gameWindow{nullptr};
+//        std::shared_ptr<GameWindow> gameWindow{nullptr};
 
         void getGames();
         void joinGame();

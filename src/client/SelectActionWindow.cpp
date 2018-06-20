@@ -37,3 +37,7 @@ void GUI::SelectActionWindow::start() {
         }
     }
 }
+
+void GUI::SelectActionWindow::render() {
+
+}

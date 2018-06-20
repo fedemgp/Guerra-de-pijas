@@ -22,12 +22,12 @@ void Worms::Still::update(Player &p, float dt, b2Body *body) {
 
 void Worms::Still::moveRight(Worms::Player &p) {
     p.setState(Worm::StateID::Walk);
-    p.direction = Direction::right;
+    p.direction = Worm::Direction::right;
 }
 
 void Worms::Still::moveLeft(Worms::Player &p) {
     p.setState(Worm::StateID::Walk);
-    p.direction = Direction::left;
+    p.direction = Worm::Direction::left;
 }
 
 void Worms::Still::stopMove(Worms::Player &p) {}

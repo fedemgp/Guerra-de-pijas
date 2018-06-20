@@ -14,6 +14,7 @@
 
 #include "Bullet.h"
 #include "Config.h"
+#include "Direction.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
@@ -28,8 +29,8 @@ namespace Worms {
 
 class Player : public PhysicsEntity {
    public:
-    Direction direction{Direction::left};
-    Direction lastWalkDirection;
+    Worm::Direction direction{Worm::Direction::left};
+    Worm::Direction lastWalkDirection;
     float health{0};
     Math::Point<float> teleportPosition{0.0f, 0.0f};
 
@@ -95,7 +96,7 @@ class Player : public PhysicsEntity {
     void endShot();
     void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
-                           Math::Point<float> shooterPosition, Direction shooterDirection);
+                           Math::Point<float> shooterPosition, Worm::Direction shooterDirection);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);

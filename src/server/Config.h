@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 #include "GameConstants.h"
+#include "Direction.h"
 #include "Point.h"
 
 namespace Math {
@@ -16,7 +17,6 @@ using Vector = Math::Point<float>;
 }
 
 namespace Worms {
-enum class Direction { right, left, up, down };
 struct Wind {
     float minIntensity;
     float maxIntensity;
@@ -53,7 +53,7 @@ struct Config {
 
 struct P2PWeaponInfo {
     Bullet::DamageInfo dmgInfo;
-    Worms::Direction direction;
+    Worm::Direction direction;
     Math::Point<float> position;
     float angle;
 };
@@ -138,8 +138,8 @@ class Config {
     float drowningTime{DROWNING_TIME};
     float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
-    float minWindIntensity{0.2f};
-    float maxWindIntensity{10.0f};
+    float minWindIntensity{MIN_WIND_INTENSITY};
+    float maxWindIntensity{MAX_WIND_INTENSITY};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{

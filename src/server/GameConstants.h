@@ -5,6 +5,9 @@
 
 #ifndef __GAMECONSTANTS_H__
 #define __GAMECONSTANTS_H__
+//Wind
+#define MIN_WIND_INTENSITY 0.2f
+#define MAX_WIND_INTENSITY 10.0f
 // Jumping
 #define START_JUMP_TIME 0.6f
 #define JUMP_LAND_TIME 0.3f

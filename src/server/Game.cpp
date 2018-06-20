@@ -15,6 +15,7 @@
 
 #include "BaseballBat.h"
 #include "Config.h"
+#include "Direction.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
 #include "Player.h"
@@ -229,8 +230,13 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.stateIDs[m.num_worms] = worm.getStateId();
         m.wormsHealth[m.num_worms] = worm.health;
         m.wormsTeam[m.num_worms] = worm.getTeam();
+        m.wormsDirection[m.num_worms] = worm.direction;
         m.num_worms++;
     }
+    /* sets wind data */
+    m.windIntensity = (char) (127.0f * this->wind.instensity /
+            (this->wind.maxIntensity - this->wind.minIntensity)
+                              * this->wind.xDirection);
 
     /* sets the current player's data */
     m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
@@ -416,7 +422,7 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
  * @param weapon
  */
 void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
-                                  Math::Point<float> shooterPosition, Direction shooterDirection) {
+                                  Math::Point<float> shooterPosition, Worm::Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)weapon.get();
     ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
@@ -428,10 +434,13 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
 void Worms::Game::calculateWind() {
     std::random_device rnd_device;
     std::mt19937 mersenne_engine(rnd_device());
-    std::uniform_real_distribution<> distr(0.2, 10.0);
+    std::uniform_real_distribution<> distr(this->wind.minIntensity,
+                                           this->wind.maxIntensity);
 
-    this->wind.xDirection = (distr(mersenne_engine) > (10.0f - 0.2f) / 2.0f) ? 1 : -1;
+    this->wind.xDirection = (distr(mersenne_engine) > (this->wind.maxIntensity -
+            this->wind.minIntensity) / 2.0f) ? 1 : -1;
     this->wind.instensity = distr(mersenne_engine);
+
     /*std::cout<<this->wind.xDirection<<" "<<this->wind.instensity<<std::endl;*/
 }
 

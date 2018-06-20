@@ -16,7 +16,7 @@ IO::PlayerInput Worm::Walk::moveLeft(Worm &w) {
         return IO::PlayerInput::moveNone;
     }
 
-    w.direction = Direction::left;
+//    w.direction = Direction::left;
     return IO::PlayerInput::moveLeft;
 }
 
@@ -25,7 +25,7 @@ IO::PlayerInput Worm::Walk::moveRight(Worm &w) {
         return IO::PlayerInput::moveNone;
     }
 
-    w.direction = Direction::right;
+//    w.direction = Direction::right;
     return IO::PlayerInput::moveRight;
 }
 

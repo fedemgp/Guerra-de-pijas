@@ -3,6 +3,7 @@
  *  date: 20/05/18
  */
 
+#include "Direction.h"
 #include "PlayerStartBackFlip.h"
 
 Worms::StartBackFlip::StartBackFlip()
@@ -16,7 +17,7 @@ void Worms::StartBackFlip::update(Worms::Player &p, float dt, b2Body *body) {
         if (!this->impulseApplied) {
             float32 mass = body->GetMass();
             b2Vec2 impulses = {mass * this->backflipVelocity.x, mass * this->backflipVelocity.y};
-            if (p.direction == Direction::left) {
+            if (p.direction == Worm::Direction::left) {
                 impulses.x *= -1;
             }
             /* When the worm jumps, it needs an initial impulse in the y axis

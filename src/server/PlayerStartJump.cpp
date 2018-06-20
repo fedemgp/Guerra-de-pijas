@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "Config.h"
+#include "Direction.h"
 #include "PlayerStartJump.h"
 
 Worms::StartJump::StartJump()
@@ -18,7 +19,7 @@ void Worms::StartJump::update(Player &p, float dt, b2Body *body) {
         if (!this->impulseApplied) {
             float32 mass = body->GetMass();
             b2Vec2 impulses = {mass * this->jumpVelocity.x, mass * this->jumpVelocity.y};
-            if (p.direction == Direction::left) {
+            if (p.direction == Worm::Direction::left) {
                 impulses.x *= -1;
             }
             /* When the worm jumps, it needs an initial impulse in the y axis
