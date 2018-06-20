@@ -32,6 +32,7 @@ void GUI::WrapTexture::render(GUI::Position p, float angle, Camera& camera) {
     int x_remainder = width % this->texture.getWidth();
     int y_remainder = height % this->texture.getHeight();
 
+
     ScreenPosition sp = camera.globalToScreen(p);
     sp.x -= width / 2;
     sp.y -= height / 2;
@@ -86,4 +87,10 @@ void GUI::WrapTexture::render(GUI::Position p, float angle, Camera& camera) {
                              SDL_FLIP_NONE);
         }
     }
+}
+
+void GUI::WrapTexture::renderFixed(GUI::ScreenPosition sp, Camera& camera) {
+    sp.x -= this->width * camera.getScale() / 2;
+    sp.y -= this->height * camera.getScale() / 2;
+    this->render(camera.screenToGlobal(sp), camera);
 }

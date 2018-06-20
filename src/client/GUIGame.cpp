@@ -25,8 +25,13 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
-      team(team) {
+      team(team),
+      wind(this->texture_mgr, this->cam){
     /* loads the required textures */
+    this->texture_mgr.load(GUI::GameTextures::WindLeft, "assets/img/Misc/windl.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::WindRight, "assets/img/Misc/windr.png",
+                           GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::WormIdle, "assets/img/Worms/wbrth1.png",
@@ -390,7 +395,11 @@ void GUI::Game::render() {
     Text text{this->font};
     text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
+
+    /* renders armory */
     this->armory.render();
+
+    this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
 
     if (this->snapshot.gameEnded) {
         int x = this->window.getWidth() / 2;

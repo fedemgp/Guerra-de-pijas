@@ -27,6 +27,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Worm.h"
+#include "Wind.h"
 
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
@@ -71,6 +72,7 @@ class Game {
     std::uint8_t team{0};
     bool doesAnyoneShot{false};
     uint8_t explodedQuantity{0};
+    GUI::Wind wind;
 };
 }  // namespace GUI
 

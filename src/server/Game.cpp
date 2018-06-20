@@ -435,5 +435,10 @@ void Worms::Game::calculateWind() {
             this->wind.minIntensity) / 2.0f) ? 1 : -1;
     this->wind.instensity = distr(mersenne_engine);
 
-    /*std::cout<<this->wind.xDirection<<" "<<this->wind.instensity<<std::endl;*/
+//    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
+//                                                                    - this->wind.minIntensity)
+//                                 * this->wind.xDirection);
+//    std::cout << "wind intensity: " << this->wind.instensity << std::endl
+//              << "wind direction: " << this->wind.xDirection << std::endl
+//              << "message.windIntensity: " << (int) windIntensity << std::endl;
 }

@@ -7,7 +7,7 @@ message("Agregando '${CMAKE_SOURCE_DIR}/libs' como directorio de includes")
 include_directories(${CMAKE_SOURCE_DIR}/libs)
 
 file(GLOB CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp" "src/client/*.h" "libs/*.h" "libs/*.cpp")
-add_executable(clients ${CLIENT_SOURCES} src/client/BaseballBat.cpp src/client/BaseballBat.h)
+add_executable(clients ${CLIENT_SOURCES} )
 target_link_libraries(clients SDL2 SDL2_image SDL2_ttf SDL2_mixer)
 
 message("Agregando Box2D como librería")
@@ -30,7 +30,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/utils.*")
 add_executable(server
         ${SERVER_SOURCES}
-        ${SERVER_LIBS_SOURCES} src/server/BaseballBat.cpp src/server/BaseballBat.h)
+        ${SERVER_LIBS_SOURCES})
 
 target_link_libraries(server Box2D)
 file(COPY assets DESTINATION ./)
