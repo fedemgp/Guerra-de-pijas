@@ -37,3 +37,7 @@ void Worm::Holy::startShot() {
 void Worm::Holy::endShot() {
     this->powerBar.endShot();
 }
+
+bool Worm::Holy::positionSelected() {
+    return false;
+}

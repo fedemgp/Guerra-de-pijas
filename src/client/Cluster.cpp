@@ -37,3 +37,7 @@ void Worm::Cluster::startShot() {
 void Worm::Cluster::endShot() {
     this->powerBar.endShot();
 }
+
+bool Worm::Cluster::positionSelected() {
+    return false;
+}

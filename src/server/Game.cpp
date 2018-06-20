@@ -9,15 +9,18 @@
 #include <cassert>
 #include <chrono>
 #include <iostream>
+#include <random>
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
 
+#include "BaseballBat.h"
 #include "Config.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
 
+#define CONFIG ::Game::Config::getInstance()
 #define TIME_STEP (1.0f / 60.0f)
 
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
@@ -49,22 +52,15 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+    this->wind.minIntensity = CONFIG.getMinWindIntensity();
+    this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
+    this->calculateWind();
 
     /* sets the girders */
-    for (auto &girder : this->stage.getGirders()) {
-        b2PolygonShape poly;
-
-        b2BodyDef bdef;
-        bdef.type = b2_staticBody;
-        bdef.position.Set(0.0f, 0.0f);
-        b2Body *staticBody = this->physics.createBody(bdef);
-
-        b2FixtureDef fixture;
-        fixture.density = 1;
-        fixture.shape = &poly;
-
-        poly.SetAsBox(girder.length / 2, girder.height / 2, b2Vec2(girder.pos.x, girder.pos.y), 0);
-        staticBody->CreateFixture(&fixture);
+    this->girders.reserve(this->stage.getGirders().size());
+    auto &a =this->stage.getGirders();
+    for (auto &girder : a) {
+        this->girders.emplace_back(girder, this->physics);
     }
 
     this->currentWorm = this->teams.getCurrentPlayerID();
@@ -176,7 +172,7 @@ void Worms::Game::start() {
             }
 
             for (auto &bullet : this->bullets) {
-                bullet.update(dt);
+                bullet.update(dt, this->wind);
             }
 
             this->physics.update(dt);
@@ -186,6 +182,10 @@ void Worms::Game::start() {
             for (auto &snapshot : this->snapshots) {
                 snapshot.set(msg);
                 snapshot.swap();
+            }
+
+            if (this->gameEnded) {
+                this->quit = true;
             }
 
             if (TIME_STEP > dt) {
@@ -202,7 +202,10 @@ void Worms::Game::start() {
 void Worms::Game::endTurn() {
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
     this->players[this->currentWorm].reset();
-    this->teams.endTurn(this->players);
+    this->gameEnded = this->teams.endTurn(this->players);
+    if (this->gameEnded) {
+        this->winnerTeam = this->teams.getWinner();
+    }
     this->currentTeam = this->teams.getCurrentTeam();
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
@@ -210,6 +213,7 @@ void Worms::Game::endTurn() {
     this->processingClientInputs = true;
     this->gameClock.restart();
     this->gameTurn.restart();
+    this->calculateWind();
 }
 
 IO::GameStateMsg Worms::Game::serialize() const {
@@ -247,6 +251,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletType[j++] = bullet.getWeaponID();
     }
     m.processingInputs = this->processingClientInputs;
+    m.gameEnded = this->gameEnded;
+    m.winner = this->winnerTeam;
 
     return m;
 }
@@ -289,6 +295,16 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->calculateDamage(bullet);
             break;
         }
+        case Event::P2PWeaponUsed: {
+            auto &player = dynamic_cast<const Worms::Player &>(subject);
+            const std::shared_ptr<Worms::Weapon> weapon = player.getWeapon();
+            this->gameClock.playerShot();
+            this->gameTurn.playerShot(this->players[this->currentWorm].getWeaponID());
+            this->currentPlayerShot = true;
+            this->gameTurn.explosion();
+            this->calculateDamage(weapon, player.getPosition(), player.direction);
+            break;
+        }
         /**
          * onExplode will create new Bullets in player's container, and we
          * need to listen to them.
@@ -302,6 +318,10 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             }
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
+        }
+        case Event::Teleported: {
+            this->gameClock.playerShot();
+            this->currentPlayerShot = true;
         }
         case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
@@ -385,8 +405,34 @@ void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }
-    //    this->players[this->currentWorm].cleanBullets();
     this->removeBullets = true;
+}
+/**
+ * @brief calculate damage for p2p weapons. Because the only one is the
+ * baseball bat and because we are running out of time, there will be
+ * a cast to a baseballWeapon.
+ * TODO make a class between weapon and baseballBat, that represents a
+ * p2pWeapon.
+ * @param weapon
+ */
+void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
+                                  Math::Point<float> shooterPosition, Direction shooterDirection) {
+    auto *baseball = (::Weapon::BaseballBat *)weapon.get();
+    ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
+    for (auto &worm : this->players) {
+        worm.acknowledgeDamage(weaponInfo, shooterPosition, shooterDirection);
+    }
+    this->removeBullets = true;
+}
+
+void Worms::Game::calculateWind() {
+    std::random_device rnd_device;
+    std::mt19937 mersenne_engine(rnd_device());
+    std::uniform_real_distribution<> distr(0.2, 10.0);
+
+    this->wind.xDirection = (distr(mersenne_engine) > (10.0f - 0.2f) / 2.0f) ? 1 : -1;
+    this->wind.instensity = distr(mersenne_engine);
+    /*std::cout<<this->wind.xDirection<<" "<<this->wind.instensity<<std::endl;*/
 }
 
 void Worms::Game::playerDisconnected() {

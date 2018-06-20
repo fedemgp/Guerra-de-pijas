@@ -17,3 +17,7 @@ void Worm::WeaponNone::setAngle(float angle, Worm::Direction d) {}
 void Worm::WeaponNone::startShot() {}
 
 void Worm::WeaponNone::endShot() {}
+
+bool Worm::WeaponNone::positionSelected() {
+    return false;
+}

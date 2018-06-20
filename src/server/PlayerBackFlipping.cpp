@@ -64,3 +64,11 @@ void Worms::BackFlipping::banana(Worms::Player &p) {}
 void Worms::BackFlipping::holy(Worms::Player &p) {}
 
 void Worms::BackFlipping::setTimeout(Worms::Player &p, uint8_t time) {}
+
+void Worms::BackFlipping::aerialAttack(Worms::Player &p) {}
+
+void Worms::BackFlipping::dynamite(Worms::Player &p) {}
+
+void Worms::BackFlipping::teleport(Worms::Player &p) {}
+
+void Worms::BackFlipping::baseballBat(Worms::Player &p) {}

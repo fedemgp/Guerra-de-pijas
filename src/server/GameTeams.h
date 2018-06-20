@@ -18,14 +18,17 @@ class GameTeams {
 
     void checkAlive(std::vector<Player> &players);
 
-    void endTurn(std::vector<Player> &players);
+    bool endTurn(std::vector<Player> &players);
 
     char getCurrentPlayerID();
 
     uint8_t getCurrentTeam();
 
-   private:
+    std::uint8_t getWinner();
+
+private:
     std::vector<Team> teams;
+    std::uint8_t deadTeams{0};
     uint8_t currentTeam{0};
 };
 }

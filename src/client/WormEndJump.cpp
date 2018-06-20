@@ -74,3 +74,23 @@ IO::PlayerInput Worm::EndJump::holy(Worm &w) {
 IO::PlayerInput Worm::EndJump::setTimeoutTo(Worm &w, int t) {
     return IO::PlayerInput::moveNone;
 }
+
+IO::PlayerInput Worm::EndJump::aerialAttack(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::positionSelected(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::dynamite(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::teleport(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}
+
+IO::PlayerInput Worm::EndJump::baseballBat(Worm &w) {
+    return IO::PlayerInput::moveNone;
+}

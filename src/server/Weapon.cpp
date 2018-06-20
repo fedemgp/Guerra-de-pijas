@@ -60,5 +60,6 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
                              this->timeLimit,
                              this->config.hasAfterExplode ? Event::OnExplode : Event::Explode,
                              this->config.bulletRadius,
-                             this->config.bulletDampingRatio};
+                             this->config.bulletDampingRatio,
+                             this->config.windAffected};
 }

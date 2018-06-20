@@ -2,6 +2,7 @@
 // Created by Gorco on 19/05/18.
 //
 
+#include <cstdint>
 #include <iostream>
 #include <memory>
 
@@ -83,4 +84,20 @@ void Worms::Still::holy(Worms::Player &p) {
 
 void Worms::Still::setTimeout(Worms::Player &p, uint8_t time) {
     p.setWeaponTimeout(time);
+}
+
+void Worms::Still::aerialAttack(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WAerial);
+}
+
+void Worms::Still::dynamite(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WDynamite);
+}
+
+void Worms::Still::teleport(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WTeleport);
+}
+
+void Worms::Still::baseballBat(Worms::Player &p) {
+    p.setWeapon(Worm::WeaponID::WBaseballBat);
 }

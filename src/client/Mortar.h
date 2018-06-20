@@ -24,6 +24,7 @@ class Mortar : public Weapon {
     void setAngle(float angle, Direction d) override;
     void startShot() override;
     void endShot() override;
+    bool positionSelected() override;
 
    private:
     ::Weapon::Scope scope;

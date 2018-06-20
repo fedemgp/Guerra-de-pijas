@@ -32,7 +32,7 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     //    this->body->SetTransform(this->body->GetPosition(), info.angle);
 }
 
-void Worms::Bullet::update(float dt) {
+void Worms::Bullet::update(float dt, Worms::Wind wind) {
     if (this->keepUpdating) {
         this->timeElapsed += dt;
         if (!this->impulseApplied) {
@@ -50,6 +50,10 @@ void Worms::Bullet::update(float dt) {
             if (this->info.angle < 0) {
                 this->info.angle += 360.0f;
             }
+        }
+
+        if (this->info.windAffected) {
+            this->body->ApplyForceToCenter(b2Vec2{wind.instensity * wind.xDirection, 0.0f}, true);
         }
 
         if (this->hasExploded()) {

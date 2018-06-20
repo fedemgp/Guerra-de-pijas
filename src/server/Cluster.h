@@ -3,8 +3,8 @@
  *  date: 03/06/18
  */
 
-#ifndef __Cluster_H__
-#define __Cluster_H__
+#ifndef __CLUSTER_H__
+#define __CLUSTER_H__
 
 #include "Physics.h"
 #include "Player.h"
@@ -29,4 +29,4 @@ class Cluster : public Worms::Weapon {
 };
 }  // namespace Weapon
 
-#endif  //__Cluster_H__
+#endif  //__CLUSTER_H__

@@ -15,13 +15,24 @@ namespace Math {
 using Vector = Math::Point<float>;
 }
 
+namespace Worms {
+enum class Direction { right, left, up, down };
+struct Wind {
+    float minIntensity;
+    float maxIntensity;
+    int xDirection;
+    float instensity;
+};
+}
+
 namespace Game {
 namespace Bullet {
 struct DamageInfo {
     uint16_t damage;
     float radius;
+    float impulseDampingRatio;
 };
-}  // namespaces Bullet
+}  // namespace Bullet
 
 namespace Weapon {
 struct Config {
@@ -37,6 +48,14 @@ struct Config {
     bool hasAfterExplode;
     float bulletRadius;
     float bulletDampingRatio;
+    bool windAffected;
+};
+
+struct P2PWeaponInfo {
+    Bullet::DamageInfo dmgInfo;
+    Worms::Direction direction;
+    Math::Point<float> position;
+    float angle;
 };
 }  // namespace Weapon
 
@@ -57,6 +76,8 @@ class Config {
     const float getWalkVelocity() const;
     float getSafeFallDistance() const;
     float getMaxFallDamage() const;
+    float getMinWindIntensity() const;
+    float getMaxWindIntensity() const;
 
     const uint8_t getTurnTime() const;
     const float getExtraTurnTime() const;
@@ -66,6 +87,7 @@ class Config {
     const float getGameHeight() const;
     const float getDyingTime() const;
     const float getDrowningTime() const;
+    const float getTeleportTime() const;
     const int getWaterLevel() const;
     const uint16_t getWormHealth() const;
 
@@ -79,6 +101,13 @@ class Config {
     const Weapon::Config &getClusterFragmentConfig() const;
     const Weapon::Config &getMortarFragmentConfig() const;
     const uint8_t getMortarFragmentQuantity() const;
+    const Weapon::Config &getAerialAttackConfig() const;
+    const Weapon::Config &getDynamiteConfig() const;
+    const uint8_t getAerialAttackMissileQuantity() const;
+    const float getAerialAttackMissileSeparation() const;
+    const float getAerialAttackLaunchHeight() const;
+    const Weapon::Config &getTeleportConfig() const;
+    const Weapon::Config &getBaseballBatConfig() const;
 
    private:
     /**
@@ -107,34 +136,41 @@ class Config {
     float gameHeight{GAME_HEIGHT};
     float dyingTime{DYING_TIME};
     float drowningTime{DROWNING_TIME};
+    float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
+    float minWindIntensity{0.2f};
+    float maxWindIntensity{10.0f};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
-    Weapon::Config bazooka{Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS},
-                           BAZOOKA_MIN_ANGLE,
-                           BAZOOKA_MAX_ANGLE,
-                           ANGLE_STEP,
-                           MAX_SHOT_POWER,
-                           BAZOOKA_RESTITUTION,
-                           BAZOOKA_FRCTION,
-                           BAZOOKA_INITIAL_TIMEOUT,
-                           false,
-                           BAZOOKA_BULLET_RADIUS,
-                           BAZOOKA_DUMPING_RATIO};
-    Weapon::Config greenGrenade{Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS},
-                                GRENADE_MIN_ANGLE,
-                                GRENADE_MAX_ANGLE,
-                                ANGLE_STEP,
-                                MAX_SHOT_POWER,
-                                GRENADE_RESTITUTION,
-                                GRENADE_FRCTION,
-                                GRENADE_INITIAL_TIMEOUT,
-                                false,
-                                GRENADE_BULLET_RADIUS,
-                                GRENADE_DUMPING_RATIO};
+    Weapon::Config bazooka{
+        Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
+        BAZOOKA_MIN_ANGLE,
+        BAZOOKA_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        BAZOOKA_RESTITUTION,
+        BAZOOKA_FRICTION,
+        BAZOOKA_INITIAL_TIMEOUT,
+        false,
+        BAZOOKA_BULLET_RADIUS,
+        BAZOOKA_DAMPING_RATIO,
+        true};
+    Weapon::Config greenGrenade{
+        Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
+        GRENADE_MIN_ANGLE,
+        GRENADE_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        GRENADE_RESTITUTION,
+        GRENADE_FRICTION,
+        GRENADE_INITIAL_TIMEOUT,
+        false,
+        GRENADE_BULLET_RADIUS,
+        GRENADE_DAMPING_RATIO,
+        false};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
     Weapon::Config clusterFragments{
-        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS},
+        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_FRAGMENT_MIN_ANGLE,
         CLUSTER_FRAGMENT_MAX_ANGLE,
         CLUSTER_FRAGMENT_ANGLE_STEP,
@@ -144,20 +180,23 @@ class Config {
         CLUSTER_FRAGMENT_TIMEOUT,
         false,
         CLUSTER_FRAGMENT_BULLET_RADIUS,
-        CLUSTER_FRAGMENT_DUMPING_RATIO};
-    Weapon::Config cluster{Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS},
-                           CLUSTER_MIN_ANGLE,
-                           CLUSTER_MAX_ANGLE,
-                           ANGLE_STEP,
-                           MAX_SHOT_POWER,
-                           CLUSTER_RESTITUTION,
-                           CLUSTER_FRCTION,
-                           CLUSTER_INITIAL_TIMEOUT,
-                           true,
-                           CLUSTER_BULLET_RADIUS,
-                           CLUSTER_DUMPING_RATIO};
+        CLUSTER_FRAGMENT_DAMPING_RATIO,
+        false};
+    Weapon::Config cluster{
+        Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
+        CLUSTER_MIN_ANGLE,
+        CLUSTER_MAX_ANGLE,
+        ANGLE_STEP,
+        MAX_SHOT_POWER,
+        CLUSTER_RESTITUTION,
+        CLUSTER_FRICTION,
+        CLUSTER_INITIAL_TIMEOUT,
+        true,
+        CLUSTER_BULLET_RADIUS,
+        CLUSTER_DAMPING_RATIO,
+        false};
     Weapon::Config mortarFragments{
-        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS},
+        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
         MORTAR_FRAGMENT_MAX_ANGLE,
         MORTAR_FRAGMENT_ANGLE_STEP,
@@ -167,41 +206,93 @@ class Config {
         MORTAR_FRAGMENT_TIMEOUT,
         false,
         MORTAR_FRAGMENT_BULLET_RADIUS,
-        MORTAR_FRAGMENT_DUMPING_RATIO};
+        MORTAR_FRAGMENT_DAMPING_RATIO,
+        true};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS},
+    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
                           MORTAR_MIN_ANGLE,
                           MORTAR_MAX_ANGLE,
                           ANGLE_STEP,
                           MAX_SHOT_POWER,
                           MORTAR_RESTITUTION,
-                          MORTAR_FRCTION,
+                          MORTAR_FRICTION,
                           MORTAR_INITIAL_TIMEOUT,
                           true,
                           MORTAR_BULLET_RADIUS,
-                          MORTAR_DUMPING_RATIO};
-    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS},
+                          MORTAR_DAMPING_RATIO,
+                          true};
+    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
                           BANANA_MIN_ANGLE,
                           BANANA_MAX_ANGLE,
                           ANGLE_STEP,
                           MAX_SHOT_POWER,
                           BANANA_RESTITUTION,
-                          BANANA_FRCTION,
+                          BANANA_FRICTION,
                           BANANA_INITIAL_TIMEOUT,
                           false,
                           BANANA_BULLET_RADIUS,
-                          BANANA_DUMPING_RATIO};
-    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS},
+                          BANANA_DAMPING_RATIO,
+                          false};
+    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
                         HOLY_MIN_ANGLE,
                         HOLY_MAX_ANGLE,
                         ANGLE_STEP,
                         MAX_SHOT_POWER,
                         HOLY_RESTITUTION,
-                        HOLY_FRCTION,
+                        HOLY_FRICTION,
                         HOLY_INITIAL_TIMEOUT,
                         false,
                         HOLY_BULLET_RADIUS,
-                        HOLY_DUMPING_RATIO};
+                        HOLY_DAMPING_RATIO,
+                        false};
+    uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
+    float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
+    Weapon::Config aerialAttack{
+        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
+        AERIAL_ATTACK_MIN_ANGLE,
+        AERIAL_ATTACK_MAX_ANGLE,
+        AERIAL_ATTACK_ANGLE_STEP,
+        AERIAL_ATTACK_SHOT_POWER,
+        AERIAL_ATTACK_RESTITUTION,
+        AERIAL_ATTACK_FRICTION,
+        AERIAL_ATTACK_TIMEOUT,
+        false,
+        AERIAL_ATTACK_BULLET_RADIUS,
+        AERIAL_ATTACK_DAMPING_RATIO,
+        true};
+    const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
+    Weapon::Config dynamite{
+        Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
+        DYNAMITE_MIN_ANGLE,
+        DYNAMITE_MAX_ANGLE,
+        ANGLE_STEP,
+        DYNAMITE_MAX_SHOT_POWER,
+        DYNAMITE_RESTITUTION,
+        DYNAMITE_FRICTION,
+        DYNAMITE_INITIAL_TIMEOUT,
+        false,
+        DYNAMITE_BULLET_RADIUS,
+        DYNAMITE_DAMPING_RATIO,
+        false};
+    Weapon::Config teleport{
+        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
+        AERIAL_ATTACK_MIN_ANGLE,
+        AERIAL_ATTACK_MAX_ANGLE,
+        AERIAL_ATTACK_ANGLE_STEP,
+        AERIAL_ATTACK_SHOT_POWER,
+        AERIAL_ATTACK_RESTITUTION,
+        AERIAL_ATTACK_FRICTION,
+        AERIAL_ATTACK_TIMEOUT,
+        false,
+        AERIAL_ATTACK_BULLET_RADIUS,
+        AERIAL_ATTACK_DAMPING_RATIO,
+        false};
+    Weapon::Config baseballBat{Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS,
+                                                  BASEBALL_IMPULSE_DAMPING_RATIO},
+                               BASEBALL_BAT_MIN_ANGLE, BASEBALL_BAT_MAX_ANGLE, ANGLE_STEP,
+                               MAX_SHOT_POWER, BASEBALL_BAT_RESTITUTION, BASEBALL_BAT_FRICTION,
+                               BASEBALL_BAT_INITIAL_TIMEOUT, false, BASEBALL_BAT_BULLET_RADIUS,
+                               BASEBALL_BAT_DAMPING_RATIO, false};
 };
 
 void endTurn();

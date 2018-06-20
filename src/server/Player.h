@@ -13,6 +13,7 @@
 #include <list>
 
 #include "Bullet.h"
+#include "Config.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
 #include "PlayerState.h"
@@ -24,14 +25,13 @@
 enum class PlayerState { movingRight, movingLeft, still };
 
 namespace Worms {
-enum class Direction { right, left, up, down };
 
 class Player : public PhysicsEntity {
    public:
     Direction direction{Direction::left};
     Direction lastWalkDirection;
-    bool canWalk{true};
     float health{0};
+    Math::Point<float> teleportPosition{0.0f, 0.0f};
 
     explicit Player(Physics &physics);
     Player(Player &&player) noexcept;
@@ -55,6 +55,9 @@ class Player : public PhysicsEntity {
      * @param newPos
      */
     void setPosition(const Math::Point<float> &newPos);
+    b2Vec2 getGroundNormal() const;
+    void startContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact);
+
     /**
      * @brief asks box2D from current position.
      * @return
@@ -65,6 +68,7 @@ class Player : public PhysicsEntity {
      * @param pi
      */
     void handleState(IO::PlayerMsg pi);
+    const std::shared_ptr<Worms::Weapon> getWeapon() const;
     Worm::StateID getStateId() const;
     void setState(Worm::StateID stateID);
     float getWeaponAngle() const;
@@ -90,12 +94,15 @@ class Player : public PhysicsEntity {
      */
     void endShot();
     void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+                           Math::Point<float> shooterPosition, Direction shooterDirection);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);
     void increaseHealth(float percentage);
     uint8_t getTeam() const;
     void setId(uint8_t id);
     uint8_t getId() const;
+    Physics &getPhysics();
     void setWeaponTimeout(uint8_t time);
     /**
      * Moves the bullets to the caller (the Game)
@@ -110,11 +117,12 @@ class Player : public PhysicsEntity {
     /**
      * calls weapon's onExplode and get new bullets if it is necesary.
      */
-    std::list<Bullet> onExplode(const Bullet &bullet,
-                                Physics &physics);
+    std::list<Bullet> onExplode(const Bullet &bullet, Physics &physics);
 
     bool operator!=(const Player &other);
     bool operator==(const Player &other);
+
+    void endShot(std::list<Worms::Bullet> &bullets);
 
    private:
     b2Body *createBody(b2BodyType type);
@@ -130,7 +138,8 @@ class Player : public PhysicsEntity {
     uint8_t team;
     uint8_t id;
     std::list<Bullet> bullets;
-    bool removeBullets{false};
+    bool isP2PWeapon{false};
+    b2Vec2 lastGroundNormal{0.0f, 0.0f};
 };
 }  // namespace Worms
 

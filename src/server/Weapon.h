@@ -27,8 +27,8 @@ class Weapon {
      * @param dt
      */
     virtual void update(float dt) = 0;
-    void increaseAngle();
-    void decreaseAngle();
+    virtual void increaseAngle();
+    virtual void decreaseAngle();
     float getAngle() const;
     virtual void startShot(Worms::Player *player) = 0;
     virtual void endShot() = 0;

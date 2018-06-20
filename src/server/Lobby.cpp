@@ -61,6 +61,11 @@ Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
 void Worms::Lobby::run() {
     while (!this->finished) {
         if (this->gameStarted) {
+            for (std::uint8_t i = 0; i < this->playersQuantity; i++) {
+                char buffer[1];
+                buffer[0] = i;
+                this->players[i].send(buffer, sizeof(buffer));
+            }
             std::cout << "game starts" << std::endl;
             Worms::Game game{Worms::Stage{}, this->players};
             game.start();

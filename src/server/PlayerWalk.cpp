@@ -1,4 +1,5 @@
 
+#include <cmath>
 #include <iostream>
 #include <memory>
 
@@ -75,3 +76,11 @@ void Worms::Walk::banana(Worms::Player &p) {}
 void Worms::Walk::holy(Worms::Player &p) {}
 
 void Worms::Walk::setTimeout(Worms::Player &p, uint8_t time) {}
+
+void Worms::Walk::aerialAttack(Worms::Player &p) {}
+
+void Worms::Walk::dynamite(Worms::Player &p) {}
+
+void Worms::Walk::teleport(Worms::Player &p) {}
+
+void Worms::Walk::baseballBat(Worms::Player &p) {}
