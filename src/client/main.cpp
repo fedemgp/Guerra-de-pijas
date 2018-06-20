@@ -20,8 +20,6 @@ int main(int argc, const char *argv[]) {
         std::string host = argv[1];
         std::string port = argv[2];
         ClientSocket socket(host.data(), port.data());
-        char buffer[1];
-        socket.receive(buffer, sizeof(buffer));
 
         //TODO start a thread running this
         Worm::LobbyAssistant lobby(socket);
@@ -31,6 +29,9 @@ int main(int argc, const char *argv[]) {
         window.clear();
 
         socket = std::move(lobby.getSocket());
+
+        char buffer[1];
+        socket.receive(buffer, sizeof(buffer));
 
         GUI::Game game{window, Worms::Stage{}, socket, (std::uint8_t) buffer[0]};
         game.start();

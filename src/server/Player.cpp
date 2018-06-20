@@ -91,7 +91,7 @@ bool Worms::Player::operator==(const Player &other) {
  */
 void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
     if (entity.getEntityId() == Worms::EntityID::EtGirder) {
-        Worms::Girder girder = dynamic_cast<Worms::Girder &>(entity);
+        Worms::Girder &girder = dynamic_cast<Worms::Girder &>(entity);
         if (std::abs(girder.angle) > PI / 4.0f) {
             this->lastGroundNormal = contact.GetManifold()->localNormal;
         } else {

@@ -25,7 +25,7 @@ class PhysicsEntity : public Subject {
     virtual void endContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact) {}
     virtual void contactWith(PhysicsEntity &physicsEntity, b2Contact &contact) {}
 
-   private:
+   protected:
     EntityID id;
     bool handlingContact{false};
 };

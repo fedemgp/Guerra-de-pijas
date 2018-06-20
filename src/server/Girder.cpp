@@ -19,3 +19,10 @@ Worms::Girder::Girder(const Worms::GirderData &data, Worms::Physics &physics)
 
     staticBody->SetUserData(this);
 }
+
+Worms::Girder::Girder(Worms::Girder &&other) noexcept :
+        PhysicsEntity(other.id), angle(other.angle){
+    this->handlingContact = other.handlingContact;
+    this->numObservers = other.numObservers;
+    this->observers = std::move(other.observers);
+}
