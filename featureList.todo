@@ -38,7 +38,7 @@ Cámara:
   ✔ Muestra porción del escenario @done (18-06-03 03:13)
   ✔ centrada en el gusano activo @done (18-06-03 03:13)
   ✔ Sigue al gusano en desplazamiento @done (18-06-03 03:13)
-  ☐ Camara se mueve con el mouse para ver otras partes del escenario
+  ✔ Camara se mueve con el mouse para ver otras partes del escenario
   ✔ Sigue al proyectil hasta el impacto @done (18-06-03 03:13)
   Sigue al gusano en movimiento tras el impacto:
       ✔ hasta que termine de moverse @done (18-06-10 03:23)
@@ -130,9 +130,9 @@ Armas:
     ✔ Banana rebota muchas veces. @done (18-06-04 00:18)
     ☐ (OPCIONAL) agregar atributo de elasticidad a las granadas
   Viento:
-    ☐ Proyectil afectado por el viento
-    ☐ Viento aplica fuerza al proyectil
-    ☐ Viento viaja de izquierda a derecha o al revés
+    ✔ Proyectil afectado por el viento
+    ✔ Viento aplica fuerza al proyectil
+    ✔ Viento viaja de izquierda a derecha o al revés
     ☐ Viento varia velocidad desde 0.2m/s a 10m/s
   Municiones:
     ☐ Valor fijado por EQUIPO y por ARMA
@@ -153,7 +153,7 @@ Tipos de armas:
     ✔ Potencia variable SI @done (18-06-03 03:17)
     ✔ Cuenta regresiva NO @done (18-06-03 03:17)
     ✔ Teledirigido NO @done (18-06-03 03:17)
-    ☐ Trayectoria afectada por el viento SI
+    ✔ Trayectoria afectada por el viento SI
     ☐ Municiones Infinitas
     ✔ Daño: 50 (epicentro); 2mts radio @done (18-06-03 03:18)
   Mortero:
@@ -162,9 +162,9 @@ Tipos de armas:
     ✔ Potencia variable: SI @done (18-06-03 03:18)
     ✔ Cuenta regresiva: NO @done (18-06-03 03:18)
     ✔ Teledirigido: NO @done (18-06-03 03:18)
-    ☐ Afectado por el viento: SI
+    ✔ Afectado por el viento: SI
     ☐ Municiones: 10
-    Daño:   
+    Daño:
       ✔ (principal) 50 pts epicentro; 2mts radio @done (18-06-03 03:18)
       ✔ (cada fragmento) 10pts epicentro; 2mts radio @done (18-06-10 03:25)
       ✔ Cantidad de fragmentos: 6 @done (18-06-10 03:25)
@@ -185,7 +185,7 @@ Tipos de armas:
     ✔ Teledirigido NO @done (18-06-03 03:18)
     ✔ Viento NO @done (18-06-03 03:18)
     ☐ Municiones 10
-    Daño:  
+    Daño:
       ✔ (principal) 30 pts centro, 2mts radio @done (18-06-03 03:18)
       ✔ (fragmento) 10pts centro, 2mts radio @done (18-06-10 03:25)
       ✔ Fragmentos: 6 @done (18-06-10 03:25)
@@ -236,7 +236,7 @@ Tipos de armas:
     ☐ Teledirigido SI
     ☐ Viento: si? (cualquiera)
     ☐ Municiones: 2
-    Daño: 
+    Daño:
       ☐ (cada misil) 40pts centro, 2 mts radio
       ☐ Los misiles explotan de forma independiente entre ellos
   Teleporting:
@@ -270,7 +270,7 @@ Configuración:
 
 Editor:
     ☐ Elegir fondo de pantalla
-    ☐ Colocar vigas y gusanos
+    ✔ Colocar vigas y gusanos
     ☐ Definir qué armas pueden usarse
     ☐ Cantidad de municiones
     ☐ Daño
@@ -278,5 +278,4 @@ Editor:
     ☐ Tiempo del turno
 
 NICE TO HAVE:
-  ☐ Cuando se elige un arma estaría bueno que sedivida en tres sub estados: equiparArma (con su animación correspondiente, el gusano saca el arma, por ejemplo wbazink, o el gusano guarda el arma, wbazbak)
-    
+  ☐ Cuando se elige un arma estaría bueno que se divida en tres sub estados: equiparArma (con su animación correspondiente, el gusano saca el arma, por ejemplo wbazink, o el gusano guarda el arma, wbazbak)
