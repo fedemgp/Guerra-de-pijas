@@ -230,6 +230,10 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.wormsDirection[m.num_worms] = worm.direction;
         m.num_worms++;
     }
+    /* sets wind data */
+    m.windIntensity = (char) (127.0f * this->wind.instensity /
+            (this->wind.maxIntensity - this->wind.minIntensity)
+                              * this->wind.xDirection);
 
     /* sets the current player's data */
     m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
@@ -430,5 +434,6 @@ void Worms::Game::calculateWind() {
     this->wind.xDirection = (distr(mersenne_engine) > (this->wind.maxIntensity -
             this->wind.minIntensity) / 2.0f) ? 1 : -1;
     this->wind.instensity = distr(mersenne_engine);
+
     /*std::cout<<this->wind.xDirection<<" "<<this->wind.instensity<<std::endl;*/
 }
