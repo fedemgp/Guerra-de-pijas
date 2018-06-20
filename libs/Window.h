@@ -24,8 +24,9 @@ class Window {
     void render();
     SDL_Renderer &getRenderer();
 
-    int getWidth();
-    int getHeight();
+    int getWidth() const;
+    int getHeight() const;
+    bool containsMouse() const;
 
    private:
     SDL_Window *window{nullptr};

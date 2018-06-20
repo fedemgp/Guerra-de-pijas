@@ -479,22 +479,24 @@ void GUI::Game::handleCamera(float dt) {
     const float cameraSpeed = 15.0f;
 
     /* checks if the camera should be moved horizontally */
-    if (mx < 20) {
-        auto p = this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt;
-        this->cam.moveTo(this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt);
-        this->lastCameraUpdate = 0.0f;
-    } else if (mx > this->window.getWidth() - 20) {
-        this->cam.moveTo(this->cam.getPosition() + GUI::Position{cameraSpeed, 0.0f} * dt);
-        this->lastCameraUpdate = 0.0f;
-    }
+    if (this->window.containsMouse()) {
+        if (mx < 20) {
+            auto p = this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt;
+            this->cam.moveTo(this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt);
+            this->lastCameraUpdate = 0.0f;
+        } else if (mx > this->window.getWidth() - 20) {
+            this->cam.moveTo(this->cam.getPosition() + GUI::Position{cameraSpeed, 0.0f} * dt);
+            this->lastCameraUpdate = 0.0f;
+        }
 
-    /* checks if the camera should be moved vertically */
-    if (my < 20) {
-        this->cam.moveTo(this->cam.getPosition() + GUI::Position{0.0f, cameraSpeed} * dt);
-        this->lastCameraUpdate = 0.0f;
-    } else if (my > this->window.getHeight() - 20) {
-        this->cam.moveTo(this->cam.getPosition() - GUI::Position{0.0f, cameraSpeed} * dt);
-        this->lastCameraUpdate = 0.0f;
+        /* checks if the camera should be moved vertically */
+        if (my < 20) {
+            this->cam.moveTo(this->cam.getPosition() + GUI::Position{0.0f, cameraSpeed} * dt);
+            this->lastCameraUpdate = 0.0f;
+        } else if (my > this->window.getHeight() - 20) {
+            this->cam.moveTo(this->cam.getPosition() - GUI::Position{0.0f, cameraSpeed} * dt);
+            this->lastCameraUpdate = 0.0f;
+        }
     }
 
     /* if the user hasn't changed the camera in a while, it becomes automatic again */
