@@ -43,12 +43,14 @@ class Game {
    private:
     void render_controls();
     void renderBackground();
+    void handleCamera(float dt);
 
     void inputWorker();
     void outputWorker();
 
     std::atomic<bool> quit{false};
     float scale{13.0f};  // pixels per meter
+    float lastCameraUpdate{0.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
     GameSoundEffectManager sound_effect_mgr;

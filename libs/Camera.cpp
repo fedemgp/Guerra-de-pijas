@@ -5,16 +5,16 @@
 /**
  * @brief Construct a new Camera with the given initial coordinates.
  *
- * @param p Initial coordinates.
+ * @param window The window where the camera renders.
+ * @param scale The pixel/meters relation.
  */
-GUI::Camera::Camera(float scale, int width, int height, SDL_Renderer &renderer)
-    : start(this->cur),
+GUI::Camera::Camera(GUI::Window &window, float scale)
+    : window(window),
+      start(this->cur),
       dst(this->cur),
       scale(scale),
-      width(width),
-      height(height),
-      renderer(renderer) {
-    this->setTo(Position{0, float(this->height) / this->scale / 2.0f});
+      renderer(window.getRenderer()) {
+    this->setTo(Position{0, float(this->window.getHeight()) / this->scale / 2.0f});
 }
 
 GUI::Camera::~Camera() {}
@@ -50,7 +50,9 @@ float GUI::Camera::getScale() const {
  * @return Position Camera position.
  */
 GUI::Position GUI::Camera::getPosition() const {
-    return this->cur;
+    Position offset{(this->window.getWidth() / 2) / this->scale,
+                    -(this->window.getHeight() / 2) / this->scale};
+    return this->cur + offset;
 }
 
 /**
@@ -62,10 +64,10 @@ void GUI::Camera::setTo(GUI::Position coord) {
     this->elapsed = 0.0f;
 
     /* avoids the camera from going below the zero */
-    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2);
+    coord.y = std::max(coord.y, (float(this->window.getHeight()) / this->scale) / 2);
 
-    coord.x -= (this->width / 2) / this->scale;
-    coord.y += (this->height / 2) / this->scale;
+    coord.x -= (this->window.getWidth() / 2) / this->scale;
+    coord.y += (this->window.getHeight() / 2) / this->scale;
     this->dst = this->start = this->cur = coord;
 }
 
@@ -76,10 +78,10 @@ void GUI::Camera::setTo(GUI::Position coord) {
  */
 void GUI::Camera::moveTo(GUI::Position coord) {
     /* avoids the camera from going below the zero */
-    coord.y = std::max(coord.y, (float(this->height) / this->scale) / 2 - 10.0f);
+    coord.y = std::max(coord.y, (float(this->window.getHeight()) / this->scale) / 2 - 10.0f);
 
-    coord.x -= (this->width / 2) / this->scale;
-    coord.y += (this->height / 2) / this->scale;
+    coord.x -= (this->window.getWidth() / 2) / this->scale;
+    coord.y += (this->window.getHeight() / 2) / this->scale;
 
     if (this->dst.distance(coord) < 7.0f) {
         this->dst = coord;
