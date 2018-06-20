@@ -182,7 +182,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->teamColors.push_back(SDL_Color{0, 0, 0xFF});
 
     this->inputThread = std::thread([this] { this->inputWorker(); });
-    this->outputThread = std::thread([this] { this->outputWorker(); });std::cout<<(int) this->team<<std::endl;
+    this->outputThread = std::thread([this] { this->outputWorker(); });
 }
 
 GUI::Game::~Game() {
@@ -237,7 +237,7 @@ void GUI::Game::start() {
 
                 /* handle events on queue */
                 SDL_Event e;
-                while (SDL_PollEvent(&e) != 0) {
+                while (SDL_PollEvent(&e) != 0 && this->team == this->snapshot.currentTeam) {
                     switch (e.type) {
                         case SDL_QUIT:
                             this->exit();
