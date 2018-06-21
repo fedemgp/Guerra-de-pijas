@@ -75,6 +75,16 @@ namespace IO {
     struct ServerResponse {
         ServerResponseAction action;
     };
+
+    //TODO put this in dedicated file.
+    enum class ServerInternalAction {
+        lobbyFinished,
+        quit
+    };
+    
+    struct ServerInternalMsg {
+        ServerInternalAction action;
+    };
 enum class PlayerInput {
     moveNone,
     moveRight,

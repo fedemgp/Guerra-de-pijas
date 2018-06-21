@@ -6,6 +6,7 @@
 #include <iostream>
 #include <GameStateMsg.h>
 #include <SDL2/SDL.h>
+#include <zconf.h>
 
 #include "GameWindow.h"
 #include "LobbyAssistant.h"
@@ -54,6 +55,7 @@ void GUI::LobbyAssistant::run() {
         }
 
         this->gameWindow->render();
+        usleep(50 * 1000);
 
 //        this->clearScreen();
 //        this->printCommands();

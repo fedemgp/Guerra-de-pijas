@@ -2,27 +2,45 @@
 // Created by rodrigo on 19/06/18.
 //
 
+#include <GameStateMsg.h>
 #include "LobbyJoiner.h"
 
-Worms::LobbyJoiner::LobbyJoiner(Worms::Lobbies &lobbies) :
-        lobbies(lobbies.getLobbies()){
+Worms::LobbyJoiner::LobbyJoiner(Worms::Lobbies &lobbies, IO::Stream<IO::ServerInternalMsg> &serverInput) :
+        lobbies(lobbies.getLobbies()),
+        serverInput(serverInput) {
 }
 
 void Worms::LobbyJoiner::run() {
     while (!this->finished) {
-        std::list<Lobby>::iterator lobbyIt;
-        lobbyIt = this->lobbies.begin();
-        while (lobbyIt != this->lobbies.end()){
-            if (lobbyIt->itsOver()){
-                lobbyIt->join();
-                lobbyIt = this->lobbies.erase(lobbyIt);
-            } else {
-                lobbyIt++;
-            }
+        IO::ServerInternalMsg msg;
+        if (this->serverInput.pop(msg)) {
+            this->handleServerInput(msg);
         }
     }
 }
 
 void Worms::LobbyJoiner::stop() {
     this->finished = true;
+}
+
+void Worms::LobbyJoiner::handleServerInput(IO::ServerInternalMsg &msg) {
+    switch (msg.action) {
+        case IO::ServerInternalAction::lobbyFinished: {
+            std::list<Lobby>::iterator lobbyIt;
+            lobbyIt = this->lobbies.begin();
+            while (lobbyIt != this->lobbies.end()) {
+                if (lobbyIt->itsOver()) {
+                    lobbyIt->join();
+                    lobbyIt = this->lobbies.erase(lobbyIt);
+                } else {
+                    lobbyIt++;
+                }
+            }
+            break;
+        }
+        case IO::ServerInternalAction::quit: {
+            this->finished = true;
+            break;
+        }
+    }
 }

@@ -7,7 +7,11 @@
 #include "Lobby.h"
 #include "Game.h"
 
-Worms::Lobby::Lobby(int playerID, uint8_t id): id(id) {
+Worms::Lobby::Lobby(int playerID, uint8_t id, std::vector<Observer *> obs): id(id) {
+    for (auto *lobbyObserver : obs) {
+        this->obs.emplace_back(lobbyObserver);
+        this->addObserver(lobbyObserver);
+    }
     this->joinGame(playerID);
 }
 
@@ -19,7 +23,7 @@ void Worms::Lobby::joinGame(int playerID) {
     if (this->actualPlayers == this->playersQuantity) {
         this->notify(*this, Event::StartGame);
         std::uint8_t i{0};
-        for (auto *obs : this->observers) {
+        for (auto *obs : this->obs) {
             if (i != 0) {
                 this->removeObserver(obs);
             }
@@ -69,6 +73,7 @@ void Worms::Lobby::run() {
             std::cout << "game starts" << std::endl;
             Worms::Game game{Worms::Stage{}, this->players};
             game.start();
+            this->notify(*this, Event::EndGame);
             this->gameStarted = false;
             this->finished = true;
         }
@@ -81,4 +86,9 @@ void Worms::Lobby::stop() {
 
 bool Worms::Lobby::itsOver() {
     return this->finished;
+}
+
+void Worms::Lobby::addLobbyObserver(Observer *lobbyObserver) {
+    this->obs.emplace_back(lobbyObserver);
+    this->addObserver(lobbyObserver);
 }

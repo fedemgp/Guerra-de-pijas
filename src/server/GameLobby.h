@@ -11,6 +11,8 @@
 
 #include <CommunicationSocket.h>
 #include <thread>
+#include <GameStateMsg.h>
+#include <Stream.h>
 #include "ServerSocket.h"
 #include "GameLobbyAssistant.h"
 
@@ -26,6 +28,7 @@ namespace Worms {
 
     private:
         ServerSocket serverSocket;
+        IO::Stream<IO::ServerInternalMsg> msgToJoiner;
         std::list<GameLobbyAssistant> players;
         bool quit{false};
         /**

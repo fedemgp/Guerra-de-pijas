@@ -18,7 +18,8 @@ Worms::GameLobby::GameLobby(std::string port) :
 void Worms::GameLobby::start() {
     try {
         Lobbies lobbies{};
-        LobbyJoiner lobbyJoiner{lobbies};
+        
+        LobbyJoiner lobbyJoiner{lobbies, this->msgToJoiner};
         lobbyJoiner.start();
         int id = 0;
 
@@ -31,6 +32,11 @@ void Worms::GameLobby::start() {
 
             std::cout << "hubo una conexión" << std::endl;
         }
+        this->removePlayers();
+        
+        this->msgToJoiner << IO::ServerInternalMsg{IO::ServerInternalAction::quit};
+        lobbyJoiner.join();
+        
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
     } catch (...) {
@@ -74,7 +80,12 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
                     };
                 }
             }
+            lobby.start();
 
+            break;
+        }
+        case Event::EndGame: {
+            this->msgToJoiner << IO::ServerInternalMsg{IO::ServerInternalAction::lobbyFinished};
             break;
         }
         default: {
