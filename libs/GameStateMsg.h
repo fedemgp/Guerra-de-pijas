@@ -59,6 +59,15 @@ enum WeaponID {
 }  // namespace Worm
 
 namespace IO {
+    enum class ClientGUIInput {
+        createGame,
+        getGames,
+        joinGame
+    };
+
+    struct ClientGUIMsg {
+        ClientGUIInput input;
+    };
 enum class PlayerInput {
     moveNone,
     moveRight,

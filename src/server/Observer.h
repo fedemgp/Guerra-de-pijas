@@ -28,7 +28,8 @@ enum class Event {
     P2PWeaponUsed,
     StartGame,
     NewPlayer,
-    EndGame
+    EndGame,
+    CreateGame
 };
 
 class Subject;

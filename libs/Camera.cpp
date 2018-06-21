@@ -233,3 +233,26 @@ void GUI::Camera::drawLocal(const Texture &texture, ScreenPosition p, const SDL_
 
     SDL_RenderCopyEx(&this->renderer, texture.get(), &clip, &dst, 0, nullptr, flip);
 }
+
+/**
+ * @brief Draws a sdl rect in the screen in camera/screen coordinates specifying the flip.
+ *
+ * @param p Position where to draw the texture (camera coordinates).
+ * @param clip sdl rect to render.
+ * @param scale Scale factor of the final sdl rect size.
+ */
+void GUI::Camera::drawLocal(ScreenPosition p, const SDL_Rect &clip, SDL_Color color) {
+    /* calculates the scaled size */
+    float scale = this->scale;
+    int w = int(clip.w * scale);
+    int h = int(clip.h * scale);
+
+    SDL_Rect dst = {};
+    dst.x = p.x - w / 2;
+    dst.y = p.y - h / 2;
+    dst.w = w;
+    dst.h = h;
+
+    SDL_SetRenderDrawColor(&this->renderer, color.r, color.g, color.b, 0xFF);
+    SDL_RenderFillRect(&this->renderer, &dst);
+}

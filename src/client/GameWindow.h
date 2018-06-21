@@ -7,18 +7,22 @@
 
 
 #include <Window.h>
+#include <Camera.h>
 #include "../server/Subject.h"
 
 namespace GUI {
     class GameWindow : public Subject {
     public:
-        explicit GameWindow(Window &window);
+        explicit GameWindow(Window &window, Font &font, Camera &cam);
 
         virtual void start() = 0;
         virtual void render() = 0;
+        virtual void buttonPressed(ScreenPosition sp) = 0;
 
     protected:
         Window &window;
+        Font &font;
+        Camera &cam;
         bool quit{false};
     };
 }

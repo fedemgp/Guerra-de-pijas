@@ -3,41 +3,41 @@
 //
 
 #include <SDL2/SDL.h>
+#include <iostream>
 
 #include "SelectActionWindow.h"
 #include "Text.h"
 #include "Window.h"
 
-GUI::SelectActionWindow::SelectActionWindow(GUI::Window &window) :
-        GameWindow (window) {
+#define MSG_CREATE_GAME "Create game"
+#define MSG_JOIN_GAME "Join game"
+
+GUI::SelectActionWindow::SelectActionWindow(Window &window, Font &font, Camera &cam) :
+        GameWindow(window, font, cam) {
+    std::string msg(MSG_CREATE_GAME);
+    this->buttons.emplace_back(ScreenPosition{this->window.getWidth() / 4, this->window.getHeight() / 2},
+                               50, 300, msg, this->font);
+    msg = MSG_JOIN_GAME;
+    this->buttons.emplace_back(ScreenPosition{this->window.getWidth() * 3 / 4, this->window.getHeight() / 2},
+                               50, 300, msg, this->font);
 }
 
 void GUI::SelectActionWindow::start() {
-    while (!this->quit) {
-        SDL_Event e;
-        while (SDL_PollEvent(&e) != 0) {
-            switch (e.type) {
-                case SDL_QUIT: {
-                    this->quit = true;
-                    break;
-                }
-                case SDL_KEYDOWN: {
-                    break;
-                }
-                case SDL_KEYUP: {
-                    break;
-                }
-                case SDL_MOUSEBUTTONDOWN: {
-                    int x, y;
-                    SDL_GetMouseState(&x, &y);
-//                    GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
-//                    cur.mouseButtonDown(global, &this->output);
-                }
-            }
-        }
-    }
+
 }
 
 void GUI::SelectActionWindow::render() {
+    this->window.clear(SDL_Color{0xFF, 0xFF, 0xFF});
+    for (auto &button : this->buttons) {
+        button.render(this->cam, this->window);
+    }
 
+    this->window.render();
+}
+
+void GUI::SelectActionWindow::buttonPressed(GUI::ScreenPosition sp) {
+    if (this->buttons[0].inside(sp)) {
+        std::cout<<"asdas\n";
+//        this->notify(*this, Event::CreateGame);
+    }
 }

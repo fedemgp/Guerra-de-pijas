@@ -14,25 +14,52 @@
 
 GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
         protocol(socket),
-        window(window) {
+        window(window),
+        font("assets/fonts/gruen_lemonograf.ttf", 28),
+        cam(window, this->scale) {
+    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
 }
 
 void GUI::LobbyAssistant::run(){
-//    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window});
+    while (!this->quit) {
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0) {
+            switch (e.type) {
+                case SDL_QUIT: {
+                    this->quit = true;
+                    throw;
+                    break;
+                }
+                case SDL_KEYDOWN: {
+                    break;
+                }
+                case SDL_KEYUP: {
+                    break;
+                }
+                case SDL_MOUSEBUTTONDOWN: {
+                    int x, y;
+                    SDL_GetMouseState(&x, &y);
+                    GUI::Position global = this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
+                    this->gameWindow->buttonPressed(ScreenPosition{x, y}/*ScreenPosition{static_cast<int>(global.x), static_cast<int>(global.y)}*/);
+                }
+            }
+        }
+        this->gameWindow->render();
 
-    this->clearScreen();
-    this->printCommands();
-    std::cin >> this->command;
-    this->command -= 48; //TODO encapsulate this
-    switch(this->command){
-        case COMMAND_CREATE_GAME: {
-            this->createGame();
-            break;
-        }
-        case COMMAND_JOIN_GAME: {
-            this->joinGame();
-            break;
-        }
+//        this->clearScreen();
+//        this->printCommands();
+//        std::cin >> this->command;
+//        this->command -= 48; //TODO encapsulate this
+//        switch (this->command) {
+//            case COMMAND_CREATE_GAME: {
+//                this->createGame();
+//                break;
+//            }
+//            case COMMAND_JOIN_GAME: {
+//                this->joinGame();
+//                break;
+//            }
+//        }
     }
 }
 

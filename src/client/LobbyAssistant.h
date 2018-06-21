@@ -8,6 +8,9 @@
 
 #include <Protocol.h>
 #include <memory>
+#include <Stream.h>
+#include <Font.h>
+#include <Camera.h>
 #include "ClientSocket.h"
 #include "GameWindow.h"
 
@@ -23,13 +26,18 @@ namespace GUI {
     private:
         Protocol<ClientSocket> protocol;
         Window &window;
+        float scale{13.0f};
         void clearScreen();
         void printCommands();
         void createGame();
         unsigned char command{0};
         std::uint8_t playersQuantity{0};
         bool quit{false};
-//        std::shared_ptr<GameWindow> gameWindow{nullptr};
+        std::shared_ptr<GameWindow> gameWindow{nullptr};
+        Font font;
+        Camera cam;
+//        IO::Stream<IO::ClientGUIInput> clientStream;
+//        IO::Stream<IO::ClientGUIInput >
 
         void getGames();
         void joinGame();
