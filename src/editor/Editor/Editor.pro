@@ -26,8 +26,5 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-DISTFILES += \
-    ../../clientServer/assets/img/Buttons/worm.png
-
 RESOURCES += \
     resources.qrc

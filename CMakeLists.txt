@@ -32,5 +32,26 @@ add_executable(server
         ${SERVER_SOURCES}
         ${SERVER_LIBS_SOURCES})
 
+message("Cargando fuentes para el editor")
+file(GLOB EDITOR_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
+        "src/editor/Editor/*.cpp"
+        "src/editor/Editor/*.h"
+        "src/editor/Editor/*.ui"
+        "src/editor/Editor/resources.qrc")
+
+# Instruct CMake to run moc automatically when needed
+set(CMAKE_AUTOMOC ON)
+# Create code from a list of Qt designer ui files
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+# Find the QtWidgets library
+find_package(Qt5Widgets CONFIG REQUIRED)
+
+# Tell CMake to create the helloworld executable
+add_executable(editor ${EDITOR_SOURCES})
+# Use the Widgets module from Qt 5
+target_link_libraries(editor Qt5::Widgets)
+
 target_link_libraries(server Box2D)
 file(COPY assets DESTINATION ./)
