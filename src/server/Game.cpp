@@ -239,9 +239,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
     uint8_t i{0};
     for (auto health: this->teamHealths){
         m.teamHealths[i++] = health;
-        std::cout << (int) health << ", ";
     }
-    std::cout << std::endl;
     /* sets wind data */
     m.windIntensity =
         (char)(127.0f * this->wind.instensity /
