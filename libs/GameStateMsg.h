@@ -62,11 +62,18 @@ namespace IO {
     enum class ClientGUIInput {
         createGame,
         getGames,
-        joinGame
+        joinGame,
+        quit
+    };
+    enum class ServerResponseAction {
+        startGame
     };
 
     struct ClientGUIMsg {
         ClientGUIInput input;
+    };
+    struct ServerResponse {
+        ServerResponseAction action;
     };
 enum class PlayerInput {
     moveNone,

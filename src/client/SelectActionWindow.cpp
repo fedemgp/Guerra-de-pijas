@@ -37,7 +37,10 @@ void GUI::SelectActionWindow::render() {
 
 void GUI::SelectActionWindow::buttonPressed(GUI::ScreenPosition sp) {
     if (this->buttons[0].inside(sp)) {
-        std::cout<<"asdas\n";
-//        this->notify(*this, Event::CreateGame);
+        this->notify(*this, Event::CreateGame);
+    }
+
+    if (this->buttons[1].inside(sp)) {
+        this->notify(*this, Event::JoinGame);
     }
 }

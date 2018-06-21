@@ -6,9 +6,10 @@
 #define INC_4_WORMS_GAMEWINDOW_H
 
 
-#include <Window.h>
 #include <Camera.h>
-#include "../server/Subject.h"
+#include "Font.h"
+#include <Window.h>
+#include "Subject.h"
 
 namespace GUI {
     class GameWindow : public Subject {

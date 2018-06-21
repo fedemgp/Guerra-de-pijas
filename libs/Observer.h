@@ -29,7 +29,8 @@ enum class Event {
     StartGame,
     NewPlayer,
     EndGame,
-    CreateGame
+    CreateGame,
+    JoinGame
 };
 
 class Subject;
