@@ -7,7 +7,7 @@
 class StageElementWorm : public StageElement
 {
 public:
-    StageElementWorm();
+    StageElementWorm(qreal opacity = 1.0);
 
     virtual StageElement *clone();
 

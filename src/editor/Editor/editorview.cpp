@@ -7,6 +7,8 @@
 #include "stageelemlonggirder.h"
 #include "stageelemshortgirder.h"
 
+const qreal cursorOpacity = 0.7;
+
 EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
     this->setAttribute(Qt::WA_Hover, true);
     this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
@@ -23,7 +25,7 @@ void EditorView::setWorm() {
         delete this->stageElem;
     }
 
-    this->stageElem = new StageElementWorm;
+    this->stageElem = new StageElementWorm{cursorOpacity};
 }
 
 void EditorView::setShortGirder() {
@@ -31,7 +33,7 @@ void EditorView::setShortGirder() {
         delete this->stageElem;
     }
 
-    this->stageElem = new StageElemShortGirder;
+    this->stageElem = new StageElemShortGirder{cursorOpacity};
 }
 
 void EditorView::setLongGirder() {
@@ -39,7 +41,7 @@ void EditorView::setLongGirder() {
         delete this->stageElem;
     }
 
-    this->stageElem = new StageElemLongGirder;
+    this->stageElem = new StageElemLongGirder{cursorOpacity};
 }
 
 void EditorView::mousePressEvent(QMouseEvent *) {}

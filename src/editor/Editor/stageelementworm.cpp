@@ -1,8 +1,8 @@
 #include "stageelement.h"
 #include "stageelementworm.h"
 
-StageElementWorm::StageElementWorm() :
-    StageElement(":/assets/stage/worm.png", ItemType::Worm) {
+StageElementWorm::StageElementWorm(qreal opacity) :
+    StageElement(":/assets/stage/worm.png", ItemType::Worm, opacity) {
 }
 
 void StageElementWorm::increaseAngle() {

@@ -1,7 +1,7 @@
 #include "stageelemlonggirder.h"
 
-StageElemLongGirder::StageElemLongGirder() :
-    StageElement(":/assets/stage/long_girder.png", ItemType::LongGirder) {
+StageElemLongGirder::StageElemLongGirder(qreal opacity) :
+    StageElement(":/assets/stage/long_girder.png", ItemType::LongGirder, opacity) {
 }
 
 StageElement *StageElemLongGirder::clone() {

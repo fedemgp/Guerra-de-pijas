@@ -17,7 +17,7 @@ enum class ItemType {
 
 class StageElement : public QGraphicsPixmapItem {
 public:
-    StageElement(const std::string &resource, ItemType type);
+    StageElement(const std::string &resource, ItemType type, qreal opacity);
 
     ItemType getType();
 
@@ -35,7 +35,7 @@ public:
     virtual void serialize(StageData &sd) = 0;
 
 protected:
-    QPixmap getResource();
+    QPixmap getResource(qreal opacity = 1.0);
     qreal angle{0.0f};
     ItemType type;
 

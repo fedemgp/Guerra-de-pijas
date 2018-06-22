@@ -5,7 +5,7 @@
 
 class StageElemShortGirder : public StageElement {
 public:
-    StageElemShortGirder();
+    StageElemShortGirder(qreal opacity = 1.0);
 
     StageElement *clone();
     virtual bool canOverlap(StageElement *other);
