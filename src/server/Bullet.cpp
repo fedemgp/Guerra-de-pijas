@@ -32,7 +32,7 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     //    this->body->SetTransform(this->body->GetPosition(), info.angle);
 }
 
-void Worms::Bullet::update(float dt, Worms::Wind wind) {
+void Worms::Bullet::update(float dt, Config::Wind wind) {
     if (this->keepUpdating) {
         this->timeElapsed += dt;
         if (!this->impulseApplied) {

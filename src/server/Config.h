@@ -16,7 +16,7 @@ namespace Math {
 using Vector = Math::Point<float>;
 }
 
-namespace Worms {
+namespace Config {
 struct Wind {
     float minIntensity;
     float maxIntensity;

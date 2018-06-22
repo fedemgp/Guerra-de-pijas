@@ -82,7 +82,7 @@ class Game : Observer {
     bool currentPlayerShot{false};
     GameTeams teams;
     std::list<Bullet> bullets;
-    Worms::Wind wind;
+    Config::Wind wind;
 
     std::vector<uint8_t> deadTeams;
     GameClock gameClock;
