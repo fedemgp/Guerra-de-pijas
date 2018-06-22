@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     this->scene = new EditorScene;
-    QRect r = QRect(0, 0, ui->editorView->width(), ui->editorView->height());
+    QRect r = QRect(0, 0, 13 * 250, 13 * 250);
     this->scene->setSceneRect(r);
     this->ui->editorView->setScene(this->scene);
 

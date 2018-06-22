@@ -16,12 +16,22 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     editor.cpp \
     editorview.cpp \
-    editorscene.cpp
+    editorscene.cpp \
+    stagedata.cpp \
+    stageelement.cpp \
+    stageelementworm.cpp \
+    stageelemlonggirder.cpp \
+    stageelemshortgirder.cpp
 
 HEADERS  += mainwindow.h \
     editor.h \
     editorview.h \
-    editorscene.h
+    editorscene.h \
+    stagedata.h \
+    stageelement.h \
+    stageelementworm.h \
+    stageelemlonggirder.h \
+    stageelemshortgirder.h
 
 FORMS    += mainwindow.ui
 
