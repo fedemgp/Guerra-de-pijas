@@ -19,6 +19,7 @@ class Team {
     uint8_t getCurrentPlayerID();
     void setCurrentPlayer(uint8_t currentPlayer);
     void endTurn(std::vector<Worms::Player> &players);
+    std::uint32_t calculateTotalHealth(std::vector<Worms::Player> &players);
 
    private:
     std::vector<uint8_t> playerIDs;

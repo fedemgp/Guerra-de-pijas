@@ -7,7 +7,10 @@
 
 #define WORMS_QUANTITY 20
 #define BULLETS_QUANTITY 7
+#define TOTAL_TEAM_QUANTITY 5
+
 // TODO move this in client and Server global Config
+
 #define POWER_CHARGE_TIME 5.0f
 
 #include <stdint.h>
@@ -118,9 +121,11 @@ struct GameStateMsg {
     std::uint8_t currentWormToFollow;
     std::uint8_t currentTeam;
     std::uint8_t num_worms;
+    std::uint8_t num_teams;
     std::uint8_t wormsTeam[WORMS_QUANTITY];
     Worm::Direction wormsDirection[WORMS_QUANTITY];
     float wormsHealth[WORMS_QUANTITY];
+    std::uint32_t teamHealths[TOTAL_TEAM_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     Worm::WeaponID activePlayerWeapon;

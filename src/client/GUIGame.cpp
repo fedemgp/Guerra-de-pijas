@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <unistd.h>
 #include <iostream>
+#include <sstream>
 
 #include "Bullet.h"
 #include "GUIGame.h"
@@ -260,12 +261,16 @@ void GUI::Game::start() {
                             }
                             break;
                         case SDL_MOUSEBUTTONDOWN: {
-                            int x, y;
-                            SDL_GetMouseState(&x, &y);
-                            GUI::Position global =
-                                this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
-                            cur.mouseButtonDown(global, &this->output);
-                            break;
+                            if (this->snapshot.processingInputs &&
+                                this->team == this->snapshot.currentTeam){
+                                int x, y;
+                                SDL_GetMouseState(&x, &y);
+                                GUI::Position global =
+                                        this->cam.screenToGlobal(
+                                                GUI::ScreenPosition{x, y});
+                                cur.mouseButtonDown(global, &this->output);
+                                break;
+                            }
                         }
                     }
                 }
@@ -382,6 +387,21 @@ void GUI::Game::render() {
                        this->teamColors[this->snapshot.wormsTeam[i]], 20);
             health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
         }
+    }
+
+    /* health bars of the team */
+    uint8_t numTeams = this->snapshot.num_teams;
+    int textHeight = 25;
+    for (uint8_t i = 0; i < numTeams; i++){
+        Text health{this->font};
+        std::ostringstream oss;
+        oss << "Team " << i + 1 << ": " << this->snapshot.teamHealths[i];
+
+        health.setBackground(SDL_Color{0, 0, 0});
+        health.set(oss.str(), this->teamColors[i], textHeight);
+        int x = this->window.getWidth() / 2;
+        int y = this->window.getHeight() - (textHeight * (numTeams - i));
+        health.renderFixed(ScreenPosition{x, y}, this->cam);
     }
 
     /* displays the remaining turn time */

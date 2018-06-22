@@ -37,3 +37,15 @@ void Worms::Team::endTurn(std::vector<Worms::Player> &players) {
         this->currentPlayer = (this->currentPlayer + 1) % this->playerIDs.size();
     } while (players[this->getCurrentPlayerID()].getStateId() == Worm::StateID::Dead);
 }
+
+std::uint32_t Worms::Team::calculateTotalHealth(std::vector<Worms::Player> &players){
+    std::uint32_t total{0};
+    for (auto playerID : this->playerIDs){
+        for (auto &player : players){
+            if (player.getId() == playerID){
+                total += (std::uint32_t) std::floor(player.health);
+            }
+        }
+    }
+    return total;
+}

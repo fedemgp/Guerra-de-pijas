@@ -62,6 +62,9 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
         this->girders.emplace_back(girder, this->physics);
     }
 
+    /* calculate the initial team's healths */
+    this->teamHealths = this->teams.getTotalHealth(this->players);
+
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
 
@@ -221,6 +224,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
     memset(&m, 0, sizeof(m));
 
     m.num_worms = 0;
+    m.num_teams = this->teams.getTeamQuantity();
     for (const auto &worm : this->players) {
         m.positions[m.num_worms * 2] = worm.getPosition().x;
         m.positions[m.num_worms * 2 + 1] = worm.getPosition().y;
@@ -229,6 +233,12 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.wormsTeam[m.num_worms] = worm.getTeam();
         m.wormsDirection[m.num_worms] = worm.direction;
         m.num_worms++;
+    }
+
+    /* sets team health*/
+    uint8_t i{0};
+    for (auto health: this->teamHealths){
+        m.teamHealths[i++] = health;
     }
     /* sets wind data */
     m.windIntensity =
@@ -245,7 +255,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
     m.activePlayerWeapon = this->players[this->currentWorm].getWeaponID();
 
     m.bulletsQuantity = this->bullets.size();
-    uint8_t i = 0, j = 0;
+    i = 0;
+    uint8_t j = 0;
     for (auto &bullet : this->bullets) {
         Math::Point<float> p = bullet.getPosition();
         m.bullets[i++] = p.x;
@@ -391,6 +402,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             }
             this->currentPlayerShot = false;
             this->gameClock.waitForNextTurn();
+            this->teamHealths = this->teams.getTotalHealth(this->players);
             break;
         }
         case Event::NextTurn: {

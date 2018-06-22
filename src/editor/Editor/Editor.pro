@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QMAKE_CXXFLAGS += -std=c++0x
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,9 +35,6 @@ HEADERS  += mainwindow.h \
     stageelemshortgirder.h
 
 FORMS    += mainwindow.ui
-
-DISTFILES += \
-    ../../clientServer/assets/img/Buttons/worm.png
 
 RESOURCES += \
     resources.qrc

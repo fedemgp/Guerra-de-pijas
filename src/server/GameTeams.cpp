@@ -71,6 +71,16 @@ bool Worms::GameTeams::endTurn(std::vector<Player> &players) {
     }
 }
 
+std::vector<std::uint32_t> Worms::GameTeams::getTotalHealth(std::vector<Worms::Player> &players){
+    uint8_t i{0};
+    std::vector<std::uint32_t> teamHealths;
+    for (auto &team : this->teams){
+        teamHealths.emplace_back(team.calculateTotalHealth(players));
+        i++;
+    }
+    return std::move(teamHealths);
+}
+
 char Worms::GameTeams::getCurrentPlayerID() {
     return this->teams[this->currentTeam].getCurrentPlayerID();
 }
@@ -88,4 +98,8 @@ uint8_t Worms::GameTeams::getWinner() {
         winner++;
     }
     return winner;
+}
+
+std::uint8_t Worms::GameTeams::getTeamQuantity() const{
+    return (std::uint8_t) this->teams.size();
 }

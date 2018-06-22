@@ -135,6 +135,9 @@ void Worms::Player::update(float dt) {
             b2Vec2 normal = this->getGroundNormal();
             float slope = std::abs(std::atan2(normal.y, normal.x));
             if ((slope < PI / 4.0f) || (slope > (PI * 3.0f) / 4.0f)) {
+                if (this->getStateId() == Worm::StateID::Hit) {
+                    this->notify(*this, Event::EndHit);
+                }
                 this->setState(Worm::StateID::Sliding);
                 return;
             }
@@ -320,6 +323,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->body->SetType(b2_staticBody);
                 break;
             case Worm::StateID::Sliding:
+                this->notify(*this, Event::WormFalling);
                 this->state = std::shared_ptr<State>(new Sliding());
                 break;
         }

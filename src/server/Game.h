@@ -75,6 +75,7 @@ class Game : Observer {
     Stage stage;
     std::vector<Girder> girders;
     std::vector<Player> players;
+    std::vector<std::uint32_t> teamHealths;
     const double maxTurnTime;
     bool processingClientInputs{true};
     uint8_t currentWormToFollow{0};
