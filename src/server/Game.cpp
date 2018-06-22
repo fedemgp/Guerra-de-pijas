@@ -431,7 +431,7 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
                                   Math::Point<float> shooterPosition,
                                   Worm::Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)weapon.get();
-    ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
+    Config::P2PWeapon &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(weaponInfo, shooterPosition, shooterDirection);
     }

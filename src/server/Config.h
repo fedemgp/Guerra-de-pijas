@@ -30,34 +30,31 @@ struct Wind {
             float impulseDampingRatio;
         };
     } // namespace Bullet
+
+    struct Weapon{
+        Bullet::DamageInfo dmgInfo;
+        float minAngle;
+        float maxAngle;
+        float angleStep;
+        uint16_t maxShotPower;
+        float restitution;
+        float friction;
+        uint8_t explotionInitialTimeout;
+        bool hasAfterExplode;
+        float bulletRadius;
+        float bulletDampingRatio;
+        bool windAffected;
+    };
+
+    struct P2PWeapon {
+        Bullet::DamageInfo dmgInfo;
+        Worm::Direction direction;
+        Math::Point<float> position;
+        float angle;
+    };
 }
 
 namespace Game {
-
-namespace Weapon {
-struct Config {
-   public:
-    ::Config::Bullet::DamageInfo dmgInfo;
-    float minAngle;
-    float maxAngle;
-    float angleStep;
-    uint16_t maxShotPower;
-    float restitution;
-    float friction;
-    uint8_t explotionInitialTimeout;
-    bool hasAfterExplode;
-    float bulletRadius;
-    float bulletDampingRatio;
-    bool windAffected;
-};
-
-struct P2PWeaponInfo {
-    ::Config::Bullet::DamageInfo dmgInfo;
-    Worm::Direction direction;
-    Math::Point<float> position;
-    float angle;
-};
-}  // namespace Weapon
 
 /**
  *  Singleton class with all the game configuration (Velocity constants,
@@ -91,23 +88,23 @@ class Config {
     const int getWaterLevel() const;
     const uint16_t getWormHealth() const;
 
-    const Weapon::Config &getBazookaConfig() const;
-    const Weapon::Config &getGreenGrenadeConfig() const;
+    const ::Config::Weapon &getBazookaConfig() const;
+    const ::Config::Weapon &getGreenGrenadeConfig() const;
     const uint8_t getClusterFragmentQuantity() const;
-    const Weapon::Config &getClusterConfig() const;
-    const Weapon::Config &getMortarConfig() const;
-    const Weapon::Config &getBananaConfig() const;
-    const Weapon::Config &getHolyConfig() const;
-    const Weapon::Config &getClusterFragmentConfig() const;
-    const Weapon::Config &getMortarFragmentConfig() const;
+    const ::Config::Weapon &getClusterConfig() const;
+    const ::Config::Weapon &getMortarConfig() const;
+    const ::Config::Weapon &getBananaConfig() const;
+    const ::Config::Weapon &getHolyConfig() const;
+    const ::Config::Weapon &getClusterFragmentConfig() const;
+    const ::Config::Weapon &getMortarFragmentConfig() const;
     const uint8_t getMortarFragmentQuantity() const;
-    const Weapon::Config &getAerialAttackConfig() const;
-    const Weapon::Config &getDynamiteConfig() const;
+    const ::Config::Weapon &getAerialAttackConfig() const;
+    const ::Config::Weapon &getDynamiteConfig() const;
     const uint8_t getAerialAttackMissileQuantity() const;
     const float getAerialAttackMissileSeparation() const;
     const float getAerialAttackLaunchHeight() const;
-    const Weapon::Config &getTeleportConfig() const;
-    const Weapon::Config &getBaseballBatConfig() const;
+    const ::Config::Weapon &getTeleportConfig() const;
+    const ::Config::Weapon &getBaseballBatConfig() const;
 
    private:
     /**
@@ -142,7 +139,7 @@ class Config {
     float maxWindIntensity{MAX_WIND_INTENSITY};
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
-    Weapon::Config bazooka{
+    ::Config::Weapon bazooka{
         ::Config::Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
         BAZOOKA_MIN_ANGLE,
         BAZOOKA_MAX_ANGLE,
@@ -155,7 +152,7 @@ class Config {
         BAZOOKA_BULLET_RADIUS,
         BAZOOKA_DAMPING_RATIO,
         true};
-    Weapon::Config greenGrenade{
+    ::Config::Weapon greenGrenade{
             ::Config::Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
         GRENADE_MIN_ANGLE,
         GRENADE_MAX_ANGLE,
@@ -169,7 +166,7 @@ class Config {
         GRENADE_DAMPING_RATIO,
         false};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
-    Weapon::Config clusterFragments{
+    ::Config::Weapon clusterFragments{
             ::Config::Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_FRAGMENT_MIN_ANGLE,
         CLUSTER_FRAGMENT_MAX_ANGLE,
@@ -182,7 +179,7 @@ class Config {
         CLUSTER_FRAGMENT_BULLET_RADIUS,
         CLUSTER_FRAGMENT_DAMPING_RATIO,
         false};
-    Weapon::Config cluster{
+    ::Config::Weapon cluster{
             ::Config::Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_MIN_ANGLE,
         CLUSTER_MAX_ANGLE,
@@ -195,7 +192,7 @@ class Config {
         CLUSTER_BULLET_RADIUS,
         CLUSTER_DAMPING_RATIO,
         false};
-    Weapon::Config mortarFragments{
+    ::Config::Weapon mortarFragments{
             ::Config::Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
         MORTAR_FRAGMENT_MAX_ANGLE,
@@ -209,7 +206,7 @@ class Config {
         MORTAR_FRAGMENT_DAMPING_RATIO,
         true};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{
+    ::Config::Weapon mortar{
             ::Config::Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
                           MORTAR_MIN_ANGLE,
                           MORTAR_MAX_ANGLE,
@@ -222,7 +219,7 @@ class Config {
                           MORTAR_BULLET_RADIUS,
                           MORTAR_DAMPING_RATIO,
                           true};
-    Weapon::Config banana{
+    ::Config::Weapon banana{
             ::Config::Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
                           BANANA_MIN_ANGLE,
                           BANANA_MAX_ANGLE,
@@ -235,7 +232,7 @@ class Config {
                           BANANA_BULLET_RADIUS,
                           BANANA_DAMPING_RATIO,
                           false};
-    Weapon::Config holy{
+    ::Config::Weapon holy{
             ::Config::Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
                         HOLY_MIN_ANGLE,
                         HOLY_MAX_ANGLE,
@@ -250,7 +247,7 @@ class Config {
                         false};
     uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
     float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
-    Weapon::Config aerialAttack{
+    ::Config::Weapon aerialAttack{
             ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
         AERIAL_ATTACK_MIN_ANGLE,
         AERIAL_ATTACK_MAX_ANGLE,
@@ -264,7 +261,7 @@ class Config {
         AERIAL_ATTACK_DAMPING_RATIO,
         true};
     const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
-    Weapon::Config dynamite{
+    ::Config::Weapon dynamite{
             ::Config::Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
         DYNAMITE_MIN_ANGLE,
         DYNAMITE_MAX_ANGLE,
@@ -277,7 +274,7 @@ class Config {
         DYNAMITE_BULLET_RADIUS,
         DYNAMITE_DAMPING_RATIO,
         false};
-    Weapon::Config teleport{
+    ::Config::Weapon teleport{
             ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
         AERIAL_ATTACK_MIN_ANGLE,
         AERIAL_ATTACK_MAX_ANGLE,
@@ -290,7 +287,7 @@ class Config {
         AERIAL_ATTACK_BULLET_RADIUS,
         AERIAL_ATTACK_DAMPING_RATIO,
         false};
-    Weapon::Config baseballBat{
+    ::Config::Weapon baseballBat{
             ::Config::Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS,
                                                   BASEBALL_IMPULSE_DAMPING_RATIO},
                                BASEBALL_BAT_MIN_ANGLE, BASEBALL_BAT_MAX_ANGLE, ANGLE_STEP,

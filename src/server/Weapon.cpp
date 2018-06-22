@@ -7,7 +7,7 @@
 #include "Config.h"
 #include "Player.h"
 
-Worms::Weapon::Weapon(const Game::Weapon::Config &config, Worm::WeaponID id, float angle)
+Worms::Weapon::Weapon(const Config::Weapon &config, Worm::WeaponID id, float angle)
     : config(config), id(id), angle(angle) {
     this->angle = angle;
     this->timeLimit = this->config.explotionInitialTimeout;

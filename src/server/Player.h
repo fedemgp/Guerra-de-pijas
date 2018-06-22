@@ -92,7 +92,7 @@ class Player : public PhysicsEntity {
      */
     void endShot();
     void acknowledgeDamage(Config::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
-    void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+    void acknowledgeDamage(const Config::P2PWeapon &info,
                            Math::Point<float> shooterPosition, Worm::Direction shooterDirection);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);

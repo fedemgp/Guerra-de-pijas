@@ -22,7 +22,7 @@ class Mortar : public Worms::Weapon {
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
 
    private:
-    const Game::Weapon::Config &fragmentConfig;
+    const Config::Weapon &fragmentConfig;
 };
 }  // namespace Weapon
 

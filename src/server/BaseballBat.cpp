@@ -30,6 +30,6 @@ std::list<Worms::Bullet> Weapon::BaseballBat::onExplode(const Worms::Bullet &mai
 
 void Weapon::BaseballBat::positionSelected(Worms::Player &p, Math::Point<float> point) {}
 
-Game::Weapon::P2PWeaponInfo &Weapon::BaseballBat::getWeaponInfo() {
+Config::P2PWeapon &Weapon::BaseballBat::getWeaponInfo() {
     return this->weaponInfo;
 }

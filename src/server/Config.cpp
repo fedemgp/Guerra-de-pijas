@@ -56,7 +56,7 @@ const uint16_t Game::Config::getWormHealth() const {
     return this->wormHealth;
 }
 
-const Game::Weapon::Config &Game::Config::getBazookaConfig() const {
+const Config::Weapon &Game::Config::getBazookaConfig() const {
     return this->bazooka;
 }
 
@@ -80,23 +80,23 @@ const float Game::Config::getWalkVelocity() const {
     return this->walkVelocity;
 }
 
-const Game::Weapon::Config &Game::Config::getGreenGrenadeConfig() const {
+const Config::Weapon &Game::Config::getGreenGrenadeConfig() const {
     return this->greenGrenade;
 }
 
-const Game::Weapon::Config &Game::Config::getClusterConfig() const {
+const Config::Weapon &Game::Config::getClusterConfig() const {
     return this->cluster;
 }
 
-const Game::Weapon::Config &Game::Config::getMortarConfig() const {
+const Config::Weapon &Game::Config::getMortarConfig() const {
     return this->mortar;
 }
 
-const Game::Weapon::Config &Game::Config::getBananaConfig() const {
+const Config::Weapon &Game::Config::getBananaConfig() const {
     return this->banana;
 }
 
-const Game::Weapon::Config &Game::Config::getHolyConfig() const {
+const Config::Weapon &Game::Config::getHolyConfig() const {
     return this->holy;
 }
 
@@ -104,7 +104,7 @@ const float Game::Config::getPowerChargeTime() const {
     return this->powerChargeTime;
 }
 
-const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const {
+const Config::Weapon &Game::Config::getClusterFragmentConfig() const {
     return this->clusterFragments;
 }
 
@@ -112,7 +112,7 @@ const uint8_t Game::Config::getClusterFragmentQuantity() const {
     return this->clusterFragmentQuantity;
 }
 
-const Game::Weapon::Config &Game::Config::getMortarFragmentConfig() const {
+const Config::Weapon &Game::Config::getMortarFragmentConfig() const {
     return this->mortarFragments;
 }
 
@@ -124,7 +124,7 @@ const float Game::Config::getWaitForNextTurnTime() const {
     return this->waitForNextTurnTime;
 }
 
-const Game::Weapon::Config &Game::Config::getAerialAttackConfig() const {
+const Config::Weapon &Game::Config::getAerialAttackConfig() const {
     return this->aerialAttack;
 }
 
@@ -140,7 +140,7 @@ const float Game::Config::getAerialAttackLaunchHeight() const {
     return this->aerialAttackLaunchHeight;
 }
 
-const Game::Weapon::Config &Game::Config::getTeleportConfig() const {
+const Config::Weapon &Game::Config::getTeleportConfig() const {
     return this->teleport;
 }
 
@@ -148,11 +148,11 @@ const float Game::Config::getTeleportTime() const {
     return this->teleportTime;
 }
 
-const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {
+const Config::Weapon &Game::Config::getDynamiteConfig() const {
     return this->dynamite;
 }
 
-const Game::Weapon::Config &Game::Config::getBaseballBatConfig() const {
+const Config::Weapon &Game::Config::getBaseballBatConfig() const {
     return this->baseballBat;
 }
 

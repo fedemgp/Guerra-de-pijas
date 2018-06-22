@@ -17,7 +17,7 @@ namespace Worms {
 class Player;
 class Weapon {
    public:
-    Weapon(const Game::Weapon::Config &config, Worm::WeaponID id, float angle);
+    Weapon(const Config::Weapon &config, Worm::WeaponID id, float angle);
     virtual ~Weapon() = default;
 
     const Worm::WeaponID &getWeaponID() const;
@@ -53,7 +53,7 @@ class Weapon {
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
-    const Game::Weapon::Config &config;
+    const Config::Weapon &config;
     Worm::WeaponID id;
     float angle{0};
     uint8_t timeLimit;

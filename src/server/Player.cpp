@@ -361,7 +361,7 @@ void Worms::Player::acknowledgeDamage(Config::Bullet::DamageInfo damageInfo,
     }
 }
 
-void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+void Worms::Player::acknowledgeDamage(const Config::P2PWeapon &info,
                                       Math::Point<float> shooterPosition,
                                       Worm::Direction shooterDirection) {
     if (this->getStateId() != Worm::StateID::Dead) {
