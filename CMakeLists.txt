@@ -3,6 +3,9 @@ project(4-Worms)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pthread")
 
+message("[INFO] Adding yaml-cpp as a library")
+add_subdirectory(libs/yaml-cpp)
+
 message("[INFO] Adding '${CMAKE_SOURCE_DIR}/libs' as include directory")
 include_directories(${CMAKE_SOURCE_DIR}/libs)
 
@@ -30,7 +33,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/Stream.*"
 	"libs/utils.*")
 add_executable(worms_server ${SERVER_SOURCES} ${SERVER_LIBS_SOURCES})
-target_link_libraries(worms_server Box2D)
+target_link_libraries(worms_server Box2D yaml-cpp)
 
 message("[INFO] Loading sources to the editor")
 
