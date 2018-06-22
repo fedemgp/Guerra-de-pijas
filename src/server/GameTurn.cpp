@@ -3,7 +3,7 @@
 //
 
 #include "GameTurn.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "GameStateMsg.h"
 #include "ImpactOnCourse.h"
 #include "PlayerShot.h"

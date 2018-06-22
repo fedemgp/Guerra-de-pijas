@@ -7,11 +7,12 @@
 #define __BULLET_H__
 
 #include <GameStateMsg.h>
-#include "Config.h"
+#include "Config/Config.h"
 #include "Observer.h"
 #include "Physics.h"
 #include "PhysicsEntity.h"
 #include "Point.h"
+#include "Config/WindConfig.h"
 
 namespace Worms {
 struct BulletInfo {

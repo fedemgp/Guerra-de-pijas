@@ -3,18 +3,27 @@
  *  date: 01/06/18
  */
 
+#include <yaml-cpp/include/yaml-cpp/yaml.h>
+#include <iostream>
 #include "Config.h"
 /**
  * Meyer's singleton implementation.
  * @return
  */
 Game::Config &Game::Config::getInstance() {
-    static Config instance;
+    static Config instance(YAML::LoadFile("config.yaml"));
     return instance;
 }
 
-Game::Config::Config()
-    : jumpVelocity(JUMP_VEL_X, JUMP_VEL_Y), backflipVelocity(BACKFLIP_VEL_X, BACKFLIP_VEL_Y) {}
+Game::Config::Config(const YAML::Node &node) :
+        jumpVelocity(node["jumpVelocity"]["x"].as<float>(),
+                     node["jumpVelocity"]["y"].as<float>()),
+        backflipVelocity(node["backflipVelocity"]["x"].as<float>(),
+                         node["backflipVelocity"]["y"].as<float>()){
+
+    std::cout << node << std::endl;
+    std::cout << jumpVelocity.x << " " << jumpVelocity.y << std::endl;
+}
 
 float Game::Config::getSafeFallDistance() const {
     return 6.0f;

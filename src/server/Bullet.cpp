@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "Bullet.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)

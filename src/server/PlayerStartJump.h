@@ -7,7 +7,7 @@
 
 #include <stdint-gcc.h>
 #include <cstdint>
-#include "Config.h"
+#include "Config/Config.h"
 #include "Player.h"
 
 namespace Worms {

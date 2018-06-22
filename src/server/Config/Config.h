@@ -7,51 +7,16 @@
 #define __GAMECONFIG_H__
 
 #include <stdint.h>
+#include <mutex>
 
 #include "Direction.h"
-#include "GameConstants.h"
+#include "../GameConstants.h"
 #include "Point.h"
+#include "WindConfig.h"
+#include "WeaponConfig.h"
 
 namespace Math {
 using Vector = Math::Point<float>;
-}
-
-namespace Config {
-struct Wind {
-    float minIntensity;
-    float maxIntensity;
-    int xDirection;
-    float instensity;
-};
-    namespace Bullet{
-        struct DamageInfo {
-            uint16_t damage;
-            float radius;
-            float impulseDampingRatio;
-        };
-    } // namespace Bullet
-
-    struct Weapon{
-        Bullet::DamageInfo dmgInfo;
-        float minAngle;
-        float maxAngle;
-        float angleStep;
-        uint16_t maxShotPower;
-        float restitution;
-        float friction;
-        uint8_t explotionInitialTimeout;
-        bool hasAfterExplode;
-        float bulletRadius;
-        float bulletDampingRatio;
-        bool windAffected;
-    };
-
-    struct P2PWeapon {
-        Bullet::DamageInfo dmgInfo;
-        Worm::Direction direction;
-        Math::Point<float> position;
-        float angle;
-    };
 }
 
 namespace Game {
@@ -111,12 +76,14 @@ class Config {
      * Constructor hidden because is a singleton.
      * TODO change constructor so it loads information from yaml file
      */
-    Config();
+//    Config();
+    explicit Config(const YAML::Node &node);
     Config(Config &copy) = delete;
     Config(Config &&other) = delete;
     Config &operator=(Config &copy) = delete;
     Config &operator=(Config &&other) = delete;
-    // jump
+
+        // jump
     Math::Vector jumpVelocity;
     Math::Vector backflipVelocity;
     float startJumpTime{START_JUMP_TIME};
@@ -135,6 +102,7 @@ class Config {
     float drowningTime{DROWNING_TIME};
     float teleportTime{TELEPORT_TIME};
     int waterLevel{WATER_LEVEL};
+//    ::Config::Wind::IntensityRange windRange;
     float minWindIntensity{MIN_WIND_INTENSITY};
     float maxWindIntensity{MAX_WIND_INTENSITY};
     uint16_t wormHealth{WORM_HEALTH};
@@ -260,7 +228,7 @@ class Config {
         AERIAL_ATTACK_BULLET_RADIUS,
         AERIAL_ATTACK_DAMPING_RATIO,
         true};
-    const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
+    float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
     ::Config::Weapon dynamite{
             ::Config::Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
         DYNAMITE_MIN_ANGLE,

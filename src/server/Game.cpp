@@ -14,7 +14,7 @@
 #include "Chronometer.h"
 
 #include "BaseballBat.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
@@ -52,6 +52,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+//    this->wind.range = CONFIG.getWindIntensityRange();
     this->wind.minIntensity = CONFIG.getMinWindIntensity();
     this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
     this->calculateWind();

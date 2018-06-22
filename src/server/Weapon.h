@@ -11,7 +11,7 @@
 #include <memory>
 
 #include "Bullet.h"
-#include "Config.h"
+#include "Config/Config.h"
 
 namespace Worms {
 class Player;

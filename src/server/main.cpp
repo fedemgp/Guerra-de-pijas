@@ -43,7 +43,7 @@ int main(int argc, const char *argv[]) {
         std::cout << "Usage: ./server PORT" << std::endl;
         return EXIT_FAILURE;
     }
-
+    
     try {
         /* sets a signal handler to exit the program gracefully */
         signal(SIGINT, _signal_handler);

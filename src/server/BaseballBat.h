@@ -5,6 +5,7 @@
 #ifndef INC_4_WORMS_BASEBALLBAT_H
 #define INC_4_WORMS_BASEBALLBAT_H
 
+#include "Config/P2PWeapon.h"
 #include "Weapon.h"
 
 namespace Weapon {

@@ -19,7 +19,7 @@ file(GLOB_RECURSE BOX2D_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/Box2D/*.cpp" 
 add_library(Box2D STATIC ${BOX2D_SOURCES})
 
 message("[INFO] Loading sources to the server")
-file(GLOB SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/server/*.cpp" "src/server/*.h")
+file(GLOB_RECURSE SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/server/*.cpp" "src/server/*.h")
 file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} 
 	"libs/Chronometer.*"
 	"libs/CommunicationSocket.*"

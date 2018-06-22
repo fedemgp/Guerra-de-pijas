@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "Config.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "PlayerStartJump.h"
 

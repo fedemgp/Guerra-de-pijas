@@ -3,7 +3,7 @@
 //
 
 #include "Land.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Player.h"
 #include "PlayerState.h"
 

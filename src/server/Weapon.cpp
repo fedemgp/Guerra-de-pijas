@@ -4,7 +4,7 @@
  */
 
 #include "Weapon.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Player.h"
 
 Worms::Weapon::Weapon(const Config::Weapon &config, Worm::WeaponID id, float angle)

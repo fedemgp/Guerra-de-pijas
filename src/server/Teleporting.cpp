@@ -4,7 +4,7 @@
 
 #include "Teleporting.h"
 #include <Camera.h>
-#include "Config.h"
+#include "Config/Config.h"
 #include "Player.h"
 
 Worms::Teleporting::Teleporting(GUI::Position p)

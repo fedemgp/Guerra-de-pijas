@@ -13,7 +13,7 @@
 #include <list>
 
 #include "Bullet.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
@@ -22,6 +22,7 @@
 #include "Stream.h"
 #include "TouchSensor.h"
 #include "Weapon.h"
+#include "Config/P2PWeapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 

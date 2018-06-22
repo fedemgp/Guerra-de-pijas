@@ -3,7 +3,7 @@
 //
 
 #include "Teleported.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Player.h"
 
 Worms::Teleported::Teleported()

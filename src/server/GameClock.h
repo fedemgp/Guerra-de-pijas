@@ -5,7 +5,7 @@
 #ifndef INC_4_WORMS_GAMECLOCK_H
 #define INC_4_WORMS_GAMECLOCK_H
 
-#include "Config.h"
+#include "Config/Config.h"
 #include "Subject.h"
 
 class GameClock : public Subject {
