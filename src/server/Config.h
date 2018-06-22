@@ -23,21 +23,21 @@ struct Wind {
     int xDirection;
     float instensity;
 };
+    namespace Bullet{
+        struct DamageInfo {
+            uint16_t damage;
+            float radius;
+            float impulseDampingRatio;
+        };
+    } // namespace Bullet
 }
 
 namespace Game {
-namespace Bullet {
-struct DamageInfo {
-    uint16_t damage;
-    float radius;
-    float impulseDampingRatio;
-};
-}  // namespace Bullet
 
 namespace Weapon {
 struct Config {
    public:
-    Bullet::DamageInfo dmgInfo;
+    ::Config::Bullet::DamageInfo dmgInfo;
     float minAngle;
     float maxAngle;
     float angleStep;
@@ -52,7 +52,7 @@ struct Config {
 };
 
 struct P2PWeaponInfo {
-    Bullet::DamageInfo dmgInfo;
+    ::Config::Bullet::DamageInfo dmgInfo;
     Worm::Direction direction;
     Math::Point<float> position;
     float angle;
@@ -143,7 +143,7 @@ class Config {
     uint16_t wormHealth{WORM_HEALTH};
     // weapons
     Weapon::Config bazooka{
-        Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
+        ::Config::Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
         BAZOOKA_MIN_ANGLE,
         BAZOOKA_MAX_ANGLE,
         ANGLE_STEP,
@@ -156,7 +156,7 @@ class Config {
         BAZOOKA_DAMPING_RATIO,
         true};
     Weapon::Config greenGrenade{
-        Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
         GRENADE_MIN_ANGLE,
         GRENADE_MAX_ANGLE,
         ANGLE_STEP,
@@ -170,7 +170,7 @@ class Config {
         false};
     uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
     Weapon::Config clusterFragments{
-        Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_FRAGMENT_MIN_ANGLE,
         CLUSTER_FRAGMENT_MAX_ANGLE,
         CLUSTER_FRAGMENT_ANGLE_STEP,
@@ -183,7 +183,7 @@ class Config {
         CLUSTER_FRAGMENT_DAMPING_RATIO,
         false};
     Weapon::Config cluster{
-        Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
         CLUSTER_MIN_ANGLE,
         CLUSTER_MAX_ANGLE,
         ANGLE_STEP,
@@ -196,7 +196,7 @@ class Config {
         CLUSTER_DAMPING_RATIO,
         false};
     Weapon::Config mortarFragments{
-        Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
         MORTAR_FRAGMENT_MIN_ANGLE,
         MORTAR_FRAGMENT_MAX_ANGLE,
         MORTAR_FRAGMENT_ANGLE_STEP,
@@ -209,7 +209,8 @@ class Config {
         MORTAR_FRAGMENT_DAMPING_RATIO,
         true};
     uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    Weapon::Config mortar{Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
+    Weapon::Config mortar{
+            ::Config::Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
                           MORTAR_MIN_ANGLE,
                           MORTAR_MAX_ANGLE,
                           ANGLE_STEP,
@@ -221,7 +222,8 @@ class Config {
                           MORTAR_BULLET_RADIUS,
                           MORTAR_DAMPING_RATIO,
                           true};
-    Weapon::Config banana{Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
+    Weapon::Config banana{
+            ::Config::Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
                           BANANA_MIN_ANGLE,
                           BANANA_MAX_ANGLE,
                           ANGLE_STEP,
@@ -233,7 +235,8 @@ class Config {
                           BANANA_BULLET_RADIUS,
                           BANANA_DAMPING_RATIO,
                           false};
-    Weapon::Config holy{Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
+    Weapon::Config holy{
+            ::Config::Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
                         HOLY_MIN_ANGLE,
                         HOLY_MAX_ANGLE,
                         ANGLE_STEP,
@@ -248,7 +251,7 @@ class Config {
     uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
     float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
     Weapon::Config aerialAttack{
-        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
         AERIAL_ATTACK_MIN_ANGLE,
         AERIAL_ATTACK_MAX_ANGLE,
         AERIAL_ATTACK_ANGLE_STEP,
@@ -262,7 +265,7 @@ class Config {
         true};
     const float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
     Weapon::Config dynamite{
-        Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
         DYNAMITE_MIN_ANGLE,
         DYNAMITE_MAX_ANGLE,
         ANGLE_STEP,
@@ -275,7 +278,7 @@ class Config {
         DYNAMITE_DAMPING_RATIO,
         false};
     Weapon::Config teleport{
-        Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
+            ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
         AERIAL_ATTACK_MIN_ANGLE,
         AERIAL_ATTACK_MAX_ANGLE,
         AERIAL_ATTACK_ANGLE_STEP,
@@ -287,7 +290,8 @@ class Config {
         AERIAL_ATTACK_BULLET_RADIUS,
         AERIAL_ATTACK_DAMPING_RATIO,
         false};
-    Weapon::Config baseballBat{Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS,
+    Weapon::Config baseballBat{
+            ::Config::Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS,
                                                   BASEBALL_IMPULSE_DAMPING_RATIO},
                                BASEBALL_BAT_MIN_ANGLE, BASEBALL_BAT_MAX_ANGLE, ANGLE_STEP,
                                MAX_SHOT_POWER, BASEBALL_BAT_RESTITUTION, BASEBALL_BAT_FRICTION,

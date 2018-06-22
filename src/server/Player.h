@@ -91,7 +91,7 @@ class Player : public PhysicsEntity {
      * @brief creates a bullet that needs to be moved using getBullet()
      */
     void endShot();
-    void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(Config::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
     void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
                            Math::Point<float> shooterPosition, Worm::Direction shooterDirection);
     void landDamage(float yDistance);

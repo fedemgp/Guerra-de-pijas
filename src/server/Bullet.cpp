@@ -102,7 +102,7 @@ bool Worms::Bullet::hasExploded() const {
     }
 }
 
-Game::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
+Config::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
     return this->info.dmgInfo;
 }
 

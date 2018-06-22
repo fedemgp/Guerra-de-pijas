@@ -413,7 +413,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
 }
 
 void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
-    ::Game::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
+    Config::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }

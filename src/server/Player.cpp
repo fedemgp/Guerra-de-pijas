@@ -334,7 +334,7 @@ std::list<Worms::Bullet> Worms::Player::getBullets() {
     return std::move(this->bullets);
 }
 
-void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
+void Worms::Player::acknowledgeDamage(Config::Bullet::DamageInfo damageInfo,
                                       Math::Point<float> epicenter) {
     if (this->getStateId() != Worm::StateID::Dead) {
         double distanceToEpicenter = this->getPosition().distance(epicenter);

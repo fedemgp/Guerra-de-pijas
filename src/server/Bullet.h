@@ -15,7 +15,7 @@
 
 namespace Worms {
 struct BulletInfo {
-    Game::Bullet::DamageInfo dmgInfo;
+    Config::Bullet::DamageInfo dmgInfo;
     Math::Point<float> point;
     float angle;
     float power;
@@ -60,7 +60,7 @@ class Bullet : public PhysicsEntity {
      * @return
      */
     bool hasExploded() const;
-    ::Game::Bullet::DamageInfo getDamageInfo() const;
+    Config::Bullet::DamageInfo getDamageInfo() const;
     bool operator<(Worms::Bullet &other);
     Worm::WeaponID getWeaponID() const;
 
