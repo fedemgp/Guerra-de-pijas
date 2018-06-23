@@ -432,10 +432,13 @@ void Worm::Worm::startShot() {
 }
 
 void Worm::Worm::endShot() {
-    if (!this->hasFired) {
-        this->weapon->endShot();
-        this->playWeaponSoundEffect(this->getWeaponID());
-        this->hasFired = true;
+    if (this->weapon->getWeaponID() != WeaponID::WAerial &&
+        this->weapon->getWeaponID() != WeaponID::WTeleport){
+        if (!this->hasFired){
+            this->weapon->endShot();
+            this->playWeaponSoundEffect(this->getWeaponID());
+            this->hasFired = true;
+        }
     }
 }
 
