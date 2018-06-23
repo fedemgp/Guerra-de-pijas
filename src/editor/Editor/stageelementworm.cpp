@@ -19,5 +19,5 @@ StageElement *StageElementWorm::clone() {
 
 
 void StageElementWorm::serialize(StageData &sd) {
-    sd.addWorm(this->getPosition(), this->getAngle());
+    sd.addWorm(this->getPosition());
 }

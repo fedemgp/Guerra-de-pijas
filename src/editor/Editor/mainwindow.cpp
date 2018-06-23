@@ -3,6 +3,10 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
+#include <fstream>
+#include <QErrorMessage>
+#include "stagedata.h"
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -36,7 +40,7 @@ void MainWindow::on_actionLejano_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.fartherBgFile = fileName;
+        this->fartherBgFile = fileName;
         this->scene->setFartherBg(QImage(fileName));
     }
 }
@@ -49,7 +53,7 @@ void MainWindow::on_actionMedio_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.medianBgFile = fileName;
+        this->midBgFile = fileName;
         this->scene->setMedianBg(QImage(fileName));
     }
 }
@@ -62,7 +66,7 @@ void MainWindow::on_actionCercano_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.closeBgFile = fileName;
+        this->closeBgFile = fileName;
         this->scene->setCloserBg(QImage(fileName));
     }
 }
@@ -76,7 +80,34 @@ void MainWindow::on_bgColorButton_clicked() {
 }
 
 void MainWindow::on_actionOpen_triggered() {
+    /* gets the output file name */
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                tr("Nombre de archivo de salida"),
+                "/home",
+                tr("YAML (*.yml)")
+              );
+
+    /* checks if a file was selected */
+    if(fileName.isEmpty()) {
+        return;
+    }
+
+    std::ofstream file;
+    file.open(fileName.toStdString(), std::ios::out | std::ios::trunc);
+    if(!file) {
+        QErrorMessage msg;
+        msg.showMessage("Error al abrir el archivo");
+        return;
+    }
+
     /* serializes the stage */
-    this->ui->editorView->serialize(this->sd);
-    qDebug() << this->sd;
+    StageData sd;
+    sd.closeBgFile = this->closeBgFile;
+    sd.medianBgFile = this->midBgFile;
+    sd.fartherBgFile = this->fartherBgFile;
+
+    this->ui->editorView->serialize(sd);
+
+    sd.dump(file);
 }
