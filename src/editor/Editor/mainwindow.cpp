@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
+#include <fstream>
+#include <QErrorMessage>
 #include "stagedata.h"
 
 
@@ -78,6 +80,27 @@ void MainWindow::on_bgColorButton_clicked() {
 }
 
 void MainWindow::on_actionOpen_triggered() {
+    /* gets the output file name */
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                tr("Nombre de archivo de salida"),
+                "/home",
+                tr("YAML (*.yml)")
+              );
+
+    /* checks if a file was selected */
+    if(fileName.isEmpty()) {
+        return;
+    }
+
+    std::ofstream file;
+    file.open(fileName.toStdString(), std::ios::out | std::ios::trunc);
+    if(!file) {
+        QErrorMessage msg;
+        msg.showMessage("Error al abrir el archivo");
+        return;
+    }
+
     /* serializes the stage */
     StageData sd;
     sd.closeBgFile = this->closeBgFile;
@@ -86,6 +109,5 @@ void MainWindow::on_actionOpen_triggered() {
 
     this->ui->editorView->serialize(sd);
 
-    sd.dump(std::cout);
-    std::cout << std::endl;
+    sd.dump(file);
 }
