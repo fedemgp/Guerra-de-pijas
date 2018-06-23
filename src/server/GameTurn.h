@@ -6,7 +6,7 @@
 #define INC_4_WORMS_GAMETURN_H
 
 #include <memory>
-#include "GameTurnState.h"
+#include "GameStates/GameTurnState.h"
 #include "Subject.h"
 
 namespace Worms {

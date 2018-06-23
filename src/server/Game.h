@@ -11,7 +11,7 @@
 #include <thread>
 #include <unordered_map>
 
-#include "Bullet.h"
+#include "Weapons/Bullet.h"
 #include "CommunicationSocket.h"
 #include "Direction.h"
 #include "DoubleBuffer.h"

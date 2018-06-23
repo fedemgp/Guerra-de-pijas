@@ -5,9 +5,9 @@
 #include "GameTurn.h"
 #include "Config/Config.h"
 #include "GameStateMsg.h"
-#include "ImpactOnCourse.h"
-#include "PlayerShot.h"
-#include "StartTurn.h"
+#include "GameStates/ImpactOnCourse.h"
+#include "GameStates/PlayerShot.h"
+#include "GameStates/StartTurn.h"
 
 Worms::GameTurn::GameTurn(Observer &game) : game(game) {
     this->state = std::shared_ptr<GameTurnState>(new StartTurn());
