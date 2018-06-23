@@ -39,6 +39,7 @@ message("[INFO] Loading sources to the editor")
 
 # Find the QtWidgets library
 find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Core)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/editor/Editor)
 qt5_wrap_ui(UIS_HEADERS
@@ -62,7 +63,7 @@ file(GLOB EDITOR_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 # Tell CMake to create the helloworld executable
 add_executable(worms_editor ${EDITOR_SOURCES} ${UIS_HEADERS})
 # Use the Widgets module from Qt 5
-target_link_libraries(worms_editor Qt5::Widgets)
+target_link_libraries(worms_editor Qt5::Core Qt5::Widgets)
 
 file(COPY assets DESTINATION ./)
 file(COPY serverConfig.yaml DESTINATION ./)
