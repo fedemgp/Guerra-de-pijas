@@ -38,7 +38,8 @@ enum class StateID {
     Land,
     Sliding,
     Teleporting,
-    Teleported
+    Teleported,
+    Batting
 };
 enum WeaponID {
     WNone,

@@ -14,7 +14,7 @@ message("[INFO] Loading sources to the client")
 file(GLOB_RECURSE CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp" "src/client/*.h")
 file(GLOB CLIENT_LIB_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/*.h" "libs/*.cpp")
 
-add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES})
+add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES} src/client/WormState/Batting.cpp src/client/WormState/Batting.h)
 target_link_libraries(worms_client SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
 
 message("[INFO] Adding Box2D as library")
@@ -35,7 +35,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/Stage.*"
 	"libs/Stream.*"
 	"libs/utils.*")
-add_executable(worms_server ${SERVER_SOURCES} ${SERVER_LIBS_SOURCES})
+add_executable(worms_server ${SERVER_SOURCES} ${SERVER_LIBS_SOURCES} src/server/WormStates/Batting.cpp src/server/WormStates/Batting.h)
 target_link_libraries(worms_server Box2D yaml-cpp)
 
 message("[INFO] Loading sources to the editor")

@@ -38,6 +38,7 @@
 #include "WormState/WormStartJump.h"
 #include "WormState/WormStill.h"
 #include "WormState/WormWalk.h"
+#include "WormState/Batting.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -200,6 +201,11 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Batting: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormBaseballBatting), false, 25, false};
+//            animation.setAnimateOnce();
+            return animation;
+        }
         case StateID::Teleporting: {
             GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
                                      true};
@@ -267,6 +273,8 @@ void Worm::Worm::playSoundEffect(StateID state) {
         case StateID::BackFlipping:
             break;
         case StateID::Falling:
+            break;
+        case StateID::Batting:
             break;
         case StateID::Teleporting:
             break;
@@ -336,6 +344,9 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
+                break;
+            case StateID::Batting:
+                this->state = std::shared_ptr<State>(new Batting());
                 break;
             case StateID::Teleporting:
                 this->state = std::shared_ptr<State>(new Teleporting());

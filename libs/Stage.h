@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "Point.h"
-#include <yaml-cpp/include/yaml-cpp/yaml.h>
+//#include <yaml-cpp/include/yaml-cpp/yaml.h>
 
 namespace Worms {
 struct GirderData {

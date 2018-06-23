@@ -53,6 +53,7 @@ class Config {
     const float getGameHeight() const;
     const float getDyingTime() const;
     const float getDrowningTime() const;
+    const float getBattingTime() const;
     const float getTeleportTime() const;
     const int getWaterLevel() const;
     const uint16_t getWormHealth() const;
@@ -108,6 +109,7 @@ class Config {
     uint16_t wormHealth{WORM_HEALTH};
     const float dyingTime;
     const float drowningTime;
+    const float battingTime;
     const float teleportTime;
     const int waterLevel;
     //    ::Config::Wind::IntensityRange windRange;
