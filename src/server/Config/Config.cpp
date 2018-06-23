@@ -3,7 +3,7 @@
  *  date: 01/06/18
  */
 
-#include <yaml-cpp/include/yaml-cpp/yaml.h>
+#include "yaml-cpp/yaml.h"
 #include <iostream>
 
 #include "Config.h"

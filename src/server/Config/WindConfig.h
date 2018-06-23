@@ -6,7 +6,7 @@
 #ifndef __WIND_CONFIG_H__
 #define __WIND_CONFIG_H__
 
-#include <yaml-cpp/include/yaml-cpp/node/node.h>
+#include "yaml-cpp/node/node.h"
 
 namespace Config {
 struct Wind {

@@ -4,7 +4,8 @@ project(4-Worms)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pthread")
 
 message("[INFO] Adding yaml-cpp as a library")
-add_subdirectory(libs/yaml-cpp)
+file(GLOB_RECURSE YAML_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/yaml-cpp/*.cpp" "libs/yaml-cpp/*.h")
+add_library(yaml-cpp STATIC ${YAML_SOURCES})
 
 message("[INFO] Adding '${CMAKE_SOURCE_DIR}/libs' as include directory")
 include_directories(${CMAKE_SOURCE_DIR}/libs)
@@ -22,7 +23,7 @@ add_library(Box2D STATIC ${BOX2D_SOURCES})
 
 message("[INFO] Loading sources to the server")
 file(GLOB_RECURSE SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/server/*.cpp" "src/server/*.h")
-file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} 
+file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/Chronometer.*"
 	"libs/CommunicationSocket.*"
 	"libs/DoubleBuffer.*"
