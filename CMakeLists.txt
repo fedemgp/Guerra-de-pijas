@@ -65,7 +65,7 @@ file(GLOB EDITOR_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 # Tell CMake to create the helloworld executable
 add_executable(worms_editor ${EDITOR_SOURCES} ${UIS_HEADERS})
 # Use the Widgets module from Qt 5
-target_link_libraries(worms_editor Qt5::Core Qt5::Widgets)
+target_link_libraries(worms_editor Qt5::Core Qt5::Widgets yaml-cpp)
 
 file(COPY assets DESTINATION ./)
 file(COPY serverConfig.yaml DESTINATION ./)
