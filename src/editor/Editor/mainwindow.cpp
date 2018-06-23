@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     this->scene = new EditorScene{QRect{0, 0, 13 * 250, 13 * 250}};
     this->ui->editorView->setScene(this->scene);
 
+    this->ui->colorPreview->setScene(new QGraphicsScene);
+
     /* toolbar */
     connect(this->ui->actionAdd_Worm, SIGNAL(triggered(bool)), this->ui->editorView,
             SLOT(setWorm()));
@@ -69,6 +71,7 @@ void MainWindow::on_bgColorButton_clicked() {
     QColor color = QColorDialog::getColor(Qt::yellow, this);
     if(color.isValid()) {
         this->scene->setBgColor(color);
+        this->ui->colorPreview->setBackgroundBrush(QBrush(color));
     }
 }
 
