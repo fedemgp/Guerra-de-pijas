@@ -8,6 +8,7 @@
 
 
 #include <cstdint>
+#include <yaml-cpp/include/yaml-cpp/node/node.h>
 
 #include "BulletConfig.h"
 
@@ -25,6 +26,8 @@ namespace Config{
         float bulletRadius;
         float bulletDampingRatio;
         bool windAffected;
+
+        explicit Weapon(const YAML::Node &config);
     };
 } //namespace Config
 

@@ -4,7 +4,3 @@
  */
 
 #include "WindConfig.h"
-
-//Config::Wind::Range::Range(YAML::Node &config):
-//        minIntensity(config["minIntensity"].as<float>()),
-//        maxIntensity(config["maxIntensity"].as<float>()){}

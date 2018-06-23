@@ -10,10 +10,14 @@
 #include <mutex>
 
 #include "Direction.h"
-#include "../GameConstants.h"
 #include "Point.h"
 #include "WindConfig.h"
 #include "WeaponConfig.h"
+
+#define NUM_TEAMS 2
+#define GAME_HEIGHT 30.0f
+#define GAME_WIDTH 30.0f
+#define WORM_HEALTH 100
 
 namespace Math {
 using Vector = Math::Point<float>;
@@ -83,185 +87,50 @@ class Config {
     Config &operator=(Config &copy) = delete;
     Config &operator=(Config &&other) = delete;
 
-        // jump
-    Math::Vector jumpVelocity;
-    Math::Vector backflipVelocity;
-    float startJumpTime{START_JUMP_TIME};
-    float landTime{JUMP_LAND_TIME};
+    // jump
+    const Math::Vector jumpVelocity;
+    const Math::Vector backflipVelocity;
+    const float startJumpTime;
+    const float landTime;
+
     // moving
-    float walkVelocity{WALK_VELOCITY};
+    const float walkVelocity;
     // game
-    uint8_t turnTime{TURN_TIME};
-    float extraTurnTime{EXTRA_TURN_TIME};
-    float waitForNextTurnTime{WAIT_FOR_NEXT_TURN_TIME};
-    float powerChargeTime{POWER_CHARGE_MAX_TIME};
+    const float safeFallDistance;
+    const float maxFallDamage;
+    const std::uint8_t turnTime;
+    const float extraTurnTime;
+    const float waitForNextTurnTime;
+    const float powerChargeTime;
     uint8_t numTeams{NUM_TEAMS};
     float gameWidth{GAME_WIDTH};
     float gameHeight{GAME_HEIGHT};
-    float dyingTime{DYING_TIME};
-    float drowningTime{DROWNING_TIME};
-    float teleportTime{TELEPORT_TIME};
-    int waterLevel{WATER_LEVEL};
-//    ::Config::Wind::IntensityRange windRange;
-    float minWindIntensity{MIN_WIND_INTENSITY};
-    float maxWindIntensity{MAX_WIND_INTENSITY};
     uint16_t wormHealth{WORM_HEALTH};
+    const float dyingTime;
+    const float drowningTime;
+    const float teleportTime;
+    const int waterLevel;
+//    ::Config::Wind::IntensityRange windRange;
+    const float minWindIntensity;
+    const float maxWindIntensity;
     // weapons
-    ::Config::Weapon bazooka{
-        ::Config::Bullet::DamageInfo{BAZOOKA_DAMAGE, BAZOOKA_DAMAGE_RADIUS, IMPULSE_DAMPING_RATIO},
-        BAZOOKA_MIN_ANGLE,
-        BAZOOKA_MAX_ANGLE,
-        ANGLE_STEP,
-        MAX_SHOT_POWER,
-        BAZOOKA_RESTITUTION,
-        BAZOOKA_FRICTION,
-        BAZOOKA_INITIAL_TIMEOUT,
-        false,
-        BAZOOKA_BULLET_RADIUS,
-        BAZOOKA_DAMPING_RATIO,
-        true};
-    ::Config::Weapon greenGrenade{
-            ::Config::Bullet::DamageInfo{GRENADE_DAMAGE, GRENADE_RADIUS, IMPULSE_DAMPING_RATIO},
-        GRENADE_MIN_ANGLE,
-        GRENADE_MAX_ANGLE,
-        ANGLE_STEP,
-        MAX_SHOT_POWER,
-        GRENADE_RESTITUTION,
-        GRENADE_FRICTION,
-        GRENADE_INITIAL_TIMEOUT,
-        false,
-        GRENADE_BULLET_RADIUS,
-        GRENADE_DAMPING_RATIO,
-        false};
-    uint8_t clusterFragmentQuantity{CLUSTER_FRAGMENT_QUANTITY};
-    ::Config::Weapon clusterFragments{
-            ::Config::Bullet::DamageInfo{CLUSTER_FRAGMENT_DAMAGE, CLUSTER_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
-        CLUSTER_FRAGMENT_MIN_ANGLE,
-        CLUSTER_FRAGMENT_MAX_ANGLE,
-        CLUSTER_FRAGMENT_ANGLE_STEP,
-        CLUSTER_FRAGMENT_SHOT_POWER,
-        CLUSTER_FRAGMENT_RESTITUTION,
-        CLUSTER_FRAGMENT_FRICTION,
-        CLUSTER_FRAGMENT_TIMEOUT,
-        false,
-        CLUSTER_FRAGMENT_BULLET_RADIUS,
-        CLUSTER_FRAGMENT_DAMPING_RATIO,
-        false};
-    ::Config::Weapon cluster{
-            ::Config::Bullet::DamageInfo{CLUSTER_DAMAGE, CLUSTER_RADIUS, IMPULSE_DAMPING_RATIO},
-        CLUSTER_MIN_ANGLE,
-        CLUSTER_MAX_ANGLE,
-        ANGLE_STEP,
-        MAX_SHOT_POWER,
-        CLUSTER_RESTITUTION,
-        CLUSTER_FRICTION,
-        CLUSTER_INITIAL_TIMEOUT,
-        true,
-        CLUSTER_BULLET_RADIUS,
-        CLUSTER_DAMPING_RATIO,
-        false};
-    ::Config::Weapon mortarFragments{
-            ::Config::Bullet::DamageInfo{MORTAR_FRAGMENT_DAMAGE, MORTAR_FRAGMENT_RADIUS, IMPULSE_DAMPING_RATIO},
-        MORTAR_FRAGMENT_MIN_ANGLE,
-        MORTAR_FRAGMENT_MAX_ANGLE,
-        MORTAR_FRAGMENT_ANGLE_STEP,
-        MORTAR_FRAGMENT_SHOT_POWER,
-        MORTAR_FRAGMENT_RESTITUTION,
-        MORTAR_FRAGMENT_FRICTION,
-        MORTAR_FRAGMENT_TIMEOUT,
-        false,
-        MORTAR_FRAGMENT_BULLET_RADIUS,
-        MORTAR_FRAGMENT_DAMPING_RATIO,
-        true};
-    uint8_t mortarFragmentQuantity{MORTAR_FRAGMENT_QUANTITY};
-    ::Config::Weapon mortar{
-            ::Config::Bullet::DamageInfo{MORTAR_DAMAGE, MORTAR_RADIUS, IMPULSE_DAMPING_RATIO},
-                          MORTAR_MIN_ANGLE,
-                          MORTAR_MAX_ANGLE,
-                          ANGLE_STEP,
-                          MAX_SHOT_POWER,
-                          MORTAR_RESTITUTION,
-                          MORTAR_FRICTION,
-                          MORTAR_INITIAL_TIMEOUT,
-                          true,
-                          MORTAR_BULLET_RADIUS,
-                          MORTAR_DAMPING_RATIO,
-                          true};
-    ::Config::Weapon banana{
-            ::Config::Bullet::DamageInfo{BANANA_DAMAGE, BANANA_RADIUS, IMPULSE_DAMPING_RATIO},
-                          BANANA_MIN_ANGLE,
-                          BANANA_MAX_ANGLE,
-                          ANGLE_STEP,
-                          MAX_SHOT_POWER,
-                          BANANA_RESTITUTION,
-                          BANANA_FRICTION,
-                          BANANA_INITIAL_TIMEOUT,
-                          false,
-                          BANANA_BULLET_RADIUS,
-                          BANANA_DAMPING_RATIO,
-                          false};
-    ::Config::Weapon holy{
-            ::Config::Bullet::DamageInfo{HOLY_DAMAGE, HOLY_RADIUS, IMPULSE_DAMPING_RATIO},
-                        HOLY_MIN_ANGLE,
-                        HOLY_MAX_ANGLE,
-                        ANGLE_STEP,
-                        MAX_SHOT_POWER,
-                        HOLY_RESTITUTION,
-                        HOLY_FRICTION,
-                        HOLY_INITIAL_TIMEOUT,
-                        false,
-                        HOLY_BULLET_RADIUS,
-                        HOLY_DAMPING_RATIO,
-                        false};
-    uint8_t aerialAttackMissileQuantity{AERIAL_ATTACK_MISSILE_QUANTITY};
-    float aerialAttackMissileSeparation{AERIAL_ATTACK_MISSILE_SEPARATION};
-    ::Config::Weapon aerialAttack{
-            ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
-        AERIAL_ATTACK_MIN_ANGLE,
-        AERIAL_ATTACK_MAX_ANGLE,
-        AERIAL_ATTACK_ANGLE_STEP,
-        AERIAL_ATTACK_SHOT_POWER,
-        AERIAL_ATTACK_RESTITUTION,
-        AERIAL_ATTACK_FRICTION,
-        AERIAL_ATTACK_TIMEOUT,
-        false,
-        AERIAL_ATTACK_BULLET_RADIUS,
-        AERIAL_ATTACK_DAMPING_RATIO,
-        true};
-    float aerialAttackLaunchHeight{AERIAL_ATTACK_LAUNCH_HEIGHT};
-    ::Config::Weapon dynamite{
-            ::Config::Bullet::DamageInfo{DYNAMITE_DAMAGE, DYNAMITE_RADIUS, IMPULSE_DAMPING_RATIO},
-        DYNAMITE_MIN_ANGLE,
-        DYNAMITE_MAX_ANGLE,
-        ANGLE_STEP,
-        DYNAMITE_MAX_SHOT_POWER,
-        DYNAMITE_RESTITUTION,
-        DYNAMITE_FRICTION,
-        DYNAMITE_INITIAL_TIMEOUT,
-        false,
-        DYNAMITE_BULLET_RADIUS,
-        DYNAMITE_DAMPING_RATIO,
-        false};
-    ::Config::Weapon teleport{
-            ::Config::Bullet::DamageInfo{AERIAL_ATTACK_DAMAGE, AERIAL_ATTACK_RADIUS, IMPULSE_DAMPING_RATIO},
-        AERIAL_ATTACK_MIN_ANGLE,
-        AERIAL_ATTACK_MAX_ANGLE,
-        AERIAL_ATTACK_ANGLE_STEP,
-        AERIAL_ATTACK_SHOT_POWER,
-        AERIAL_ATTACK_RESTITUTION,
-        AERIAL_ATTACK_FRICTION,
-        AERIAL_ATTACK_TIMEOUT,
-        false,
-        AERIAL_ATTACK_BULLET_RADIUS,
-        AERIAL_ATTACK_DAMPING_RATIO,
-        false};
-    ::Config::Weapon baseballBat{
-            ::Config::Bullet::DamageInfo{BASEBALL_BAT_DAMAGE, BASEBALL_BAT_DAMAGE_RADIUS,
-                                                  BASEBALL_IMPULSE_DAMPING_RATIO},
-                               BASEBALL_BAT_MIN_ANGLE, BASEBALL_BAT_MAX_ANGLE, ANGLE_STEP,
-                               MAX_SHOT_POWER, BASEBALL_BAT_RESTITUTION, BASEBALL_BAT_FRICTION,
-                               BASEBALL_BAT_INITIAL_TIMEOUT, false, BASEBALL_BAT_BULLET_RADIUS,
-                               BASEBALL_BAT_DAMPING_RATIO, false};
+    const ::Config::Weapon bazooka;
+    const ::Config::Weapon greenGrenade;
+    const ::Config::Weapon cluster;
+    const ::Config::Weapon clusterFragments;
+    const uint8_t clusterFragmentQuantity;
+    const ::Config::Weapon mortar;
+    const ::Config::Weapon mortarFragments;
+    const uint8_t mortarFragmentQuantity;
+    const ::Config::Weapon banana;
+    const ::Config::Weapon holy;
+    const uint8_t aerialAttackMissileQuantity;
+    const float aerialAttackMissileSeparation;
+    const ::Config::Weapon aerialAttack;
+    const float aerialAttackLaunchHeight;
+    const ::Config::Weapon dynamite;
+    const ::Config::Weapon teleport;
+    const ::Config::Weapon baseballBat;
 };
 
 void endTurn();

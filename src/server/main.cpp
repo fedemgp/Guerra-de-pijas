@@ -43,7 +43,8 @@ int main(int argc, const char *argv[]) {
         std::cout << "Usage: ./server PORT" << std::endl;
         return EXIT_FAILURE;
     }
-    
+    Game::Config &config = Game::Config::getInstance();
+    std::cout << config.getWalkVelocity() << std::endl;
     try {
         /* sets a signal handler to exit the program gracefully */
         signal(SIGINT, _signal_handler);

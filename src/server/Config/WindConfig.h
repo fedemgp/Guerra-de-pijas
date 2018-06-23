@@ -10,11 +10,6 @@
 #include <yaml-cpp/include/yaml-cpp/node/node.h>
 
 namespace Config{
-//    namespace Wind{
-//        struct Range{
-//            explicit Range(YAML::Node &config);
-//        };
-//    }
     struct Wind{
         float minIntensity;
         float maxIntensity;
