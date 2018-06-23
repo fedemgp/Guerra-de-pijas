@@ -2,9 +2,38 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QImage>
+#include <QPainter>
 #include <QMouseEvent>
 
-EditorScene::EditorScene(QWidget *parent) : QGraphicsScene(parent) {
+
+EditorScene::EditorScene(QRect rect) :
+  QGraphicsScene(nullptr),
+  rect(rect) {
+    this->setSceneRect(rect);
+}
+
+void EditorScene::setCursor(StageElement *newCursor) {
+    if(this->cursor) {
+        delete this->cursor;
+    }
+    this->cursor = newCursor;
+    QGraphicsScene::addItem(this->cursor);
+}
+
+void EditorScene::hideCursor() {
+    if(this->cursor) {
+        QGraphicsScene::removeItem(this->cursor);
+    }
+}
+
+void EditorScene::showCursor() {
+    if(this->cursor) {
+        QGraphicsScene::addItem(this->cursor);
+    }
+}
+
+void EditorScene::addItem(QGraphicsItem *elem) {
+    QGraphicsScene::addItem(elem);
 }
 
 void EditorScene::addItem(StageElement *elem) {
@@ -17,6 +46,10 @@ void EditorScene::removeItem(StageElement *elem) {
         this->elements.erase(this->elements.find(elem));
         QGraphicsScene::removeItem(elem);
     }
+}
+
+void EditorScene::removeItem(QGraphicsItem *elem) {
+    QGraphicsScene::removeItem(elem);
 }
 
 void EditorScene::serialize(StageData &sd) {
@@ -42,4 +75,35 @@ QList<StageElement *> EditorScene::collidingItems(StageElement *elem) {
 bool EditorScene::contains(StageElement *elem) {
     auto it = this->elements.find(elem);
     return (it != this->elements.end());
+}
+
+void EditorScene::setFartherBg(QImage image) {
+    this->setBackground(image, &this->fartherBg, -3);
+}
+
+void EditorScene::setMedianBg(QImage image) {
+    this->setBackground(image, &this->medianBg, -2);
+}
+
+void EditorScene::setCloserBg(QImage image) {
+    this->setBackground(image, &this->closeBg, -1);
+}
+
+void EditorScene::setBackground(QImage image, QGraphicsItemLayer **layerPtr, qreal zValue) {
+    if(*layerPtr) {
+        this->removeItem(*layerPtr);
+        delete *layerPtr;
+    }
+
+    *layerPtr = new QGraphicsItemLayer;
+    QGraphicsItemLayer *layer = *layerPtr;
+
+    layer->setZValue(zValue);
+    this->addItem(layer);
+
+    for(int i = 0; i < this->rect.width() / image.width() + 1; i++) {
+        QGraphicsPixmapItem *pix = new QGraphicsPixmapItem{layer};
+        pix->setPixmap(QPixmap::fromImage(image));
+        pix->setPos(image.width() * i, this->rect.height() - image.height());
+    }
 }

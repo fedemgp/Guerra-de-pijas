@@ -15,6 +15,9 @@ EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
     this->setLongGirder();
 }
 
+void EditorView::drawCloseBg(QString &) {
+}
+
 void EditorView::setScene(EditorScene *scene) {
     QGraphicsView::setScene(scene);
     this->escene = scene;
@@ -50,7 +53,7 @@ void EditorView::deleteAt(QPoint pos) {
     this->scene()->removeItem(this->stageElem);
     QGraphicsItem *item = this->itemAt(pos);
     if (item) {
-        this->scene()->removeItem(item);
+        this->escene->removeItem(dynamic_cast<StageElement *>(item));
     }
     this->escene->addItem(this->stageElem);
 }

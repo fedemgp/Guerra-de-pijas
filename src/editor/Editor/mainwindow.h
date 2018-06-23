@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include "editorscene.h"
+#include "stagedata.h"
 
 namespace Ui {
 
@@ -18,9 +19,17 @@ class MainWindow : public QMainWindow {
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-   private:
+private slots:
+    void on_actionLejano_triggered();
+
+    void on_actionMedio_triggered();
+
+    void on_actionCercano_triggered();
+
+private:
     Ui::MainWindow *ui;
     EditorScene *scene;
+    StageData sd;
 };
 
 #endif  // MAINWINDOW_H

@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     stageelement.cpp \
     stageelementworm.cpp \
     stageelemlonggirder.cpp \
-    stageelemshortgirder.cpp
+    stageelemshortgirder.cpp \
+    qgraphicsitemlayer.cpp
 
 HEADERS  += mainwindow.h \
     editor.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     stageelement.h \
     stageelementworm.h \
     stageelemlonggirder.h \
-    stageelemshortgirder.h
+    stageelemshortgirder.h \
+    qgraphicsitemlayer.h
 
 FORMS    += mainwindow.ui
 

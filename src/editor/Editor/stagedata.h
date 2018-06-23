@@ -3,11 +3,16 @@
 
 #include <Qt>
 #include <QPoint>
+#include <QString>
 
 
 class StageData
 {
 public:
+    QString fartherBgFile;
+    QString medianBgFile;
+    QString closeBgFile;
+
     StageData();
 
     void addWorm(QPointF position, qreal angle);

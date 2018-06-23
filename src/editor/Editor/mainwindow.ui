@@ -442,7 +442,7 @@
     </property>
     <addaction name="actionOpen"/>
    </widget>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="menuFondo">
     <property name="title">
      <string>Fondo</string>
     </property>
@@ -451,7 +451,7 @@
     <addaction name="actionCercano"/>
    </widget>
    <addaction name="menuEditor"/>
-   <addaction name="menuFile"/>
+   <addaction name="menuFondo"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="sizePolicy">

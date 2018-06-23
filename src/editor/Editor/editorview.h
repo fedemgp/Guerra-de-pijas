@@ -17,6 +17,8 @@ class EditorView : public QGraphicsView {
     EditorView(QWidget *parent);
     virtual void setScene(EditorScene *scene);
 
+    void drawCloseBg(QString &fileName);
+
    public slots:
     void setWorm();
     void setShortGirder();
