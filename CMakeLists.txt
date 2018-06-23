@@ -65,6 +65,7 @@ add_executable(worms_editor ${EDITOR_SOURCES} ${UIS_HEADERS})
 target_link_libraries(worms_editor Qt5::Widgets)
 
 file(COPY assets DESTINATION ./)
+file(COPY serverConfig.yaml DESTINATION ./)
 
 message("[INFO] Adding Installation directives")
 INSTALL(TARGETS worms_client worms_server worms_editor DESTINATION /usr/bin)
