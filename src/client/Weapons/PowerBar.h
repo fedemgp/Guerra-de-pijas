@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "Direction.h"
-#include "GameTextures.h"
+#include "../GameTextures.h"
 
 #define POWER_FRAMES_QUANTITY 16
 

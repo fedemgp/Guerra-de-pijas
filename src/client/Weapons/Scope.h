@@ -9,7 +9,7 @@
 #include <Animation.h>
 #include <Camera.h>
 #include "Direction.h"
-#include "GameTextures.h"
+#include "../GameTextures.h"
 
 namespace Weapon {
 class Scope {

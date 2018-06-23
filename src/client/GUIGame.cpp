@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "Bullet.h"
+#include "Weapons/Bullet.h"
 #include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"

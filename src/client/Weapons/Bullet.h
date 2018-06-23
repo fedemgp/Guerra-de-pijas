@@ -11,9 +11,9 @@
 
 #include "Animation.h"
 #include "Explosion.h"
-#include "GameSoundEffects.h"
-#include "GameTextures.h"
-#include "SoundEffectPlayer.h"
+#include "../GameSoundEffects.h"
+#include "../GameTextures.h"
+#include "../SoundEffectPlayer.h"
 
 #define MISSILE_0_DEG_FRAME 8
 #define MISSILE_ANGLE_STEP 11.25f

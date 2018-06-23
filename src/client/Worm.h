@@ -16,14 +16,14 @@
 #include "Animation.h"
 #include "Camera.h"
 #include "Direction.h"
-#include "Explosion.h"
+#include "Weapons/Explosion.h"
 #include "GameSoundEffects.h"
 #include "GameStateMsg.h"
 #include "GameTextures.h"
 #include "SoundEffectPlayer.h"
 #include "Stream.h"
-#include "Weapon.h"
-#include "WormState.h"
+#include "Weapons/Weapon.h"
+#include "WormState/WormState.h"
 #include "utils.h"
 
 namespace Worm {

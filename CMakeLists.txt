@@ -10,8 +10,10 @@ message("[INFO] Adding '${CMAKE_SOURCE_DIR}/libs' as include directory")
 include_directories(${CMAKE_SOURCE_DIR}/libs)
 
 message("[INFO] Loading sources to the client")
-file(GLOB CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp" "src/client/*.h" "libs/*.h" "libs/*.cpp")
-add_executable(worms_client ${CLIENT_SOURCES} )
+file(GLOB_RECURSE CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp" "src/client/*.h")
+file(GLOB CLIENT_LIB_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/*.h" "libs/*.cpp")
+
+add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES})
 target_link_libraries(worms_client SDL2 SDL2_image SDL2_ttf SDL2_mixer)
 
 message("[INFO] Adding Box2D as library")

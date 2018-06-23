@@ -10,7 +10,7 @@
 #include "Camera.h"
 #include "Direction.h"
 #include "GameStateMsg.h"
-#include "GameTextures.h"
+#include "../GameTextures.h"
 #include "TextureManager.h"
 
 #define ANGLE_STEP 5.625f
