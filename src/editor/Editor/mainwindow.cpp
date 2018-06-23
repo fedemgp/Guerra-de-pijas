@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
+#include <QColorDialog>
+#include <QColor>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -60,5 +62,12 @@ void MainWindow::on_actionCercano_triggered() {
     if(!fileName.isEmpty()) {
         this->sd.closeBgFile = fileName;
         this->scene->setCloserBg(QImage(fileName));
+    }
+}
+
+void MainWindow::on_bgColorButton_clicked() {
+    QColor color = QColorDialog::getColor(Qt::yellow, this);
+    if(color.isValid()) {
+        this->scene->setBgColor(color);
     }
 }

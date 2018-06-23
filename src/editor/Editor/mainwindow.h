@@ -26,6 +26,8 @@ private slots:
 
     void on_actionCercano_triggered();
 
+    void on_bgColorButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     EditorScene *scene;

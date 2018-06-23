@@ -7,6 +7,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QImage>
+#include <QColor>
 #include "stageelement.h"
 #include "qgraphicsitemlayer.h"
 
@@ -31,6 +32,8 @@ class EditorScene : public QGraphicsScene {
 
     void serialize(StageData &sd);
 
+    /* background */
+    void setBgColor(QColor color);
     void setFartherBg(QImage image);
     void setMedianBg(QImage image);
     void setCloserBg(QImage image);
@@ -39,9 +42,11 @@ class EditorScene : public QGraphicsScene {
     void setBackground(QImage image, QGraphicsItemLayer **layerPtr, qreal zValue);
 
     QRect rect;
+    QColor bgColor;
     QGraphicsItemLayer *closeBg{nullptr};
     QGraphicsItemLayer *medianBg{nullptr};
     QGraphicsItemLayer *fartherBg{nullptr};
+    QGraphicsItemLayer *bgColorLayer{nullptr};
     StageElement *cursor{nullptr};
     std::string resource;
     std::set<StageElement *> elements;

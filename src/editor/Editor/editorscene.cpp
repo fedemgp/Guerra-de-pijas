@@ -77,6 +77,20 @@ bool EditorScene::contains(StageElement *elem) {
     return (it != this->elements.end());
 }
 
+void EditorScene::setBgColor(QColor color) {
+    this->bgColor = color;
+    if(this->bgColorLayer) {
+        this->removeItem(this->bgColorLayer);
+        delete this->bgColorLayer;
+    }
+
+    this->bgColorLayer = new QGraphicsItemLayer;
+    this->bgColorLayer->setZValue(-4);
+    this->addItem(this->bgColorLayer);
+    QGraphicsRectItem *bg = new QGraphicsRectItem(this->rect, this->bgColorLayer);
+    bg->setBrush(QBrush{color});
+}
+
 void EditorScene::setFartherBg(QImage image) {
     this->setBackground(image, &this->fartherBg, -3);
 }
