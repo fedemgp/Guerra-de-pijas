@@ -1,7 +1,7 @@
 #ifndef _PLAYERWALKLEFT_H
 #define _PLAYERWALKLEFT_H
 
-#include "Config.h"
+#include "Config/Config.h"
 #include "PlayerState.h"
 
 namespace Worms {

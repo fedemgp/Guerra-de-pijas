@@ -14,7 +14,7 @@
 #include "Chronometer.h"
 
 #include "BaseballBat.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "Game.h"
 #include "ImpactOnCourse.h"
@@ -52,6 +52,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+//    this->wind.range = CONFIG.getWindIntensityRange();
     this->wind.minIntensity = CONFIG.getMinWindIntensity();
     this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
     this->calculateWind();
@@ -413,7 +414,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
 }
 
 void Worms::Game::calculateDamage(const Worms::Bullet &bullet) {
-    ::Game::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
+    Config::Bullet::DamageInfo damageInfo = bullet.getDamageInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(damageInfo, bullet.getPosition());
     }
@@ -431,7 +432,7 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
                                   Math::Point<float> shooterPosition,
                                   Worm::Direction shooterDirection) {
     auto *baseball = (::Weapon::BaseballBat *)weapon.get();
-    ::Game::Weapon::P2PWeaponInfo &weaponInfo = baseball->getWeaponInfo();
+    Config::P2PWeapon &weaponInfo = baseball->getWeaponInfo();
     for (auto &worm : this->players) {
         worm.acknowledgeDamage(weaponInfo, shooterPosition, shooterDirection);
     }

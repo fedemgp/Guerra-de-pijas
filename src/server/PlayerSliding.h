@@ -1,7 +1,7 @@
 #ifndef _PLAYER_SLIDING_H
 #define _PLAYER_SLIDING_H
 
-#include "Config.h"
+#include "Config/Config.h"
 #include "PlayerState.h"
 
 namespace Worms {

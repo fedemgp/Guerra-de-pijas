@@ -4,7 +4,7 @@
  */
 
 #include "Player.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "PlayerEndJump.h"
 
 Worms::EndJump::EndJump()

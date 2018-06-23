@@ -7,7 +7,7 @@
 #define __Drown_H__
 
 #include <cstdint>
-#include "Config.h"
+#include "Config/Config.h"
 #include "PlayerState.h"
 
 namespace Worms {

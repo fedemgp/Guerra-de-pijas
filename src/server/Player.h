@@ -13,7 +13,7 @@
 #include <list>
 
 #include "Bullet.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
@@ -22,6 +22,7 @@
 #include "Stream.h"
 #include "TouchSensor.h"
 #include "Weapon.h"
+#include "Config/P2PWeapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
@@ -91,8 +92,8 @@ class Player : public PhysicsEntity {
      * @brief creates a bullet that needs to be moved using getBullet()
      */
     void endShot();
-    void acknowledgeDamage(Game::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
-    void acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+    void acknowledgeDamage(Config::Bullet::DamageInfo damageInfo, Math::Point<float> epicenter);
+    void acknowledgeDamage(const Config::P2PWeapon &info,
                            Math::Point<float> shooterPosition, Worm::Direction shooterDirection);
     void landDamage(float yDistance);
     void setTeam(uint8_t team);

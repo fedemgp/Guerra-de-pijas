@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "Bullet.h"
-#include "Config.h"
+#include "Config/Config.h"
 #include "Weapon.h"
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
@@ -32,7 +32,7 @@ Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID 
     //    this->body->SetTransform(this->body->GetPosition(), info.angle);
 }
 
-void Worms::Bullet::update(float dt, Worms::Wind wind) {
+void Worms::Bullet::update(float dt, Config::Wind wind) {
     if (this->keepUpdating) {
         this->timeElapsed += dt;
         if (!this->impulseApplied) {
@@ -102,7 +102,7 @@ bool Worms::Bullet::hasExploded() const {
     }
 }
 
-Game::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
+Config::Bullet::DamageInfo Worms::Bullet::getDamageInfo() const {
     return this->info.dmgInfo;
 }
 

@@ -19,7 +19,7 @@ file(GLOB_RECURSE BOX2D_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/Box2D/*.cpp" 
 add_library(Box2D STATIC ${BOX2D_SOURCES})
 
 message("[INFO] Loading sources to the server")
-file(GLOB SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/server/*.cpp" "src/server/*.h")
+file(GLOB_RECURSE SERVER_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/server/*.cpp" "src/server/*.h")
 file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} 
 	"libs/Chronometer.*"
 	"libs/CommunicationSocket.*"
@@ -65,6 +65,7 @@ add_executable(worms_editor ${EDITOR_SOURCES} ${UIS_HEADERS})
 target_link_libraries(worms_editor Qt5::Widgets)
 
 file(COPY assets DESTINATION ./)
+file(COPY serverConfig.yaml DESTINATION ./)
 
 message("[INFO] Adding Installation directives")
 INSTALL(TARGETS worms_client worms_server worms_editor DESTINATION /usr/bin)
