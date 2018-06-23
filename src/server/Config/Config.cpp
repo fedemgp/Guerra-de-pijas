@@ -3,11 +3,11 @@
  *  date: 01/06/18
  */
 
-#include "yaml-cpp/yaml.h"
-#include <iostream>
-
 #include "Config.h"
+#include <iostream>
 #include "ConfigDefines.h"
+#include "yaml-cpp/yaml.h"
+
 /**
  * Meyer's singleton implementation.
  * @return

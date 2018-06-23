@@ -15,7 +15,7 @@ file(GLOB_RECURSE CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp"
 file(GLOB CLIENT_LIB_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/*.h" "libs/*.cpp")
 
 add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES})
-target_link_libraries(worms_client SDL2 SDL2_image SDL2_ttf SDL2_mixer)
+target_link_libraries(worms_client SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
 
 message("[INFO] Adding Box2D as library")
 file(GLOB_RECURSE BOX2D_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/Box2D/*.cpp" "libs/Box2D/*.h")
