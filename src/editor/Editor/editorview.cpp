@@ -158,5 +158,14 @@ bool EditorView::collides() {
 }
 
 void EditorView::serialize(StageData &sd) const {
+    if(this->stageElem) {
+        this->escene->removeItem(this->stageElem);
+    }
+
     this->escene->serialize(sd);
+
+    if(this->stageElem) {
+        this->escene->addItem(this->stageElem);
+    }
+
 }
