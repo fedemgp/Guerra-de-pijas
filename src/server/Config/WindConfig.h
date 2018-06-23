@@ -6,17 +6,15 @@
 #ifndef __WIND_CONFIG_H__
 #define __WIND_CONFIG_H__
 
-
 #include <yaml-cpp/include/yaml-cpp/node/node.h>
 
-namespace Config{
-    struct Wind{
-        float minIntensity;
-        float maxIntensity;
-        int xDirection;
-        float instensity;
-    };
-} // namespace Config
+namespace Config {
+struct Wind {
+    float minIntensity;
+    float maxIntensity;
+    int xDirection;
+    float instensity;
+};
+}  // namespace Config
 
-
-#endif //__WIND_CONFIG_H__
+#endif  //__WIND_CONFIG_H__

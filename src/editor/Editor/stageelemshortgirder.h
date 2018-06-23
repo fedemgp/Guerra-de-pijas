@@ -4,7 +4,7 @@
 #include <stageelement.h>
 
 class StageElemShortGirder : public StageElement {
-public:
+   public:
     StageElemShortGirder(qreal opacity = 1.0);
 
     StageElement *clone();
@@ -12,4 +12,4 @@ public:
     void serialize(StageData &sd);
 };
 
-#endif // STAGEELEMSHORTGIRDER_H
+#endif  // STAGEELEMSHORTGIRDER_H

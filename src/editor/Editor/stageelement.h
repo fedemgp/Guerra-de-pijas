@@ -1,12 +1,12 @@
 #ifndef STAGEELEMENT_H
 #define STAGEELEMENT_H
 
-#include <string>
-#include <QObject>
-#include <QWidget>
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
+#include <QObject>
+#include <QWidget>
 #include <QtDebug>
+#include <string>
 #include "stagedata.h"
 
 enum class ItemType {
@@ -16,7 +16,7 @@ enum class ItemType {
 };
 
 class StageElement : public QGraphicsPixmapItem {
-public:
+   public:
     StageElement(const std::string &resource, ItemType type, qreal opacity);
 
     ItemType getType();
@@ -34,13 +34,13 @@ public:
 
     virtual void serialize(StageData &sd) = 0;
 
-protected:
+   protected:
     QPixmap getResource(qreal opacity = 1.0);
     qreal angle{0.0f};
     ItemType type;
 
-private:
+   private:
     std::string resource;
 };
 
-#endif // STAGEELEMENT_H
+#endif  // STAGEELEMENT_H

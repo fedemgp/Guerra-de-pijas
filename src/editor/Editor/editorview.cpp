@@ -15,8 +15,7 @@ EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
     this->setLongGirder();
 }
 
-void EditorView::drawCloseBg(QString &) {
-}
+void EditorView::drawCloseBg(QString &) {}
 
 void EditorView::setScene(EditorScene *scene) {
     QGraphicsView::setScene(scene);
@@ -59,9 +58,9 @@ void EditorView::deleteAt(QPoint pos) {
 }
 
 void EditorView::keyPressEvent(QKeyEvent *event) {
-    if(event->key() == Qt::Key_Plus) {
+    if (event->key() == Qt::Key_Plus) {
         this->stageElem->increaseAngle();
-    } else if(event->key() == Qt::Key_Minus) {
+    } else if (event->key() == Qt::Key_Minus) {
         this->stageElem->decreaseAngle();
     }
 }
@@ -148,8 +147,8 @@ void EditorView::wheelEvent(QWheelEvent *event) {
 }
 
 bool EditorView::collides() {
-    for(StageElement *other : this->escene->collidingItems(this->stageElem)) {
-        if(!this->stageElem->canOverlap(other)) {
+    for (StageElement *other : this->escene->collidingItems(this->stageElem)) {
+        if (!this->stageElem->canOverlap(other)) {
             return true;
         }
     }
@@ -158,14 +157,13 @@ bool EditorView::collides() {
 }
 
 void EditorView::serialize(StageData &sd) const {
-    if(this->stageElem) {
+    if (this->stageElem) {
         this->escene->removeItem(this->stageElem);
     }
 
     this->escene->serialize(sd);
 
-    if(this->stageElem) {
+    if (this->stageElem) {
         this->escene->addItem(this->stageElem);
     }
-
 }

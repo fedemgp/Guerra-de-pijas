@@ -3,10 +3,8 @@
 
 #include "stageelement.h"
 
-
-class StageElementWorm : public StageElement
-{
-public:
+class StageElementWorm : public StageElement {
+   public:
     StageElementWorm(qreal opacity = 1.0);
 
     virtual StageElement *clone();
@@ -16,4 +14,4 @@ public:
     virtual void serialize(StageData &sd);
 };
 
-#endif // STAGEELEMENTWORM_H
+#endif  // STAGEELEMENTWORM_H

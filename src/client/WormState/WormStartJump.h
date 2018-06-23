@@ -6,8 +6,8 @@
 #ifndef __WORM_START_JUMP_H__
 #define __WORM_START_JUMP_H__
 
-#include "GameStateMsg.h"
 #include "../Worm.h"
+#include "GameStateMsg.h"
 #include "WormState.h"
 
 namespace Worm {

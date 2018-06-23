@@ -8,8 +8,8 @@
 #include <cstdint>
 #include <vector>
 
-#include "GameStateMsg.h"
 #include "../Subject.h"
+#include "GameStateMsg.h"
 
 namespace Worms {
 class GameTurn;

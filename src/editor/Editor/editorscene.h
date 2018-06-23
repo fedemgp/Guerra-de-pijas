@@ -1,16 +1,15 @@
 #ifndef EDITORSCENE_H
 #define EDITORSCENE_H
 
-#include <set>
-#include <string>
+#include <QColor>
 #include <QGraphicsScene>
+#include <QImage>
 #include <QObject>
 #include <QWidget>
-#include <QImage>
-#include <QColor>
-#include "stageelement.h"
+#include <set>
+#include <string>
 #include "qgraphicsitemlayer.h"
-
+#include "stageelement.h"
 
 class EditorScene : public QGraphicsScene {
     Q_OBJECT

@@ -6,10 +6,9 @@
 #include <QObject>
 #include <QWheelEvent>
 #include <QWidget>
-#include "stageelement.h"
 #include "editorscene.h"
 #include "stagedata.h"
-
+#include "stageelement.h"
 
 class EditorView : public QGraphicsView {
     Q_OBJECT

@@ -3,8 +3,8 @@
 
 const double PI = 3.141592653589793;
 
-StageElement::StageElement(const std::string &resource, ItemType type, qreal opacity) :
-    QGraphicsPixmapItem(nullptr), type(type), resource(resource) {
+StageElement::StageElement(const std::string &resource, ItemType type, qreal opacity)
+    : QGraphicsPixmapItem(nullptr), type(type), resource(resource) {
     this->setPixmap(this->getResource(opacity));
     this->setTransformOriginPoint(this->pixmap().width() / 2, this->pixmap().height() / 2);
     this->setFlag(QGraphicsItem::ItemIsMovable);
@@ -25,7 +25,7 @@ QPointF StageElement::getPosition() const {
 void StageElement::increaseAngle() {
     this->angle += 90.0f / 10.0f;
 
-    if(this->angle > 90.0f) {
+    if (this->angle > 90.0f) {
         this->angle = 90.0f;
     }
 
@@ -35,7 +35,7 @@ void StageElement::increaseAngle() {
 void StageElement::decreaseAngle() {
     this->angle -= 90.0f / 10.0f;
 
-    if(this->angle < -90.0f) {
+    if (this->angle < -90.0f) {
         this->angle = -90.0f;
     }
 

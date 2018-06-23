@@ -71,10 +71,10 @@ bool Worms::GameTeams::endTurn(std::vector<Player> &players) {
     }
 }
 
-std::vector<std::uint32_t> Worms::GameTeams::getTotalHealth(std::vector<Worms::Player> &players){
+std::vector<std::uint32_t> Worms::GameTeams::getTotalHealth(std::vector<Worms::Player> &players) {
     uint8_t i{0};
     std::vector<std::uint32_t> teamHealths;
-    for (auto &team : this->teams){
+    for (auto &team : this->teams) {
         teamHealths.emplace_back(team.calculateTotalHealth(players));
         i++;
     }
@@ -100,6 +100,6 @@ uint8_t Worms::GameTeams::getWinner() {
     return winner;
 }
 
-std::uint8_t Worms::GameTeams::getTeamQuantity() const{
+std::uint8_t Worms::GameTeams::getTeamQuantity() const {
     return (std::uint8_t) this->teams.size();
 }

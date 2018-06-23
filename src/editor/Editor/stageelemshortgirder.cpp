@@ -1,8 +1,7 @@
 #include "stageelemshortgirder.h"
 
-StageElemShortGirder::StageElemShortGirder(qreal opacity) :
-    StageElement(":/assets/stage/short_girder.png", ItemType::ShortGirder, opacity) {
-}
+StageElemShortGirder::StageElemShortGirder(qreal opacity)
+    : StageElement(":/assets/stage/short_girder.png", ItemType::ShortGirder, opacity) {}
 
 StageElement *StageElemShortGirder::clone() {
     auto *e = new StageElemShortGirder;

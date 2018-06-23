@@ -3,8 +3,8 @@
  *  date: 16/06/18
  */
 
-#include "../Player.h"
 #include "Dynamite.h"
+#include "../Player.h"
 
 #define CONFIG Game::Config::getInstance()
 

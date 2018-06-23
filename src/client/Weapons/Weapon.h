@@ -6,11 +6,11 @@
 #ifndef __Weapon_H__
 #define __Weapon_H__
 
+#include "../GameTextures.h"
 #include "Animation.h"
 #include "Camera.h"
 #include "Direction.h"
 #include "GameStateMsg.h"
-#include "../GameTextures.h"
 #include "TextureManager.h"
 
 #define ANGLE_STEP 5.625f

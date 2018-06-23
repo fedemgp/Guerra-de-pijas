@@ -5,8 +5,8 @@
 #ifndef INC_4_WORMS_PLAYERSHOT_H
 #define INC_4_WORMS_PLAYERSHOT_H
 
-#include "GameTurnState.h"
 #include "../Observer.h"
+#include "GameTurnState.h"
 
 namespace Worms {
 class PlayerShot : public GameTurnState {

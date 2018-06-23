@@ -11,8 +11,8 @@
 
 #include "Direction.h"
 #include "Point.h"
-#include "WindConfig.h"
 #include "WeaponConfig.h"
+#include "WindConfig.h"
 
 #define NUM_TEAMS 2
 #define GAME_HEIGHT 30.0f
@@ -80,7 +80,7 @@ class Config {
      * Constructor hidden because is a singleton.
      * TODO change constructor so it loads information from yaml file
      */
-//    Config();
+    //    Config();
     explicit Config(const YAML::Node &node);
     Config(Config &copy) = delete;
     Config(Config &&other) = delete;
@@ -110,7 +110,7 @@ class Config {
     const float drowningTime;
     const float teleportTime;
     const int waterLevel;
-//    ::Config::Wind::IntensityRange windRange;
+    //    ::Config::Wind::IntensityRange windRange;
     const float minWindIntensity;
     const float maxWindIntensity;
     // weapons

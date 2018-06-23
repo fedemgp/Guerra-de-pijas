@@ -59,4 +59,4 @@
 #define DAMPING_RATIO "dampingRatio"
 #define WIND_AFFECTED "windAffected"
 
-#endif //__CONFIG_DEFINES_H__
+#endif  //__CONFIG_DEFINES_H__

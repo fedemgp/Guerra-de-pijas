@@ -13,11 +13,9 @@
 
 #include "Animation.h"
 #include "Armory.h"
-#include "Weapons/Bullet.h"
 #include "Camera.h"
 #include "ClientSocket.h"
 #include "DoubleBuffer.h"
-#include "Weapons/Explosion.h"
 #include "Font.h"
 #include "GameSoundEffects.h"
 #include "GameStateMsg.h"
@@ -25,6 +23,8 @@
 #include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
+#include "Weapons/Bullet.h"
+#include "Weapons/Explosion.h"
 #include "Wind.h"
 #include "Window.h"
 #include "Worm.h"
@@ -72,6 +72,7 @@ class Game {
     std::uint8_t team{0};
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
+    std::unique_ptr<Animation> currentPlayerArrow{nullptr};
 };
 }  // namespace GUI
 

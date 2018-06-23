@@ -1,13 +1,13 @@
 #ifndef STAGEDATA_H
 #define STAGEDATA_H
 
-#include <vector>
-#include <Qt>
-#include <QPoint>
-#include <QString>
 #include <QColor>
 #include <QDebug>
+#include <QPoint>
+#include <QString>
+#include <Qt>
 #include <iostream>
+#include <vector>
 #include "yaml-cpp/yaml.h"
 
 struct GirderData {
@@ -19,9 +19,8 @@ struct WormData {
     QPointF position;
 };
 
-class StageData
-{
-public:
+class StageData {
+   public:
     QString fartherBgFile;
     QString medianBgFile;
     QString closeBgFile;
@@ -35,10 +34,10 @@ public:
     void addShortGirder(QPointF position, qreal angle);
     void addLongGirder(QPointF position, qreal angle);
 
-private:
+   private:
     std::vector<GirderData> longGirders;
     std::vector<GirderData> shortGirders;
     std::vector<WormData> worms;
 };
 
-#endif // STAGEDATA_H
+#endif  // STAGEDATA_H

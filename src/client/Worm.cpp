@@ -7,30 +7,30 @@
 #include <cmath>
 #include <iostream>
 
+#include "GameStateMsg.h"
+#include "Text.h"
 #include "Weapons/AerialAttack.h"
 #include "Weapons/Banana.h"
 #include "Weapons/BaseballBat.h"
 #include "Weapons/Bazooka.h"
 #include "Weapons/Cluster.h"
-#include "WormState/Dead.h"
-#include "WormState/Die.h"
-#include "WormState/Drowning.h"
 #include "Weapons/Dynamite.h"
-#include "WormState/Falling.h"
-#include "GameStateMsg.h"
 #include "Weapons/Grenade.h"
-#include "WormState/Hit.h"
 #include "Weapons/Holy.h"
-#include "WormState/Land.h"
 #include "Weapons/Mortar.h"
-#include "WormState/Sliding.h"
 #include "Weapons/Teleport.h"
-#include "WormState/Teleported.h"
-#include "WormState/Teleporting.h"
-#include "Text.h"
 #include "Weapons/WeaponNone.h"
 #include "Worm.h"
 #include "WormState/BackFlip.h"
+#include "WormState/Dead.h"
+#include "WormState/Die.h"
+#include "WormState/Drowning.h"
+#include "WormState/Falling.h"
+#include "WormState/Hit.h"
+#include "WormState/Land.h"
+#include "WormState/Sliding.h"
+#include "WormState/Teleported.h"
+#include "WormState/Teleporting.h"
 #include "WormState/WormBackFlipping.h"
 #include "WormState/WormEndBackFlip.h"
 #include "WormState/WormEndJump.h"
@@ -433,8 +433,8 @@ void Worm::Worm::startShot() {
 
 void Worm::Worm::endShot() {
     if (this->weapon->getWeaponID() != WeaponID::WAerial &&
-        this->weapon->getWeaponID() != WeaponID::WTeleport){
-        if (!this->hasFired){
+        this->weapon->getWeaponID() != WeaponID::WTeleport) {
+        if (!this->hasFired) {
             this->weapon->endShot();
             this->playWeaponSoundEffect(this->getWeaponID());
             this->hasFired = true;

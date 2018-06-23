@@ -3,8 +3,8 @@
  *  date: 03/06/18
  */
 
-#include "../Player.h"
 #include "Banana.h"
+#include "../Player.h"
 
 Weapon::Banana::Banana(float angle)
     : Worms::Weapon(Game::Config::getInstance().getBananaConfig(), Worm::WeaponID::WBanana, angle) {

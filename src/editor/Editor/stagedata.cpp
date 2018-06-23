@@ -2,7 +2,6 @@
 #include <QDebug>
 #include <cassert>
 
-
 YAML::Emitter& operator<<(YAML::Emitter& out, const QColor& v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.red() << v.green() << v.blue() << YAML::EndSeq;
@@ -38,11 +37,9 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const GirderData& v) {
     return out;
 }
 
+StageData::StageData() {}
 
-StageData::StageData() {
-}
-
-void StageData::dump(std::ostream &output) {
+void StageData::dump(std::ostream& output) {
     YAML::Emitter emitter;
 
     emitter << YAML::BeginMap;

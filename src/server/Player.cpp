@@ -473,31 +473,28 @@ void Worms::Player::startShot() {
 
 void Worms::Player::endShot() {
     if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
-            this->weapon->getWeaponID() != Worm::WeaponID::WAerial){
-        if (!this->isP2PWeapon){
+        this->weapon->getWeaponID() != Worm::WeaponID::WAerial) {
+        if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
-            float safeNonContactDistance = sqrt(
-                    (PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                    (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+            float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
             BulletInfo info = this->weapon->getBulletInfo();
             info.point = position;
             info.safeNonContactDistance = safeNonContactDistance;
-            if (this->direction == Worm::Direction::right){
-                if (info.angle < 0.0f){
+            if (this->direction == Worm::Direction::right) {
+                if (info.angle < 0.0f) {
                     info.angle += 360.0f;
                 }
-            } else{
+            } else {
                 info.angle = 180.0f - info.angle;
             }
-            this->bullets.emplace_back(info, this->physics,
-                                       this->weapon->getWeaponID());
+            this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
             this->weapon->endShot();
             this->notify(*this, Event::Shot);
-        } else{
+        } else {
             this->notify(*this, Event::P2PWeaponUsed);
         }
     }
-
 }
 
 void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {

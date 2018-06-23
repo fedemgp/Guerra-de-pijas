@@ -2,18 +2,15 @@
 #include <QDebug>
 #include <QGraphicsPixmapItem>
 #include <QImage>
-#include <QPainter>
 #include <QMouseEvent>
+#include <QPainter>
 
-
-EditorScene::EditorScene(QRect rect) :
-  QGraphicsScene(nullptr),
-  rect(rect) {
+EditorScene::EditorScene(QRect rect) : QGraphicsScene(nullptr), rect(rect) {
     this->setSceneRect(rect);
 }
 
 void EditorScene::setCursor(StageElement *newCursor) {
-    if(this->cursor) {
+    if (this->cursor) {
         delete this->cursor;
     }
     this->cursor = newCursor;
@@ -21,13 +18,13 @@ void EditorScene::setCursor(StageElement *newCursor) {
 }
 
 void EditorScene::hideCursor() {
-    if(this->cursor) {
+    if (this->cursor) {
         QGraphicsScene::removeItem(this->cursor);
     }
 }
 
 void EditorScene::showCursor() {
-    if(this->cursor) {
+    if (this->cursor) {
         QGraphicsScene::addItem(this->cursor);
     }
 }
@@ -42,7 +39,7 @@ void EditorScene::addItem(StageElement *elem) {
 }
 
 void EditorScene::removeItem(StageElement *elem) {
-    if(this->contains(elem)) {
+    if (this->contains(elem)) {
         this->elements.erase(this->elements.find(elem));
         QGraphicsScene::removeItem(elem);
     }
@@ -54,7 +51,7 @@ void EditorScene::removeItem(QGraphicsItem *elem) {
 
 void EditorScene::serialize(StageData &sd) {
     sd.bgColor = this->bgColor;
-    for(auto *elem : this->elements) {
+    for (auto *elem : this->elements) {
         elem->serialize(sd);
     }
 }
@@ -66,7 +63,7 @@ QList<StageElement *> EditorScene::collidingItems(StageElement *elem) {
             continue;
         }
 
-        if(this->contains(dynamic_cast<StageElement *>(other))) {
+        if (this->contains(dynamic_cast<StageElement *>(other))) {
             rv.append(dynamic_cast<StageElement *>(other));
         }
     }
@@ -80,7 +77,7 @@ bool EditorScene::contains(StageElement *elem) {
 
 void EditorScene::setBgColor(QColor color) {
     this->bgColor = color;
-    if(this->bgColorLayer) {
+    if (this->bgColorLayer) {
         this->removeItem(this->bgColorLayer);
         delete this->bgColorLayer;
     }
@@ -105,7 +102,7 @@ void EditorScene::setCloserBg(QImage image) {
 }
 
 void EditorScene::setBackground(QImage image, QGraphicsItemLayer **layerPtr, qreal zValue) {
-    if(*layerPtr) {
+    if (*layerPtr) {
         this->removeItem(*layerPtr);
         delete *layerPtr;
     }
@@ -116,7 +113,7 @@ void EditorScene::setBackground(QImage image, QGraphicsItemLayer **layerPtr, qre
     layer->setZValue(zValue);
     this->addItem(layer);
 
-    for(int i = 0; i < this->rect.width() / image.width() + 1; i++) {
+    for (int i = 0; i < this->rect.width() / image.width() + 1; i++) {
         QGraphicsPixmapItem *pix = new QGraphicsPixmapItem{layer};
         pix->setPixmap(QPixmap::fromImage(image));
         pix->setPos(image.width() * i, this->rect.height() - image.height());

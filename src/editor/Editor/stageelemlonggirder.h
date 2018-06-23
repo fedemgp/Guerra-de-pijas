@@ -4,7 +4,7 @@
 #include "stageelement.h"
 
 class StageElemLongGirder : public StageElement {
-public:
+   public:
     StageElemLongGirder(qreal opacity = 1.0);
 
     virtual StageElement *clone();
@@ -12,4 +12,4 @@ public:
     virtual void serialize(StageData &sd);
 };
 
-#endif // STAGEELEMLONGGIRDER_H
+#endif  // STAGEELEMLONGGIRDER_H

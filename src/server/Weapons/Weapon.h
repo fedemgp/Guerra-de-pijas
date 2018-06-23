@@ -10,8 +10,8 @@
 #include <list>
 #include <memory>
 
-#include "Bullet.h"
 #include "../Config/Config.h"
+#include "Bullet.h"
 
 namespace Worms {
 class Player;

@@ -3,9 +3,9 @@
  *  date: 21/05/18
  */
 
-#include "../Player.h"
-#include "../Config/Config.h"
 #include "EndBackFlip.h"
+#include "../Config/Config.h"
+#include "../Player.h"
 #include "PlayerState.h"
 
 Worms::EndBackFlip::EndBackFlip()

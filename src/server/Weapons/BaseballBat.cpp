@@ -2,8 +2,8 @@
 // Created by rodrigo on 16/06/18.
 //
 
-#include "../Player.h"
 #include "BaseballBat.h"
+#include "../Player.h"
 #include "Direction.h"
 
 Weapon::BaseballBat::BaseballBat(float angle)

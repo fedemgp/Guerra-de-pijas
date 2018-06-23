@@ -1,8 +1,7 @@
 #include "stageelemlonggirder.h"
 
-StageElemLongGirder::StageElemLongGirder(qreal opacity) :
-    StageElement(":/assets/stage/long_girder.png", ItemType::LongGirder, opacity) {
-}
+StageElemLongGirder::StageElemLongGirder(qreal opacity)
+    : StageElement(":/assets/stage/long_girder.png", ItemType::LongGirder, opacity) {}
 
 StageElement *StageElemLongGirder::clone() {
     auto *e = new StageElemLongGirder;
@@ -10,7 +9,6 @@ StageElement *StageElemLongGirder::clone() {
     e->setRotation(this->angle);
     return e;
 }
-
 
 void StageElemLongGirder::serialize(StageData &sd) {
     sd.addLongGirder(this->getPosition(), this->getAngle());

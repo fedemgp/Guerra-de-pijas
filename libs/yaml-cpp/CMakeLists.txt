@@ -360,7 +360,7 @@ endif()
 ### Extras
 ###
 if(YAML_CPP_BUILD_TESTS)
-	add_subdirectory(test)
+#	add_subdirectory(test)
 endif()
 if(YAML_CPP_BUILD_TOOLS)
 	add_subdirectory(util)

@@ -1,12 +1,11 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QFileDialog>
-#include <QColorDialog>
 #include <QColor>
-#include <fstream>
+#include <QColorDialog>
 #include <QErrorMessage>
+#include <QFileDialog>
+#include <fstream>
 #include "stagedata.h"
-
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -34,12 +33,8 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_actionLejano_triggered() {
     QString fileName = QFileDialog::getOpenFileName(
-                                      this,
-                                      tr("Seleccione una imagen para el fondo lejano"),
-                                      "/home",
-                                      tr("Image Files (*.png)")
-                                    );
-    if(!fileName.isEmpty()) {
+        this, tr("Seleccione una imagen para el fondo lejano"), "/home", tr("Image Files (*.png)"));
+    if (!fileName.isEmpty()) {
         this->fartherBgFile = fileName;
         this->scene->setFartherBg(QImage(fileName));
     }
@@ -47,25 +42,18 @@ void MainWindow::on_actionLejano_triggered() {
 
 void MainWindow::on_actionMedio_triggered() {
     QString fileName = QFileDialog::getOpenFileName(
-                                      this,
-                                      tr("Seleccione una imagen para el fondo medio"),
-                                      "/home",
-                                      tr("Image Files (*.png)")
-                                    );
-    if(!fileName.isEmpty()) {
+        this, tr("Seleccione una imagen para el fondo medio"), "/home", tr("Image Files (*.png)"));
+    if (!fileName.isEmpty()) {
         this->midBgFile = fileName;
         this->scene->setMedianBg(QImage(fileName));
     }
 }
 
 void MainWindow::on_actionCercano_triggered() {
-    QString fileName = QFileDialog::getOpenFileName(
-                                      this,
-                                      tr("Seleccione una imagen para el fondo cercano"),
-                                      "/home",
-                                      tr("Image Files (*.png)")
-                                    );
-    if(!fileName.isEmpty()) {
+    QString fileName =
+        QFileDialog::getOpenFileName(this, tr("Seleccione una imagen para el fondo cercano"),
+                                     "/home", tr("Image Files (*.png)"));
+    if (!fileName.isEmpty()) {
         this->closeBgFile = fileName;
         this->scene->setCloserBg(QImage(fileName));
     }
@@ -73,7 +61,7 @@ void MainWindow::on_actionCercano_triggered() {
 
 void MainWindow::on_bgColorButton_clicked() {
     QColor color = QColorDialog::getColor(Qt::yellow, this);
-    if(color.isValid()) {
+    if (color.isValid()) {
         this->scene->setBgColor(color);
         this->ui->colorPreview->setBackgroundBrush(QBrush(color));
     }
@@ -81,21 +69,17 @@ void MainWindow::on_bgColorButton_clicked() {
 
 void MainWindow::on_actionOpen_triggered() {
     /* gets the output file name */
-    QString fileName = QFileDialog::getSaveFileName(
-                this,
-                tr("Nombre de archivo de salida"),
-                "/home",
-                tr("YAML (*.yml)")
-              );
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Nombre de archivo de salida"),
+                                                    "/home", tr("YAML (*.yml)"));
 
     /* checks if a file was selected */
-    if(fileName.isEmpty()) {
+    if (fileName.isEmpty()) {
         return;
     }
 
     std::ofstream file;
     file.open(fileName.toStdString(), std::ios::out | std::ios::trunc);
-    if(!file) {
+    if (!file) {
         QErrorMessage msg;
         msg.showMessage("Error al abrir el archivo");
         return;

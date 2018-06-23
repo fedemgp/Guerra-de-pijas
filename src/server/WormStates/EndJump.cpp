@@ -3,9 +3,9 @@
  *  date: 20/05/18
  */
 
-#include "../Player.h"
-#include "../Config/Config.h"
 #include "EndJump.h"
+#include "../Config/Config.h"
+#include "../Player.h"
 
 Worms::EndJump::EndJump()
     : State(Worm::StateID::EndJump), landTime(Game::Config::getInstance().getLandTime()) {}

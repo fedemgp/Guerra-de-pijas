@@ -3,8 +3,8 @@
  *  date: 03/06/18
  */
 
-#include "../Player.h"
 #include "Bazooka.h"
+#include "../Player.h"
 
 Weapon::Bazooka::Bazooka(float angle)
     : Worms::Weapon(Game::Config::getInstance().getBazookaConfig(), Worm::WeaponID::WBazooka,

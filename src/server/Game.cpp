@@ -13,13 +13,13 @@
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
 
-#include "Weapons/BaseballBat.h"
 #include "Config/Config.h"
 #include "Direction.h"
 #include "Game.h"
 #include "GameStates/ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
+#include "Weapons/BaseballBat.h"
 
 #define CONFIG ::Game::Config::getInstance()
 #define TIME_STEP (1.0f / 60.0f)
@@ -52,7 +52,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     }
 
     this->teams.makeTeams(this->players, (uint8_t)sockets.size());
-//    this->wind.range = CONFIG.getWindIntensityRange();
+    //    this->wind.range = CONFIG.getWindIntensityRange();
     this->wind.minIntensity = CONFIG.getMinWindIntensity();
     this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
     this->calculateWind();
@@ -203,6 +203,15 @@ void Worms::Game::start() {
 }
 
 void Worms::Game::endTurn() {
+    this->waitingForNextTurn = false;
+    this->processingClientInputs = true;
+    this->gameClock.restart();
+    this->gameTurn.restart();
+    this->calculateWind();
+}
+
+void Worms::Game::calculateCurrentPlayer() {
+    this->waitingForNextTurn = true;
     this->players[this->currentWorm].reset();
     this->gameEnded = this->teams.endTurn(this->players);
     if (this->gameEnded) {
@@ -211,11 +220,6 @@ void Worms::Game::endTurn() {
     this->currentTeam = this->teams.getCurrentTeam();
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
-
-    this->processingClientInputs = true;
-    this->gameClock.restart();
-    this->gameTurn.restart();
-    this->calculateWind();
 }
 
 IO::GameStateMsg Worms::Game::serialize() const {
@@ -238,7 +242,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
 
     /* sets team health*/
     uint8_t i{0};
-    for (auto health: this->teamHealths){
+    for (auto health : this->teamHealths) {
         m.teamHealths[i++] = health;
     }
     /* sets wind data */
@@ -267,6 +271,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
     }
     m.processingInputs = this->processingClientInputs;
     m.playerUsedTool = this->currentPlayerShot;
+    m.waitingForNextTurn = this->waitingForNextTurn;
     m.gameEnded = this->gameEnded;
     m.winner = this->winnerTeam;
 
@@ -405,6 +410,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->bullets.erase(this->bullets.begin(), this->bullets.end());
             this->gameClock.waitForNextTurn();
             this->teamHealths = this->teams.getTotalHealth(this->players);
+            this->calculateCurrentPlayer();
             break;
         }
         case Event::NextTurn: {
