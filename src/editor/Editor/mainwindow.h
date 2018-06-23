@@ -28,6 +28,8 @@ private slots:
 
     void on_bgColorButton_clicked();
 
+    void on_actionOpen_triggered();
+
 private:
     Ui::MainWindow *ui;
     EditorScene *scene;

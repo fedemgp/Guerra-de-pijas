@@ -71,3 +71,9 @@ void MainWindow::on_bgColorButton_clicked() {
         this->scene->setBgColor(color);
     }
 }
+
+void MainWindow::on_actionOpen_triggered() {
+    /* serializes the stage */
+    this->ui->editorView->serialize(this->sd);
+    qDebug() << this->sd;
+}

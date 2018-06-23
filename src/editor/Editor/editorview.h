@@ -8,6 +8,7 @@
 #include <QWidget>
 #include "stageelement.h"
 #include "editorscene.h"
+#include "stagedata.h"
 
 
 class EditorView : public QGraphicsView {
@@ -23,6 +24,8 @@ class EditorView : public QGraphicsView {
     void setWorm();
     void setShortGirder();
     void setLongGirder();
+
+    void serialize(StageData &sd) const;
 
     // QWidget interface
    protected:

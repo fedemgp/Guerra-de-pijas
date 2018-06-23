@@ -53,6 +53,7 @@ void EditorScene::removeItem(QGraphicsItem *elem) {
 }
 
 void EditorScene::serialize(StageData &sd) {
+    sd.bgColor = this->bgColor;
     for(auto *elem : this->elements) {
         elem->serialize(sd);
     }

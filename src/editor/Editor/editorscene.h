@@ -42,7 +42,7 @@ class EditorScene : public QGraphicsScene {
     void setBackground(QImage image, QGraphicsItemLayer **layerPtr, qreal zValue);
 
     QRect rect;
-    QColor bgColor;
+    QColor bgColor{Qt::white};
     QGraphicsItemLayer *closeBg{nullptr};
     QGraphicsItemLayer *medianBg{nullptr};
     QGraphicsItemLayer *fartherBg{nullptr};

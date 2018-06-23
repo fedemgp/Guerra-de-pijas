@@ -156,3 +156,7 @@ bool EditorView::collides() {
 
     return false;
 }
+
+void EditorView::serialize(StageData &sd) const {
+    this->escene->serialize(sd);
+}
