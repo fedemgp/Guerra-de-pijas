@@ -7,6 +7,7 @@
 #define __STAGE_H__
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "Point.h"
@@ -26,6 +27,8 @@ struct WormData {
 
 class Stage {
    public:
+    static Stage fromFile(const std::string &filename);
+
     uint8_t turnTime{10};
 
     Stage();
