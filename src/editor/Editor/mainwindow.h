@@ -5,7 +5,8 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include "editorscene.h"
-#include "stagedata.h"
+#include <QString>
+
 
 namespace Ui {
 
@@ -33,7 +34,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     EditorScene *scene;
-    StageData sd;
+    QString closeBgFile;
+    QString midBgFile;
+    QString fartherBgFile;
 };
 
 #endif  // MAINWINDOW_H

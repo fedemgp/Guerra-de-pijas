@@ -3,6 +3,8 @@
 #include <QFileDialog>
 #include <QColorDialog>
 #include <QColor>
+#include "stagedata.h"
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -36,7 +38,7 @@ void MainWindow::on_actionLejano_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.fartherBgFile = fileName;
+        this->fartherBgFile = fileName;
         this->scene->setFartherBg(QImage(fileName));
     }
 }
@@ -49,7 +51,7 @@ void MainWindow::on_actionMedio_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.medianBgFile = fileName;
+        this->midBgFile = fileName;
         this->scene->setMedianBg(QImage(fileName));
     }
 }
@@ -62,7 +64,7 @@ void MainWindow::on_actionCercano_triggered() {
                                       tr("Image Files (*.png)")
                                     );
     if(!fileName.isEmpty()) {
-        this->sd.closeBgFile = fileName;
+        this->closeBgFile = fileName;
         this->scene->setCloserBg(QImage(fileName));
     }
 }
@@ -77,6 +79,13 @@ void MainWindow::on_bgColorButton_clicked() {
 
 void MainWindow::on_actionOpen_triggered() {
     /* serializes the stage */
-    this->ui->editorView->serialize(this->sd);
-    qDebug() << this->sd;
+    StageData sd;
+    sd.closeBgFile = this->closeBgFile;
+    sd.medianBgFile = this->midBgFile;
+    sd.fartherBgFile = this->fartherBgFile;
+
+    this->ui->editorView->serialize(sd);
+
+    sd.dump(std::cout);
+    std::cout << std::endl;
 }
