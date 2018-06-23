@@ -159,7 +159,8 @@ void Worms::Game::start() {
                 if (this->processingClientInputs) {
                     if (this->currentPlayerShot) {
                         if (pMsg.input != IO::PlayerInput::startShot &&
-                            pMsg.input != IO::PlayerInput::endShot) {
+                            pMsg.input != IO::PlayerInput::endShot &&
+                            pMsg.input != IO::PlayerInput::positionSelected) {
                             this->players.at(this->currentWorm).handleState(pMsg);
                         }
                     } else {
@@ -202,7 +203,6 @@ void Worms::Game::start() {
 }
 
 void Worms::Game::endTurn() {
-    this->bullets.erase(this->bullets.begin(), this->bullets.end());
     this->players[this->currentWorm].reset();
     this->gameEnded = this->teams.endTurn(this->players);
     if (this->gameEnded) {
@@ -266,6 +266,7 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletType[j++] = bullet.getWeaponID();
     }
     m.processingInputs = this->processingClientInputs;
+    m.playerUsedTool = this->currentPlayerShot;
     m.gameEnded = this->gameEnded;
     m.winner = this->winnerTeam;
 
@@ -401,12 +402,13 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             if (this->players[this->currentWorm].getStateId() != Worm::StateID::Dead) {
                 this->players[this->currentWorm].setState(Worm::StateID::Still);
             }
-            this->currentPlayerShot = false;
+            this->bullets.erase(this->bullets.begin(), this->bullets.end());
             this->gameClock.waitForNextTurn();
             this->teamHealths = this->teams.getTotalHealth(this->players);
             break;
         }
         case Event::NextTurn: {
+            this->currentPlayerShot = false;
             this->endTurn();
             break;
         }

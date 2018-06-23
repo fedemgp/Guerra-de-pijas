@@ -70,7 +70,6 @@ class Game {
     GameOutput output;
     CommunicationSocket &socket;
     std::uint8_t team{0};
-    bool doesAnyoneShot{false};
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
 };

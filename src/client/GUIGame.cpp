@@ -287,14 +287,12 @@ void GUI::Game::start() {
                     cur.getWeaponID() != Worm::WeaponID::WNone) {
                     cur.setWeaponAngle(this->snapshot.activePlayerAngle);
                 }
-                if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot) {
+                if (this->snapshot.bulletsQuantity == 0 && this->snapshot.playerUsedTool) {
                     this->bullets.erase(this->bullets.begin(), this->bullets.end());
                     this->explodedQuantity = 0;
-                    this->doesAnyoneShot = false;
                     this->worms[this->snapshot.currentWorm].reset();
                 }
                 if (this->snapshot.bulletsQuantity > 0) {
-                    this->doesAnyoneShot = true;
                     for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
                         std::shared_ptr<Ammo::Bullet> p(
                             new Ammo::Bullet(this->texture_mgr, this->sound_effect_mgr,

@@ -139,6 +139,7 @@ struct GameStateMsg {
     double currentPlayerTurnTime;
     bool gameEnded;
     std::uint8_t winner;
+    bool playerUsedTool;
 
     std::size_t getSerializedSize() {
         return sizeof(*this);
