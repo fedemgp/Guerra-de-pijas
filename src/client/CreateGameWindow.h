@@ -10,14 +10,21 @@
 
 #include "Window.h"
 #include "Font.h"
+#include "GameStateMsg.h"
 #include "GameWindow.h"
 #include "Button.h"
 
 #define SELECT_LEVEL_MSG "Select"
+#define LEVEL_MSG "Level"
+#define PLAYERS_MSG "Players"
+#define NEXT_LEVEL_MSG "Next"
+#define PREVIOUS_LEVEL_MSG "Previous"
 
 namespace GUI {
     class CreateGameWindow : public GameWindow {
     public:
+        std::vector<IO::LevelInfo> &levelsInfo;
+        
         explicit CreateGameWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam,
                                   std::vector<IO::LevelInfo> &levelsInfo);
 
@@ -27,7 +34,6 @@ namespace GUI {
 
     private:
         std::vector<Button> buttons;
-        std::vector<IO::LevelInfo> &levelsInfo;
         int levelInfoSize{30};
     };
 }

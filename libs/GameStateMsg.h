@@ -75,7 +75,8 @@ namespace IO {
     };
     enum class ServerResponseAction {
         startGame,
-        levelsInfo
+        levelsInfo,
+        playerConnected
     };
 
     struct ClientGUIMsg {

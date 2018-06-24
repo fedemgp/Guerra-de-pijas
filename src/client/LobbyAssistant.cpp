@@ -14,6 +14,7 @@
 #include "Window.h"
 #include "SelectActionWindow.h"
 #include "CreateGameWindow.h"
+#include "WaitingPlayersWindow.h"
 
 GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
         window(window),
@@ -84,11 +85,20 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::LevelSelected: {
-            this->output << IO::LevelSelected{IO::ClientGUIInput::levelSelected, this->gameWindow->buttonSelected};
+            auto createGamesWindow = dynamic_cast<CreateGameWindow *>(this->gameWindow.get());
+            this->output << IO::LevelSelected{IO::ClientGUIInput::levelSelected, createGamesWindow->buttonSelected};
+            this->gameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
+                                                                                    this->font,
+                                                                                    this->cam,
+                                                                                    createGamesWindow->levelsInfo[createGamesWindow->buttonSelected].playersQuantity});
             break;
         }
         case Event::JoinGame: {
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::joinGame};
+            this->gameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
+                                                                                    this->font,
+                                                                                    this->cam,
+                                                                                    0});
             break;
         }
         default: {
@@ -117,6 +127,10 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
                                                                                 this->cam ,
                                                                                 this->communicationProtocol.levelsInfo});
             this->gameWindow->addObserver(this);
+            break;
+        }
+        case IO::ServerResponseAction::playerConnected: {
+            dynamic_cast<WaitingPlayersWindow *>(this->gameWindow.get())->playersConnected++;
             break;
         }
         default: {

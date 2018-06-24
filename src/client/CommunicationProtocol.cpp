@@ -92,6 +92,7 @@ ClientSocket IO::CommunicationProtocol::getSocket() {
 void IO::CommunicationProtocol::waitGameStart(int levelSelected) {
     while (this->playersQuantity < 2/*this->levelsInfo[levelSelected].playersQuantity*/) {
         this->protocol >> this->playersQuantity;
+        *this->output << IO::ServerResponse{IO::ServerResponseAction::playerConnected};
         std::cout<< "players quantity " << (int) this->playersQuantity<<std::endl;
     } std::cout<<"Empieza\n";
     IO::ServerResponse sr{};
