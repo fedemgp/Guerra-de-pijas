@@ -314,6 +314,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->gameTurn.explosion();
             this->calculateDamage(bullet);
+            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
             break;
         }
         case Event::P2PWeaponUsed: {
@@ -324,6 +325,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->currentPlayerShot = true;
             this->gameTurn.explosion();
             this->calculateDamage(weapon, player.getPosition(), player.direction);
+            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
             break;
         }
         /**
@@ -343,6 +345,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::Teleported: {
             this->gameClock.playerShot();
             this->currentPlayerShot = true;
+            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
         }
         case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());

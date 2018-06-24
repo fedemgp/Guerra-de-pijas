@@ -444,7 +444,8 @@ void Worm::Worm::startShot() {
 
 void Worm::Worm::endShot() {
     if (this->weapon->getWeaponID() != WeaponID::WAerial &&
-        this->weapon->getWeaponID() != WeaponID::WTeleport) {
+        this->weapon->getWeaponID() != WeaponID::WTeleport &&
+        this->weapon->getWeaponID() != WeaponID::WNone) {
         if (!this->hasFired) {
             this->weapon->endShot();
             this->playWeaponSoundEffect(this->getWeaponID());

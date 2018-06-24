@@ -107,3 +107,7 @@ std::uint8_t Worms::GameTeams::getTeamQuantity() const {
 Worms::Team &Worms::GameTeams::getCurrentTeam(){
     return this->teams[this->currentTeam];
 }
+
+void Worms::GameTeams::weaponUsed(const Worm::WeaponID weaponID){
+    this->teams[this->currentTeam].weaponUsed(weaponID);
+}

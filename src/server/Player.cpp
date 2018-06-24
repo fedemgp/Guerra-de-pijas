@@ -39,6 +39,7 @@
 #include "WormStates/Teleporting.h"
 #include "WormStates/Walk.h"
 #include "WormStates/Batting.h"
+#include "Weapons/WeaponNone.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -408,13 +409,11 @@ const Worm::WeaponID &Worms::Player::getWeaponID() const {
 }
 
 void Worms::Player::setWeapon(const Worm::WeaponID &id) {
-    if (this->weapon->getWeaponID() != id) {
-        // keep the last angle
-        float lastAngle = this->weapon->getAngle();
-        this->weapon = this->team->getWeapon(id);
-        this->weapon->setAngle(lastAngle);
-        this->isP2PWeapon = this->weapon->isP2PWeapon();
-    }
+    // keep the last angle
+    float lastAngle = this->weapon->getAngle();
+    this->weapon = this->team->getWeapon(id);
+    this->weapon->setAngle(lastAngle);
+    this->isP2PWeapon = this->weapon->isP2PWeapon();
 }
 
 void Worms::Player::increaseWeaponAngle() {
@@ -431,7 +430,8 @@ void Worms::Player::startShot() {
 
 void Worms::Player::endShot() {
     if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
-        this->weapon->getWeaponID() != Worm::WeaponID::WAerial) {
+        this->weapon->getWeaponID() != Worm::WeaponID::WAerial &&
+            this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
         if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
             float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
@@ -538,6 +538,10 @@ std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &phys
 
 void Worms::Player::reset() {
     this->weapon->endShot();
+    /*
+     * If the weapon has no more ammunition, returns weaponNone
+     */
+    this->setWeapon(this->getWeaponID());
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
 

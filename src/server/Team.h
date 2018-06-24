@@ -6,8 +6,10 @@
 #define INC_4_WORMS_TEAM_H
 
 #include <cstdint>
+#include <map>
 #include <stdint.h>
 #include <vector>
+
 #include "Weapons/Weapon.h"
 
 namespace Worms {
@@ -22,8 +24,8 @@ class Team {
     void setCurrentPlayer(uint8_t currentPlayer);
     void endTurn(std::vector<Worms::Player> &players);
     std::uint32_t calculateTotalHealth(std::vector<Worms::Player> &players);
-
     std::shared_ptr<Weapon> getWeapon(const Worm::WeaponID &id);
+    void weaponUsed(const Worm::WeaponID weaponID);
 
 private:
     std::vector<uint8_t> playerIDs;
@@ -39,6 +41,8 @@ private:
     std::shared_ptr<Weapon> holy{nullptr};
     std::shared_ptr<Weapon> mortar{nullptr};
     std::shared_ptr<Weapon> teleport{nullptr};
+    std::map<Worm::WeaponID, std::int16_t>  ammunitionCounter;
+    std::shared_ptr<Weapon> weaponNone;
 
     void initializeWeapons();
 };

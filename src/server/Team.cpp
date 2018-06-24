@@ -13,6 +13,7 @@
 #include "Weapons/Holy.h"
 #include "Weapons/Mortar.h"
 #include "Weapons/Teleport.h"
+#include "Weapons/WeaponNone.h"
 
 Worms::Team::Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players) : playerIDs(std::move(playerIDs)) {
     for (auto id : this->playerIDs){
@@ -66,6 +67,10 @@ std::uint32_t Worms::Team::calculateTotalHealth(std::vector<Worms::Player> &play
 }
 
 std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id){
+    if (this->ammunitionCounter.at(id) == 0) {
+        return this->weaponNone;
+    }
+
     switch (id) {
         case Worm::WeaponID::WBazooka:
             return this->bazooka;
@@ -88,7 +93,7 @@ std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id){
         case Worm::WeaponID::WTeleport:
             return this->teleport;
         default:
-            return std::shared_ptr<Weapon>(nullptr);
+            return this->weaponNone;
     }
 }
 
@@ -103,4 +108,24 @@ void Worms::Team::initializeWeapons(){
     this->holy = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(0.0f));
     this->mortar = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(0.0f));
     this->teleport = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
+    this->weaponNone = std::shared_ptr<Worms::Weapon>(new ::Weapon::WeaponNone());
+
+    this->ammunitionCounter.emplace(Worm::WAerial, 2);
+    this->ammunitionCounter.emplace(Worm::WBanana, 2);
+    this->ammunitionCounter.emplace(Worm::WBaseballBat, 2);
+    this->ammunitionCounter.emplace(Worm::WBazooka, 2);
+    this->ammunitionCounter.emplace(Worm::WCluster, 2);
+    this->ammunitionCounter.emplace(Worm::WDynamite, 2);
+    this->ammunitionCounter.emplace(Worm::WGrenade, 2);
+    this->ammunitionCounter.emplace(Worm::WHoly, 2);
+    this->ammunitionCounter.emplace(Worm::WMortar, 2);
+    this->ammunitionCounter.emplace(Worm::WTeleport, 2);
+    // -1 indicates infinite uses
+    this->ammunitionCounter.emplace(Worm::WNone, -1);
+}
+
+void Worms::Team::weaponUsed(const Worm::WeaponID weaponID) {
+    if (this->ammunitionCounter.at(weaponID) > 0) {
+        this->ammunitionCounter.at(weaponID)--;
+    }
 }

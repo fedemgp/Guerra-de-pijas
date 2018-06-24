@@ -24,7 +24,9 @@ class GameTeams {
     std::uint8_t getWinner();
     std::vector<std::uint32_t> getTotalHealth(std::vector<Worms::Player> &players);
 
-   private:
+    void weaponUsed(const Worm::WeaponID weaponID);
+
+private:
     std::vector<Team> teams;
     std::uint8_t deadTeams{0};
     uint8_t currentTeam{0};
