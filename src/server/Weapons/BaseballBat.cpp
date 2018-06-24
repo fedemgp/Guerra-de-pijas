@@ -9,7 +9,9 @@
 Weapon::BaseballBat::BaseballBat(float angle)
     : Worms::Weapon(Game::Config::getInstance().getBaseballBatConfig(),
                     Worm::WeaponID::WBaseballBat, angle),
-      weaponInfo{this->config.dmgInfo, Worm::Direction::left, {0, 0}} {}
+      weaponInfo{this->config.dmgInfo, Worm::Direction::left, {0, 0}} {
+    this->isP2P = true;
+}
 
 void Weapon::BaseballBat::update(float dt) {}
 

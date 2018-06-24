@@ -44,6 +44,11 @@ class Weapon {
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
     /**
+     * @brief check if the weapon is person to preson or not
+     * @return
+     */
+    bool isP2PWeapon();
+    /**
      * Used by te remote control weapons. Sends to the weapon the coordinates
      * of the deploy of the bullets, and a reference of Player so that the
      * weapons, if they are remote control. calls the appropiate method.
@@ -62,6 +67,7 @@ class Weapon {
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
+    bool isP2P{false};
     const Config::Weapon &config;
     Worm::WeaponID id;
     float angle{0};

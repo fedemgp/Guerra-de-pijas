@@ -67,3 +67,7 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
 void Worms::Weapon::setAngle(float angle){
     this->angle = angle;
 }
+
+bool Worms::Weapon::isP2PWeapon(){
+    return this->isP2P;
+}

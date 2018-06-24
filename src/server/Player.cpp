@@ -413,7 +413,7 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
         float lastAngle = this->weapon->getAngle();
         this->weapon = this->team->getWeapon(id);
         this->weapon->setAngle(lastAngle);
-        this->isP2PWeapon = this->getWeaponID() == Worm::WBaseballBat;
+        this->isP2PWeapon = this->weapon->isP2PWeapon();
     }
 }
 
