@@ -30,23 +30,32 @@ void EditorScene::showCursor() {
 }
 
 void EditorScene::addItem(QGraphicsItem *elem) {
-    QGraphicsScene::addItem(elem);
+    if(elem->scene() != this) {
+        QGraphicsScene::addItem(elem);
+    }
 }
 
 void EditorScene::addItem(StageElement *elem) {
-    QGraphicsScene::addItem(elem);
-    this->elements.insert(elem);
+    if(elem->scene() != this) {
+        QGraphicsScene::addItem(elem);
+        this->elements.insert(elem);
+    }
 }
 
 void EditorScene::removeItem(StageElement *elem) {
-    if (this->contains(elem)) {
+    if(this->contains(elem)) {
         this->elements.erase(this->elements.find(elem));
+    }
+
+    if (elem->scene()) {
         QGraphicsScene::removeItem(elem);
     }
 }
 
 void EditorScene::removeItem(QGraphicsItem *elem) {
-    QGraphicsScene::removeItem(elem);
+    if(elem->scene()) {
+        QGraphicsScene::removeItem(elem);
+    }
 }
 
 void EditorScene::serialize(StageData &sd) {

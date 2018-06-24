@@ -15,11 +15,13 @@ ItemType StageElement::getType() {
 }
 
 qreal StageElement::getAngle() const {
-    return this->angle / 180.0f * PI;
+    return this->angle;
 }
 
 QPointF StageElement::getPosition() const {
-    return this->pos();
+    qreal hw = this->pixmap().width() / 2.0;
+    qreal hh = this->pixmap().height() / 2.0;
+    return QPointF{this->pos().x() + hw, this->pos().y() + hh};
 }
 
 void StageElement::increaseAngle() {

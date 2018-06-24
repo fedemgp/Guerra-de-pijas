@@ -22,7 +22,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
       stage(stage),
-      cam(w, this->scale),
+      cam(w, this->scale, this->stage.getWidth(), this->stage.getHeight()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
@@ -69,8 +69,6 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Smoke, "assets/img/Effects/smkdrk20.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::StaticBackground, "assets/img/background/static.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Background1, "assets/img/background/bg1.png",
                            GUI::Color{0xff, 0xff, 0xff});
     this->texture_mgr.load(GUI::GameTextures::Background2, "assets/img/background/bg2.png",
@@ -464,16 +462,10 @@ void GUI::Game::exit() {
 void GUI::Game::renderBackground() {
     this->window.clear(this->backgroundColor);
 
-    /* draws a static image in the background (this image doesn't move) */
-    const Texture &staticBgTex = this->texture_mgr.get(GameTextures::StaticBackground);
-    WrapTexture staticBg{staticBgTex, 500.0f, 40.0f};  // TODO: use screen size
-    staticBg.render(Position{0.0f, (staticBgTex.getHeight() / this->cam.getScale()) / 2},
-                    this->cam);
-
     /* draws moving image further in the background */
     const Texture &Bg1Tex = this->texture_mgr.get(GameTextures::Background1);
     // TODO: use the stage size
-    WrapTexture bg1{Bg1Tex, 500.0f, Bg1Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg1{Bg1Tex, this->stage.getWidth(), Bg1Tex.getHeight() / this->cam.getScale()};
 
     Position pos{0.0f, (Bg1Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.8f;
@@ -482,7 +474,7 @@ void GUI::Game::renderBackground() {
     /* draws a moving image in the background at intermediate distance */
     const Texture &Bg2Tex = this->texture_mgr.get(GameTextures::Background2);
     // TODO: use the stage size
-    WrapTexture bg2{Bg2Tex, 500.0f, Bg2Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg2{Bg2Tex, this->stage.getWidth(), Bg2Tex.getHeight() / this->cam.getScale()};
 
     pos = {0.0f, (Bg2Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.6f;
@@ -491,7 +483,7 @@ void GUI::Game::renderBackground() {
     /* draws a moving image in the background at a closer distance */
     const Texture &Bg3Tex = this->texture_mgr.get(GameTextures::Background3);
     // TODO: use the stage size
-    WrapTexture bg3{Bg3Tex, 500.0f, Bg3Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg3{Bg3Tex, this->stage.getWidth(), Bg3Tex.getHeight() / this->cam.getScale()};
 
     pos = {0.0f, (Bg3Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.25f;

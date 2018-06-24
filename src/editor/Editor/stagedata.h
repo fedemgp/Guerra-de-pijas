@@ -25,16 +25,23 @@ class StageData {
     QString medianBgFile;
     QString closeBgFile;
     QColor bgColor;
+    int wormsHealth;
 
-    StageData();
+    StageData(qreal width, qreal height);
 
     void dump(std::ostream &output);
+
+    std::size_t numWorms() const;
 
     void addWorm(QPointF position);
     void addShortGirder(QPointF position, qreal angle);
     void addLongGirder(QPointF position, qreal angle);
 
    private:
+    QPointF toGameCoords(const QPointF &point) const;
+
+    qreal width;
+    qreal height;
     std::vector<GirderData> longGirders;
     std::vector<GirderData> shortGirders;
     std::vector<WormData> worms;
