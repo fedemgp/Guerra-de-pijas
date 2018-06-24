@@ -57,24 +57,3 @@ background:
   midBackgroundFile: ""
   fartherBackgroundFile: ""
   color: [255, 255, 255]
-weapons:
-  - name: "aerialAttack" 
-    quantity: 2
-  - name: "banana"
-    quantity: 2
-  - name: "baseballBat" 
-    quantity: 2
-  - name: "bazooka"
-    infinity: true
-  - name: "cluster" 
-    quantity: 2
-  - name: "dynamite"
-    quantity: 2
-  - name: "grenade"
-    quantity: 2
-  - name: "holy"
-    quantity: 2
-  - name: "mortar"
-    quantity: 2
-  - name: "teleport"
-    quantity: 2

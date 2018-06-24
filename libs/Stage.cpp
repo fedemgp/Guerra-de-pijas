@@ -116,13 +116,16 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
         stage.girders.push_back(_parseGirder(girderNode));
     }
 
+    YAML::Node weaponsNode;
     /* loads the weapon ammo */
     if (!data["weapons"] || !data["weapons"].IsSequence()){
-        throw Exception{"Invalid stage: expected a sequence of 'weapons'"};
+        weaponsNode = YAML::LoadFile(DEFAULT_WEAPON_CONFIG_PATH);
+    } else{
+        weaponsNode = data["weapons"];
     }
 
-    for (std::size_t i = 0; i < data["weapons"].size(); i++){
-        YAML::Node weaponNode = data["weapons"][i];
+    for (std::size_t i = 0; i < weaponsNode.size(); i++){
+        YAML::Node weaponNode = weaponsNode[i];
         stage.ammunitionCounter.emplace(stage.weaponStrToID.at(weaponNode["name"].as<std::string>()),
                                         weaponNode["infinity"] ? -1
                                                               : weaponNode["quantity"].as<std::int16_t>());
