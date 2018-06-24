@@ -92,3 +92,7 @@ void GUI::CreateGameWindow::buttonPressed(GUI::ScreenPosition sp) {
 void GUI::CreateGameWindow::appendCharacter(char *text) {
 
 }
+
+void GUI::CreateGameWindow::handleKeyDown(SDL_Keycode key) {
+
+}

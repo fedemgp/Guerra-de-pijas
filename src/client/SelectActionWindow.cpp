@@ -48,3 +48,7 @@ void GUI::SelectActionWindow::buttonPressed(GUI::ScreenPosition sp) {
 void GUI::SelectActionWindow::appendCharacter(char *text) {
 
 }
+
+void GUI::SelectActionWindow::handleKeyDown(SDL_Keycode key) {
+
+}

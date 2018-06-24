@@ -22,17 +22,35 @@ namespace GUI {
         void selected(ScreenPosition sp) {
             this->focus = inputText.inside(sp);
         };
-        
+
         void render(GUI::Camera &cam) {
             this->inputText.render(cam);
         };
 
         void appendCharacter(char *text) {
-            this->inputText.msg += text;
-        }
-        
+            if (this->emptyString) {
+                this->inputText.msg = text;
+                this->emptyString = false;
+            } else {
+                this->inputText.msg += text;
+            }
+        };
+
+        void backSpace() {
+            if (!this->emptyString) {
+                this->inputText.msg.pop_back();
+                if (this->inputText.msg.length() == 0) {
+                    this->inputText.msg = " ";
+                    this->emptyString = true;
+                }
+            }
+        };
+
         Button inputText;
         bool focus;
+
+    private:
+        bool emptyString{true};
     };
 
     class GameWindow : public Subject {
@@ -43,6 +61,7 @@ namespace GUI {
 
         virtual void start() = 0;
         virtual void render() = 0;
+        virtual void handleKeyDown(SDL_Keycode key) = 0;
         virtual void appendCharacter(char text[32]) = 0;
         virtual void buttonPressed(ScreenPosition sp) = 0;
 

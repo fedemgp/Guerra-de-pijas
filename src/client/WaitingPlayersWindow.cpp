@@ -37,3 +37,7 @@ void GUI::WaitingPlayersWindow::buttonPressed(GUI::ScreenPosition sp) {
 void GUI::WaitingPlayersWindow::appendCharacter(char *text) {
 
 }
+
+void GUI::WaitingPlayersWindow::handleKeyDown(SDL_Keycode key) {
+
+}

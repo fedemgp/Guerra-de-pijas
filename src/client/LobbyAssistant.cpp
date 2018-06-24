@@ -40,6 +40,7 @@ void GUI::LobbyAssistant::run() {
                     break;
                 }
                 case SDL_KEYDOWN: {
+                    this->gameWindow->handleKeyDown(e.key.keysym.sym);
                     break;
                 }
                 case SDL_KEYUP: {

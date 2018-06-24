@@ -40,10 +40,10 @@ void GUI::ConnectionWindow::render() {
     int x = this->window.getWidth() * 3 / 10;
     int y = this->window.getHeight() * 2 / 7;
     ip.set("IP:", black, 50);
-    ip.renderFixed(ScreenPosition{x, y - 50}, this->cam);
+    ip.renderFixed(ScreenPosition{x, y}, this->cam);
     y = this->window.getHeight() * 4 / 7;
     ip.set("Server port:", black, 50);
-    ip.renderFixed(ScreenPosition{x, y - 50}, this->cam);
+    ip.renderFixed(ScreenPosition{x, y}, this->cam);
 
     for (auto &button : this->buttons) {
         button.render(this->cam);
@@ -66,6 +66,20 @@ void GUI::ConnectionWindow::appendCharacter(char *text) {
     for (auto &textField : this->textFields) {
         if (textField.focus) {
             textField.appendCharacter(text);
+        }
+    }
+}
+
+void GUI::ConnectionWindow::handleKeyDown(SDL_Keycode key) {
+    switch (key) {
+        case SDLK_BACKSPACE: {
+            for (auto &textField : this->textFields) {
+                if (textField.focus) {
+                    textField.backSpace();
+                }
+            }
+
+            break;
         }
     }
 }
