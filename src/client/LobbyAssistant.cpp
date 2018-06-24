@@ -91,6 +91,7 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
                                                                                     this->font,
                                                                                     this->cam,
                                                                                     createGamesWindow->levelsInfo[createGamesWindow->buttonSelected].playersQuantity});
+            this->gameWindow->addObserver(this);
             break;
         }
         case Event::JoinGame: {
@@ -99,6 +100,7 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
                                                                                     this->font,
                                                                                     this->cam,
                                                                                     0});
+            this->gameWindow->addObserver(this);
             break;
         }
         default: {
