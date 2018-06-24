@@ -90,6 +90,12 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
     uint16_t wormsHealth = data["wormsHealth"].as<float>();
 
     Stage stage;
+    if (!data["width"] || !data["height"]) {
+        throw Exception{"Invalid stage: expected stage 'width' and 'height'"};
+    }
+    stage.width = data["width"].as<float>();
+    stage.height = data["height"].as<float>();
+
     if (!data["worms"] || !data["worms"].IsSequence()) {
         throw Exception{"Invalid stage: expected a sequence of 'worms'"};
     }

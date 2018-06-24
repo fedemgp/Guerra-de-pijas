@@ -13,7 +13,7 @@ using ScreenPosition = Math::Point<int>;
 
 class Camera {
    public:
-    Camera(GUI::Window &window, float scale);
+    Camera(GUI::Window &window, float scale, float width, float height);
     ~Camera();
 
     bool isMoving() const;
@@ -37,6 +37,8 @@ class Camera {
     void drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip,
                    SDL_RendererFlip flip, float scale = 1);
 
+    Position clamp(Position p) const;
+
     void update(float dt);
 
    private:
@@ -51,6 +53,7 @@ class Camera {
     float elapsed{0};
     /* The SDL renderer. */
     SDL_Renderer &renderer;
+    float width, height;
 };
 }  // namespace GUI
 
