@@ -7,7 +7,7 @@
 
 #include <Animation.h>
 #include <vector>
-#include "GameTextures.h"
+#include "../GameTextures.h"
 
 namespace Worm {
 class Explosion {

@@ -13,11 +13,11 @@
 
 #include "Animation.h"
 #include "Armory.h"
-#include "Bullet.h"
+#include "Weapons/Bullet.h"
 #include "Camera.h"
 #include "ClientSocket.h"
 #include "DoubleBuffer.h"
-#include "Explosion.h"
+#include "Weapons/Explosion.h"
 #include "Font.h"
 #include "GameSoundEffects.h"
 #include "GameStateMsg.h"

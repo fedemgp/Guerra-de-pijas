@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <iostream>
 
-#include "Bullet.h"
+#include "Weapons/Bullet.h"
 #include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"

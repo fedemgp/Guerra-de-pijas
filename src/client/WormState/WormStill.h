@@ -9,7 +9,7 @@
 #include <SDL2/SDL_system.h>
 
 #include "GameStateMsg.h"
-#include "Worm.h"
+#include "../Worm.h"
 #include "WormState.h"
 
 namespace Worm {

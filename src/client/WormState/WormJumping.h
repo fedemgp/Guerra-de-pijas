@@ -1,22 +1,19 @@
 /*
- *  Created by Federico Manuel Gomez Peter.
- *  date: 18/05/18
+ *  Created by Rodrigo.
+ *  date: 21/05/18
  */
 
-#ifndef __WORM_WALK_H__
-#define __WORM_WALK_H__
-
-#include <SDL2/SDL_system.h>
+#ifndef __JUMPING_H__
+#define __JUMPING_H__
 
 #include "GameStateMsg.h"
-#include "Worm.h"
-#include "WormState.h"
+#include "../Worm.h"
 
 namespace Worm {
-class Walk : public State {
+class Jumping : public State {
    public:
-    explicit Walk();
-    virtual ~Walk();
+    explicit Jumping();
+    virtual ~Jumping();
 
     virtual void update(float dt) override;
 
@@ -46,4 +43,4 @@ class Walk : public State {
 };
 }  // namespace Worm
 
-#endif  //__WORM_WALK_H__
+#endif  //__JUMPING_H__
