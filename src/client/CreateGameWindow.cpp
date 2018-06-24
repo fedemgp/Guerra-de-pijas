@@ -81,14 +81,10 @@ void GUI::CreateGameWindow::buttonPressed(GUI::ScreenPosition sp) {
     }
 
     if (this->buttons[1].inside(sp)) {
-        if (this->buttonSelected < this->levelsInfo.size() - 1) {
-            this->buttonSelected++;
-        }
+        this->buttonSelected = (this->buttonSelected + 1) % this->levelsInfo.size();
     }
 
     if (this->buttons[2].inside(sp)) {
-        if (this->buttonSelected > 0) {
-            this->buttonSelected--;
-        }
+        this->buttonSelected = (this->buttonSelected == 0) ? this->levelsInfo.size() - 1 : this->buttonSelected - 1;
     }
 }
