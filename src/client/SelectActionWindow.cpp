@@ -29,7 +29,7 @@ void GUI::SelectActionWindow::start() {
 void GUI::SelectActionWindow::render() {
     this->window.clear(SDL_Color{0xFF, 0xFF, 0xFF});
     for (auto &button : this->buttons) {
-        button.render(this->cam, this->window);
+        button.render(this->cam);
     }
 
     this->window.render();
@@ -43,4 +43,8 @@ void GUI::SelectActionWindow::buttonPressed(GUI::ScreenPosition sp) {
     if (this->buttons[1].inside(sp)) {
         this->notify(*this, Event::JoinGame);
     }
+}
+
+void GUI::SelectActionWindow::appendCharacter(char *text) {
+
 }

@@ -17,21 +17,21 @@ GUI::CreateGameWindow::CreateGameWindow(GUI::Window &window, GUI::Font &font, GU
     this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
     this->buttons.back().position = ScreenPosition{x, y};
     this->buttons.back().height = height;
-    this->buttons.back().width = msg.size() * 9 + 20;
+    this->buttons.back().width = this->buttons.back().msg.size() * 9 + 20;
     msg = NEXT_LEVEL_MSG;
     x = this->window.getWidth() * 3 / 4;
     y = this->window.getHeight() / 2;
     this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
     this->buttons.back().position = ScreenPosition{x, y};
     this->buttons.back().height = height;
-    this->buttons.back().width = msg.size() * 9 + 20;
+    this->buttons.back().width = this->buttons.back().msg.size() * 9 + 20;
     msg = PREVIOUS_LEVEL_MSG;
     x = this->window.getWidth() / 4;
     y = this->window.getHeight() / 2;
     this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
     this->buttons.back().position = ScreenPosition{x, y};
     this->buttons.back().height = height;
-    this->buttons.back().width = msg.size() * 9 + 20;
+    this->buttons.back().width = this->buttons.back().msg.size() * 9 + 20;
 }
 
 void GUI::CreateGameWindow::start() {
@@ -69,7 +69,7 @@ void GUI::CreateGameWindow::render() {
     levelName.renderFixed(ScreenPosition{x, y}, this->cam);
 
     for (auto &button : this->buttons) {
-        button.render(this->cam, this->window);
+        button.render(this->cam);
     }
 
     this->window.render();
@@ -87,4 +87,8 @@ void GUI::CreateGameWindow::buttonPressed(GUI::ScreenPosition sp) {
     if (this->buttons[2].inside(sp)) {
         this->buttonSelected = (this->buttonSelected == 0) ? this->levelsInfo.size() - 1 : this->buttonSelected - 1;
     }
+}
+
+void GUI::CreateGameWindow::appendCharacter(char *text) {
+
 }

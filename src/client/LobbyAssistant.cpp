@@ -15,14 +15,17 @@
 #include "SelectActionWindow.h"
 #include "CreateGameWindow.h"
 #include "WaitingPlayersWindow.h"
+#include "ConnectionWindow.h"
 
 GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
         window(window),
         font("assets/fonts/gruen_lemonograf.ttf", 28),
         cam(window, this->scale),
         communicationProtocol(socket, &output, &serverStream) {
-    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
     this->gameWindow->addObserver(this);
+//    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+//    this->gameWindow->addObserver(this);
 }
 
 void GUI::LobbyAssistant::run() {
@@ -40,6 +43,13 @@ void GUI::LobbyAssistant::run() {
                     break;
                 }
                 case SDL_KEYUP: {
+                    break;
+                }
+                case SDL_TEXTINPUT: {
+                    if(!((e.text.text[0] == 'c' || e.text.text[0] == 'C') && (e.text.text[0] == 'v' || e.text.text[0] == 'V') && SDL_GetModState() & KMOD_CTRL)) {
+                        //Append character
+                        this->gameWindow->appendCharacter(e.text.text);
+                    }
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {

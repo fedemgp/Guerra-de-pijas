@@ -2,8 +2,8 @@
 // Created by rodrigo on 24/06/18.
 //
 
-#ifndef INC_4_WORMS_WAITINGPLAYERSWINDOW_H
-#define INC_4_WORMS_WAITINGPLAYERSWINDOW_H
+#ifndef INC_4_WORMS_CONNECTIONWINDOW_H
+#define INC_4_WORMS_CONNECTIONWINDOW_H
 
 
 #include <vector>
@@ -14,12 +14,16 @@
 #include "GameWindow.h"
 #include "Button.h"
 
+#define CONNECT_MSG "Connect"
+#define IP_FOCUS 0
+#define PORT_FOCUS 1
+
 namespace GUI {
-    class WaitingPlayersWindow : public GameWindow {
+    class ConnectionWindow : public GameWindow {
     public:
         uint8_t playersConnected{0};
 
-        explicit WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam, unsigned int playersQuantity);
+        explicit ConnectionWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam);
 
         void start() override;
         void render() override;
@@ -28,9 +32,9 @@ namespace GUI {
 
     private:
         std::vector<Button> buttons;
-        unsigned int playersQuantity{0};
+        int textSize{50};
     };
 }
 
 
-#endif //INC_4_WORMS_WAITINGPLAYERSWINDOW_H
+#endif //INC_4_WORMS_CONNECTIONWINDOW_H

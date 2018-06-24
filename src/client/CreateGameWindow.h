@@ -30,6 +30,7 @@ namespace GUI {
 
         void start() override;
         void render() override;
+        void appendCharacter(char text[32]) override;
         void buttonPressed(ScreenPosition sp) override;
 
     private:

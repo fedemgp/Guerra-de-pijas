@@ -33,3 +33,7 @@ void GUI::WaitingPlayersWindow::render() {
 void GUI::WaitingPlayersWindow::buttonPressed(GUI::ScreenPosition sp) {
 
 }
+
+void GUI::WaitingPlayersWindow::appendCharacter(char *text) {
+
+}
