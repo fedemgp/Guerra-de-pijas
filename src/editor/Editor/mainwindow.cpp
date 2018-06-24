@@ -86,10 +86,11 @@ void MainWindow::on_actionOpen_triggered() {
     }
 
     /* serializes the stage */
-    StageData sd;
+    StageData sd{13 * 250, 13 * 250};
     sd.closeBgFile = this->closeBgFile;
     sd.medianBgFile = this->midBgFile;
     sd.fartherBgFile = this->fartherBgFile;
+    sd.wormsHealth = this->ui->wormsHP->value();
 
     this->ui->editorView->serialize(sd);
 
