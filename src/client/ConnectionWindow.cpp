@@ -60,6 +60,10 @@ void GUI::ConnectionWindow::buttonPressed(GUI::ScreenPosition sp) {
     for (auto &textField : this->textFields) {
         textField.selected(sp);
     }
+
+    if (this->buttons[0].inside(sp)) {
+        this->notify(*this, Event::ConnectionToServer);
+    }
 }
 
 void GUI::ConnectionWindow::appendCharacter(char *text) {
@@ -78,8 +82,12 @@ void GUI::ConnectionWindow::handleKeyDown(SDL_Keycode key) {
                     textField.backSpace();
                 }
             }
-
             break;
         }
     }
+}
+
+GUI::ConnectionInfo GUI::ConnectionWindow::getConnectionInfo() {
+    return ConnectionInfo{this->textFields[0].inputText.msg.c_str(),
+                          this->textFields[1].inputText.msg.c_str()};
 }

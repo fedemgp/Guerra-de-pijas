@@ -19,6 +19,10 @@
 #define PORT_FOCUS 1
 
 namespace GUI {
+    struct ConnectionInfo {
+        const char *ip;
+        const char *port;
+    };
     class ConnectionWindow : public GameWindow {
     public:
         uint8_t playersConnected{0};
@@ -30,6 +34,8 @@ namespace GUI {
         void handleKeyDown(SDL_Keycode key) override;
         void appendCharacter(char text[32]) override;
         void buttonPressed(ScreenPosition sp) override;
+
+        ConnectionInfo getConnectionInfo();
 
     private:
         std::vector<Button> buttons;

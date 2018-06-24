@@ -17,7 +17,7 @@ namespace IO {
         std::vector<LevelInfo> levelsInfo;
 
         explicit CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
-                                               IO::Stream<IO::ServerResponse> *output);
+                                       IO::Stream<IO::ServerResponse> *output);
 
         void run() override;
         void stop() override;

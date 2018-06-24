@@ -20,7 +20,7 @@
 namespace GUI { // Había una forward declaration con GameWindow pero no hace falta parece.
     class LobbyAssistant : public Observer {
     public:
-        explicit LobbyAssistant(ClientSocket &socket, Window &window);
+        explicit LobbyAssistant(Window &window);
         //TODO overrrite
         void run();
         void onNotify(Subject &subject, Event event) override;
@@ -35,7 +35,7 @@ namespace GUI { // Había una forward declaration con GameWindow pero no hace fa
         std::shared_ptr<GameWindow> nextGameWindow{nullptr};
         Font font;
         Camera cam;
-        IO::CommunicationProtocol communicationProtocol;
+        std::shared_ptr<IO::CommunicationProtocol> communicationProtocol;
         IO::Stream<IO::ClientGUIMsg> output;
         IO::Stream<IO::ServerResponse> serverStream;
 

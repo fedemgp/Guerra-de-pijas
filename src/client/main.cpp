@@ -17,18 +17,14 @@ int main(int argc, const char *argv[]) {
     }
 
     try {
-        std::string host = argv[1];
-        std::string port = argv[2];
-        ClientSocket socket(host.data(), port.data());
-
         GUI::Window window{};
         window.clear();
         //TODO start a thread running this
-        GUI::LobbyAssistant lobby(socket, window);
+        GUI::LobbyAssistant lobby(window);
         lobby.run();
         //TODO join Lobby thread
 
-        socket = std::move(lobby.getSocket());
+        ClientSocket socket = std::move(lobby.getSocket());
 
         char buffer[1];
         socket.receive(buffer, sizeof(buffer));
