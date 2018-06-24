@@ -67,8 +67,9 @@ static Worms::GirderData _parseGirder(YAML::Node &node) {
     Math::Point<float> position = _parsePoint(positionNode);
 
     float angle = node["angle"].as<float>();
-    float length =
-        7;  // TODO: use predefined length for short/long girders or load it from the YAML
+
+    // TODO: use predefined length for short/long girders or load it from the YAML
+    float length = 10.769f;
 
     return Worms::GirderData{length, 1.42f, angle, position};
 }
