@@ -31,6 +31,8 @@ class StageData {
 
     void dump(std::ostream &output);
 
+    std::size_t numWorms() const;
+
     void addWorm(QPointF position);
     void addShortGirder(QPointF position, qreal angle);
     void addLongGirder(QPointF position, qreal angle);

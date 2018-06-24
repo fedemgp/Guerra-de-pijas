@@ -47,6 +47,10 @@ QPointF StageData::toGameCoords(const QPointF &point) const {
     return QPointF(xpos, ypos);
 }
 
+std::size_t StageData::numWorms() const {
+    return this->worms.size();
+}
+
 void StageData::dump(std::ostream& output) {
     YAML::Emitter emitter;
 
