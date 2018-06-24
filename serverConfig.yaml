@@ -24,6 +24,7 @@
     waitForNextTurnTime: 3,
     dyingTime: 2.6,
     drowningTime: 1.0,
+    battingTime: 0.5,
     teleportTime: 2.0,
     waterLevel: -2,
     powerChargeMaxTime: 1.0

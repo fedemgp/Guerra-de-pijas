@@ -25,6 +25,7 @@
 #define POWER_CHARGE_MAX_TIME "powerChargeMaxTime"
 #define DYING_TIME "dyingTime"
 #define DROWNING_TIME "drowningTime"
+#define BATTING_TIME "battingTime"
 #define TELEPORT_TIME "teleportTime"
 #define WATER_LEVEL "waterLevel"
 #define WIND_INTENSITY "windIntensity"

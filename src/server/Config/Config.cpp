@@ -32,6 +32,7 @@ Game::Config::Config(const YAML::Node &node)
       powerChargeTime(node[GAME][POWER_CHARGE_MAX_TIME].as<float>()),
       dyingTime(node[GAME][DYING_TIME].as<float>()),
       drowningTime(node[GAME][DROWNING_TIME].as<float>()),
+      battingTime(node[GAME][BATTING_TIME].as<float>()),
       teleportTime(node[GAME][TELEPORT_TIME].as<float>()),
       waterLevel(node[GAME][WATER_LEVEL].as<int>()),
       minWindIntensity(node[WIND_INTENSITY][MIN].as<float>()),
@@ -177,6 +178,10 @@ const float Game::Config::getAerialAttackMissileSeparation() const {
 
 const float Game::Config::getAerialAttackLaunchHeight() const {
     return this->aerialAttackLaunchHeight;
+}
+
+const float Game::Config::getBattingTime() const {
+    return this->battingTime;
 }
 
 const Config::Weapon &Game::Config::getTeleportConfig() const {

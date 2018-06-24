@@ -38,6 +38,7 @@
 #include "WormStates/Teleported.h"
 #include "WormStates/Teleporting.h"
 #include "WormStates/Walk.h"
+#include "WormStates/Batting.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -302,6 +303,9 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
                 break;
+            case Worm::StateID::Batting:
+                this->state = std::shared_ptr<State>(new Batting());
+                break;
             case Worm::StateID::Teleporting:
                 this->state = std::shared_ptr<State>(new Teleporting(this->teleportPosition));
                 break;
@@ -492,6 +496,7 @@ void Worms::Player::endShot() {
             this->weapon->endShot();
             this->notify(*this, Event::Shot);
         } else {
+            this->setState(Worm::StateID::Batting);
             this->notify(*this, Event::P2PWeaponUsed);
         }
     }

@@ -13,11 +13,6 @@ Worm::BaseballBat::BaseballBat(const GUI::GameTextureManager &tex)
 
 void Worm::BaseballBat::update(float dt) {
     this->weaponAnimation.update(dt);
-    if (this->weaponAnimation.finished()) {
-        this->weaponAnimation =
-            GUI::Animation(this->textureMgr.get(GUI::GameTextures::WormBaseballBat), false,
-                           this->centerFrame, false);
-    }
     this->scope.update(dt);
 }
 
@@ -33,11 +28,7 @@ void Worm::BaseballBat::setAngle(float angle, Direction d) {
 
 void Worm::BaseballBat::startShot() {}
 
-void Worm::BaseballBat::endShot() {
-    this->weaponAnimation =
-        GUI::Animation{this->textureMgr.get(GUI::GameTextures::WormBaseballBatting)};
-    this->weaponAnimation.setAnimateOnce();
-}
+void Worm::BaseballBat::endShot() {}
 
 bool Worm::BaseballBat::positionSelected() {
     return false;
