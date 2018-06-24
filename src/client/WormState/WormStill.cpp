@@ -4,6 +4,7 @@
  */
 
 #include "WormStill.h"
+#include <iostream>
 #include "Texture.h"
 
 Worm::Still::Still() : State(StateID::Still) {}
@@ -13,28 +14,22 @@ Worm::Still::~Still() {}
 void Worm::Still::update(float dt) {}
 
 IO::PlayerInput Worm::Still::moveRight(Worm &w) {
-    w.setState(StateID::Walk);
-//    w.direction = Direction::right;
     return IO::PlayerInput::moveRight;
 }
 
 IO::PlayerInput Worm::Still::moveLeft(Worm &w) {
-    w.setState(StateID::Walk);
-//    w.direction = Direction::left;
     return IO::PlayerInput::moveLeft;
 }
 
 IO::PlayerInput Worm::Still::stopMove(Worm &w) {
-    return IO::PlayerInput::moveNone;
+    return IO::PlayerInput::stopMove;
 }
 
 IO::PlayerInput Worm::Still::jump(Worm &w) {
-    w.setState(StateID::StartJump);
     return IO::PlayerInput::startJump;
 }
 
 IO::PlayerInput Worm::Still::backFlip(Worm &w) {
-    w.setState(StateID::StartBackFlip);
     return IO::PlayerInput::startBackFlip;
 }
 

@@ -6,8 +6,8 @@
 #ifndef __JUMPING_H__
 #define __JUMPING_H__
 
-#include "GameStateMsg.h"
 #include "../Worm.h"
+#include "GameStateMsg.h"
 
 namespace Worm {
 class Jumping : public State {

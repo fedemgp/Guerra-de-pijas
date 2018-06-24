@@ -7,3 +7,5 @@ build/
 target/
 .gdb_history
 .vscode/
+*.pro.user*
+src/editor/build-Editor-Desktop-Debug

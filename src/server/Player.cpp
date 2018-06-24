@@ -6,38 +6,39 @@
 #include <Box2D/Box2D.h>
 #include <iostream>
 
+#include "Direction.h"
+#include "Girder.h"
+#include "Physics.h"
+#include "Player.h"
 #include "Weapons/AerialAttack.h"
 #include "Weapons/Banana.h"
 #include "Weapons/BaseballBat.h"
 #include "Weapons/Bazooka.h"
 #include "Weapons/Cluster.h"
+#include "Weapons/Dynamite.h"
+#include "Weapons/Grenade.h"
+#include "Weapons/Holy.h"
+#include "Weapons/Mortar.h"
+#include "Weapons/Teleport.h"
+#include "Weapons/Weapon.h"
+#include "WormStates/BackFlipping.h"
 #include "WormStates/Dead.h"
 #include "WormStates/Die.h"
-#include "Direction.h"
 #include "WormStates/Drowning.h"
-#include "Weapons/Dynamite.h"
+#include "WormStates/EndBackFlip.h"
+#include "WormStates/EndJump.h"
 #include "WormStates/Falling.h"
-#include "Girder.h"
-#include "Weapons/Grenade.h"
 #include "WormStates/Hit.h"
-#include "Weapons/Holy.h"
+#include "WormStates/Jumping.h"
 #include "WormStates/Land.h"
-#include "Weapons/Mortar.h"
-#include "Physics.h"
-#include "Player.h"
-#include "WormStates/PlayerBackFlipping.h"
-#include "WormStates/PlayerEndBackFlip.h"
-#include "WormStates/PlayerEndJump.h"
-#include "WormStates/PlayerJumping.h"
-#include "WormStates/PlayerSliding.h"
-#include "WormStates/PlayerStartBackFlip.h"
-#include "WormStates/PlayerStartJump.h"
-#include "WormStates/PlayerStill.h"
-#include "WormStates/PlayerWalk.h"
-#include "Weapons/Teleport.h"
+#include "WormStates/Sliding.h"
+#include "WormStates/StartBackFlip.h"
+#include "WormStates/StartJump.h"
+#include "WormStates/Still.h"
 #include "WormStates/Teleported.h"
 #include "WormStates/Teleporting.h"
-#include "Weapons/Weapon.h"
+#include "WormStates/Walk.h"
+#include "WormStates/Batting.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -135,6 +136,9 @@ void Worms::Player::update(float dt) {
             b2Vec2 normal = this->getGroundNormal();
             float slope = std::abs(std::atan2(normal.y, normal.x));
             if ((slope < PI / 4.0f) || (slope > (PI * 3.0f) / 4.0f)) {
+                if (this->getStateId() == Worm::StateID::Hit) {
+                    this->notify(*this, Event::EndHit);
+                }
                 this->setState(Worm::StateID::Sliding);
                 return;
             }
@@ -299,6 +303,9 @@ void Worms::Player::setState(Worm::StateID stateID) {
             case Worm::StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
                 break;
+            case Worm::StateID::Batting:
+                this->state = std::shared_ptr<State>(new Batting());
+                break;
             case Worm::StateID::Teleporting:
                 this->state = std::shared_ptr<State>(new Teleporting(this->teleportPosition));
                 break;
@@ -320,6 +327,7 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->body->SetType(b2_staticBody);
                 break;
             case Worm::StateID::Sliding:
+                this->notify(*this, Event::WormFalling);
                 this->state = std::shared_ptr<State>(new Sliding());
                 break;
         }
@@ -330,7 +338,7 @@ std::list<Worms::Bullet> Worms::Player::getBullets() {
     return std::move(this->bullets);
 }
 
-void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
+void Worms::Player::acknowledgeDamage(Config::Bullet::DamageInfo damageInfo,
                                       Math::Point<float> epicenter) {
     if (this->getStateId() != Worm::StateID::Dead) {
         double distanceToEpicenter = this->getPosition().distance(epicenter);
@@ -357,7 +365,7 @@ void Worms::Player::acknowledgeDamage(Game::Bullet::DamageInfo damageInfo,
     }
 }
 
-void Worms::Player::acknowledgeDamage(const Game::Weapon::P2PWeaponInfo &info,
+void Worms::Player::acknowledgeDamage(const Config::P2PWeapon &info,
                                       Math::Point<float> shooterPosition,
                                       Worm::Direction shooterDirection) {
     if (this->getStateId() != Worm::StateID::Dead) {
@@ -468,25 +476,29 @@ void Worms::Player::startShot() {
 }
 
 void Worms::Player::endShot() {
-    if (!this->isP2PWeapon) {
-        Math::Point<float> position = this->getPosition();
-        float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                                            (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
-        BulletInfo info = this->weapon->getBulletInfo();
-        info.point = position;
-        info.safeNonContactDistance = safeNonContactDistance;
-        if (this->direction == Worm::Direction::right) {
-            if (info.angle < 0.0f) {
-                info.angle += 360.0f;
+    if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
+        this->weapon->getWeaponID() != Worm::WeaponID::WAerial) {
+        if (!this->isP2PWeapon) {
+            Math::Point<float> position = this->getPosition();
+            float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+            BulletInfo info = this->weapon->getBulletInfo();
+            info.point = position;
+            info.safeNonContactDistance = safeNonContactDistance;
+            if (this->direction == Worm::Direction::right) {
+                if (info.angle < 0.0f) {
+                    info.angle += 360.0f;
+                }
+            } else {
+                info.angle = 180.0f - info.angle;
             }
+            this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
+            this->weapon->endShot();
+            this->notify(*this, Event::Shot);
         } else {
-            info.angle = 180.0f - info.angle;
+            this->setState(Worm::StateID::Batting);
+            this->notify(*this, Event::P2PWeaponUsed);
         }
-        this->bullets.emplace_back(info, this->physics, this->weapon->getWeaponID());
-        this->weapon->endShot();
-        this->notify(*this, Event::Shot);
-    } else {
-        this->notify(*this, Event::P2PWeaponUsed);
     }
 }
 

@@ -4,7 +4,23 @@
  */
 
 #include "Stage.h"
+#include "Exception.h"
 #include "Point.h"
+#include "yaml-cpp/yaml.h"
+#include <fstream>
+
+
+/**
+ * @brief Creates a Stage object populating it from the contents of the given file.
+ *
+ * @param filename Name of the file with the Stage data.
+ * @return Stage.
+ */
+Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
+    Stage stage;
+
+    return stage;
+}
 
 Worms::Stage::Stage() {
     uint16_t health = 100;

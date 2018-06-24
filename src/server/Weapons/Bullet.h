@@ -7,15 +7,17 @@
 #define __BULLET_H__
 
 #include <GameStateMsg.h>
+
 #include "../Config/Config.h"
-#include "Observer.h"
+#include "../Config/WindConfig.h"
+#include "../../../libs/Observer.h"
 #include "../Physics.h"
 #include "../PhysicsEntity.h"
 #include "Point.h"
 
 namespace Worms {
 struct BulletInfo {
-    Game::Bullet::DamageInfo dmgInfo;
+    Config::Bullet::DamageInfo dmgInfo;
     Math::Point<float> point;
     float angle;
     float power;
@@ -43,7 +45,7 @@ class Bullet : public PhysicsEntity {
      * @param dt
      * @param w
      */
-    void update(float dt, Worms::Wind wind);
+    void update(float dt, Config::Wind wind);
     Math::Point<float> getPosition() const;
     float getAngle() const;
     /**
@@ -60,7 +62,7 @@ class Bullet : public PhysicsEntity {
      * @return
      */
     bool hasExploded() const;
-    ::Game::Bullet::DamageInfo getDamageInfo() const;
+    Config::Bullet::DamageInfo getDamageInfo() const;
     bool operator<(Worms::Bullet &other);
     Worm::WeaponID getWeaponID() const;
 

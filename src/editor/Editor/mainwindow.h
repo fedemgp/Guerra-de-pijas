@@ -4,6 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMainWindow>
+#include <QString>
 #include "editorscene.h"
 
 namespace Ui {
@@ -18,9 +19,23 @@ class MainWindow : public QMainWindow {
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+   private slots:
+    void on_actionLejano_triggered();
+
+    void on_actionMedio_triggered();
+
+    void on_actionCercano_triggered();
+
+    void on_bgColorButton_clicked();
+
+    void on_actionOpen_triggered();
+
    private:
     Ui::MainWindow *ui;
     EditorScene *scene;
+    QString closeBgFile;
+    QString midBgFile;
+    QString fartherBgFile;
 };
 
 #endif  // MAINWINDOW_H

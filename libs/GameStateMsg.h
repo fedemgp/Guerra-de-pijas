@@ -7,7 +7,10 @@
 
 #define WORMS_QUANTITY 20
 #define BULLETS_QUANTITY 7
+#define TOTAL_TEAM_QUANTITY 5
+
 // TODO move this in client and Server global Config
+
 #define POWER_CHARGE_TIME 5.0f
 
 #define COMMAND_CREATE_GAME 0
@@ -17,9 +20,9 @@
 #include <stdint.h>
 #include <cstring>
 
+#include "Direction.h"
 #include "Exception.h"
 #include "Point.h"
-#include "Direction.h"
 
 namespace Worm {
 enum class StateID {
@@ -39,7 +42,8 @@ enum class StateID {
     Land,
     Sliding,
     Teleporting,
-    Teleported
+    Teleported,
+    Batting
 };
 enum WeaponID {
     WNone,
@@ -148,9 +152,11 @@ struct GameStateMsg {
     std::uint8_t currentWormToFollow;
     std::uint8_t currentTeam;
     std::uint8_t num_worms;
+    std::uint8_t num_teams;
     std::uint8_t wormsTeam[WORMS_QUANTITY];
     Worm::Direction wormsDirection[WORMS_QUANTITY];
     float wormsHealth[WORMS_QUANTITY];
+    std::uint32_t teamHealths[TOTAL_TEAM_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];
     Worm::WeaponID activePlayerWeapon;
@@ -164,6 +170,8 @@ struct GameStateMsg {
     double currentPlayerTurnTime;
     bool gameEnded;
     std::uint8_t winner;
+    bool playerUsedTool;
+    bool waitingForNextTurn;
 
     std::size_t getSerializedSize() {
         return sizeof(*this);

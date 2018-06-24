@@ -7,8 +7,8 @@
 
 #include <GameStateMsg.h>
 #include <vector>
+#include "../../../libs/Observer.h"
 #include "GameTurnState.h"
-#include "Observer.h"
 
 namespace Worms {
 class ImpactOnCourse : public GameTurnState {

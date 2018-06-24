@@ -5,7 +5,7 @@ TESTDIR     := tests
 BUILDDIR    := int
 TARGETDIR   := target
 SRCEXT      := cpp
-THIRD_PARTY := libs/Box2D
+THIRD_PARTY := libs/Box2D libs/yaml-cpp
 
 # compiler parameters
 CC          := g++

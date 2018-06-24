@@ -87,3 +87,9 @@ void GUI::WrapTexture::render(GUI::Position p, float angle, Camera& camera) {
         }
     }
 }
+
+void GUI::WrapTexture::renderFixed(GUI::ScreenPosition sp, Camera& camera) {
+    sp.x -= this->width * camera.getScale() / 2;
+    sp.y -= this->height * camera.getScale() / 2;
+    this->render(camera.screenToGlobal(sp), camera);
+}

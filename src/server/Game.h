@@ -11,7 +11,6 @@
 #include <thread>
 #include <unordered_map>
 
-#include "Weapons/Bullet.h"
 #include "CommunicationSocket.h"
 #include "Direction.h"
 #include "DoubleBuffer.h"
@@ -22,6 +21,7 @@
 #include "Observer.h"
 #include "Player.h"
 #include "Stage.h"
+#include "Weapons/Bullet.h"
 
 namespace Worms {
 using PlayerInput = IO::Stream<IO::PlayerMsg>;
@@ -68,6 +68,7 @@ class Game : Observer {
    private:
     void inputWorker(std::size_t playerIndex);
     void outputWorker(std::size_t playerIndex);
+    void calculateCurrentPlayer();
 
     uint8_t currentWorm;
     uint8_t currentTeam{0};
@@ -75,13 +76,14 @@ class Game : Observer {
     Stage stage;
     std::vector<Girder> girders;
     std::vector<Player> players;
+    std::vector<std::uint32_t> teamHealths;
     const double maxTurnTime;
     bool processingClientInputs{true};
     uint8_t currentWormToFollow{0};
     bool currentPlayerShot{false};
     GameTeams teams;
     std::list<Bullet> bullets;
-    Worms::Wind wind;
+    Config::Wind wind;
 
     std::vector<uint8_t> deadTeams;
     GameClock gameClock;
@@ -97,6 +99,7 @@ class Game : Observer {
     bool removeBullets{false};
     bool gameEnded{false};
     std::uint8_t winnerTeam{0};
+    bool waitingForNextTurn{false};
 
     void playerDisconnected();
 };

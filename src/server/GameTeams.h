@@ -15,18 +15,15 @@ class GameTeams {
     GameTeams() = default;
     ~GameTeams(){};
     void makeTeams(std::vector<Player> &players, uint8_t numTeams);
-
     void checkAlive(std::vector<Player> &players);
-
     bool endTurn(std::vector<Player> &players);
-
     char getCurrentPlayerID();
-
+    std::uint8_t getTeamQuantity() const;
     uint8_t getCurrentTeam();
-
     std::uint8_t getWinner();
+    std::vector<std::uint32_t> getTotalHealth(std::vector<Worms::Player> &players);
 
-private:
+   private:
     std::vector<Team> teams;
     std::uint8_t deadTeams{0};
     uint8_t currentTeam{0};

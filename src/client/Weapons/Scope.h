@@ -8,8 +8,8 @@
 
 #include <Animation.h>
 #include <Camera.h>
-#include "Direction.h"
 #include "../GameTextures.h"
+#include "Direction.h"
 
 namespace Weapon {
 class Scope {

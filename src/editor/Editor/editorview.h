@@ -6,17 +6,25 @@
 #include <QObject>
 #include <QWheelEvent>
 #include <QWidget>
+#include "editorscene.h"
+#include "stagedata.h"
+#include "stageelement.h"
 
 class EditorView : public QGraphicsView {
     Q_OBJECT
 
    public:
     EditorView(QWidget *parent);
+    virtual void setScene(EditorScene *scene);
+
+    void drawCloseBg(QString &fileName);
 
    public slots:
     void setWorm();
     void setShortGirder();
     void setLongGirder();
+
+    void serialize(StageData &sd) const;
 
     // QWidget interface
    protected:
@@ -26,16 +34,15 @@ class EditorView : public QGraphicsView {
     void wheelEvent(QWheelEvent *);
     bool event(QEvent *event);
     void hoverEvent(QHoverEvent *event);
+    void keyPressEvent(QKeyEvent *event);
 
     bool collides();
     void deleteAt(QPoint pos);
     void createAt(QPoint pos);
 
-    QGraphicsPixmapItem *getResource();
-
    private:
-    std::string resource;
-    QGraphicsPixmapItem *pix{nullptr};
+    StageElement *stageElem{nullptr};
+    EditorScene *escene{nullptr};
 };
 
 #endif  // EDITORVIEW_H

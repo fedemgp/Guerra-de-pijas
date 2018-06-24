@@ -5,6 +5,8 @@
 #ifndef INC_4_WORMS_BASEBALLBAT_H
 #define INC_4_WORMS_BASEBALLBAT_H
 
+#include "../Config/P2PWeapon.h"
+#include "../Physics.h"
 #include "Weapon.h"
 
 namespace Weapon {
@@ -19,10 +21,10 @@ class BaseballBat : public Worms::Weapon {
     std::list<Worms::Bullet> onExplode(const Worms::Bullet &mainBullet,
                                        Worms::Physics &physics) override;
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
-    Game::Weapon::P2PWeaponInfo &getWeaponInfo();
+    Config::P2PWeapon &getWeaponInfo();
 
    private:
-    Game::Weapon::P2PWeaponInfo weaponInfo;
+    Config::P2PWeapon weaponInfo;
 };
 }  // namespace Weapon
 

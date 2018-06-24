@@ -2,9 +2,9 @@
  * Created by Federico Manuel Gomez Peter
  * Date: 02/05/2018.
  */
+#include <cstdlib>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 #include "ClientSocket.h"
 #include "GUIGame.h"
@@ -33,7 +33,7 @@ int main(int argc, const char *argv[]) {
         char buffer[1];
         socket.receive(buffer, sizeof(buffer));
 
-        GUI::Game game{window, Worms::Stage{}, socket, (std::uint8_t) buffer[0]};
+        GUI::Game game{window, Worms::Stage{}, socket, (std::uint8_t)buffer[0]};
         game.start();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;

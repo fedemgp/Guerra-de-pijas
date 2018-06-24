@@ -2,77 +2,86 @@
 #include <QGraphicsPixmapItem>
 #include <QImage>
 #include <QtDebug>
+#include <cmath>
+#include "stageelementworm.h"
+#include "stageelemlonggirder.h"
+#include "stageelemshortgirder.h"
+
+const qreal cursorOpacity = 0.7;
 
 EditorView::EditorView(QWidget *parent) : QGraphicsView(parent) {
     this->setAttribute(Qt::WA_Hover, true);
+    this->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    this->setLongGirder();
+}
+
+void EditorView::drawCloseBg(QString &) {}
+
+void EditorView::setScene(EditorScene *scene) {
+    QGraphicsView::setScene(scene);
+    this->escene = scene;
 }
 
 void EditorView::setWorm() {
-    this->resource = ":/assets/stage/worm.png";
-    if (this->pix) {
-        delete this->pix;
+    if (this->stageElem) {
+        delete this->stageElem;
     }
 
-    this->pix = this->getResource();
+    this->stageElem = new StageElementWorm{cursorOpacity};
 }
 
 void EditorView::setShortGirder() {
-    this->resource = ":/assets/stage/short_girder.png";
-    if (this->pix) {
-        delete this->pix;
+    if (this->stageElem) {
+        delete this->stageElem;
     }
 
-    this->pix = this->getResource();
+    this->stageElem = new StageElemShortGirder{cursorOpacity};
 }
 
 void EditorView::setLongGirder() {
-    this->resource = ":/assets/stage/long_girder.png";
-    if (this->pix) {
-        delete this->pix;
+    if (this->stageElem) {
+        delete this->stageElem;
     }
 
-    this->pix = this->getResource();
+    this->stageElem = new StageElemLongGirder{cursorOpacity};
 }
 
 void EditorView::mousePressEvent(QMouseEvent *) {}
 
 void EditorView::deleteAt(QPoint pos) {
-    this->scene()->removeItem(this->pix);
+    this->scene()->removeItem(this->stageElem);
     QGraphicsItem *item = this->itemAt(pos);
     if (item) {
-        this->scene()->removeItem(item);
+        this->escene->removeItem(dynamic_cast<StageElement *>(item));
     }
-    this->scene()->addItem(this->pix);
+    this->escene->addItem(this->stageElem);
 }
 
-QGraphicsPixmapItem *EditorView::getResource() {
-    QImage *img = new QImage;
-    img->load(this->resource.c_str());
-
-    QPixmap pix = pix.fromImage(*img, Qt::AutoColor);
-
-    QGraphicsPixmapItem *pmap = new QGraphicsPixmapItem(0);
-    pmap->setPixmap(pix);
-    return pmap;
+void EditorView::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Plus) {
+        this->stageElem->increaseAngle();
+    } else if (event->key() == Qt::Key_Minus) {
+        this->stageElem->decreaseAngle();
+    }
 }
 
 void EditorView::createAt(QPoint pos) {
-    if (this->resource.length() == 0) {
+    if (!this->stageElem) {
         return;
     }
-
-    QGraphicsPixmapItem *pmap = this->getResource();
-
-    QPointF lpos = this->mapToScene(pos);
-    lpos.rx() -= pmap->pixmap().width() / 2;
-    lpos.ry() -= pmap->pixmap().height() / 2;
 
     if (this->collides()) {
         return;
     }
 
-    pmap->setPos(lpos);
-    this->scene()->addItem(pmap);
+    StageElement *newElem = this->stageElem->clone();
+
+    QPointF lpos = this->mapToScene(pos);
+    lpos.rx() -= newElem->pixmap().width() / 2;
+    lpos.ry() -= newElem->pixmap().height() / 2;
+
+    newElem->setPos(lpos);
+    this->escene->addItem(newElem);
 }
 
 void EditorView::mouseReleaseEvent(QMouseEvent *event) {
@@ -82,28 +91,36 @@ void EditorView::mouseReleaseEvent(QMouseEvent *event) {
         this->deleteAt(event->pos());
     } else {
         this->createAt(event->pos());
+        this->stageElem->setZValue(1);
     }
 }
 
 void EditorView::mouseMoveEvent(QMouseEvent *event) {
+    if (!this->stageElem) {
+        return;
+    }
+
+    /* set the position of the hint image under the mouse */
+    QPointF pos = this->mapToScene(event->pos());
+    pos.rx() -= this->stageElem->pixmap().width() / 2;
+    pos.ry() -= this->stageElem->pixmap().height() / 2;
+
+    this->stageElem->setPos(pos);
     event->accept();
 }
 
 bool EditorView::event(QEvent *event) {
     switch (event->type()) {
-        case QEvent::HoverMove:
-            this->hoverEvent(static_cast<QHoverEvent *>(event));
-            return true;
         case QEvent::HoverEnter:
-            if (this->pix) {
-                this->scene()->addItem(this->pix);
+            if (this->stageElem) {
+                this->escene->addItem(this->stageElem);
             }
-            break;
+            return true;
         case QEvent::HoverLeave:
-            if (this->pix) {
-                this->scene()->removeItem(this->pix);
+            if (this->stageElem) {
+                this->scene()->removeItem(this->stageElem);
             }
-            break;
+            return true;
         default:
             break;
     }
@@ -111,45 +128,42 @@ bool EditorView::event(QEvent *event) {
     return QGraphicsView::event(event);
 }
 
-void EditorView::hoverEvent(QHoverEvent *event) {
-    if (!this->pix) {
-        return;
-    }
-
-    QPointF pos = this->mapToScene(event->pos());
-    pos.rx() -= this->pix->pixmap().width() / 2;
-    pos.ry() -= this->pix->pixmap().height() / 2;
-
-    this->pix->setPos(pos);
-}
-
 void EditorView::wheelEvent(QWheelEvent *event) {
-    QGraphicsView::wheelEvent(event);
-    if (event->isAccepted()) {
-        return;
-    }
-
     static qreal factor = 1.1;
 
-    if (event->angleDelta().y() > 0) {
-        scale(factor, factor);
+    if (event->delta() > 0) {
+        this->scale(factor, factor);
     } else {
-        scale(1 / factor, 1 / factor);
+        this->scale(1.0 / factor, 1.0 / factor);
     }
 
+    /* set the position of the hint image under the mouse */
+    QPointF pos = this->mapToScene(event->pos());
+    pos.rx() -= this->stageElem->pixmap().width() / 2;
+    pos.ry() -= this->stageElem->pixmap().height() / 2;
+
+    this->stageElem->setPos(pos);
     event->accept();
 }
 
 bool EditorView::collides() {
-    for (QGraphicsItem *other : this->items(this->viewport()->rect())) {
-        if (other == this->pix) {
-            continue;
-        }
-
-        if (other->collidesWithItem(this->pix)) {
+    for (StageElement *other : this->escene->collidingItems(this->stageElem)) {
+        if (!this->stageElem->canOverlap(other)) {
             return true;
         }
     }
 
     return false;
+}
+
+void EditorView::serialize(StageData &sd) const {
+    if (this->stageElem) {
+        this->escene->removeItem(this->stageElem);
+    }
+
+    this->escene->serialize(sd);
+
+    if (this->stageElem) {
+        this->escene->addItem(this->stageElem);
+    }
 }

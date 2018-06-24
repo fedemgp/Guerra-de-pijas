@@ -6,12 +6,13 @@
 #include <SDL2/SDL.h>
 #include <unistd.h>
 #include <iostream>
+#include <sstream>
 
-#include "Weapons/Bullet.h"
 #include "GUIGame.h"
 #include "GameStateMsg.h"
 #include "Stream.h"
 #include "Text.h"
+#include "Weapons/Bullet.h"
 #include "Window.h"
 #include "WrapTexture.h"
 
@@ -25,8 +26,15 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
-      team(team) {
+      team(team),
+      wind(this->texture_mgr, this->cam) {
     /* loads the required textures */
+    this->texture_mgr.load(GUI::GameTextures::CurrentPlayerArrow, "assets/img/Misc/arrowdnb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WindLeft, "assets/img/Misc/windl.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::WindRight, "assets/img/Misc/windr.png",
+                           GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::WormIdle, "assets/img/Worms/wbrth1.png",
@@ -181,6 +189,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->teamColors.push_back(SDL_Color{0, 0xFF, 0});
     this->teamColors.push_back(SDL_Color{0, 0, 0xFF});
 
+    this->currentPlayerArrow = std::unique_ptr<GUI::Animation>(
+        new GUI::Animation(this->texture_mgr.get(GUI::GameTextures::CurrentPlayerArrow), false));
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
 }
@@ -255,12 +265,15 @@ void GUI::Game::start() {
                             }
                             break;
                         case SDL_MOUSEBUTTONDOWN: {
-                            int x, y;
-                            SDL_GetMouseState(&x, &y);
-                            GUI::Position global =
-                                this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
-                            cur.mouseButtonDown(global, &this->output);
-                            break;
+                            if (this->snapshot.processingInputs &&
+                                this->team == this->snapshot.currentTeam) {
+                                int x, y;
+                                SDL_GetMouseState(&x, &y);
+                                GUI::Position global =
+                                    this->cam.screenToGlobal(GUI::ScreenPosition{x, y});
+                                cur.mouseButtonDown(global, &this->output);
+                                break;
+                            }
                         }
                     }
                 }
@@ -277,14 +290,12 @@ void GUI::Game::start() {
                     cur.getWeaponID() != Worm::WeaponID::WNone) {
                     cur.setWeaponAngle(this->snapshot.activePlayerAngle);
                 }
-                if (this->snapshot.bulletsQuantity == 0 && this->doesAnyoneShot) {
+                if (this->snapshot.bulletsQuantity == 0 && this->snapshot.playerUsedTool) {
                     this->bullets.erase(this->bullets.begin(), this->bullets.end());
                     this->explodedQuantity = 0;
-                    this->doesAnyoneShot = false;
                     this->worms[this->snapshot.currentWorm].reset();
                 }
                 if (this->snapshot.bulletsQuantity > 0) {
-                    this->doesAnyoneShot = true;
                     for (int i = this->bullets.size(); i < this->snapshot.bulletsQuantity; i++) {
                         std::shared_ptr<Ammo::Bullet> p(
                             new Ammo::Bullet(this->texture_mgr, this->sound_effect_mgr,
@@ -324,7 +335,11 @@ void GUI::Game::update(float dt) {
         worm.direction = this->snapshot.wormsDirection[static_cast<int>(worm.id)];
         worm.update(dt);
     }
-
+    if (this->snapshot.waitingForNextTurn) {
+        this->currentPlayerArrow->update(dt);
+    } else {
+        this->currentPlayerArrow->setFrame(0);
+    }
     this->cam.update(dt);
 
     for (auto &bullet : this->bullets) {
@@ -369,7 +384,6 @@ void GUI::Game::render() {
     for (uint8_t i = 0; i < this->snapshot.num_worms; i++) {
         float cur_x = this->snapshot.positions[i * 2];
         float cur_y = this->snapshot.positions[i * 2 + 1];
-
         if (this->worms[i].getState() != Worm::StateID::Dead) {
             Text health{this->font};
             health.setBackground(SDL_Color{0, 0, 0});
@@ -377,6 +391,28 @@ void GUI::Game::render() {
                        this->teamColors[this->snapshot.wormsTeam[i]], 20);
             health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
         }
+    }
+    /* render the arrow to notify the current player when wainting for next turn*/
+    if (this->snapshot.waitingForNextTurn) {
+        float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
+        float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+        GUI::Position position = GUI::Position{cur_x, cur_y + 4.4f};
+        this->currentPlayerArrow->render(position, this->cam, SDL_FLIP_NONE);
+    }
+
+    /* health bars of the team */
+    uint8_t numTeams = this->snapshot.num_teams;
+    int textHeight = 25;
+    for (uint8_t i = 0; i < numTeams; i++) {
+        Text health{this->font};
+        std::ostringstream oss;
+        oss << "Team " << i + 1 << ": " << this->snapshot.teamHealths[i];
+
+        health.setBackground(SDL_Color{0, 0, 0});
+        health.set(oss.str(), this->teamColors[i], textHeight);
+        int x = this->window.getWidth() / 2;
+        int y = this->window.getHeight() - (textHeight * (numTeams - i));
+        health.renderFixed(ScreenPosition{x, y}, this->cam);
     }
 
     /* displays the remaining turn time */
@@ -390,7 +426,11 @@ void GUI::Game::render() {
     Text text{this->font};
     text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
+
+    /* renders armory */
     this->armory.render();
+
+    this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
 
     if (this->snapshot.gameEnded) {
         int x = this->window.getWidth() / 2;

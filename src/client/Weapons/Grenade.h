@@ -8,8 +8,8 @@
 
 #include <Camera.h>
 
-#include "Direction.h"
 #include "../GameTextures.h"
+#include "Direction.h"
 #include "PowerBar.h"
 #include "Scope.h"
 #include "Weapon.h"

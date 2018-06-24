@@ -13,11 +13,9 @@
 
 #include "Animation.h"
 #include "Armory.h"
-#include "Weapons/Bullet.h"
 #include "Camera.h"
 #include "ClientSocket.h"
 #include "DoubleBuffer.h"
-#include "Weapons/Explosion.h"
 #include "Font.h"
 #include "GameSoundEffects.h"
 #include "GameStateMsg.h"
@@ -25,6 +23,9 @@
 #include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
+#include "Weapons/Bullet.h"
+#include "Weapons/Explosion.h"
+#include "Wind.h"
 #include "Window.h"
 #include "Worm.h"
 
@@ -49,7 +50,7 @@ class Game {
     void outputWorker();
 
     std::atomic<bool> quit{false};
-    float scale{13.0f};  // pixels per meter
+    float scale{13.0f};            // pixels per meter
     float lastCameraUpdate{0.0f};  // pixels per meter
     Window &window;
     GameTextureManager texture_mgr;
@@ -69,8 +70,9 @@ class Game {
     GameOutput output;
     CommunicationSocket &socket;
     std::uint8_t team{0};
-    bool doesAnyoneShot{false};
     uint8_t explodedQuantity{0};
+    GUI::Wind wind;
+    std::unique_ptr<Animation> currentPlayerArrow{nullptr};
 };
 }  // namespace GUI
 

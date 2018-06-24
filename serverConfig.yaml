@@ -1,0 +1,307 @@
+{
+  jump: {
+    startTime: 0.6,
+    landTime: 0.3,
+    velocity: {
+      x: 4.0, 
+      y: 7.0 
+    }
+  },
+  backflip: {
+    velocity: {
+      x: -1.2,
+      y:  9.4
+    }
+  },
+  walk: {
+    velocity: 3.0
+  },
+  game: {
+    safeFallDistance: 6.0,
+    maxFallDamage: 25.0,
+    extraTurnTime: 3,
+    turnTime: 10,
+    waitForNextTurnTime: 3,
+    dyingTime: 2.6,
+    drowningTime: 1.0,
+    battingTime: 0.5,
+    teleportTime: 2.0,
+    waterLevel: -2,
+    powerChargeMaxTime: 1.0
+  },
+  windIntensity: {
+    min: 0.2,
+    max: 10.0
+  },
+  bazooka: {
+    bullet: {
+      damage: {
+        damage: 50,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.1,
+      friction: 0.0,
+      explotionInitialTimeout: 0,
+      radius: 0.5,
+      windAffected: true
+    },
+    angle: {
+      max: 84.375,
+      min: -90,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: false
+  },
+  grenade: {
+    bullet: {
+      damage: {
+        damage: 30,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.4,
+      friction: 0.4,
+      explotionInitialTimeout: 5,
+      radius: 0.5,
+      windAffected: true
+    },
+    angle: {
+      max: 90,
+      min: -84.375,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: false
+  },
+  cluster: {
+    bullet: {
+      damage: {
+        damage: 30,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.3,
+      friction: 0.4,
+      explotionInitialTimeout: 5,
+      radius: 0.5,
+      windAffected: false
+    },
+    angle: {
+      max: 90,
+      min: -84.375,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: true,
+
+    fragment: {
+      quantity: 6,
+      bullet: {
+        damage: {
+          damage: 10,
+          radius: 2.0,
+          dampingRatio: 0.1,
+          impulseDampingRatio: 0.4
+        },
+        restitution: 0.1,
+        friction: 0.1,
+        explotionInitialTimeout: 0,
+        radius: 0.1,
+        windAffected: false
+      },
+      angle: {
+        max: 140,
+        min: 40,
+        step: 20.0
+      },
+      maxShotPower: 50,
+      hasAfterExplode: false
+    }
+  },
+  mortar: {
+    bullet: {
+      damage: {
+        damage: 50,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.1,
+      friction: 0.0,
+      explotionInitialTimeout: 0,
+      radius: 0.5,
+      windAffected: true
+    },
+    angle: {
+      max: 84.375,
+      min: -90,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: true,
+
+    fragment: {
+      quantity: 6,
+      bullet: {
+        damage: {
+          damage: 10,
+          radius: 2.0,
+          dampingRatio: 0.1,
+          impulseDampingRatio: 0.4
+        },
+        restitution: 0.1,
+        friction: 0.1,
+        explotionInitialTimeout: 0,
+        radius: 0.1,
+        windAffected: true
+      },
+      angle: {
+        max: 140,
+        min: 40,
+        step: 20.0
+      },
+      maxShotPower: 50,
+      hasAfterExplode: false
+    }
+  },
+  banana: {
+    bullet: {
+      damage: {
+        damage: 70,
+        radius: 4.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 1.1,
+      friction: 0.2,
+      explotionInitialTimeout: 5,
+      radius: 0.5,
+      windAffected: false
+    },
+    angle: {
+      max: 95.625,
+      min: -78.75,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: false
+  },
+  holy: {
+    bullet: {
+      damage: {
+        damage: 110,
+        radius: 8.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.1,
+      friction: 0.4,
+      explotionInitialTimeout: 5,
+      radius: 0.5,
+      windAffected: false
+    },
+    angle: {
+      max: 90,
+      min: -84.375,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: false
+  },
+  aerialAttack: {
+    launchHeight: 60,
+    bullet: {
+      quantity: 6,
+      separation: 2.0,
+      damage: {
+        damage: 40,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0.1,
+      friction: 0,
+      explotionInitialTimeout: 0,
+      radius: 0.5,
+      windAffected: true
+    },
+    angle: {
+      max: 0,
+      min: 0,
+      step: 0
+    },
+    maxShotPower: 0,
+    hasAfterExplode: false
+  },
+  dynamite: {
+    bullet: {
+      damage: {
+        damage: 50,
+        radius: 4.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 0.4
+      },
+      restitution: 0,
+      friction: 0,
+      explotionInitialTimeout: 5,
+      radius: 0.5,
+      windAffected: false
+    },
+    angle: {
+      max: 0,
+      min: 0,
+      step: 0
+    },
+    maxShotPower: 1,
+    hasAfterExplode: false
+  },
+  teleport: {
+    bullet: {
+      damage: {
+        damage: 0,
+        radius: 0,
+        dampingRatio: 0,
+        impulseDampingRatio: 0
+      },
+      restitution: 0,
+      friction: 0,
+      explotionInitialTimeout: 0,
+      radius: 0,
+      windAffected: false
+    },
+    angle: {
+      max: 0,
+      min: 0,
+      step: 0
+    },
+    maxShotPower: 0,
+    hasAfterExplode: false
+  },
+  baseballBat: {
+    bullet: {
+      damage: {
+        damage: 10,
+        radius: 2.0,
+        dampingRatio: 1.0,
+        impulseDampingRatio: 1.0
+      },
+      restitution: 0,
+      friction: 0,
+      explotionInitialTimeout: 0,
+      radius: 0,
+      windAffected: false
+    },
+    angle: {
+      max: 84.375,
+      min: -90,
+      step: 5.625
+    },
+    maxShotPower: 50,
+    hasAfterExplode: false
+  }
+}

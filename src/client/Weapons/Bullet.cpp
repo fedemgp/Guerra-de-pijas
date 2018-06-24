@@ -6,8 +6,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "Bullet.h"
 #include "../GameSoundEffects.h"
+#include "Bullet.h"
 
 Ammo::Bullet::Bullet(const GUI::GameTextureManager &texture_mgr,
                      const GUI::GameSoundEffectManager &sound_effect_mgr, Worm::WeaponID id)

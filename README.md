@@ -31,7 +31,6 @@ A library to use sound from SDL.
 
     sudo apt-get install qt5-default qtdeclarative5-dev qtcreator
 
-
 ### clang-format (optional)
 
 `clang-format` is used to format all the source code files. It requires `clang-format` installed:
@@ -44,7 +43,7 @@ A library to use sound from SDL.
 Run `make help` to get more information about different build options.
 ### Alternative
 create a build folder, then in that folder open a console and type:
-	
+
 	cmake ..
 	make
 
@@ -74,3 +73,7 @@ It will generate the client and server executables and it will copy the assets f
 [SDL tutorial](http://lazyfoo.net/tutorials/SDL/)
 
 [Box2D: Moving at constant speed](http://www.iforce2d.net/b2dtut/constant-speed)
+
+[YAML Tutorial](https://github.com/jbeder/yaml-cpp/wiki/Tutorial)
+
+[YAML Emitting](https://github.com/jbeder/yaml-cpp/wiki/How-To-Emit-YAML)

@@ -4,24 +4,64 @@
  */
 
 #include "Config.h"
+#include <iostream>
+#include "ConfigDefines.h"
+#include "yaml-cpp/yaml.h"
+
 /**
  * Meyer's singleton implementation.
  * @return
  */
 Game::Config &Game::Config::getInstance() {
-    static Config instance;
+    static Config instance(YAML::LoadFile(CONFIG_PATH));
     return instance;
 }
 
-Game::Config::Config()
-    : jumpVelocity(JUMP_VEL_X, JUMP_VEL_Y), backflipVelocity(BACKFLIP_VEL_X, BACKFLIP_VEL_Y) {}
+Game::Config::Config(const YAML::Node &node)
+        : jumpVelocity(node[JUMP][VELOCITY][X].as<float>(), node[JUMP][VELOCITY][Y].as<float>()),
+          backflipVelocity(node[BACKFLIP][VELOCITY][X].as<float>(),
+                           node[BACKFLIP][VELOCITY][Y].as<float>()),
+          startJumpTime(node[JUMP][START_TIME].as<float>()),
+          landTime(node[JUMP][LAND_TIME].as<float>()),
+          walkVelocity(node[WALK][VELOCITY].as<float>()),
+          safeFallDistance(node[GAME][SAFE_FALL_DISTANCE].as<float>()),
+          maxFallDamage(node[GAME][MAX_FALL_DAMAGE].as<float>()),
+          turnTime((std::uint8_t)node[GAME][TURN_TIME].as<unsigned int>()),
+          extraTurnTime(node[GAME][EXTRA_TURN_TIME].as<float>()),
+          waitForNextTurnTime(node[GAME][WAIT_FOR_NEXT_TURN_TIME].as<float>()),
+          powerChargeTime(node[GAME][POWER_CHARGE_MAX_TIME].as<float>()),
+          dyingTime(node[GAME][DYING_TIME].as<float>()),
+          drowningTime(node[GAME][DROWNING_TIME].as<float>()),
+          battingTime(node[GAME][BATTING_TIME].as<float>()),
+          teleportTime(node[GAME][TELEPORT_TIME].as<float>()),
+          waterLevel(node[GAME][WATER_LEVEL].as<int>()),
+          minWindIntensity(node[WIND_INTENSITY][MIN].as<float>()),
+          maxWindIntensity(node[WIND_INTENSITY][MAX].as<float>()),
+          bazooka(node[BAZOOKA]),
+          greenGrenade(node[GRENADE]),
+          cluster(node[CLUSTER]),
+          clusterFragments(node[CLUSTER][FRAGMENT]),
+          clusterFragmentQuantity((std::uint8_t)node[CLUSTER][FRAGMENT][QUANTITY].as<unsigned int>()),
+          mortar(node[MORTAR]),
+          mortarFragments(node[MORTAR][FRAGMENT]),
+          mortarFragmentQuantity((std::uint8_t)node[MORTAR][FRAGMENT][QUANTITY].as<unsigned int>()),
+          banana(node[BANANA]),
+          holy(node[HOLY]),
+          aerialAttackMissileQuantity(
+                  (std::uint8_t)node[AERIAL_ATTACK][BULLET][QUANTITY].as<unsigned int>()),
+          aerialAttackMissileSeparation(node[AERIAL_ATTACK][BULLET][SEPARATION].as<float>()),
+          aerialAttack(node[AERIAL_ATTACK]),
+          aerialAttackLaunchHeight(node[AERIAL_ATTACK][LAUNCH_HEIGHT].as<float>()),
+          dynamite(node[DYNAMITE]),
+          teleport(node[TELEPORT]),
+          baseballBat(node[BASEBALL_BAT]) {}
 
 float Game::Config::getSafeFallDistance() const {
-    return 6.0f;
+    return this->safeFallDistance;
 }
 
 float Game::Config::getMaxFallDamage() const {
-    return 25.0f;
+    return this->maxFallDamage;
 }
 
 const Math::Vector Game::Config::getJumpVelocity() const {
@@ -56,7 +96,7 @@ const uint16_t Game::Config::getWormHealth() const {
     return this->wormHealth;
 }
 
-const Game::Weapon::Config &Game::Config::getBazookaConfig() const {
+const Config::Weapon &Game::Config::getBazookaConfig() const {
     return this->bazooka;
 }
 
@@ -80,23 +120,23 @@ const float Game::Config::getWalkVelocity() const {
     return this->walkVelocity;
 }
 
-const Game::Weapon::Config &Game::Config::getGreenGrenadeConfig() const {
+const Config::Weapon &Game::Config::getGreenGrenadeConfig() const {
     return this->greenGrenade;
 }
 
-const Game::Weapon::Config &Game::Config::getClusterConfig() const {
+const Config::Weapon &Game::Config::getClusterConfig() const {
     return this->cluster;
 }
 
-const Game::Weapon::Config &Game::Config::getMortarConfig() const {
+const Config::Weapon &Game::Config::getMortarConfig() const {
     return this->mortar;
 }
 
-const Game::Weapon::Config &Game::Config::getBananaConfig() const {
+const Config::Weapon &Game::Config::getBananaConfig() const {
     return this->banana;
 }
 
-const Game::Weapon::Config &Game::Config::getHolyConfig() const {
+const Config::Weapon &Game::Config::getHolyConfig() const {
     return this->holy;
 }
 
@@ -104,7 +144,7 @@ const float Game::Config::getPowerChargeTime() const {
     return this->powerChargeTime;
 }
 
-const Game::Weapon::Config &Game::Config::getClusterFragmentConfig() const {
+const Config::Weapon &Game::Config::getClusterFragmentConfig() const {
     return this->clusterFragments;
 }
 
@@ -112,7 +152,7 @@ const uint8_t Game::Config::getClusterFragmentQuantity() const {
     return this->clusterFragmentQuantity;
 }
 
-const Game::Weapon::Config &Game::Config::getMortarFragmentConfig() const {
+const Config::Weapon &Game::Config::getMortarFragmentConfig() const {
     return this->mortarFragments;
 }
 
@@ -124,7 +164,7 @@ const float Game::Config::getWaitForNextTurnTime() const {
     return this->waitForNextTurnTime;
 }
 
-const Game::Weapon::Config &Game::Config::getAerialAttackConfig() const {
+const Config::Weapon &Game::Config::getAerialAttackConfig() const {
     return this->aerialAttack;
 }
 
@@ -140,7 +180,11 @@ const float Game::Config::getAerialAttackLaunchHeight() const {
     return this->aerialAttackLaunchHeight;
 }
 
-const Game::Weapon::Config &Game::Config::getTeleportConfig() const {
+const float Game::Config::getBattingTime() const {
+    return this->battingTime;
+}
+
+const Config::Weapon &Game::Config::getTeleportConfig() const {
     return this->teleport;
 }
 
@@ -148,11 +192,11 @@ const float Game::Config::getTeleportTime() const {
     return this->teleportTime;
 }
 
-const Game::Weapon::Config &Game::Config::getDynamiteConfig() const {
+const Config::Weapon &Game::Config::getDynamiteConfig() const {
     return this->dynamite;
 }
 
-const Game::Weapon::Config &Game::Config::getBaseballBatConfig() const {
+const Config::Weapon &Game::Config::getBaseballBatConfig() const {
     return this->baseballBat;
 }
 

@@ -7,30 +7,30 @@
 #include <cmath>
 #include <iostream>
 
+#include "GameStateMsg.h"
+#include "Text.h"
 #include "Weapons/AerialAttack.h"
 #include "Weapons/Banana.h"
 #include "Weapons/BaseballBat.h"
 #include "Weapons/Bazooka.h"
 #include "Weapons/Cluster.h"
-#include "WormState/Dead.h"
-#include "WormState/Die.h"
-#include "WormState/Drowning.h"
 #include "Weapons/Dynamite.h"
-#include "WormState/Falling.h"
-#include "GameStateMsg.h"
 #include "Weapons/Grenade.h"
-#include "WormState/Hit.h"
 #include "Weapons/Holy.h"
-#include "WormState/Land.h"
 #include "Weapons/Mortar.h"
-#include "WormState/Sliding.h"
 #include "Weapons/Teleport.h"
-#include "WormState/Teleported.h"
-#include "WormState/Teleporting.h"
-#include "Text.h"
 #include "Weapons/WeaponNone.h"
 #include "Worm.h"
 #include "WormState/BackFlip.h"
+#include "WormState/Dead.h"
+#include "WormState/Die.h"
+#include "WormState/Drowning.h"
+#include "WormState/Falling.h"
+#include "WormState/Hit.h"
+#include "WormState/Land.h"
+#include "WormState/Sliding.h"
+#include "WormState/Teleported.h"
+#include "WormState/Teleporting.h"
 #include "WormState/WormBackFlipping.h"
 #include "WormState/WormEndBackFlip.h"
 #include "WormState/WormEndJump.h"
@@ -38,6 +38,7 @@
 #include "WormState/WormStartJump.h"
 #include "WormState/WormStill.h"
 #include "WormState/WormWalk.h"
+#include "WormState/Batting.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -200,6 +201,11 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             animation.setAnimateOnce();
             return animation;
         }
+        case StateID::Batting: {
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormBaseballBatting), false, 25, false};
+//            animation.setAnimateOnce();
+            return animation;
+        }
         case StateID::Teleporting: {
             GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormTeleporting),
                                      true};
@@ -267,6 +273,8 @@ void Worm::Worm::playSoundEffect(StateID state) {
         case StateID::BackFlipping:
             break;
         case StateID::Falling:
+            break;
+        case StateID::Batting:
             break;
         case StateID::Teleporting:
             break;
@@ -336,6 +344,9 @@ void Worm::Worm::setState(StateID state) {
                 break;
             case StateID::Land:
                 this->state = std::shared_ptr<State>(new Land());
+                break;
+            case StateID::Batting:
+                this->state = std::shared_ptr<State>(new Batting());
                 break;
             case StateID::Teleporting:
                 this->state = std::shared_ptr<State>(new Teleporting());
@@ -432,10 +443,13 @@ void Worm::Worm::startShot() {
 }
 
 void Worm::Worm::endShot() {
-    if (!this->hasFired) {
-        this->weapon->endShot();
-        this->playWeaponSoundEffect(this->getWeaponID());
-        this->hasFired = true;
+    if (this->weapon->getWeaponID() != WeaponID::WAerial &&
+        this->weapon->getWeaponID() != WeaponID::WTeleport) {
+        if (!this->hasFired) {
+            this->weapon->endShot();
+            this->playWeaponSoundEffect(this->getWeaponID());
+            this->hasFired = true;
+        }
     }
 }
 

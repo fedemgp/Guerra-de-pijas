@@ -5,11 +5,11 @@
 
 #include <signal.h>
 #include <unistd.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <thread>
 #include <vector>
-#include <cstdlib>
 
 #include "CommunicationSocket.h"
 #include "Game.h"

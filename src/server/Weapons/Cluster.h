@@ -24,7 +24,7 @@ class Cluster : public Worms::Weapon {
     void positionSelected(Worms::Player &p, Math::Point<float> point) override;
 
    private:
-    const Game::Weapon::Config &fragmentConfig;
+    const Config::Weapon &fragmentConfig;
     float powerChargeTime{0.0f};
 };
 }  // namespace Weapon

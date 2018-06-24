@@ -12,6 +12,7 @@ class WrapTexture {
 
     void render(Position p, Camera &camera);
     void render(Position p, float angle, Camera &camera);
+    void renderFixed(ScreenPosition p, Camera &camera);
 
    private:
     const Texture &texture;
