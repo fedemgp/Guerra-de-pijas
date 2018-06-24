@@ -14,6 +14,8 @@
 namespace GUI {
     class GameWindow : public Subject {
     public:
+        int buttonSelected{0};
+
         explicit GameWindow(Window &window, Font &font, Camera &cam);
 
         virtual void start() = 0;

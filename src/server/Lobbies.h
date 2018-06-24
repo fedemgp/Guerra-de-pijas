@@ -18,7 +18,7 @@ namespace Worms {
     public:
         Lobbies() = default;
 
-        void createGame(int playerID, std::vector<Observer *> lobbyObservers);
+        void createGame(int playerID, std::vector<Observer *> lobbyObservers, unsigned int levelSelected);
         void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID, Observer *lobbyObserver);
         std::list<Lobby> &getLobbies();

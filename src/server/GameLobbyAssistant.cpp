@@ -21,11 +21,14 @@ Worms::GameLobbyAssistant::GameLobbyAssistant(CommunicationSocket &&communicatio
 
 void Worms::GameLobbyAssistant::run() {
     try {
-        std::uint8_t command{COMMAND_GET_GAMES};
-        while (command == COMMAND_GET_GAMES) {
+        std::uint8_t command{COMMAND_GET_LEVELS};
+        while (command != COMMAND_QUIT) {
             this->protocol >> command;
             std::cout << "command: " << (int) command << std::endl;
             switch (command) {
+                case COMMAND_GET_LEVELS:
+                    this->getLevels();
+                    break;
                 case COMMAND_CREATE_GAME:
                     this->createGame();
                     break;
@@ -52,8 +55,22 @@ void Worms::GameLobbyAssistant::stop() {
     this->finished = true;
 }
 
+void Worms::GameLobbyAssistant::getLevels() {
+    std::vector<IO::LevelInfo> levelsInfo;
+    IO::LevelInfo levelInfo{"First Stage", 2};
+    levelsInfo.emplace_back(levelInfo);
+    levelInfo = {"Second Stage", 3};
+    levelsInfo.emplace_back(levelInfo);
+    levelInfo = {"Third Stage", 4};
+    levelsInfo.emplace_back(levelInfo);
+    
+    this->protocol << levelsInfo;
+}
+
 void Worms::GameLobbyAssistant::createGame() {
-    this->lobbies.createGame(this->playerID, this->lobbyObservers);
+    unsigned int levelSelected{0};
+    this->protocol >> levelSelected;
+    this->lobbies.createGame(this->playerID, this->lobbyObservers, levelSelected);
 }
 
 void Worms::GameLobbyAssistant::getGames() {

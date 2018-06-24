@@ -14,6 +14,8 @@
 namespace IO {
     class CommunicationProtocol : public Thread {
     public:
+        std::vector<LevelInfo> levelsInfo;
+
         explicit CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
                                                IO::Stream<IO::ServerResponse> *output);
 
@@ -32,12 +34,14 @@ namespace IO {
 
 //        void clearScreen();
 //        void printCommands();
-        void createGame();
+        void startCreateGame();
         void getGames();
         void joinGame();
-        void waitGameStart();
+        void waitGameStart(int levelSelected);
 
         void handleClientInput(ClientGUIMsg &msg);
+
+        void createGame(int levelSelected);
     };
 }
 

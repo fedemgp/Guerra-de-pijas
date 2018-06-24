@@ -13,6 +13,7 @@
 #include "Text.h"
 #include "Window.h"
 #include "SelectActionWindow.h"
+#include "CreateGameWindow.h"
 
 GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
         window(window),
@@ -79,7 +80,11 @@ void GUI::LobbyAssistant::run() {
 void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
     switch (event) {
         case Event::CreateGame: {
-            this->output << IO::ClientGUIMsg{IO::ClientGUIInput::createGame};
+            this->output << IO::ClientGUIMsg{IO::ClientGUIInput::startCreateGame};
+            break;
+        }
+        case Event::LevelSelected: {
+            this->output << IO::LevelSelected{IO::ClientGUIInput::levelSelected, this->gameWindow->buttonSelected};
             break;
         }
         case Event::JoinGame: {
@@ -104,6 +109,14 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
         case IO::ServerResponseAction::startGame: {
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::quit};
             this->quit = true;
+            break;
+        }
+        case IO::ServerResponseAction::levelsInfo: {
+            this->gameWindow = std::shared_ptr<GameWindow>(new CreateGameWindow{this->window,
+                                                                                this->font,
+                                                                                this->cam ,
+                                                                                this->communicationProtocol.levelsInfo});
+            this->gameWindow->addObserver(this);
             break;
         }
         default: {

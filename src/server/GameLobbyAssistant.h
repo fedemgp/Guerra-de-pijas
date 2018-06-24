@@ -33,9 +33,11 @@ namespace Worms {
         std::vector<Observer *> lobbyObservers;
         bool finished{false};
 
-        void createGame();
+        void getLevels();
         void getGames();
         void joinGame();
+
+        void createGame();
     };
 }
 

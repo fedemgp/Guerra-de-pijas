@@ -35,10 +35,21 @@ void IO::CommunicationProtocol::run() {
 //}
 
 //TODO notify to the main thread that player select this so it can render properly
-void IO::CommunicationProtocol::createGame(){
+void IO::CommunicationProtocol::startCreateGame(){
+    this->command = COMMAND_GET_LEVELS;
+    this->protocol << this->command;
+//    std::vector<IO::LevelInfo> levelsInfo;
+//    this->protocol >> levelsInfo;
+    this->protocol >> this->levelsInfo;
+//    *this->output << IO::LevelsInfo{IO::ServerResponseAction::levelsInfo, levelsInfo};
+    *this->output << IO::ServerResponse{IO::ServerResponseAction::levelsInfo};
+}
+
+void IO::CommunicationProtocol::createGame(int levelSelected) {
     this->command = COMMAND_CREATE_GAME;
     this->protocol << this->command;
-    this->waitGameStart();
+    this->protocol << static_cast<unsigned  int>(levelSelected);
+    this->waitGameStart(levelSelected);
 }
 
 void IO::CommunicationProtocol::getGames(){
@@ -71,15 +82,15 @@ void IO::CommunicationProtocol::joinGame(){
     this->protocol << this->command;
     std::cout<<"mando sala "<< (int) gameToJoin<<std::endl;
     this->protocol << gameToJoin;
-    this->waitGameStart();
+    this->waitGameStart(0);
 }
 
 ClientSocket IO::CommunicationProtocol::getSocket() {
     return std::move(this->protocol.getSocket());
 }
 
-void IO::CommunicationProtocol::waitGameStart() {
-    while (this->playersQuantity < 2) {
+void IO::CommunicationProtocol::waitGameStart(int levelSelected) {
+    while (this->playersQuantity < 2/*this->levelsInfo[levelSelected].playersQuantity*/) {
         this->protocol >> this->playersQuantity;
         std::cout<< "players quantity " << (int) this->playersQuantity<<std::endl;
     } std::cout<<"Empieza\n";
@@ -94,9 +105,15 @@ void IO::CommunicationProtocol::stop() {
 
 void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
     switch (msg.input) {
-        case IO::ClientGUIInput::createGame: {
+        case IO::ClientGUIInput::startCreateGame: {
             std::cout << " asdasd";
-            this->createGame();
+            this->startCreateGame();
+            break;
+        }
+        case IO::ClientGUIInput::levelSelected: {
+            auto &levelSelected = (IO::LevelSelected &)(msg);
+            std::cout << " asdasd";
+            this->createGame(levelSelected.levelSelected);
             break;
         }
         case IO::ClientGUIInput::joinGame: {

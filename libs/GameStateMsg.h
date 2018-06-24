@@ -13,12 +13,15 @@
 
 #define POWER_CHARGE_TIME 5.0f
 
-#define COMMAND_CREATE_GAME 0
+#define COMMAND_GET_LEVELS 0
 #define COMMAND_JOIN_GAME 1
 #define COMMAND_GET_GAMES 2
+#define COMMAND_CREATE_GAME 3
+#define COMMAND_QUIT 5
 
 #include <stdint.h>
 #include <cstring>
+#include <vector>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -64,16 +67,21 @@ enum WeaponID {
 
 namespace IO {
     enum class ClientGUIInput {
-        createGame,
+        startCreateGame,
         getGames,
         joinGame,
-        quit
+        quit,
+        levelSelected
     };
     enum class ServerResponseAction {
-        startGame
+        startGame,
+        levelsInfo
     };
 
     struct ClientGUIMsg {
+        ClientGUIMsg() = default;
+        explicit ClientGUIMsg(ClientGUIInput input) :
+                input(input) {};
         ClientGUIInput input;
     };
     struct ServerResponse {
@@ -88,6 +96,25 @@ namespace IO {
     
     struct ServerInternalMsg {
         ServerInternalAction action;
+    };
+
+    struct LevelInfo {
+        std::string name;
+        uint8_t playersQuantity;
+    };
+
+    struct LevelsInfo : public ServerResponse {
+        LevelsInfo(ServerResponseAction action, std::vector<LevelInfo> &levelsInfo) :
+                action(action),
+                levelsInfo(std::move(levelsInfo)) {}
+        ServerResponseAction action;
+        std::vector<LevelInfo> levelsInfo;
+    };
+    struct LevelSelected : public ClientGUIMsg {
+        LevelSelected(ClientGUIInput input, int levelSelected) :
+                ClientGUIMsg(input),
+                levelSelected(levelSelected) {};
+        int levelSelected;
     };
 enum class PlayerInput {
     moveNone,

@@ -6,7 +6,7 @@
 #include "GamesGetter.h"
 #include "Lobbies.h"
 
-void Worms::Lobbies::createGame(int playerID, std::vector<Observer *> lobbyObservers) {
+void Worms::Lobbies::createGame(int playerID, std::vector<Observer *> lobbyObservers, unsigned int levelSelected) {
     std::lock_guard<std::mutex> lock(this->mutex);
     this->lobbies.emplace_back(playerID, this->idLobby, lobbyObservers);
     this->idLobby++;

@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#include "GameStateMsg.h"
+
 #define COMMAND_LENGTH 1
 #define INT_LENGTH 4
 template <typename SOCKET>
@@ -57,6 +59,11 @@ public:
         this->socket.send(string.c_str(), string.length());
     };
 
+    void operator<<(IO::LevelInfo &levelInfo){
+        *this << levelInfo.name;
+        *this << levelInfo.playersQuantity;
+    };
+
     /* Envía un vector de cadenas de caracteres, enviando cada una
      * por separado, utilizando el método ya definido para cicho fin.
      */
@@ -71,6 +78,13 @@ public:
         *this << uintVector.size();
         for (auto &uint : uintVector) {
             *this << uint;
+        }
+    };
+
+    void operator<<(std::vector<IO::LevelInfo> &levelsInfo){
+        *this << levelsInfo.size();
+        for (auto &levelInfo : levelsInfo) {
+            *this << levelInfo;
         }
     };
 
@@ -106,6 +120,12 @@ public:
         return *this;
     };
 
+    Protocol & operator>>(IO::LevelInfo &levelInfo) {
+        *this >> levelInfo.name;
+        *this >> levelInfo.playersQuantity;
+        return *this;
+    };
+
     /* Recibe un vector de cadenas de caracteres cuya longitud se conoce
      * de antemano. Se reciben todas las cadenas por separado recibiendo
      * de la forma ya indicada.
@@ -129,6 +149,18 @@ public:
             uint8_t uint;
             *this >> uint;
             uintVector.emplace_back(uint);
+        }
+
+        return *this;
+    };
+
+    Protocol & operator>>(std::vector<IO::LevelInfo> &levelsInfo) {
+        unsigned int elements{0};
+        *this >> elements;
+        for (unsigned int i = 0; i < elements; i++) {
+            IO::LevelInfo levelInfo;
+            *this >> levelInfo;
+            levelsInfo.emplace_back(levelInfo);
         }
 
         return *this;

@@ -10,7 +10,17 @@ GUI::Button::Button(ScreenPosition sp, int height, int width, std::string &msg, 
         height(height),
         width(width),
         text(font) {
-    text.set(std::move(msg), SDL_Color{0xFF, 0xFF, 0xFF}, 40);
+    this->text.set(std::move(msg), SDL_Color{0xFF, 0xFF, 0xFF}, 40);
+}
+
+GUI::Button::Button(std::string &msg, GUI::Font &font, SDL_Color textColor, int textSize) :
+        text(font) {
+    this->text.set(std::move(msg), textColor, textSize);
+}
+
+GUI::Button::Button(std::string &msg, GUI::Font &font) :
+        msg(std::move(msg)),
+        text(font) {
 }
 
 void GUI::Button::render(GUI::Camera &cam, Window &window) {
