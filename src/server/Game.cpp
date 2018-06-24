@@ -51,7 +51,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
         id++;
     }
 
-    this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+    this->teams.makeTeams(this->players, (uint8_t)sockets.size(), this->stage.getAmmoCounter());
     //    this->wind.range = CONFIG.getWindIntensityRange();
     this->wind.minIntensity = CONFIG.getMinWindIntensity();
     this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
@@ -70,6 +70,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     this->currentWormToFollow = this->currentWorm;
 
     this->gameClock.addObserver(this);
+    this->gameClock.waitForNextTurn();
 }
 
 Worms::Game::~Game() {
@@ -147,7 +148,6 @@ void Worms::Game::start() {
     try {
         /* game loop */
         Utils::Chronometer chronometer;
-
         while (!quit) {
             double dt = chronometer.elapsed();
 
@@ -269,6 +269,10 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletsAngle[j] = bullet.getAngle();
         m.bulletType[j++] = bullet.getWeaponID();
     }
+    /*
+     * serialize the ammunition counter
+     */
+    this->teams.serialize(m);
     m.processingInputs = this->processingClientInputs;
     m.playerUsedTool = this->currentPlayerShot;
     m.waitingForNextTurn = this->waitingForNextTurn;
@@ -314,7 +318,6 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->gameTurn.explosion();
             this->calculateDamage(bullet);
-            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
             break;
         }
         case Event::P2PWeaponUsed: {
@@ -325,7 +328,6 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->currentPlayerShot = true;
             this->gameTurn.explosion();
             this->calculateDamage(weapon, player.getPosition(), player.direction);
-            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
             break;
         }
         /**

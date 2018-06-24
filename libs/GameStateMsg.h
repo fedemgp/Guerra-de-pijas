@@ -8,6 +8,7 @@
 #define WORMS_QUANTITY 20
 #define BULLETS_QUANTITY 7
 #define TOTAL_TEAM_QUANTITY 5
+#define WEAPONS_QUANTITY 10
 
 // TODO move this in client and Server global Config
 
@@ -135,6 +136,7 @@ struct GameStateMsg {
     float bullets[2 * BULLETS_QUANTITY];
     float bulletsAngle[BULLETS_QUANTITY];
     Worm::WeaponID bulletType[BULLETS_QUANTITY];
+    std::int16_t weaponAmmunition[WEAPONS_QUANTITY];
 
     bool processingInputs;
     double currentPlayerTurnTime;

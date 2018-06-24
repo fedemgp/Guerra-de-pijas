@@ -5,7 +5,7 @@
 #include "GameTeams.h"
 #include <random>
 
-void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t numTeams) {
+void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t numTeams, const std::map<Worm::WeaponID, std::int16_t> &ammoCounter) {
     uint8_t numPlayers = players.size();
 
     //    for (uint8_t i = 0; i < numTeams; i++) {
@@ -39,7 +39,7 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
             players[playersNum[i]].increaseHealth(25.0f);
         }
         if (playerIDs.size() == numPlayersPerTeam[currentTeam]) {
-            this->teams.emplace_back(playerIDs, players);
+            this->teams.emplace_back(playerIDs, players, ammoCounter);
             playerIDs.clear();
             currentTeam++;
         }
@@ -110,4 +110,8 @@ Worms::Team &Worms::GameTeams::getCurrentTeam(){
 
 void Worms::GameTeams::weaponUsed(const Worm::WeaponID weaponID){
     this->teams[this->currentTeam].weaponUsed(weaponID);
+}
+
+void Worms::GameTeams::serialize(IO::GameStateMsg &msg) const{
+    this->teams[this->currentTeam].serialize(msg);
 }

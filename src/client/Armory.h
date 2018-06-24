@@ -13,6 +13,7 @@
 #include <Animation.h>
 #include <Font.h>
 #include <Text.h>
+#include <GameStateMsg.h>
 #include "GameTextures.h"
 
 namespace GUI {
@@ -22,13 +23,15 @@ class Armory {
     ~Armory() = default;
     void loadWeapons();
     void render();
+    void update(IO::GameStateMsg &msg);
 
-   private:
+private:
     const GameTextureManager &manager;
     Camera &camera;
     std::vector<const Texture *> weaponIcons;
     const Font &font;
     Text weaponButton;
+    std::vector<std::int16_t> ammunition;
 };
 }  // namespace GUI
 

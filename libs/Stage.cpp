@@ -8,6 +8,7 @@
 #include "Exception.h"
 #include "Point.h"
 #include "yaml-cpp/yaml.h"
+#include "GameStateMsg.h"
 
 /**
  * @brief Parses a Point from a YAML node.
@@ -115,10 +116,34 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
         stage.girders.push_back(_parseGirder(girderNode));
     }
 
+    /* loads the weapon ammo */
+    if (!data["weapons"] || !data["weapons"].IsSequence()){
+        throw Exception{"Invalid stage: expected a sequence of 'weapons'"};
+    }
+
+    for (std::size_t i = 0; i < data["weapons"].size(); i++){
+        YAML::Node weaponNode = data["weapons"][i];
+        stage.ammunitionCounter.emplace(stage.weaponStrToID.at(weaponNode["name"].as<std::string>()),
+                                        weaponNode["infinity"] ? -1
+                                                              : weaponNode["quantity"].as<std::int16_t>());
+    }
+    // -1 indicates infinite uses
+    stage.ammunitionCounter.emplace(Worm::WNone, -1);
+
     return stage;
 }
 
 Worms::Stage::Stage() {
+    this->weaponStrToID.emplace("aerialAttack", Worm::WAerial);
+    this->weaponStrToID.emplace("banana", Worm::WBanana);
+    this->weaponStrToID.emplace("baseballBat", Worm::WBaseballBat);
+    this->weaponStrToID.emplace("bazooka", Worm::WBazooka);
+    this->weaponStrToID.emplace("cluster", Worm::WCluster);
+    this->weaponStrToID.emplace("dynamite", Worm::WDynamite);
+    this->weaponStrToID.emplace("grenade", Worm::WGrenade);
+    this->weaponStrToID.emplace("holy", Worm::WHoly);
+    this->weaponStrToID.emplace("mortar", Worm::WMortar);
+    this->weaponStrToID.emplace("teleport", Worm::WTeleport);
     return;
     uint16_t health = 100;
     this->players.push_back(Worms::WormData{health, Math::Point<float>{50.0f, 20.0f}});
@@ -157,4 +182,8 @@ float Worms::Stage::getHeight() const {
 
 float Worms::Stage::getWidth() const {
     return this->width;
+}
+
+const std::map<Worm::WeaponID, int16_t> &Worms::Stage::getAmmoCounter() const{
+    return this->ammunitionCounter;
 }

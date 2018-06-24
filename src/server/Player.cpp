@@ -453,12 +453,14 @@ void Worms::Player::endShot() {
             this->setState(Worm::StateID::Batting);
             this->notify(*this, Event::P2PWeaponUsed);
         }
+        this->team->weaponUsed(this->getWeaponID());
     }
 }
 
 void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
     this->bullets = std::move(bullets);
     this->notify(*this, Event::Shot);
+    this->team->weaponUsed(this->getWeaponID());
 }
 
 void Worms::Player::setTeamID(uint8_t team) {

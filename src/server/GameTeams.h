@@ -14,7 +14,7 @@ class GameTeams {
    public:
     GameTeams() = default;
     ~GameTeams(){};
-    void makeTeams(std::vector<Player> &players, uint8_t numTeams);
+    void makeTeams(std::vector<Player> &players, uint8_t numTeams, const std::map<Worm::WeaponID, std::int16_t> &ammoCounter);
     void checkAlive(std::vector<Player> &players);
     bool endTurn(std::vector<Player> &players);
     char getCurrentPlayerID();
@@ -23,8 +23,8 @@ class GameTeams {
     Team &getCurrentTeam();
     std::uint8_t getWinner();
     std::vector<std::uint32_t> getTotalHealth(std::vector<Worms::Player> &players);
-
     void weaponUsed(const Worm::WeaponID weaponID);
+    void serialize(IO::GameStateMsg &msg) const;
 
 private:
     std::vector<Team> teams;

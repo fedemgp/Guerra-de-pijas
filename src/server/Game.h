@@ -78,7 +78,7 @@ class Game : Observer {
     std::vector<Player> players;
     std::vector<std::uint32_t> teamHealths;
     const double maxTurnTime;
-    bool processingClientInputs{true};
+    bool processingClientInputs{false};
     uint8_t currentWormToFollow{0};
     bool currentPlayerShot{false};
     GameTeams teams;
@@ -98,7 +98,7 @@ class Game : Observer {
     bool removeBullets{false};
     bool gameEnded{false};
     std::uint8_t winnerTeam{0};
-    bool waitingForNextTurn{false};
+    bool waitingForNextTurn{true};
 };
 }  // namespace Worms
 

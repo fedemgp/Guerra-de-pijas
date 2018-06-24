@@ -7,9 +7,12 @@
 #define __STAGE_H__
 
 #include <cstdint>
+#include <map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
+#include "GameStateMsg.h"
 #include "Point.h"
 
 namespace Worms {
@@ -39,10 +42,13 @@ class Stage {
 
     float getHeight() const;
     float getWidth() const;
+    const std::map<Worm::WeaponID, std::int16_t>& getAmmoCounter() const;
 
-   private:
+private:
     std::vector<WormData> players;
     std::vector<GirderData> girders;
+    std::unordered_map<std::string, Worm::WeaponID> weaponStrToID;
+    std::map<Worm::WeaponID, std::int16_t> ammunitionCounter;
     float width{100.0f};
     float height{30.0f};
 };

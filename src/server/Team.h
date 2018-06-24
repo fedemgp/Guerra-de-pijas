@@ -16,7 +16,7 @@ namespace Worms {
     class Player;
 class Team {
    public:
-    Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players);
+    Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players, const std::map<Worm::WeaponID, std::int16_t> &stageAmmo);
     ~Team() = default;
     void checkAlive(std::vector<Player> &players);
     bool isAlive();
@@ -26,6 +26,7 @@ class Team {
     std::uint32_t calculateTotalHealth(std::vector<Worms::Player> &players);
     std::shared_ptr<Weapon> getWeapon(const Worm::WeaponID &id);
     void weaponUsed(const Worm::WeaponID weaponID);
+    void serialize(IO::GameStateMsg &msg) const;
 
 private:
     std::vector<uint8_t> playerIDs;

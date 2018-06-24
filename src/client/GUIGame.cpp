@@ -140,8 +140,6 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
                            "assets/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
 
-    this->armory.loadWeapons();
-
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
                                 "assets/sound/Effects/Walk-Compress.wav");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
@@ -169,6 +167,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
 
+    /* updates the armory */
+    this->armory.loadWeapons();
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
     this->worms.reserve(stage.getWorms().size());
@@ -334,10 +334,12 @@ void GUI::Game::update(float dt) {
         worm.update(dt);
     }
     if (this->snapshot.waitingForNextTurn) {
+        this->armory.update(this->snapshot);
         this->currentPlayerArrow->update(dt);
     } else {
         this->currentPlayerArrow->setFrame(0);
     }
+
     this->cam.update(dt);
 
     for (auto &bullet : this->bullets) {

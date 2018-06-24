@@ -15,7 +15,9 @@
 #include "Weapons/Teleport.h"
 #include "Weapons/WeaponNone.h"
 
-Worms::Team::Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players) : playerIDs(std::move(playerIDs)) {
+Worms::Team::Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players,
+                  const std::map<Worm::WeaponID, std::int16_t> &stageAmmo) :
+        playerIDs(std::move(playerIDs)), ammunitionCounter(stageAmmo) {
     for (auto id : this->playerIDs){
         players[id].setTeam(this);
     }
@@ -109,23 +111,21 @@ void Worms::Team::initializeWeapons(){
     this->mortar = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(0.0f));
     this->teleport = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
     this->weaponNone = std::shared_ptr<Worms::Weapon>(new ::Weapon::WeaponNone());
-
-    this->ammunitionCounter.emplace(Worm::WAerial, 2);
-    this->ammunitionCounter.emplace(Worm::WBanana, 2);
-    this->ammunitionCounter.emplace(Worm::WBaseballBat, 2);
-    this->ammunitionCounter.emplace(Worm::WBazooka, 2);
-    this->ammunitionCounter.emplace(Worm::WCluster, 2);
-    this->ammunitionCounter.emplace(Worm::WDynamite, 2);
-    this->ammunitionCounter.emplace(Worm::WGrenade, 2);
-    this->ammunitionCounter.emplace(Worm::WHoly, 2);
-    this->ammunitionCounter.emplace(Worm::WMortar, 2);
-    this->ammunitionCounter.emplace(Worm::WTeleport, 2);
-    // -1 indicates infinite uses
-    this->ammunitionCounter.emplace(Worm::WNone, -1);
 }
 
 void Worms::Team::weaponUsed(const Worm::WeaponID weaponID) {
     if (this->ammunitionCounter.at(weaponID) > 0) {
         this->ammunitionCounter.at(weaponID)--;
+    }
+}
+
+void Worms::Team::serialize(IO::GameStateMsg &msg) const{
+    Worm::WeaponID weapons[] = {Worm::WBazooka, Worm::WGrenade, Worm::WCluster,
+                                Worm::WMortar, Worm::WBanana, Worm::WHoly,
+                                Worm::WAerial, Worm::WDynamite,
+                                Worm::WBaseballBat, Worm::WTeleport};
+
+    for (int i = 0; i < 10; i++){
+        msg.weaponAmmunition[i] = this->ammunitionCounter.at(weapons[i]);
     }
 }
