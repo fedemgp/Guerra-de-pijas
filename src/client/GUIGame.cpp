@@ -303,7 +303,7 @@ void GUI::Game::start() {
                     int i = 0;
                     for (auto &bullet : this->bullets) {
                         if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode &&
-                            !bullet->exploded()) {
+                            !bullet->exploding()) {
                             bullet->madeImpact();
                             this->explodedQuantity++;
                         }
