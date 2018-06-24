@@ -435,7 +435,7 @@ void Worms::Player::endShot() {
         if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
             float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) + 0.1;
             BulletInfo info = this->weapon->getBulletInfo();
             info.point = position;
             info.safeNonContactDistance = safeNonContactDistance;
