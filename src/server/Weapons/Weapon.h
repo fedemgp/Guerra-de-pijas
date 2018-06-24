@@ -27,9 +27,18 @@ class Weapon {
      * @param dt
      */
     virtual void update(float dt) = 0;
+    /**
+     * @brief increases the angle of the aim. If the angle exceeds the limit
+     * then it will be changed to the maximum possible
+     */
     virtual void increaseAngle();
+    /**
+     * @brief decreases the angle of the aim. If the angle exceeds the limit
+     * then it will be changed to the maximum possible
+     */
     virtual void decreaseAngle();
     float getAngle() const;
+    void setAngle(float angle);
     virtual void startShot(Worms::Player *player) = 0;
     virtual void endShot() = 0;
     BulletInfo getBulletInfo();

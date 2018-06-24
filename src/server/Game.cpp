@@ -217,7 +217,7 @@ void Worms::Game::calculateCurrentPlayer() {
     if (this->gameEnded) {
         this->winnerTeam = this->teams.getWinner();
     }
-    this->currentTeam = this->teams.getCurrentTeam();
+    this->currentTeam = this->teams.getCurrentTeamID();
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
 }

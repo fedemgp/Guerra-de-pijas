@@ -19,7 +19,8 @@ class GameTeams {
     bool endTurn(std::vector<Player> &players);
     char getCurrentPlayerID();
     std::uint8_t getTeamQuantity() const;
-    uint8_t getCurrentTeam();
+    uint8_t getCurrentTeamID();
+    Team &getCurrentTeam();
     std::uint8_t getWinner();
     std::vector<std::uint32_t> getTotalHealth(std::vector<Worms::Player> &players);
 

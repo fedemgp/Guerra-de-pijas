@@ -23,6 +23,7 @@
 #include "Weapons/Bullet.h"
 #include "Weapons/Weapon.h"
 #include "WormStates/PlayerState.h"
+#include "Team.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
@@ -96,7 +97,8 @@ class Player : public PhysicsEntity {
     void acknowledgeDamage(const Config::P2PWeapon &info, Math::Point<float> shooterPosition,
                            Worm::Direction shooterDirection);
     void landDamage(float yDistance);
-    void setTeam(uint8_t team);
+    void setTeamID(uint8_t team);
+    void setTeam(Worms::Team *team);
     void increaseHealth(float percentage);
     uint8_t getTeam() const;
     void setId(uint8_t id);
@@ -134,11 +136,12 @@ class Player : public PhysicsEntity {
     std::shared_ptr<Worms::Weapon> weapon{nullptr};
     Physics &physics;
     const int waterLevel;
-    uint8_t team;
+    uint8_t teamID;
     uint8_t id;
     std::list<Bullet> bullets;
     bool isP2PWeapon{false};
     b2Vec2 lastGroundNormal{0.0f, 0.0f};
+    Team *team{nullptr};
 };
 }  // namespace Worms
 

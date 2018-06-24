@@ -82,7 +82,7 @@ bool Worms::Player::operator!=(const Player &other) {
  * @return true if equal.
  */
 bool Worms::Player::operator==(const Player &other) {
-    return (this->id == other.id) && (this->team == other.team);
+    return (this->id == other.id) && (this->teamID == other.teamID);
 }
 
 /**
@@ -412,54 +412,8 @@ void Worms::Player::setWeapon(const Worm::WeaponID &id) {
     if (this->weapon->getWeaponID() != id) {
         // keep the last angle
         float lastAngle = this->weapon->getAngle();
-        switch (id) {
-            case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WGrenade:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WCluster:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WMortar:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WBanana:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WHoly:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WAerial:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WDynamite:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WBaseballBat:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(lastAngle));
-                this->isP2PWeapon = true;
-                break;
-            case Worm::WeaponID::WTeleport:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WNone:
-                break;
-            case Worm::WeaponID::WExplode:
-                break;
-            case Worm::WeaponID::WFragment:
-                break;
-        }
+        this->weapon = this->team->getWeapon(id);
+        this->weapon->setAngle(lastAngle);
     }
 }
 
@@ -507,8 +461,8 @@ void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
     this->notify(*this, Event::Shot);
 }
 
-void Worms::Player::setTeam(uint8_t team) {
-    this->team = team;
+void Worms::Player::setTeamID(uint8_t team) {
+    this->teamID = team;
 }
 
 void Worms::Player::increaseHealth(float percentage) {
@@ -516,7 +470,7 @@ void Worms::Player::increaseHealth(float percentage) {
 }
 
 uint8_t Worms::Player::getTeam() const {
-    return this->team;
+    return this->teamID;
 }
 
 void Worms::Player::setId(uint8_t id) {
@@ -594,3 +548,8 @@ Worms::Physics &Worms::Player::getPhysics() {
 const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const {
     return this->weapon;
 }
+
+void Worms::Player::setTeam(Worms::Team *team){
+    this->team = team;
+}
+
