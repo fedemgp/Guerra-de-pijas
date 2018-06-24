@@ -32,6 +32,7 @@ namespace GUI { // Había una forward declaration con GameWindow pero no hace fa
         float scale{13.0f};
         bool quit{false};
         std::shared_ptr<GameWindow> gameWindow{nullptr};
+        std::shared_ptr<GameWindow> nextGameWindow{nullptr};
         Font font;
         Camera cam;
         IO::CommunicationProtocol communicationProtocol;

@@ -56,6 +56,11 @@ void GUI::LobbyAssistant::run() {
             this->handleServerResponse(sr);
         }
 
+        if (this->nextGameWindow) {
+            this->gameWindow = this->nextGameWindow;
+            this->nextGameWindow = nullptr;
+        }
+
         this->gameWindow->render();
         usleep(50 * 1000);
 
@@ -87,20 +92,20 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
         case Event::LevelSelected: {
             auto createGamesWindow = dynamic_cast<CreateGameWindow *>(this->gameWindow.get());
             this->output << IO::LevelSelected{IO::ClientGUIInput::levelSelected, createGamesWindow->buttonSelected};
-            this->gameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
                                                                                     this->font,
                                                                                     this->cam,
                                                                                     createGamesWindow->levelsInfo[createGamesWindow->buttonSelected].playersQuantity});
-            this->gameWindow->addObserver(this);
+            this->nextGameWindow->addObserver(this);
             break;
         }
         case Event::JoinGame: {
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::joinGame};
-            this->gameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
                                                                                     this->font,
                                                                                     this->cam,
                                                                                     0});
-            this->gameWindow->addObserver(this);
+            this->nextGameWindow->addObserver(this);
             break;
         }
         default: {
@@ -124,11 +129,11 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
             break;
         }
         case IO::ServerResponseAction::levelsInfo: {
-            this->gameWindow = std::shared_ptr<GameWindow>(new CreateGameWindow{this->window,
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new CreateGameWindow{this->window,
                                                                                 this->font,
                                                                                 this->cam ,
                                                                                 this->communicationProtocol.levelsInfo});
-            this->gameWindow->addObserver(this);
+            this->nextGameWindow->addObserver(this);
             break;
         }
         case IO::ServerResponseAction::playerConnected: {
@@ -140,5 +145,3 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
         }
     }
 }
-
-
