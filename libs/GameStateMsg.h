@@ -111,10 +111,10 @@ namespace IO {
         std::vector<LevelInfo> levelsInfo;
     };
     struct LevelSelected : public ClientGUIMsg {
-        LevelSelected(ClientGUIInput input, int levelSelected) :
+        LevelSelected(ClientGUIInput input, unsigned int levelSelected) :
                 ClientGUIMsg(input),
                 levelSelected(levelSelected) {};
-        int levelSelected;
+        unsigned int levelSelected;
     };
 enum class PlayerInput {
     moveNone,

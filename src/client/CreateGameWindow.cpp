@@ -10,16 +10,28 @@ GUI::CreateGameWindow::CreateGameWindow(GUI::Window &window, GUI::Font &font, GU
                                         std::vector<IO::LevelInfo> &levelsInfo) :
         GameWindow(window, font, cam),
         levelsInfo(levelsInfo) {
+    int height = this->levelInfoSize * 3 / 2;
     std::string msg(SELECT_LEVEL_MSG);
-    int x = this->window.getWidth() * 7 / 8;
-    int y = this->window.getHeight() / 5;
-    for (size_t i = 0; i < this->levelsInfo.size(); i++) {
-        this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
-        this->buttons.back().position = ScreenPosition{x, y};
-        this->buttons.back().height = this->levelInfoSize * 3 / 2;
-        this->buttons.back().width = msg.size() * 9 + 20;
-        y += this->levelInfoSize * 3 / 2;
-    }
+    int x = this->window.getWidth() / 2;
+    int y = this->window.getHeight() * 3 / 4;
+    this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
+    this->buttons.back().position = ScreenPosition{x, y};
+    this->buttons.back().height = height;
+    this->buttons.back().width = msg.size() * 9 + 20;
+    msg = "Next";
+    x = this->window.getWidth() * 3 / 4;
+    y = this->window.getHeight() / 2;
+    this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
+    this->buttons.back().position = ScreenPosition{x, y};
+    this->buttons.back().height = height;
+    this->buttons.back().width = msg.size() * 9 + 20;
+    msg = "Previous";
+    x = this->window.getWidth() / 4;
+    y = this->window.getHeight() / 2;
+    this->buttons.emplace_back(msg, this->font, SDL_Color{0xFF, 0xFF, 0xFF}, this->levelInfoSize);
+    this->buttons.back().position = ScreenPosition{x, y};
+    this->buttons.back().height = height;
+    this->buttons.back().width = msg.size() * 9 + 20;
 }
 
 void GUI::CreateGameWindow::start() {
@@ -39,24 +51,23 @@ void GUI::CreateGameWindow::render() {
     Text levelPlayersQuantity{this->font};
     levelName.setBackground(black);
     levelPlayersQuantity.setBackground(black);
-    int x = this->window.getWidth() * 3 / 10;
-    int y = this->window.getHeight() / 5;
+    int x = this->window.getWidth() * 4 / 10;
+    int y = this->window.getHeight() * 3 / 7;
     levelName.set("Level", white, 50);
     levelName.renderFixed(ScreenPosition{x, y - 50}, this->cam);
-    x = this->window.getWidth() * 7 / 10;
+    x = this->window.getWidth() * 6 / 10;
     levelName.set("Players", white, 50);
     levelName.renderFixed(ScreenPosition{x, y - 50}, this->cam);
     levelName.setBackground(white);
     levelPlayersQuantity.setBackground(white);
-    for (auto &levelInfo : this->levelsInfo) {
-        x = this->window.getWidth() * 3 / 10;
-        levelName.set(levelInfo.name, black, this->levelInfoSize);
-        levelName.renderFixed(ScreenPosition{x, y}, this->cam);
-        x = this->window.getWidth() * 7 / 10;
-        levelName.set(std::to_string(levelInfo.playersQuantity), black, this->levelInfoSize);
-        levelName.renderFixed(ScreenPosition{x, y}, this->cam);
-        y += this->levelInfoSize * 3 / 2;
-    }
+    x = this->window.getWidth() * 4 / 10;
+    y = this->window.getHeight() / 2;
+    levelName.set(this->levelsInfo[this->buttonSelected].name, black, this->levelInfoSize);
+    levelName.renderFixed(ScreenPosition{x, y}, this->cam);
+    x = this->window.getWidth() * 6 / 10;
+    levelName.set(std::to_string(this->levelsInfo[this->buttonSelected].playersQuantity), black, this->levelInfoSize);
+    levelName.renderFixed(ScreenPosition{x, y}, this->cam);
+
     for (auto &button : this->buttons) {
         button.render(this->cam, this->window);
     }
@@ -65,12 +76,19 @@ void GUI::CreateGameWindow::render() {
 }
 
 void GUI::CreateGameWindow::buttonPressed(GUI::ScreenPosition sp) {
-    int i{0};
-    for (auto &button : this->buttons) {
-        if (button.inside(sp)) {
-            this->buttonSelected = i;
-            this->notify(*this, Event::LevelSelected);
+    if (this->buttons[0].inside(sp)) {
+        this->notify(*this, Event::LevelSelected);
+    }
+
+    if (this->buttons[1].inside(sp)) {
+        if (this->buttonSelected < this->levelsInfo.size() - 1) {
+            this->buttonSelected++;
         }
-        i++;
+    }
+
+    if (this->buttons[2].inside(sp)) {
+        if (this->buttonSelected > 0) {
+            this->buttonSelected--;
+        }
     }
 }
