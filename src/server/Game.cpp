@@ -13,11 +13,11 @@
 #include "Box2D/Box2D.h"
 #include "Chronometer.h"
 
-#include "BaseballBat.h"
-#include "Config.h"
+#include "Weapons/BaseballBat.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "Game.h"
-#include "ImpactOnCourse.h"
+#include "GameStates/ImpactOnCourse.h"
 #include "Player.h"
 #include "Stage.h"
 

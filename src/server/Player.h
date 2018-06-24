@@ -12,16 +12,16 @@
 
 #include <list>
 
-#include "Bullet.h"
-#include "Config.h"
+#include "Weapons/Bullet.h"
+#include "Config/Config.h"
 #include "Direction.h"
 #include "GameStateMsg.h"
 #include "Physics.h"
-#include "PlayerState.h"
+#include "WormStates/PlayerState.h"
 #include "Point.h"
 #include "Stream.h"
 #include "TouchSensor.h"
-#include "Weapon.h"
+#include "Weapons/Weapon.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
