@@ -406,14 +406,14 @@ float Worms::Player::getWeaponAngle() const {
 const Worm::WeaponID &Worms::Player::getWeaponID() const {
     return this->weapon->getWeaponID();
 }
-// TODO add creation time in Team, and in this method ask for it. So that the
-// team tracks weapons quantity
+
 void Worms::Player::setWeapon(const Worm::WeaponID &id) {
     if (this->weapon->getWeaponID() != id) {
         // keep the last angle
         float lastAngle = this->weapon->getAngle();
         this->weapon = this->team->getWeapon(id);
         this->weapon->setAngle(lastAngle);
+        this->isP2PWeapon = this->getWeaponID() == Worm::WBaseballBat;
     }
 }
 
