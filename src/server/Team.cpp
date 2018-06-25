@@ -16,9 +16,9 @@
 #include "Weapons/WeaponNone.h"
 
 Worms::Team::Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players,
-                  const std::map<Worm::WeaponID, std::int16_t> &stageAmmo) :
-        playerIDs(std::move(playerIDs)), ammunitionCounter(stageAmmo) {
-    for (auto id : this->playerIDs){
+                  const std::map<Worm::WeaponID, std::int16_t> &stageAmmo)
+    : playerIDs(std::move(playerIDs)), ammunitionCounter(stageAmmo) {
+    for (auto id : this->playerIDs) {
         players[id].setTeam(this);
     }
     this->initializeWeapons();
@@ -68,7 +68,7 @@ std::uint32_t Worms::Team::calculateTotalHealth(std::vector<Worms::Player> &play
     return total;
 }
 
-std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id){
+std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id) {
     if (this->ammunitionCounter.at(id) == 0) {
         return this->weaponNone;
     }
@@ -99,7 +99,7 @@ std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id){
     }
 }
 
-void Worms::Team::initializeWeapons(){
+void Worms::Team::initializeWeapons() {
     this->aerialAttack = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
     this->banana = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(0.0f));
     this->baseballBat = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(0.0f));
@@ -119,13 +119,12 @@ void Worms::Team::weaponUsed(const Worm::WeaponID weaponID) {
     }
 }
 
-void Worms::Team::serialize(IO::GameStateMsg &msg) const{
-    Worm::WeaponID weapons[] = {Worm::WBazooka, Worm::WGrenade, Worm::WCluster,
-                                Worm::WMortar, Worm::WBanana, Worm::WHoly,
-                                Worm::WAerial, Worm::WDynamite,
+void Worms::Team::serialize(IO::GameStateMsg &msg) const {
+    Worm::WeaponID weapons[] = {Worm::WBazooka,     Worm::WGrenade, Worm::WCluster, Worm::WMortar,
+                                Worm::WBanana,      Worm::WHoly,    Worm::WAerial,  Worm::WDynamite,
                                 Worm::WBaseballBat, Worm::WTeleport};
 
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 10; i++) {
         msg.weaponAmmunition[i] = this->ammunitionCounter.at(weapons[i]);
     }
 }

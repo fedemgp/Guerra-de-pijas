@@ -21,7 +21,9 @@
 #include "Weapons/Mortar.h"
 #include "Weapons/Teleport.h"
 #include "Weapons/Weapon.h"
+#include "Weapons/WeaponNone.h"
 #include "WormStates/BackFlipping.h"
+#include "WormStates/Batting.h"
 #include "WormStates/Dead.h"
 #include "WormStates/Die.h"
 #include "WormStates/Drowning.h"
@@ -38,8 +40,6 @@
 #include "WormStates/Teleported.h"
 #include "WormStates/Teleporting.h"
 #include "WormStates/Walk.h"
-#include "WormStates/Batting.h"
-#include "Weapons/WeaponNone.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -431,11 +431,12 @@ void Worms::Player::startShot() {
 void Worms::Player::endShot() {
     if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
         this->weapon->getWeaponID() != Worm::WeaponID::WAerial &&
-            this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
+        this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
         if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
             float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) + 0.1;
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) +
+                                           0.1;
             BulletInfo info = this->weapon->getBulletInfo();
             info.point = position;
             info.safeNonContactDistance = safeNonContactDistance;
@@ -555,7 +556,6 @@ const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const {
     return this->weapon;
 }
 
-void Worms::Player::setTeam(Worms::Team *team){
+void Worms::Player::setTeam(Worms::Team *team) {
     this->team = team;
 }
-

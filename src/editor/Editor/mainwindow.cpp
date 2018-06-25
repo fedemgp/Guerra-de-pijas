@@ -89,7 +89,7 @@ void MainWindow::on_actionOpen_triggered() {
 
     this->ui->editorView->serialize(sd);
 
-    if(sd.numWorms() == 0) {
+    if (sd.numWorms() == 0) {
         QErrorMessage::qtHandler()->showMessage("Se necesita al menos 1 worm");
         return;
     }

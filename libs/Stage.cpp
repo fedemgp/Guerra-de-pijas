@@ -6,9 +6,9 @@
 #include "Stage.h"
 #include <fstream>
 #include "Exception.h"
+#include "GameStateMsg.h"
 #include "Point.h"
 #include "yaml-cpp/yaml.h"
-#include "GameStateMsg.h"
 
 /**
  * @brief Parses a Point from a YAML node.
@@ -126,7 +126,7 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
 
     for (const auto &elem : weaponsNode) {
         auto weaponID = stage.weaponStrToID.at(elem.first.as<std::string>());
-        int ammo = elem.second.as<int>();
+        int ammo = elem.second.as<uint16_t>();
         stage.ammunitionCounter.emplace(weaponID, ammo);
     }
 
@@ -166,6 +166,6 @@ float Worms::Stage::getWidth() const {
     return this->width;
 }
 
-const std::map<Worm::WeaponID, int16_t> &Worms::Stage::getAmmoCounter() const{
+const std::map<Worm::WeaponID, int16_t> &Worms::Stage::getAmmoCounter() const {
     return this->ammunitionCounter;
 }

@@ -30,20 +30,20 @@ void EditorScene::showCursor() {
 }
 
 void EditorScene::addItem(QGraphicsItem *elem) {
-    if(elem->scene() != this) {
+    if (elem->scene() != this) {
         QGraphicsScene::addItem(elem);
     }
 }
 
 void EditorScene::addItem(StageElement *elem) {
-    if(elem->scene() != this) {
+    if (elem->scene() != this) {
         QGraphicsScene::addItem(elem);
         this->elements.insert(elem);
     }
 }
 
 void EditorScene::removeItem(StageElement *elem) {
-    if(this->contains(elem)) {
+    if (this->contains(elem)) {
         this->elements.erase(this->elements.find(elem));
     }
 
@@ -53,7 +53,7 @@ void EditorScene::removeItem(StageElement *elem) {
 }
 
 void EditorScene::removeItem(QGraphicsItem *elem) {
-    if(elem->scene()) {
+    if (elem->scene()) {
         QGraphicsScene::removeItem(elem);
     }
 }

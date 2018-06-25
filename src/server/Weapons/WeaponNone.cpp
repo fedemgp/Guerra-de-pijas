@@ -7,11 +7,10 @@
 
 #define CONFIG Game::Config::getInstance()
 
-Weapon::WeaponNone::WeaponNone() :
-        Weapon::Weapon(CONFIG.getTeleportConfig(), Worm::WeaponID::WNone, 0.0) {}
+Weapon::WeaponNone::WeaponNone()
+    : Weapon::Weapon(CONFIG.getTeleportConfig(), Worm::WeaponID::WNone, 0.0) {}
 
-std::list<Worms::Bullet>
-Weapon::WeaponNone::onExplode(const Worms::Bullet &mainBullet,
-                              Worms::Physics &physics){
+std::list<Worms::Bullet> Weapon::WeaponNone::onExplode(const Worms::Bullet &mainBullet,
+                                                       Worms::Physics &physics) {
     return std::move(std::list<Worms::Bullet>());
 }

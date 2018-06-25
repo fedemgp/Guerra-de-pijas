@@ -6,8 +6,8 @@
 #ifndef __WeaponConfig_H__
 #define __WeaponConfig_H__
 
-#include "yaml-cpp/node/node.h"
 #include <cstdint>
+#include "yaml-cpp/node/node.h"
 
 #include "BulletConfig.h"
 
