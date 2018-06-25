@@ -30,11 +30,19 @@ struct WormData {
     Math::Point<float> position;
 };
 
+struct Color {
+    uint8_t r, g, b;
+};
+
 class Stage {
    public:
     static Stage fromFile(const std::string &filename);
 
     uint8_t turnTime{10};
+    Color backgroundColor{255, 255, 255};
+    std::string fartherBackgroundFile;
+    std::string midBackgroundFile;
+    std::string closerBackgroundFile;
 
     Stage();
     ~Stage() = default;

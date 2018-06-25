@@ -339,7 +339,8 @@ void GUI::Game::exit() {
  *
  */
 void GUI::Game::renderBackground() {
-    this->window.clear(this->backgroundColor);
+    SDL_Color bgColor{this->stage.backgroundColor.r, this->stage.backgroundColor.g, this->stage.backgroundColor.b};
+    this->window.clear(bgColor);
 
     /* draws moving image further in the background */
     const Texture &Bg1Tex = this->texture_mgr.get(GameTextures::Background1);

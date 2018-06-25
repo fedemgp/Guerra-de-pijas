@@ -131,6 +131,25 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
     // -1 indicates infinite uses
     stage.ammunitionCounter.emplace(Worm::WNone, -1);
 
+    /* background */
+    if (data["background"]) {
+        YAML::Node bg = data["background"];
+        if (bg["color"] && bg["color"].IsSequence()) {
+            stage.backgroundColor.r = bg["color"][0].as<int>();
+            stage.backgroundColor.g = bg["color"][1].as<int>();
+            stage.backgroundColor.b = bg["color"][2].as<int>();
+        }
+        if (bg["closeBackgroundFile"]) {
+            stage.closerBackgroundFile = bg["closeBackgroundFile"].as<std::string>();
+        }
+        if (bg["midBackgroundFile"]) {
+            stage.midBackgroundFile = bg["midBackgroundFile"].as<std::string>();
+        }
+        if (bg["fartherBackgroundFile"]) {
+            stage.fartherBackgroundFile = bg["fartherBackgroundFile"].as<std::string>();
+        }
+    }
+
     return stage;
 }
 
