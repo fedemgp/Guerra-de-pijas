@@ -3,8 +3,26 @@
 //
 
 #include "Team.h"
+#include "Weapons/AerialAttack.h"
+#include "Weapons/Banana.h"
+#include "Weapons/BaseballBat.h"
+#include "Weapons/Bazooka.h"
+#include "Weapons/Cluster.h"
+#include "Weapons/Dynamite.h"
+#include "Weapons/Grenade.h"
+#include "Weapons/Holy.h"
+#include "Weapons/Mortar.h"
+#include "Weapons/Teleport.h"
+#include "Weapons/WeaponNone.h"
 
-Worms::Team::Team(std::vector<uint8_t> &playerIDs) : playerIDs(std::move(playerIDs)) {}
+Worms::Team::Team(std::vector<uint8_t> &playerIDs, std::vector<Player> &players,
+                  const std::map<Worm::WeaponID, std::int16_t> &stageAmmo) :
+        playerIDs(std::move(playerIDs)), ammunitionCounter(stageAmmo) {
+    for (auto id : this->playerIDs){
+        players[id].setTeam(this);
+    }
+    this->initializeWeapons();
+}
 
 void Worms::Team::checkAlive(std::vector<Player> &players) {
     if (this->alive) {
@@ -48,4 +66,66 @@ std::uint32_t Worms::Team::calculateTotalHealth(std::vector<Worms::Player> &play
         }
     }
     return total;
+}
+
+std::shared_ptr<Worms::Weapon> Worms::Team::getWeapon(const Worm::WeaponID &id){
+    if (this->ammunitionCounter.at(id) == 0) {
+        return this->weaponNone;
+    }
+
+    switch (id) {
+        case Worm::WeaponID::WBazooka:
+            return this->bazooka;
+        case Worm::WeaponID::WGrenade:
+            return this->grenade;
+        case Worm::WeaponID::WCluster:
+            return this->cluster;
+        case Worm::WeaponID::WMortar:
+            return this->mortar;
+        case Worm::WeaponID::WBanana:
+            return this->banana;
+        case Worm::WeaponID::WHoly:
+            return this->holy;
+        case Worm::WeaponID::WAerial:
+            return this->aerialAttack;
+        case Worm::WeaponID::WDynamite:
+            return this->dynamite;
+        case Worm::WeaponID::WBaseballBat:
+            return this->baseballBat;
+        case Worm::WeaponID::WTeleport:
+            return this->teleport;
+        default:
+            return this->weaponNone;
+    }
+}
+
+void Worms::Team::initializeWeapons(){
+    this->aerialAttack = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
+    this->banana = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(0.0f));
+    this->baseballBat = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(0.0f));
+    this->bazooka = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(0.0f));
+    this->cluster = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(0.0f));
+    this->dynamite = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
+    this->grenade = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(0.0f));
+    this->holy = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(0.0f));
+    this->mortar = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(0.0f));
+    this->teleport = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
+    this->weaponNone = std::shared_ptr<Worms::Weapon>(new ::Weapon::WeaponNone());
+}
+
+void Worms::Team::weaponUsed(const Worm::WeaponID weaponID) {
+    if (this->ammunitionCounter.at(weaponID) > 0) {
+        this->ammunitionCounter.at(weaponID)--;
+    }
+}
+
+void Worms::Team::serialize(IO::GameStateMsg &msg) const{
+    Worm::WeaponID weapons[] = {Worm::WBazooka, Worm::WGrenade, Worm::WCluster,
+                                Worm::WMortar, Worm::WBanana, Worm::WHoly,
+                                Worm::WAerial, Worm::WDynamite,
+                                Worm::WBaseballBat, Worm::WTeleport};
+
+    for (int i = 0; i < 10; i++){
+        msg.weaponAmmunition[i] = this->ammunitionCounter.at(weapons[i]);
+    }
 }

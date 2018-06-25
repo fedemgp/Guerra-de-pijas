@@ -22,7 +22,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
       stage(stage),
-      cam(w, this->scale),
+      cam(w, this->scale, this->stage.getWidth(), this->stage.getHeight()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
@@ -69,8 +69,6 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Smoke, "assets/img/Effects/smkdrk20.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::StaticBackground, "assets/img/background/static.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
     this->texture_mgr.load(GUI::GameTextures::Background1, "assets/img/background/bg1.png",
                            GUI::Color{0xff, 0xff, 0xff});
     this->texture_mgr.load(GUI::GameTextures::Background2, "assets/img/background/bg2.png",
@@ -142,8 +140,6 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
                            "assets/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
 
-    this->armory.loadWeapons();
-
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
                                 "assets/sound/Effects/Walk-Compress.wav");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
@@ -171,6 +167,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
 
+    /* updates the armory */
+    this->armory.loadWeapons();
     /* allocates space in the array to avoid the player addresses from changing */
     int num_worms = 0;
     this->worms.reserve(stage.getWorms().size());
@@ -275,6 +273,8 @@ void GUI::Game::start() {
                                 break;
                             }
                         }
+                        default:
+                            break;
                     }
                 }
 
@@ -305,7 +305,7 @@ void GUI::Game::start() {
                     int i = 0;
                     for (auto &bullet : this->bullets) {
                         if (this->snapshot.bulletType[i] == Worm::WeaponID::WExplode &&
-                            !bullet->exploded()) {
+                            !bullet->exploding()) {
                             bullet->madeImpact();
                             this->explodedQuantity++;
                         }
@@ -336,10 +336,12 @@ void GUI::Game::update(float dt) {
         worm.update(dt);
     }
     if (this->snapshot.waitingForNextTurn) {
+        this->armory.update(this->snapshot);
         this->currentPlayerArrow->update(dt);
     } else {
         this->currentPlayerArrow->setFrame(0);
     }
+
     this->cam.update(dt);
 
     for (auto &bullet : this->bullets) {
@@ -416,15 +418,15 @@ void GUI::Game::render() {
     }
 
     /* displays the remaining turn time */
-    double turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
-    turnTimeLeft = (turnTimeLeft < 0.0f) ? 0.0f : turnTimeLeft;
+    std::int16_t turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
+    turnTimeLeft = (turnTimeLeft < 0) ? 0 : turnTimeLeft;
 
     int x = this->window.getWidth() / 2;
     int y = 20;
 
     SDL_Color color = {0, 0, 0};
     Text text{this->font};
-    text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
+    text.set(std::to_string(turnTimeLeft), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     /* renders armory */
@@ -464,16 +466,10 @@ void GUI::Game::exit() {
 void GUI::Game::renderBackground() {
     this->window.clear(this->backgroundColor);
 
-    /* draws a static image in the background (this image doesn't move) */
-    const Texture &staticBgTex = this->texture_mgr.get(GameTextures::StaticBackground);
-    WrapTexture staticBg{staticBgTex, 500.0f, 40.0f};  // TODO: use screen size
-    staticBg.render(Position{0.0f, (staticBgTex.getHeight() / this->cam.getScale()) / 2},
-                    this->cam);
-
     /* draws moving image further in the background */
     const Texture &Bg1Tex = this->texture_mgr.get(GameTextures::Background1);
     // TODO: use the stage size
-    WrapTexture bg1{Bg1Tex, 500.0f, Bg1Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg1{Bg1Tex, this->stage.getWidth(), Bg1Tex.getHeight() / this->cam.getScale()};
 
     Position pos{0.0f, (Bg1Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.8f;
@@ -482,7 +478,7 @@ void GUI::Game::renderBackground() {
     /* draws a moving image in the background at intermediate distance */
     const Texture &Bg2Tex = this->texture_mgr.get(GameTextures::Background2);
     // TODO: use the stage size
-    WrapTexture bg2{Bg2Tex, 500.0f, Bg2Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg2{Bg2Tex, this->stage.getWidth(), Bg2Tex.getHeight() / this->cam.getScale()};
 
     pos = {0.0f, (Bg2Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.6f;
@@ -491,7 +487,7 @@ void GUI::Game::renderBackground() {
     /* draws a moving image in the background at a closer distance */
     const Texture &Bg3Tex = this->texture_mgr.get(GameTextures::Background3);
     // TODO: use the stage size
-    WrapTexture bg3{Bg3Tex, 500.0f, Bg3Tex.getHeight() / this->cam.getScale()};
+    WrapTexture bg3{Bg3Tex, this->stage.getWidth(), Bg3Tex.getHeight() / this->cam.getScale()};
 
     pos = {0.0f, (Bg3Tex.getHeight() / this->cam.getScale()) / 2};
     pos.x += this->cam.getPosition().x * 0.25f;

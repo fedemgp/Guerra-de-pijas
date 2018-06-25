@@ -9,18 +9,18 @@ function on_exit {
 trap on_exit INT TERM ERR
 
 # launches the server in backgroung
-./target/server 8888 &
+./target/server 8888 ./res/test.yml &
 server_pid=$!
 
 # waits for the server to start
 sleep 1
 
 # starts a client in background
-./target/client localhost 8888 &
+./target/client localhost 8888 ./res/test.yml &
 client1_pid=$!
 
 # starts the second client in background
-./target/client localhost 8888 &
+./target/client localhost 8888 ./res/test.yml &
 client2_pid=$!
 
 set +e

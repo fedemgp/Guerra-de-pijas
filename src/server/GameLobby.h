@@ -22,7 +22,7 @@ namespace Worms {
         GameLobby(std::string port);
         GameLobby(GameLobby &copy) = delete;
 
-        void start();
+        void start(std::string &stageFile);
         void onNotify(Subject &subject, Event event) override;
         void exit();
 

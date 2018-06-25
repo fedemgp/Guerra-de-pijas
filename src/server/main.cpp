@@ -40,8 +40,8 @@ static void _signal_handler(int _) {
 //}
 
 int main(int argc, const char *argv[]) {
-    if (argc != 2) {
-        std::cout << "Usage: ./server PORT" << std::endl;
+    if (argc != 3) {
+        std::cout << "Usage: ./server PORT STAGE" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -50,12 +50,14 @@ int main(int argc, const char *argv[]) {
         signal(SIGINT, _signal_handler);
         signal(SIGTERM, _signal_handler);
 
+	    std::string stageFile = argv[2];
+
         std::string port(argv[1]);
         Worms::GameLobby gameLobby{port};
 //        ServerSocket s(port.c_str());
 //        std::cout << "Se bindeo" << std::endl;
 
-        gameLobby.start();
+        gameLobby.start(stageFile);
 
 //        /* get based on the number of players selected for the game */
 //        const uint8_t numTeams = 2;
@@ -67,7 +69,7 @@ int main(int argc, const char *argv[]) {
 //        }
 
 //        std::cout << "game starts" << std::endl;
-//        Worms::Game game{Worms::Stage{}, players};
+//        Worms::Game game{Worms::Stage::fromFile(stageFile), players};
 //
 //        std::thread exit_handler([&] { _exit_handler(game); });
 //        game.start();

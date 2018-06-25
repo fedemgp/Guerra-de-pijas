@@ -12,10 +12,12 @@ GUI::JoinGameWindow::JoinGameWindow(Window &window, Font &font, Camera &cam,
       prev("previous", font),
       next("next", font),
       info(info) {
-    this->prev.setText(WHITE, TEXT_SIZE);
+    this->prev.textColor = WHITE;
+    this->prev.textSize = TEXT_SIZE;
     this->prev.setBackground(BLACK);
 
-    this->next.setText(WHITE, TEXT_SIZE);
+    this->next.textColor = WHITE;
+    this->next.textSize = TEXT_SIZE;
     this->next.setBackground(BLACK);
 }
 
@@ -37,8 +39,8 @@ void GUI::JoinGameWindow::render() {
     this->prev.position = {this->window.getWidth() / 4, this->window.getHeight() / 2};
     this->next.position = {this->window.getWidth() * 3 / 4, this->window.getHeight() / 2};
 
-    this->prev.render(this->cam, this->window);
-    this->next.render(this->cam, this->window);
+    this->prev.render(this->cam);
+    this->next.render(this->cam);
 
     if (this->info.size() > 0) {
         const IO::GameInfo &info = this->info.at(this->currentGameIndex);
@@ -56,3 +58,12 @@ void GUI::JoinGameWindow::render() {
  * @param sp Position where there was a click.
  */
 void GUI::JoinGameWindow::buttonPressed(ScreenPosition sp) {}
+
+/**
+ * @brief Handles key press events.
+ *
+ * @param key Key pressed.
+ */
+void GUI::JoinGameWindow::handleKeyDown(SDL_Keycode key) {}
+
+void GUI::JoinGameWindow::appendCharacter(char text[32]) {}

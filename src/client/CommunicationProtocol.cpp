@@ -8,7 +8,8 @@
 #include "CommunicationProtocol.h"
 
 IO::CommunicationProtocol::CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
-                                                 IO::Stream<IO::ServerResponse> *output) :
+                                                 IO::Stream<IO::ServerResponse> *output)
+        :
         protocol(socket),
         clientStream(clientStream),
         output(output) {
@@ -124,3 +125,4 @@ void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
         }
     }
 }
+

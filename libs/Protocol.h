@@ -141,6 +141,10 @@ public:
     SOCKET getSocket() {
         return std::move(this->socket);
     };
+
+    void configure(SOCKET &socket) {
+        this->socket = std::move(socket);
+    }
 };
 
 

@@ -28,13 +28,27 @@ class Weapon {
      * @param dt
      */
     virtual void update(float dt) = 0;
+    /**
+     * @brief increases the angle of the aim. If the angle exceeds the limit
+     * then it will be changed to the maximum possible
+     */
     virtual void increaseAngle();
+    /**
+     * @brief decreases the angle of the aim. If the angle exceeds the limit
+     * then it will be changed to the maximum possible
+     */
     virtual void decreaseAngle();
     float getAngle() const;
+    void setAngle(float angle);
     virtual void startShot(Worms::Player *player) = 0;
     virtual void endShot() = 0;
     BulletInfo getBulletInfo();
     virtual void setTimeout(uint8_t time) = 0;
+    /**
+     * @brief check if the weapon is person to preson or not
+     * @return
+     */
+    bool isP2PWeapon();
     /**
      * Used by te remote control weapons. Sends to the weapon the coordinates
      * of the deploy of the bullets, and a reference of Player so that the
@@ -54,6 +68,7 @@ class Weapon {
    protected:
     bool increaseShotPower{false};
     float shotPower{0};
+    bool isP2P{false};
     const Config::Weapon &config;
     Worm::WeaponID id;
     float angle{0};
@@ -64,7 +79,7 @@ class Weapon {
      * When weapons change, their own limit angles may crash the game.
      * To avoid this, this function checks and correct angles between changes.
      */
-    void checkBoundaryAngles();
+    virtual void checkBoundaryAngles();
 };
 }  // namespace Worms
 

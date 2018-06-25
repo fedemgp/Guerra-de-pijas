@@ -16,18 +16,19 @@
 #include "CreateGameWindow.h"
 #include "WaitingPlayersWindow.h"
 #include "Lobby/JoinGameWindow.h"
+#include "ConnectionWindow.h"
 
-GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
+GUI::LobbyAssistant::LobbyAssistant(Window &window) :
         window(window),
         font("assets/fonts/gruen_lemonograf.ttf", 28),
-        cam(window, this->scale),
-        communicationProtocol(socket, &output, &serverStream) {
-    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+        cam(window, this->scale, 600, 600) {
+    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
     this->gameWindow->addObserver(this);
+//    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+//    this->gameWindow->addObserver(this);
 }
 
 void GUI::LobbyAssistant::run() {
-    this->communicationProtocol.start();
     while (!this->quit) {
         SDL_Event e;
         while (SDL_PollEvent(&e) != 0) {
@@ -38,9 +39,17 @@ void GUI::LobbyAssistant::run() {
                     break;
                 }
                 case SDL_KEYDOWN: {
+                    this->gameWindow->handleKeyDown(e.key.keysym.sym);
                     break;
                 }
                 case SDL_KEYUP: {
+                    break;
+                }
+                case SDL_TEXTINPUT: {
+                    if(!((e.text.text[0] == 'c' || e.text.text[0] == 'C') && (e.text.text[0] == 'v' || e.text.text[0] == 'V') && SDL_GetModState() & KMOD_CTRL)) {
+                        //Append character
+                        this->gameWindow->appendCharacter(e.text.text);
+                    }
                     break;
                 }
                 case SDL_MOUSEBUTTONDOWN: {
@@ -86,6 +95,18 @@ void GUI::LobbyAssistant::run() {
 
 void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
     switch (event) {
+        case Event::ConnectionToServer: {
+            auto connectionWindow = dynamic_cast<ConnectionWindow *>(this->gameWindow.get());
+            ConnectionInfo info = connectionWindow->getConnectionInfo();
+            ClientSocket socket(info.ip, info.port);
+            this->communicationProtocol = std::shared_ptr<IO::CommunicationProtocol>(
+                    new IO::CommunicationProtocol(socket, &this->output, &this->serverStream));
+            this->communicationProtocol->start();
+
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+            this->nextGameWindow->addObserver(this);
+            break;
+        }
         case Event::CreateGame: {
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::startCreateGame};
             break;
@@ -111,10 +132,10 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
 }
 
 ClientSocket GUI::LobbyAssistant::getSocket() {
-//    ClientSocket socket(std::move(this->communicationProtocol.getSocket()));
-    this->communicationProtocol.stop();
-    this->communicationProtocol.join();
-    return /*std::move(socket);//*/std::move(this->communicationProtocol.getSocket());
+//    ClientSocket socket(std::move(this->communicationProtocol->getSocket()));
+    this->communicationProtocol->stop();
+    this->communicationProtocol->join();
+    return /*std::move(socket);//*/std::move(this->communicationProtocol->getSocket());
 }
 
 void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
@@ -128,7 +149,7 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
             this->nextGameWindow = std::shared_ptr<GameWindow>(new CreateGameWindow{this->window,
                                                                                 this->font,
                                                                                 this->cam ,
-                                                                                this->communicationProtocol.levelsInfo});
+                                                                                this->communicationProtocol->levelsInfo});
             this->nextGameWindow->addObserver(this);
             break;
         }
@@ -136,7 +157,7 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
             this->nextGameWindow = std::shared_ptr<GameWindow>(new JoinGameWindow{this->window,
                                                                                   this->font,
                                                                                   this->cam ,
-                                                                                  this->communicationProtocol.gamesInfo});
+                                                                                  this->communicationProtocol->gamesInfo});
             this->nextGameWindow->addObserver(this);
             break;
         }

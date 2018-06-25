@@ -20,6 +20,8 @@ namespace GUI {
 
         void start() override;
         void render() override;
+        void handleKeyDown(SDL_Keycode key) override;
+        void appendCharacter(char text[32]) override;
         void buttonPressed(ScreenPosition sp) override;
 
     private:

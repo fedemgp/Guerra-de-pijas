@@ -15,7 +15,7 @@ void GUI::WaitingPlayersWindow::start() {
 
 void GUI::WaitingPlayersWindow::render() {
     this->window.clear(SDL_Color{0xFF, 0xFF, 0xFF});
-    
+
     Text playersConnected{this->font};
     int x = this->window.getWidth() * 2 / 5;
     int y = this->window.getHeight() / 2;
@@ -31,5 +31,13 @@ void GUI::WaitingPlayersWindow::render() {
 }
 
 void GUI::WaitingPlayersWindow::buttonPressed(GUI::ScreenPosition sp) {
+
+}
+
+void GUI::WaitingPlayersWindow::appendCharacter(char *text) {
+
+}
+
+void GUI::WaitingPlayersWindow::handleKeyDown(SDL_Keycode key) {
 
 }

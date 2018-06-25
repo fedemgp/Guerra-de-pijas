@@ -16,7 +16,7 @@
 namespace Worms {
     class Lobby : public Thread, public Subject {
     public:
-        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs);
+        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, std::string &stageFile);
         Lobby(Lobby &&other);
         Lobby(Lobby &copy) = delete;
 
@@ -40,6 +40,7 @@ namespace Worms {
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
         std::vector<Observer *> obs;
+        std::string &stageFile;
 
         bool finished{false};
         bool gameStarted{false};

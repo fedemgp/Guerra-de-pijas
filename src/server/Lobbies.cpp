@@ -8,7 +8,7 @@
 
 void Worms::Lobbies::createGame(int playerID, std::vector<Observer *> lobbyObservers, unsigned int levelSelected) {
     std::lock_guard<std::mutex> lock(this->mutex);
-    this->lobbies.emplace_back(playerID, this->idLobby, lobbyObservers);
+    this->lobbies.emplace_back(playerID, this->idLobby, lobbyObservers, this->stageFile);
     this->idLobby++;
 }
 
@@ -29,4 +29,7 @@ void Worms::Lobbies::joinGame(int gameID, int playerID, Observer *lobbyObserver)
 
 std::list<Worms::Lobby> &Worms::Lobbies::getLobbies() {
     return this->lobbies;
+}
+
+Worms::Lobbies::Lobbies(std::string &stageFile) : stageFile(std::move(stageFile)){
 }

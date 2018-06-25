@@ -18,7 +18,7 @@ namespace IO {
         std::vector<GameInfo> gamesInfo;
 
         explicit CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
-                                               IO::Stream<IO::ServerResponse> *output);
+                                       IO::Stream<IO::ServerResponse> *output);
 
         void run() override;
         void stop() override;
