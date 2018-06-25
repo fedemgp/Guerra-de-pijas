@@ -29,6 +29,8 @@
 #include "Window.h"
 #include "Worm.h"
 
+#define ASSETS_PATH "assets"
+
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {
@@ -73,6 +75,10 @@ class Game {
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
+
+    void loadTextureManager();
+
+    void loadSoundManager();
 };
 }  // namespace GUI
 

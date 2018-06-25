@@ -29,144 +29,9 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       socket(socket),
       team(team),
       wind(this->texture_mgr, this->cam) {
-    /* loads the required textures */
-    this->texture_mgr.load(GUI::GameTextures::CurrentPlayerArrow, "assets/img/Misc/arrowdnb.png",
-                           GUI::Color{0x40, 0x40, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::WindLeft, "assets/img/Misc/windl.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::WindRight, "assets/img/Misc/windr.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::WormWalk, "assets/img/Worms/wwalk2.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormIdle, "assets/img/Worms/wbrth1.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::LongGirder, "assets/img/Weapons/grdl4.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::StartJump, "assets/img/Worms/wjump.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Jumping, "assets/img/Worms/wflyup.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::EndJump, "assets/img/Worms/wland2.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::BackFlipping, "assets/img/Worms/wbackflp.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Falling, "assets/img/Worms/wfall.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Bazooka, "assets/img/Worms/wbaz.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Fly, "assets/img/Worms/wfly1.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Die, "assets/img/Worms/wdie.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Sliding, "assets/img/Worms/wslided.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Dead, "assets/img/Misc/grave4.png",
-                           GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Missile, "assets/img/Weapons/missile.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Explosion, "assets/img/Effects/circle25.png",
-                           GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Flame, "assets/img/Effects/flame1.png",
-                           GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Smoke, "assets/img/Effects/smkdrk20.png",
-                           GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Background1, "assets/img/background/bg1.png",
-                           GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background2, "assets/img/background/bg2.png",
-                           GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background3, "assets/img/background/bg3.png",
-                           GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::WormGrenade, "assets/img/Worms/wthrgrn.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Grenade, "assets/img/Weapons/grenade.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormCluster, "assets/img/Worms/wthrcls.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Cluster, "assets/img/Weapons/cluster.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Mortar, "assets/img/Weapons/mortar.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Bazooka2, "assets/img/Worms/wbaz2.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Banana, "assets/img/Weapons/banana.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormBanana, "assets/img/Worms/wthrban.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Holy, "assets/img/Weapons/hgrenade.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormHoly, "assets/img/Worms/wthrhgrd.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Scope, "assets/img/Misc/crshairb.png",
-                           GUI::Color{0x40, 0x40, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Scope, "assets/img/Misc/crshairb.png",
-                           GUI::Color{0x40, 0x40, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::PowerBar, "assets/img/Effects/blob.png",
-                           GUI::Color{0x80, 0x80, 0xC0});
-    this->texture_mgr.load(GUI::GameTextures::Fragment, "assets/img/Weapons/clustlet.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormAirAttack, "assets/img/Worms/wairtlk.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::AirMissile, "assets/img/Weapons/airmisl.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::WormDynamite, "assets/img/Worms/wdynbak.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::Dynamite, "assets/img/Weapons/dynamite.png",
-                           GUI::Color{0x7f, 0x7f, 0xbb});
-    this->texture_mgr.load(GUI::GameTextures::WormBaseballBat, "assets/img/Worms/wbsbaim.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::WormBaseballBatting, "assets/img/Worms/wbsbswn.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::WormTeleport, "assets/img/Worms/wteltlk.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::WormTeleporting, "assets/img/Worms/wteldsv.png",
-                           GUI::Color{0xc0, 0xc0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::BazookaIcon, "assets/img/Weapon Icons/bazooka.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::GrenadeIcon, "assets/img/Weapon Icons/grenade.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::ClusterIcon, "assets/img/Weapon Icons/cluster.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::MortarIcon, "assets/img/Weapon Icons/mortar.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::BananaIcon, "assets/img/Weapon Icons/banana.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::HolyIcon, "assets/img/Weapon Icons/hgrenade.2.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::AirIcon, "assets/img/Weapon Icons/airstrke.1.png",
-                           GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::DynamiteIcon,
-                           "assets/img/Weapon Icons/dynamite.1.png", GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::BaseballBatIcon,
-                           "assets/img/Weapon Icons/baseball.1.png", GUI::Color{0x00, 0x00, 0x00});
-    this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
-                           "assets/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
 
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
-                                "assets/sound/Effects/Walk-Compress.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
-                                "assets/sound/Soundbanks/JUMP1.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormBackFlip,
-                                "assets/sound/Soundbanks/JUMP2.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormLanding,
-                                "assets/sound/Effects/WormLanding.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormHit, "assets/sound/Soundbanks/OUCH.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDrowning,
-                                "assets/sound/Effects/UnderWaterLoop.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDie,
-                                "assets/sound/Soundbanks/BYEBYE.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Splash, "assets/sound/Effects/Splash.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
-                                "assets/sound/Effects/Explosion1.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Holy,
-                                "assets/sound/Effects/HOLYGRENADE.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::AirStrike,
-                                "assets/sound/Effects/Airstrike.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Teleport,
-                                "assets/sound/Effects/TELEPORT.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Shot,
-                                "assets/sound/Effects/ROCKETRELEASE.WAV");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
-                                "assets/sound/Effects/BananaImpact.wav");
+    this->loadTextureManager();
+    this->loadSoundManager();
 
     /* updates the armory */
     this->armory.loadWeapons();
@@ -576,4 +441,149 @@ void GUI::Game::handleCamera(float dt) {
         /* move the camera to the current player */
         this->cam.moveTo(GUI::Position{cur_follow_x, cur_follow_y});
     }
+}
+
+void GUI::Game::loadTextureManager(){
+    std::string path(ASSETS_PATH);
+    /* loads the required textures */
+    this->texture_mgr.load(GUI::GameTextures::CurrentPlayerArrow, path + "/img/Misc/arrowdnb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WindLeft, path + "/img/Misc/windl.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::WindRight, path + "/img/Misc/windr.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::WormWalk, path + "/img/Worms/wwalk2.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormIdle, path + "/img/Worms/wbrth1.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::LongGirder, path + "/img/Weapons/grdl4.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::StartJump, path + "/img/Worms/wjump.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Jumping, path + "/img/Worms/wflyup.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::EndJump, path + "/img/Worms/wland2.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::BackFlipping, path + "/img/Worms/wbackflp.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Falling, path + "/img/Worms/wfall.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Bazooka, path + "/img/Worms/wbaz.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Fly, path + "/img/Worms/wfly1.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Die, path + "/img/Worms/wdie.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Sliding, path + "/img/Worms/wslided.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Dead, path + "/img/Misc/grave4.png",
+                           GUI::Color{0xC0, 0xC0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Missile, path + "/img/Weapons/missile.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Explosion, path + "/img/Effects/circle25.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Flame, path + "/img/Effects/flame1.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Smoke, path + "/img/Effects/smkdrk20.png",
+                           GUI::Color{0xC0, 0xC0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Background1, path + "/img/background/bg1.png",
+                           GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::Background2, path + "/img/background/bg2.png",
+                           GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::Background3, path + "/img/background/bg3.png",
+                           GUI::Color{0xff, 0xff, 0xff});
+    this->texture_mgr.load(GUI::GameTextures::WormGrenade, path + "/img/Worms/wthrgrn.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Grenade, path + "/img/Weapons/grenade.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormCluster, path + "/img/Worms/wthrcls.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Cluster, path + "/img/Weapons/cluster.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Mortar, path + "/img/Weapons/mortar.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Bazooka2, path + "/img/Worms/wbaz2.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Banana, path + "/img/Weapons/banana.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBanana, path + "/img/Worms/wthrban.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Holy, path + "/img/Weapons/hgrenade.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormHoly, path + "/img/Worms/wthrhgrd.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Scope, path + "/img/Misc/crshairb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::Scope, path + "/img/Misc/crshairb.png",
+                           GUI::Color{0x40, 0x40, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::PowerBar, path + "/img/Effects/blob.png",
+                           GUI::Color{0x80, 0x80, 0xC0});
+    this->texture_mgr.load(GUI::GameTextures::Fragment, path + "/img/Weapons/clustlet.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormAirAttack, path + "/img/Worms/wairtlk.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::AirMissile, path + "/img/Weapons/airmisl.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormDynamite, path + "/img/Worms/wdynbak.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::Dynamite, path + "/img/Weapons/dynamite.png",
+                           GUI::Color{0x7f, 0x7f, 0xbb});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBat, path + "/img/Worms/wbsbaim.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormBaseballBatting, path + "/img/Worms/wbsbswn.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormTeleport, path + "/img/Worms/wteltlk.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::WormTeleporting, path + "/img/Worms/wteldsv.png",
+                           GUI::Color{0xc0, 0xc0, 0x80});
+    this->texture_mgr.load(GUI::GameTextures::BazookaIcon, path + "/img/Weapon Icons/bazooka.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::GrenadeIcon, path + "/img/Weapon Icons/grenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::ClusterIcon, path + "/img/Weapon Icons/cluster.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::MortarIcon, path + "/img/Weapon Icons/mortar.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BananaIcon, path + "/img/Weapon Icons/banana.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::HolyIcon, path + "/img/Weapon Icons/hgrenade.2.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::AirIcon, path + "/img/Weapon Icons/airstrke.1.png",
+                           GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::DynamiteIcon,
+                           path + "/img/Weapon Icons/dynamite.1.png", GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::BaseballBatIcon,
+                           path + "/img/Weapon Icons/baseball.1.png", GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
+                           path + "/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
+}
+
+void GUI::Game::loadSoundManager(){
+    std::string path(ASSETS_PATH);
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WalkCompress,
+                                path + "/sound/Effects/Walk-Compress.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormJump,
+                                path + "/sound/Soundbanks/JUMP1.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormBackFlip,
+                                path + "/sound/Soundbanks/JUMP2.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormLanding,
+                                path + "/sound/Effects/WormLanding.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormHit, path + "/sound/Soundbanks/OUCH.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDrowning,
+                                path + "/sound/Effects/UnderWaterLoop.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::WormDie,
+                                path + "/sound/Soundbanks/BYEBYE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Splash, path + "/sound/Effects/Splash.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Explosion,
+                                path + "/sound/Effects/Explosion1.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Holy,
+                                path + "/sound/Effects/HOLYGRENADE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::AirStrike,
+                                path + "/sound/Effects/Airstrike.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Teleport,
+                                path + "/sound/Effects/TELEPORT.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Shot,
+                                path + "/sound/Effects/ROCKETRELEASE.WAV");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
+                                path + "/sound/Effects/BananaImpact.wav");
 }
