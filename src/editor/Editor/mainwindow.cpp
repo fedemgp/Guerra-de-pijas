@@ -76,6 +76,17 @@ void MainWindow::on_actionOpen_triggered() {
     sd.fartherBgFile = this->fartherBgFile;
     sd.wormsHealth = this->ui->wormsHP->value();
 
+    /* weapon ammo */
+    const QString WEAPON_PREFIX = "wpn_";
+    for(auto *child : this->ui->stageParams->children()) {
+        if(child->objectName().startsWith(WEAPON_PREFIX)) {
+            QString weaponName = child->objectName().remove(0, WEAPON_PREFIX.size());
+
+            QSpinBox *widget = dynamic_cast<QSpinBox *>(child);
+            sd.addWeaponAmmo(weaponName, widget->value());
+        }
+    }
+
     this->ui->editorView->serialize(sd);
 
     if (sd.numWorms() == 0) {

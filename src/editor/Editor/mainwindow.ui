@@ -22,7 +22,7 @@
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="1">
-     <widget class="QScrollArea" name="stageParams">
+     <widget class="QScrollArea" name="stageParamsContainer">
       <property name="minimumSize">
        <size>
         <width>250</width>
@@ -38,11 +38,11 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
+      <widget class="QWidget" name="stageParams">
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-86</y>
          <width>235</width>
          <height>584</height>
         </rect>
@@ -190,7 +190,7 @@
          </widget>
         </item>
         <item row="10" column="1">
-         <widget class="QSpinBox" name="spinBox_3">
+         <widget class="QSpinBox" name="wpn_bazooka">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -207,7 +207,7 @@
          </widget>
         </item>
         <item row="11" column="1">
-         <widget class="QSpinBox" name="spinBox_4">
+         <widget class="QSpinBox" name="wpn_grenade">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -224,7 +224,7 @@
          </widget>
         </item>
         <item row="12" column="1">
-         <widget class="QSpinBox" name="spinBox_5">
+         <widget class="QSpinBox" name="wpn_cluster">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -241,7 +241,7 @@
          </widget>
         </item>
         <item row="13" column="1">
-         <widget class="QSpinBox" name="spinBox_6">
+         <widget class="QSpinBox" name="wpn_mortar">
           <property name="value">
            <number>5</number>
           </property>
@@ -255,7 +255,7 @@
          </widget>
         </item>
         <item row="14" column="1">
-         <widget class="QSpinBox" name="spinBox_7">
+         <widget class="QSpinBox" name="wpn_banana">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -272,7 +272,7 @@
          </widget>
         </item>
         <item row="15" column="1">
-         <widget class="QSpinBox" name="spinBox_8">
+         <widget class="QSpinBox" name="wpn_holy">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -289,7 +289,7 @@
          </widget>
         </item>
         <item row="16" column="1">
-         <widget class="QSpinBox" name="spinBox_9">
+         <widget class="QSpinBox" name="wpn_dynamite">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -306,7 +306,7 @@
          </widget>
         </item>
         <item row="17" column="1">
-         <widget class="QSpinBox" name="spinBox_10">
+         <widget class="QSpinBox" name="wpn_aerialAttack">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -323,7 +323,7 @@
          </widget>
         </item>
         <item row="18" column="1">
-         <widget class="QSpinBox" name="spinBox_11">
+         <widget class="QSpinBox" name="wpn_baseballBat">
           <property name="maximum">
            <number>999</number>
           </property>
@@ -340,7 +340,7 @@
          </widget>
         </item>
         <item row="19" column="1">
-         <widget class="QSpinBox" name="spinBox_12">
+         <widget class="QSpinBox" name="wpn_teleport">
           <property name="maximum">
            <number>999</number>
           </property>

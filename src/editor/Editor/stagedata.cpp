@@ -35,6 +35,9 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const GirderData& v) {
     out << YAML::Key << "angle";
     out << YAML::Value << v.angle;
 
+    out << YAML::Key << "length";
+    out << YAML::Value << v.length;
+
     out << YAML::EndMap;
     return out;
 }
@@ -56,6 +59,9 @@ void StageData::dump(std::ostream& output) {
 
     emitter << YAML::BeginMap;
 
+    emitter << YAML::Key << "weaponsAmmo";
+    emitter << YAML::Value << this->weapons;
+
     emitter << YAML::Key << "width";
     emitter << YAML::Value << this->width;
 
@@ -68,11 +74,8 @@ void StageData::dump(std::ostream& output) {
     emitter << YAML::Key << "worms";
     emitter << YAML::Value << this->worms;
 
-    emitter << YAML::Key << "longGirders";
-    emitter << YAML::Value << this->longGirders;
-
-    emitter << YAML::Key << "shortGirders";
-    emitter << YAML::Value << this->shortGirders;
+    emitter << YAML::Key << "girders";
+    emitter << YAML::Value << this->girders;
 
     emitter << YAML::Key << "background";
     emitter << YAML::Value;
@@ -105,9 +108,13 @@ void StageData::addWorm(QPointF position) {
 }
 
 void StageData::addShortGirder(QPointF position, qreal angle) {
-    this->shortGirders.push_back(GirderData{this->toGameCoords(position), -angle});
+    this->girders.push_back(GirderData{this->toGameCoords(position), -angle, 5.3845});
 }
 
 void StageData::addLongGirder(QPointF position, qreal angle) {
-    this->longGirders.push_back(GirderData{this->toGameCoords(position), -angle});
+    this->girders.push_back(GirderData{this->toGameCoords(position), -angle, 10.769});
+}
+
+void StageData::addWeaponAmmo(QString weaponName, int ammo) {
+    this->weapons[weaponName.toStdString()] = ammo;
 }
