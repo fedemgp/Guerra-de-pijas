@@ -36,7 +36,7 @@ class Worm {
      */
    public:
     Direction direction{Direction::left};
-    float health{0};
+    std::uint8_t health{0};
     const ID id;
 
     explicit Worm(ID id, const GUI::GameTextureManager &texture_mgr,

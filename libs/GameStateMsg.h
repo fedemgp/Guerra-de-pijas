@@ -133,7 +133,7 @@ struct GameStateMsg {
     std::uint8_t num_teams;
     std::uint8_t wormsTeam[WORMS_QUANTITY];
     Worm::Direction wormsDirection[WORMS_QUANTITY];
-    float wormsHealth[WORMS_QUANTITY];
+    std::uint16_t wormsHealth[WORMS_QUANTITY];
     std::uint32_t teamHealths[TOTAL_TEAM_QUANTITY];
     float positions[WORMS_QUANTITY * 2];
     Worm::StateID stateIDs[WORMS_QUANTITY];

@@ -125,7 +125,7 @@ void Worms::Player::update(float dt) {
 
     if (this->getPosition().y <= this->waterLevel && this->getStateId() != Worm::StateID::Dead &&
         this->getStateId() != Worm::StateID::Drowning) {
-        this->health = 0.0f;
+        this->health = 0;
         if (this->getStateId() == Worm::StateID::Hit) {
             this->notify(*this, Event::EndHit);
         }
@@ -491,7 +491,7 @@ void Worms::Player::landDamage(float yDistance) {
     if (yDistance > CONFIG.getSafeFallDistance()) {
         this->health -=
             (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
-        if (this->health > 0.0f) {
+        if (this->health > 0) {
             this->notify(*this, Event::DamageOnLanding);
         }
     }

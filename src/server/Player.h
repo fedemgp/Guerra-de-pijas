@@ -33,7 +33,7 @@ class Player : public PhysicsEntity {
    public:
     Worm::Direction direction{Worm::Direction::left};
     Worm::Direction lastWalkDirection;
-    float health{0};
+    std::uint16_t health{0};
     Math::Point<float> teleportPosition{0.0f, 0.0f};
 
     explicit Player(Physics &physics);

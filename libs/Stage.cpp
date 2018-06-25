@@ -88,7 +88,7 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
         throw Exception{"Invalid stage: expected float 'wormsHealth'"};
     }
 
-    uint16_t wormsHealth = data["wormsHealth"].as<float>();
+    uint16_t wormsHealth = data["wormsHealth"].as<unsigned short>();
 
     Stage stage;
     if (!data["width"] || !data["height"]) {
@@ -148,27 +148,6 @@ Worms::Stage::Stage() {
     this->weaponStrToID.emplace("mortar", Worm::WMortar);
     this->weaponStrToID.emplace("teleport", Worm::WTeleport);
     return;
-    uint16_t health = 100;
-    this->players.push_back(Worms::WormData{health, Math::Point<float>{50.0f, 20.0f}});
-    this->players.push_back(Worms::WormData{health, Math::Point<float>{-3.0f, 20.0f}});
-    this->players.push_back(Worms::WormData{health, Math::Point<float>{-5.0f, 20.0f}});
-
-    this->girders.push_back(GirderData{11, 1.42f, 0.0f, Math::Point<float>{50.0f, 10.0f}});
-    this->girders.push_back(GirderData{31, 1.42f, 0.0f, Math::Point<float>{-50.0f, 7.0f}});
-    this->girders.push_back(GirderData{20, 1.42f, 0.0f, Math::Point<float>{-30.0f, 10.0f}});
-    this->girders.push_back(GirderData{10, 1.42f, 0.0f, Math::Point<float>{0.0f, 13.0f}});
-    this->girders.push_back(GirderData{4, 1.42f, 0.0f, Math::Point<float>{-5.0f, 9.5f}});
-    this->girders.push_back(GirderData{8, 1.42f, 0.0f, Math::Point<float>{-17.0f, 2.0f}});
-    this->girders.push_back(GirderData{14, 1.42f, 0.0f, Math::Point<float>{-11.0f, 5.0f}});
-    this->girders.push_back(GirderData{2.5f, 1.42f, 0.0f, Math::Point<float>{-3.0f, 2.0f}});
-    this->girders.push_back(GirderData{7, 1.42f, 0.0f, Math::Point<float>{5.0f, 2.0f}});
-    this->girders.push_back(GirderData{13.4f, 1.42f, 0.0f, Math::Point<float>{30.0f, 15.0f}});
-    this->girders.push_back(GirderData{13.4f, 1.42f, 0.0f, Math::Point<float>{11.0f, 2.0f}});
-    this->girders.push_back(GirderData{6.0f, 1.42f, 45.0f, Math::Point<float>{21.5f, 13.0f}});
-    this->girders.push_back(GirderData{8.0f, 1.42f, -30.0f, Math::Point<float>{40.0f, 13.0f}});
-    this->girders.push_back(GirderData{8.0f, 1.42f, -46.0f, Math::Point<float>{7.5f, 11.0f}});
-    this->girders.push_back(GirderData{10.0f, 1.42f, -60.0f, Math::Point<float>{57.0f, 6.0f}});
-    this->girders.push_back(GirderData{10.0f, 1.42f, -44.0f, Math::Point<float>{61.5f, 0.0f}});
 }
 
 const std::vector<Worms::WormData> &Worms::Stage::getWorms() const {

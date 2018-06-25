@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 #include "GUIGame.h"
 #include "GameStateMsg.h"
