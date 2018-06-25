@@ -1,3 +1,14 @@
+weaponsAmmo:
+  aerialAttack: 1
+  banana: 5
+  baseballBat: 1
+  bazooka: 999
+  cluster: 5
+  dynamite: 2
+  grenade: 999
+  holy: 2
+  mortar: 5
+  teleport: 2
 width: 250
 height: 250
 wormsHealth: 100

@@ -56,6 +56,9 @@ void StageData::dump(std::ostream& output) {
 
     emitter << YAML::BeginMap;
 
+    emitter << YAML::Key << "weaponsAmmo";
+    emitter << YAML::Value << this->weapons;
+
     emitter << YAML::Key << "width";
     emitter << YAML::Value << this->width;
 
@@ -110,4 +113,8 @@ void StageData::addShortGirder(QPointF position, qreal angle) {
 
 void StageData::addLongGirder(QPointF position, qreal angle) {
     this->longGirders.push_back(GirderData{this->toGameCoords(position), -angle});
+}
+
+void StageData::addWeaponAmmo(QString weaponName, int ammo) {
+    this->weapons[weaponName.toStdString()] = ammo;
 }

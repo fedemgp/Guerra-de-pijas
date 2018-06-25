@@ -116,20 +116,20 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
         stage.girders.push_back(_parseGirder(girderNode));
     }
 
+    /* loads the weapons ammo */
     YAML::Node weaponsNode;
-    /* loads the weapon ammo */
-    if (!data["weapons"] || !data["weapons"].IsSequence()){
+    if (!data["weaponsAmmo"] || !data["weaponsAmmo"].IsMap()){
         weaponsNode = YAML::LoadFile(DEFAULT_WEAPON_CONFIG_PATH);
     } else{
-        weaponsNode = data["weapons"];
+        weaponsNode = data["weaponsAmmo"];
     }
 
-    for (std::size_t i = 0; i < weaponsNode.size(); i++){
-        YAML::Node weaponNode = weaponsNode[i];
-        stage.ammunitionCounter.emplace(stage.weaponStrToID.at(weaponNode["name"].as<std::string>()),
-                                        weaponNode["infinity"] ? -1
-                                                              : weaponNode["quantity"].as<std::int16_t>());
+    for (const auto &elem : weaponsNode) {
+        auto weaponID = stage.weaponStrToID.at(elem.first.as<std::string>());
+        int ammo = elem.second.as<int>();
+        stage.ammunitionCounter.emplace(weaponID, ammo);
     }
+
     // -1 indicates infinite uses
     stage.ammunitionCounter.emplace(Worm::WNone, -1);
 

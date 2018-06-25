@@ -8,6 +8,7 @@
 #include <Qt>
 #include <iostream>
 #include <vector>
+#include <map>
 #include "yaml-cpp/yaml.h"
 
 struct GirderData {
@@ -36,6 +37,7 @@ class StageData {
     void addWorm(QPointF position);
     void addShortGirder(QPointF position, qreal angle);
     void addLongGirder(QPointF position, qreal angle);
+    void addWeaponAmmo(QString weaponName, int ammo);
 
    private:
     QPointF toGameCoords(const QPointF &point) const;
@@ -45,6 +47,7 @@ class StageData {
     std::vector<GirderData> longGirders;
     std::vector<GirderData> shortGirders;
     std::vector<WormData> worms;
+    std::map<std::string, int> weapons;
 };
 
 #endif  // STAGEDATA_H
