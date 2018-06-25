@@ -1,0 +1,37 @@
+Para instalar el juego se debe preinstalar previamente las dependencias. Para esto, se debe ejecutar los comandos que se observan en el código \ref{code:installDep} (para distribuciones debian).
+
+\lstset{
+	language=Bash, 
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{eminence},
+    stringstyle=\color{red},
+    basicstyle=\small\ttfamily, % basic font setting
+    emph={int,char,double,float,unsigned,void,bool,NULL},
+    emphstyle={\color{blue}},
+    escapechar=\&,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny, 
+    stepnumber=1, 
+    numbersep=-2pt
+    % keyword highlighting
+    }
+\begin{lstlisting}[frame=single, caption=Instalación de dependencias, label=code:installDep]
+	# installs SDL2 dependencies
+	sudo apt-get install libsdl2-dev libsdl2-image-dev libsdl2-ttf-dev libsdl2-mixer-dev
+	# installs Qt5 dependencies
+	sudo apt-get install qt5-default qtdeclarative5-dev
+\end{lstlisting}
+
+Una vez instaladas las dependencias, se procederá a instalar el juego. Para esto, primero se debe descrompimir el paquete. Seguido de esto, se debe abrir una consola en la carpeta recientemente creada, y ejecutar las lineas del código \ref{code:installGame}.
+
+\begin{lstlisting}[frame=single, caption=Instalación del juego, label=code:installGame]
+	# creates a build folder
+	mkdir build
+	# prepares project to compile
+	cmake ..
+	# compiles and moves binaries to /usr/bin, configuration file to /etc/Worms and assets to /var/Worms 
+	make install
+\end{lstlisting}
+
+Una vez terminado, se pueden ejecutar los distintos binarios ejecutando por consola \texttt{worms\_client}, \texttt{worms\_server <port>}, y \texttt{worms\_editor} para levantar el cliente, el servidor y el editor respectivamente.

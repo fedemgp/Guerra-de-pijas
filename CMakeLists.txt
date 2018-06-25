@@ -70,6 +70,8 @@ target_link_libraries(worms_editor Qt5::Core Qt5::Widgets yaml-cpp)
 
 file(COPY assets DESTINATION ./)
 file(COPY serverConfig.yaml DESTINATION ./)
+file(COPY defaultWeapons.yaml DESTINATION ./)
+file(COPY res DESTINATION ./)
 
 message("[INFO] Adding Installation directives")
 INSTALL(TARGETS worms_client worms_server worms_editor DESTINATION /usr/bin)

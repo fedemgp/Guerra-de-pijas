@@ -17,11 +17,11 @@
     velocity: 3.0
   },
   game: {
+    turnTime: 10,
+    extraTurnTime: 3,
+    waitForNextTurnTime: 3,
     safeFallDistance: 6.0,
     maxFallDamage: 25.0,
-    extraTurnTime: 3,
-    turnTime: 10,
-    waitForNextTurnTime: 3,
     dyingTime: 2.6,
     drowningTime: 1.0,
     battingTime: 0.5,

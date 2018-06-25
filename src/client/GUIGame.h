@@ -29,7 +29,7 @@
 #include "Window.h"
 #include "Worm.h"
 
-#define ASSETS_PATH "assets"
+#define ASSETS_PATH "./assets"
 
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
