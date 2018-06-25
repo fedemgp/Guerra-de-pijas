@@ -22,6 +22,7 @@ class JoinGameWindow : public GameWindow {
    private:
     uint8_t currentGameIndex{0};
     Text gameName;
+    Text numPlayers;
     Button prev;
     Button next;
     std::vector<IO::GameInfo> &info;

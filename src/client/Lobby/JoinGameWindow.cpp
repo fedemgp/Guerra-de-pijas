@@ -9,6 +9,7 @@ GUI::JoinGameWindow::JoinGameWindow(Window &window, Font &font, Camera &cam,
                                     std::vector<IO::GameInfo> &info)
     : GameWindow(window, font, cam),
       gameName(font),
+      numPlayers(font),
       prev("previous", font),
       next("next", font),
       info(info) {
@@ -44,9 +45,14 @@ void GUI::JoinGameWindow::render() {
 
     if (this->info.size() > 0) {
         const IO::GameInfo &info = this->info.at(this->currentGameIndex);
+
         this->gameName.set("Game #" + std::to_string(info.gameID), BLACK, TEXT_SIZE * 2);
         this->gameName.renderFixed(center - ScreenPosition{0, this->window.getHeight() / 4},
                                    this->cam);
+
+        std::string msg =
+            std::to_string(info.numCurrentPlayers) + "/" + std::to_string(info.numTotalPlayers);
+        this->numPlayers.set(msg, BLACK, TEXT_SIZE * 2);
     }
 
     this->window.render();
@@ -57,7 +63,17 @@ void GUI::JoinGameWindow::render() {
  *
  * @param sp Position where there was a click.
  */
-void GUI::JoinGameWindow::buttonPressed(ScreenPosition sp) {}
+void GUI::JoinGameWindow::buttonPressed(ScreenPosition sp) {
+    if (this->prev.inside(sp)) {
+        if (this->currentGameIndex == 0) {
+            this->currentGameIndex = static_cast<uint8_t>(this->info.size()) - 1;
+        } else {
+            this->currentGameIndex--;
+        }
+    } else if (this->prev.inside(sp)) {
+        this->currentGameIndex = (this->currentGameIndex + 1) % this->info.size();
+    }
+}
 
 /**
  * @brief Handles key press events.
