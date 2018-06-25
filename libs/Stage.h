@@ -6,7 +6,7 @@
 #ifndef __STAGE_H__
 #define __STAGE_H__
 
-#define DEFAULT_WEAPON_CONFIG_PATH "defaultWeapons.yaml"
+#define DEFAULT_WEAPON_CONFIG_PATH "./defaultWeapons.yaml"
 
 #include <cstdint>
 #include <map>

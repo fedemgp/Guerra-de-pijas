@@ -1,0 +1,27 @@
+\subsection{Servidor}
+
+Para levantar un servidor, se requiere que se ejecute la siguiente linea:
+
+\lstset{
+	language=Bash, 
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{eminence},
+    stringstyle=\color{red},
+    basicstyle=\small\ttfamily, % basic font setting
+    emph={int,char,double,float,unsigned,void,bool,NULL},
+    emphstyle={\color{blue}},
+    escapechar=\&,
+    breaklines=true,
+    numbers=left,
+    numberstyle=\tiny, 
+    stepnumber=1, 
+    numbersep=-2pt
+    % keyword highlighting
+    }
+\begin{lstlisting}[frame=single, caption=Instalación de dependencias, label=code:openServer]
+	worms_server <PORT>
+\end{lstlisting}
+
+Donde el puerto debe ser mayor a 1000 si es que no se quiere ejecutar el comando como \texttt{sudo}. Además, si se quiere realizar cambios en la configuración del juego, es necesario hacerlo desde el servidor. 
+
+El archivo \texttt{serverConfig.yaml}, que se encuentra en \texttt{/etc/Worms}, tiene la configuración del juego. En este archivo se pueden modificar parámetros como los tiempos de los turnos (\emph{turnTime}, \emph{extraTurnTime}, \emph{waitForNextTurnTime}, \emph{teleportTime}), como también la distancia de caida que puede realizar el gusano sin recibir daño (\emph{safeFallDistance}), su daño maximo, etc. También se pueden modificar parámetros de las armas, como lo pueden ser el daño de esta, el radio del impacto, el factor de amortiguamiento de las explosiones (cuanto impulso se le asigna al gusano impactado), el tiempo inicial para que explote, la friccion y rebote de la bala ( efecto que se apreciará si es un arma que no explota al primer contacto), etc.
