@@ -10,14 +10,42 @@
 #define TOTAL_TEAM_QUANTITY 5
 #define WEAPONS_QUANTITY 10
 
-// TODO move this in client and Server global Config
-
 #define POWER_CHARGE_TIME 5.0f
+
+#define ELAPSED_TURN "elapT"
+#define WIND_INTENSITY "windI"
+#define CURRENT_WORM "curW"
+#define CURRENT_WORM_TO_FOLLOW "curWF"
+#define CURRENT_TEAM "curT"
+#define NUM_WORMS "numW"
+#define NUM_TEAMS "numT"
+#define WORMS_TEAM "wTeam"
+#define WORM_DIRECTION "wDir"
+#define WORM_HEALTH "wHealth"
+#define TEAM_HEALTHS "tHealth"
+#define WORM_POSITION "wPos"
+#define WORM_STATES "states"
+#define CURRENT_WEAPON "curWeap"
+#define WORM_ANGLES "wAngle"
+#define BULLET_QUANTITY_KEY "bullQ"
+#define BULLET_POSITION "bullP"
+#define BULLET_ANGLES "bullA"
+#define WEAPON_AMMUNITION "wAmmo"
+#define BULLET_TYPES "bullT"
+#define PROCESSING_INPUTS "procIn"
+#define CURRENT_TURN_TIME "curTime"
+#define GAME_ENDED "gameEnd"
+#define WINNER "win"
+#define USED_TOOL "toolUsed"
+#define WAITING_FOR_NEXT_TURN "waiting"
 
 #include <cstring>
 #include <netinet/in.h>
 #include <stdint.h>
 #include <vector>
+#include <yaml-cpp/node/node.h>
+#include <yaml-cpp/yaml.h>
+#include <iostream>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -95,31 +123,31 @@ struct PlayerMsg {
     PlayerInput input;
     Math::Point<float> position{0.0f, 0.0f};
 
-    std::size_t getSerializedSize() {
-        std::size_t length(0);
-        length += sizeof(input);
-        length += sizeof(position.x);
-        length += sizeof(position.y);
-
-        return length;
+    std::string serialize() {
+        YAML::Emitter emitter;
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "in" << YAML::Value << static_cast<std::uint32_t>(this->input);
+        emitter << YAML::Key << "pos" << YAML::Value;
+        {
+            emitter << YAML::BeginMap;
+            emitter << YAML::Key << "x" << YAML::Value << this->position.x;
+            emitter << YAML::Key << "y" << YAML::Value << this->position.y;
+            emitter << YAML::EndMap;
+        }
+        emitter << YAML::EndMap;
+        return std::move(std::string(emitter.c_str()));
     }
 
-    void serialize(void *buffer, std::size_t buffer_size) {
-        if (this->getSerializedSize() > buffer_size) {
-            throw Exception{"PlayerMsg: buffer too small"};
+    void deserialize(const std::string &data) {
+        YAML::Node msg = YAML::Load(data);
+        if (!msg["pos"] || !msg["in"] || !msg["pos"]["x"].IsScalar() || !msg["pos"]["y"].IsScalar()){
+            throw Exception("PlayerMsg: data corrupted");
         }
 
-        /* TODO: serialize each field with hton functions */
-        memcpy(buffer, this, this->getSerializedSize());
-    }
+        this->position.x = msg["pos"]["x"].as<float>();
+        this->position.y = msg["pos"]["y"].as<float>();
 
-    void deserialize(const void *buffer, std::size_t buffer_size) {
-        if (this->getSerializedSize() != buffer_size) {
-            throw Exception{"PlayerMsg: buffer size mismatch"};
-        }
-
-        /* TODO: deserialize each field with ntoh functions */
-        memcpy(this, buffer, this->getSerializedSize());
+        this->input = static_cast<PlayerInput>(msg["in"].as<std::uint32_t>());
     }
 };
 
@@ -152,26 +180,138 @@ struct GameStateMsg {
     bool playerUsedTool;
     bool waitingForNextTurn;
 
-    std::size_t getSerializedSize() {
-        return sizeof(*this);
+    std::string serialize() {
+        YAML::Emitter emitter;
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << ELAPSED_TURN << YAML::Value << this->elapsedTurnSeconds;
+        emitter << YAML::Key << WIND_INTENSITY << YAML::Value << this->windIntensity;
+        emitter << YAML::Key << CURRENT_WORM << YAML::Value << this->currentWorm;
+        emitter << YAML::Key << CURRENT_WORM_TO_FOLLOW << YAML::Value << this->currentWormToFollow;
+        emitter << YAML::Key << CURRENT_TEAM << YAML::Value << this->currentTeam;
+        emitter << YAML::Key << NUM_WORMS << YAML::Value << this->num_worms;
+        emitter << YAML::Key << NUM_TEAMS << YAML::Value << this->num_teams;
+
+        emitter << YAML::Key << WORMS_TEAM << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < WORMS_QUANTITY; i++){
+            emitter << this->wormsTeam[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << WORM_DIRECTION << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < WORMS_QUANTITY; i++){
+            emitter << static_cast<std::uint8_t>(this->wormsDirection[i]);
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << WORM_HEALTH << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < WORMS_QUANTITY; i++){
+            emitter << this->wormsHealth[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << TEAM_HEALTHS << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++){
+            emitter << this->teamHealths[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << WORM_POSITION << YAML::Value << YAML::BeginSeq;
+        int totalPos = WORMS_QUANTITY * 2;
+        for (int i = 0; i < totalPos; i++){
+            emitter << this->positions[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << WORM_STATES << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < WORMS_QUANTITY; i++){
+            emitter << static_cast<std::uint8_t>(this->stateIDs[i]);
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << CURRENT_WEAPON << YAML::Value << static_cast<std::uint8_t >(this->activePlayerWeapon);
+        emitter << YAML::Key << WORM_ANGLES << YAML::Value << this->activePlayerAngle;
+        emitter << YAML::Key << BULLET_QUANTITY_KEY << YAML::Value << this->bulletsQuantity;
+
+        emitter << YAML::Key << BULLET_POSITION << YAML::Value << YAML::BeginSeq;
+        int totalBullPos = BULLETS_QUANTITY * 2;
+        for (int i = 0; i < totalBullPos; i++){
+            emitter << this->bullets[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << BULLET_ANGLES << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < BULLETS_QUANTITY; i++){
+            emitter << this->bulletsAngle[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << BULLET_TYPES << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < BULLETS_QUANTITY; i++){
+            emitter << static_cast<std::uint8_t >(this->bulletType[i]);
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << WEAPON_AMMUNITION << YAML::Value << YAML::BeginSeq;
+        for (int i = 0; i < WEAPONS_QUANTITY; i++){
+            emitter << this->weaponAmmunition[i];
+        }
+        emitter << YAML::EndSeq;
+
+        emitter << YAML::Key << PROCESSING_INPUTS << YAML::Value << this->processingInputs;
+        emitter << YAML::Key << CURRENT_TURN_TIME << YAML::Value << this->currentPlayerTurnTime;
+        emitter << YAML::Key << GAME_ENDED << YAML::Value << this->gameEnded;
+        emitter << YAML::Key << WINNER << YAML::Value << this->winner;
+        emitter << YAML::Key << USED_TOOL << YAML::Value << this->playerUsedTool;
+        emitter << YAML::Key << WAITING_FOR_NEXT_TURN << YAML::Value << this->waitingForNextTurn;
+
+        emitter << YAML::EndMap;
+
+        return std::move(std::string(emitter.c_str()));
     }
 
-    void serialize(void *buffer, std::size_t buffer_size) {
-        if (this->getSerializedSize() > buffer_size) {
-            throw Exception{"GameStateMsg: buffer too small"};
+    void deserialize(const std::string &data) {
+        YAML::Node msg = YAML::Load(data);
+
+        this->elapsedTurnSeconds = msg[ELAPSED_TURN].as<std::uint16_t>();
+        this->windIntensity = msg[WIND_INTENSITY].as<std::int8_t>();
+        this->currentWorm = msg[CURRENT_WORM].as<std::uint8_t>();
+        this->currentWormToFollow = msg[CURRENT_WORM_TO_FOLLOW].as<std::uint8_t>();
+        this->currentTeam = msg[CURRENT_TEAM].as<std::uint8_t>();
+        this->num_worms = msg[NUM_WORMS].as<std::uint8_t>();
+        this->num_teams = msg[NUM_TEAMS].as<std::uint8_t>();
+        this->activePlayerWeapon = static_cast<Worm::WeaponID >(msg[CURRENT_WEAPON].as<std::uint8_t>());
+        this->activePlayerAngle = msg[WORM_ANGLES].as<float>();
+        this->bulletsQuantity = msg[BULLET_QUANTITY_KEY].as<std::uint8_t>();
+        this->processingInputs = msg[PROCESSING_INPUTS].as<bool>();
+        this->currentPlayerTurnTime = msg[CURRENT_TURN_TIME].as<std::uint16_t>();
+        this->gameEnded = msg[GAME_ENDED].as<bool>();
+        this->winner = msg[WINNER].as<std::uint8_t>();
+        this->playerUsedTool = msg[USED_TOOL].as<bool>();
+        this->waitingForNextTurn = msg[WAITING_FOR_NEXT_TURN].as<bool>();
+
+        for (int i = 0, j = 0; i < WORMS_QUANTITY; i++, j+=2){
+            this->wormsTeam[i] = msg[WORMS_TEAM][i].as<std::uint8_t>();
+            this->wormsDirection[i] = static_cast<Worm::Direction>(msg[WORM_DIRECTION][i].as<std::uint8_t>());
+            this->wormsHealth[i] = msg[WORM_HEALTH][i].as<std::uint16_t>();
+            this->positions[j] = msg[WORM_POSITION][j].as<float>();
+            this->positions[j + 1] = msg[WORM_POSITION][j + 1].as<float>();
+            this->stateIDs[i] = static_cast<Worm::StateID >(msg[WORM_STATES][i].as<std::uint8_t>());
         }
 
-        /* TODO: serialize each field with hton functions */
-        memcpy(buffer, this, this->getSerializedSize());
-    }
-
-    void deserialize(const void *buffer, std::size_t buffer_size) {
-        if (this->getSerializedSize() != buffer_size) {
-            throw Exception{"GameStateMsg: buffer size mismatch"};
+        for (int i = 0, j = 0; i < BULLETS_QUANTITY; i++, j+=2){
+            this->bullets[j] = msg[BULLET_POSITION][j].as<float>();
+            this->bullets[j + 1] = msg[BULLET_POSITION][j + 1].as<float>();
+            this->bulletsAngle[i] = msg[BULLET_ANGLES][i].as<float>();
+            this->bulletType[i] = static_cast<Worm::WeaponID>(msg[BULLET_TYPES][i].as<std::uint8_t>());
         }
 
-        /* TODO: deserialize each field with ntoh functions */
-        memcpy(this, buffer, this->getSerializedSize());
+        for (int i = 0; i < WEAPONS_QUANTITY; i++){
+            this->weaponAmmunition[i] = msg[WEAPON_AMMUNITION][i].as<std::int16_t>();
+        }
+
+        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++){
+            this->teamHealths[i] = msg[TEAM_HEALTHS][i].as<std::uint32_t>();
+        }
     }
 };
 }  // namespace IO

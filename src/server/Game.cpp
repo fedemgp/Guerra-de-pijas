@@ -95,15 +95,22 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
 
     /* TODO: avoid hardcoding the size */
     IO::PlayerMsg msg;
-    char *buffer = new char[msg.getSerializedSize()];
 
     try {
         while (!this->quit) {
+            /* receives the size of the msg */
+            std::uint32_t size(0);
+            socket.receive((char *) &size, sizeof(std::uint32_t));
+            size = ntohl(size);
+
+            std::vector<char> buffer(size, 0);
             /* reads the raw data from the buffer */
-            socket.receive(buffer, msg.getSerializedSize());
+            socket.receive(buffer.data(), size);
+
+            std::string buff(buffer.data(), size);
 
             /* sets the struct data from the buffer */
-            msg.deserialize(buffer, msg.getSerializedSize());
+            msg.deserialize(buff);
 
             /* pushes the message into the player's input queue if it's the current player */
             if (this->currentTeam == playerIndex) {
@@ -113,8 +120,6 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
     }
-
-    delete[] buffer;
 }
 
 /**
@@ -127,13 +132,16 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
     GameSnapshot &snapshot = this->snapshots.at(playerIndex);
 
     IO::GameStateMsg msg;
-    char *buffer = new char[msg.getSerializedSize()];
 
     try {
         while (!this->quit) {
             msg = snapshot.get(true);
-            msg.serialize(buffer, msg.getSerializedSize());
-            socket.send(buffer, msg.getSerializedSize());
+            std::string buff = msg.serialize();
+            std::uint32_t size = buff.size();
+            std::uint32_t netInt = htonl(size);
+
+            socket.send((char *)&netInt, sizeof(std::uint32_t));
+            socket.send(buff.data(), size);
         }
     } catch (const IO::Interrupted &e) {
         /* this means that the game is ready to exit */
@@ -141,7 +149,6 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
     }
 
-    delete[] buffer;
 }
 
 void Worms::Game::start() {
@@ -455,14 +462,16 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
 }
 
 void Worms::Game::calculateWind() {
-    std::random_device rnd_device;
-    std::mt19937 mersenne_engine(rnd_device());
-    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
-
-    this->wind.xDirection =
-        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
-                                                                                              : -1;
-    this->wind.instensity = (float) distr(mersenne_engine);
+    this->wind.xDirection = 1;
+    this->wind.instensity = 0.2;
+//    std::random_device rnd_device;
+//    std::mt19937 mersenne_engine(rnd_device());
+//    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
+//
+//    this->wind.xDirection =
+//        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
+//                                                                                              : -1;
+//    this->wind.instensity = (float) distr(mersenne_engine);
 
     //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
     //                                                                    - this->wind.minIntensity)

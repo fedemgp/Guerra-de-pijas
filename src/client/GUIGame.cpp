@@ -202,37 +202,46 @@ GUI::Game::~Game() {
 
 void GUI::Game::inputWorker() {
     IO::GameStateMsg msg;
-    char *buffer = new char[msg.getSerializedSize()];
-
     try {
         while (!this->quit) {
-            this->socket.receive(buffer, msg.getSerializedSize());
-            msg.deserialize(buffer, msg.getSerializedSize());
+            /* receives the size of the msg */
+            std::uint32_t size(0);
+            socket.receive((char *) &size, sizeof(std::uint32_t));
+            size = ntohl(size);
+
+            std::vector<char> buffer(size, 0);
+            /* reads the raw data from the buffer */
+            socket.receive(buffer.data(), size);
+
+            std::string buff(buffer.data(), size);
+
+            /* sets the struct data from the buffer */
+            msg.deserialize(buff);
             this->snapshotBuffer.set(msg);
             this->snapshotBuffer.swap();
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
     }
-
-    delete[] buffer;
 }
 
 void GUI::Game::outputWorker() {
     IO::PlayerMsg msg;
-    char *buffer = new char[msg.getSerializedSize()];
 
     try {
         while (!this->quit) {
             this->output.pop(msg, true);
-            msg.serialize(buffer, msg.getSerializedSize());
-            this->socket.send(buffer, msg.getSerializedSize());
+            std::string buff = msg.serialize();
+            std::uint32_t size = buff.size();
+            std::uint32_t netSize = htonl(size);
+
+            this->socket.send((char *) &netSize, sizeof(std::uint32_t));
+            this->socket.send(buff.c_str(), size);
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
     }
 
-    delete[] buffer;
 }
 
 void GUI::Game::start() {
