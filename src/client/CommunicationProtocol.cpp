@@ -46,11 +46,11 @@ void IO::CommunicationProtocol::startCreateGame(){
     *this->output << IO::ServerResponse{IO::ServerResponseAction::levelsInfo};
 }
 
-void IO::CommunicationProtocol::createGame(int levelSelected) {
+void IO::CommunicationProtocol::createGame() {
     this->command = COMMAND_CREATE_GAME;
     this->protocol << this->command;
-    this->protocol << static_cast<unsigned  int>(levelSelected);
-    this->waitGameStart(levelSelected);
+    this->protocol << this->levelToCreate;
+    this->waitGameStart(this->levelsInfo[this->levelToCreate].playersQuantity);
 }
 
 void IO::CommunicationProtocol::startJoinGame(){
@@ -74,15 +74,15 @@ void IO::CommunicationProtocol::joinGame() {
     this->protocol << this->command;
     std::cout<<"mando sala "<< (int) this->gameToJoin <<std::endl;
     this->protocol << this->gameToJoin;
-    this->waitGameStart(0);
+    this->waitGameStart(this->gamesInfo[this->gameToJoin].numTotalPlayers);
 }
 
 ClientSocket IO::CommunicationProtocol::getSocket() {
     return std::move(this->protocol.getSocket());
 }
 
-void IO::CommunicationProtocol::waitGameStart(int levelSelected) {
-    while (this->playersQuantity < 2/*this->levelsInfo[levelSelected].playersQuantity*/) {
+void IO::CommunicationProtocol::waitGameStart(uint8_t playersQuantity) {
+    while (this->playersQuantity < playersQuantity) {
         this->protocol >> this->playersQuantity;
         *this->output << IO::ServerResponse{IO::ServerResponseAction::playerConnected};
         std::cout<< "players quantity " << (int) this->playersQuantity<<std::endl;
@@ -104,9 +104,8 @@ void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
             break;
         }
         case IO::ClientGUIInput::levelSelected: {
-            auto &levelSelected = (IO::LevelSelected &)(msg);
             std::cout << " asdasd";
-            this->createGame(levelSelected.levelSelected);
+            this->createGame();
             break;
         }
         case IO::ClientGUIInput::startJoinGame: {

@@ -1,5 +1,7 @@
+name: "level 1"
 width: 250
 height: 250
+players: 2
 wormsHealth: 100
 worms:
   - position: [-87.61538461538461, 122]

@@ -18,9 +18,10 @@ namespace Worms {
     public:
         explicit Lobbies(const std::vector<IO::LevelData> &levels);
 
-        void createGame(int playerID, std::vector<Observer *> lobbyObservers, unsigned int levelSelected);
+        void createGame(int playerID, std::vector<Observer *> lobbyObservers, uint8_t levelSelected);
         void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID, Observer *lobbyObserver);
+        const std::vector<IO::LevelInfo> &getLevels();
         std::list<Lobby> &getLobbies();
 
     private:
@@ -28,6 +29,7 @@ namespace Worms {
         std::list<Lobby> lobbies;
         uint8_t idLobby{0};
         const std::vector<IO::LevelData> &levels;
+        std::vector<IO::LevelInfo> levelsInfo;
     };
 }
 

@@ -56,19 +56,20 @@ void Worms::GameLobbyAssistant::stop() {
 }
 
 void Worms::GameLobbyAssistant::getLevels() {
-    std::vector<IO::LevelInfo> levelsInfo;
-    IO::LevelInfo levelInfo{"First Stage", 2};
-    levelsInfo.emplace_back(levelInfo);
-    levelInfo = {"Second Stage", 3};
-    levelsInfo.emplace_back(levelInfo);
-    levelInfo = {"Third Stage", 4};
-    levelsInfo.emplace_back(levelInfo);
+//    std::vector<IO::LevelInfo> levelsInfo;
+//    IO::LevelInfo levelInfo{"First Stage", 2};
+//    levelsInfo.emplace_back(levelInfo);
+//    levelInfo = {"Second Stage", 3};
+//    levelsInfo.emplace_back(levelInfo);
+//    levelInfo = {"Third Stage", 4};
+//    levelsInfo.emplace_back(levelInfo);
 
-    this->protocol << levelsInfo;
+
+    this->protocol << this->lobbies.getLevels();
 }
 
 void Worms::GameLobbyAssistant::createGame() {
-    unsigned int levelSelected{0};
+    uint8_t levelSelected{0};
     this->protocol >> levelSelected;
     this->lobbies.createGame(this->playerID, this->lobbyObservers, levelSelected);
     this->quit = true;

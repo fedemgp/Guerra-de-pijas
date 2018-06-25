@@ -19,7 +19,8 @@
 namespace Worms {
     class Lobby : public Thread, public Subject {
     public:
-        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData &level);
+        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData level,
+              const IO::LevelInfo levelInfo);
         Lobby(Lobby &&other) noexcept;
         Lobby(Lobby &copy) = delete;
 
@@ -38,12 +39,12 @@ namespace Worms {
     private:
         std::mutex mutex;
         const std::uint8_t id;
-        std::uint8_t playersQuantity{2};
         std::uint8_t actualPlayers{0};
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
         std::vector<Observer *> obs;
-        const IO::LevelData &level;
+        const IO::LevelData level;
+        const IO::LevelInfo levelInfo;
 
         bool finished{false};
         bool gameStarted{false};

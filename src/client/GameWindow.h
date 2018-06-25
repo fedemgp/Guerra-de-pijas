@@ -55,7 +55,7 @@ namespace GUI {
 
     class GameWindow : public Subject {
     public:
-        unsigned int buttonSelected{0};
+        uint8_t buttonSelected{0};
 
         explicit GameWindow(Window &window, Font &font, Camera &cam);
 

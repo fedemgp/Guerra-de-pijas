@@ -116,12 +116,13 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::LevelSelected: {
-            auto createGamesWindow = dynamic_cast<CreateGameWindow *>(this->gameWindow.get());
-            this->output << IO::LevelSelected{IO::ClientGUIInput::levelSelected, createGamesWindow->buttonSelected};
+            auto createGameWindow = dynamic_cast<CreateGameWindow *>(this->gameWindow.get());
+            this->communicationProtocol->levelToCreate = createGameWindow->buttonSelected;
+            this->output << IO::ClientGUIMsg{IO::ClientGUIInput::levelSelected};
             this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
                                                                                     this->font,
                                                                                     this->cam,
-                                                                                    createGamesWindow->levelsInfo[createGamesWindow->buttonSelected].playersQuantity});
+                                                                                    createGameWindow->levelsInfo[createGameWindow->buttonSelected].playersQuantity});
             this->nextGameWindow->addObserver(this);
             break;
         }

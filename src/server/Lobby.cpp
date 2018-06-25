@@ -12,9 +12,11 @@
 
 /** Copio por ¿posible race condition?
  */
-Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData &level) :
+Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData level,
+                    const IO::LevelInfo levelInfo) :
         id(id),
-        level(level) {
+        level(level),
+        levelInfo(levelInfo) {
     for (auto *lobbyObserver : obs) {
         this->obs.emplace_back(lobbyObserver);
         this->addObserver(lobbyObserver);
@@ -27,7 +29,7 @@ void Worms::Lobby::joinGame(int playerID) {
     this->playerIDs.emplace_back(playerID);
     this->actualPlayers++;
     this->notify(*this, Event::NewPlayer);
-    if (this->actualPlayers == this->playersQuantity) {
+    if (this->actualPlayers == levelInfo.playersQuantity) {
         this->notify(*this, Event::StartGame);
         std::uint8_t i{0};
         for (auto *obs : this->obs) {
@@ -41,7 +43,7 @@ void Worms::Lobby::joinGame(int playerID) {
 }
 
 std::uint8_t Worms::Lobby::getPlayersQuantity() const{
-    return this->playersQuantity;
+    return this->levelInfo.playersQuantity;
 }
 
 std::uint8_t Worms::Lobby::getActualPlayers() const{
@@ -62,9 +64,9 @@ void Worms::Lobby::addPlayerSocket(CommunicationSocket &&player) {
 
 Worms::Lobby::Lobby(Worms::Lobby &&other) noexcept :
         id(other.id),
-        level(other.level){
+        level(other.level),
+        levelInfo(other.levelInfo) {
     if (this != &other){
-        this->playersQuantity = other.playersQuantity;
         this->actualPlayers = other.actualPlayers;
         this->playerIDs = std::move(other.playerIDs);
         this->players = std::move(other.players);
@@ -74,7 +76,7 @@ Worms::Lobby::Lobby(Worms::Lobby &&other) noexcept :
 void Worms::Lobby::run() {
     while (!this->finished) {
         if (this->gameStarted) {
-            for (std::uint8_t i = 0; i < this->playersQuantity; i++) {
+            for (std::uint8_t i = 0; i < levelInfo.playersQuantity; i++) {
                 char buffer[1];
                 buffer[0] = i;
                 this->players[i].send(buffer, sizeof(buffer));
