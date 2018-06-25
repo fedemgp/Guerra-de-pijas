@@ -39,9 +39,9 @@ public:
 
     /* Envía un entero de 4 bytes sin signo en big endian.
      */
-    void operator<<(unsigned int i){
-        unsigned int networkInt = htonl(i);
-        this->socket.send((char *) &networkInt, sizeof(unsigned int));
+    void operator<<(uint32_t i){
+        uint32_t networkInt = htonl(i);
+        this->socket.send((char *) &networkInt, sizeof(uint32_t));
     };
 
     /* Envía un unsigned long tratándolo como un entero de 4 bytes
@@ -59,34 +59,23 @@ public:
         this->socket.send(string.c_str(), string.length());
     };
 
-    void operator<<(IO::LevelInfo &levelInfo){
+    void operator<<(const IO::LevelInfo &levelInfo){
         *this << levelInfo.name;
         *this << levelInfo.playersQuantity;
     };
 
-    /* Envía un vector de cadenas de caracteres, enviando cada una
-     * por separado, utilizando el método ya definido para cicho fin.
-     */
-    void operator<<(const std::vector<std::string> &stringVector){
-        *this << stringVector.size();
-        for (auto &string : stringVector) {
-            *this << string;
-        }
+    void operator<<(const IO::GameInfo &info) {
+        *this << info.gameID;
+        *this << info.numCurrentPlayers;
+        *this << info.numTotalPlayers;
     };
 
-    void operator<<(std::vector<std::uint8_t> &uintVector){
-        *this << uintVector.size();
-        for (auto &uint : uintVector) {
-            *this << uint;
+    template <typename T> void operator<<(const std::vector<T> &vec) {
+        *this << vec.size();
+        for (const auto &elem : vec) {
+            *this << elem;
         }
-    };
-
-    void operator<<(std::vector<IO::LevelInfo> &levelsInfo){
-        *this << levelsInfo.size();
-        for (auto &levelInfo : levelsInfo) {
-            *this << levelInfo;
-        }
-    };
+    }
 
     /* Recibe un comando.
      */
@@ -126,45 +115,25 @@ public:
         return *this;
     };
 
-    /* Recibe un vector de cadenas de caracteres cuya longitud se conoce
-     * de antemano. Se reciben todas las cadenas por separado recibiendo
-     * de la forma ya indicada.
-     */
-    Protocol & operator>>(std::vector<std::string> &stringVector) {
-        unsigned int elements{0};
-        *this >> elements;
-        for (unsigned int i = 0; i < elements; i++) {
-            std::string string;
-            *this >> string;
-            stringVector.emplace_back(std::move(string));
-        }
-
+    Protocol &operator>>(IO::GameInfo &info){
+        *this >> info.gameID;
+        *this >> info.numCurrentPlayers;
+        *this >> info.numTotalPlayers;
         return *this;
     };
 
-    Protocol & operator>>(std::vector<std::uint8_t> &uintVector) {
+    template <typename T> Protocol &operator>>(std::vector<T> &vec) {
         unsigned int elements{0};
         *this >> elements;
         for (unsigned int i = 0; i < elements; i++) {
-            uint8_t uint;
-            *this >> uint;
-            uintVector.emplace_back(uint);
+            T elem;
+            *this >> elem;
+            vec.emplace_back(std::move(elem));
         }
 
         return *this;
-    };
+    }
 
-    Protocol & operator>>(std::vector<IO::LevelInfo> &levelsInfo) {
-        unsigned int elements{0};
-        *this >> elements;
-        for (unsigned int i = 0; i < elements; i++) {
-            IO::LevelInfo levelInfo;
-            *this >> levelInfo;
-            levelsInfo.emplace_back(levelInfo);
-        }
-
-        return *this;
-    };
     /**
      * @brief returns socket by move semantic
      * @return

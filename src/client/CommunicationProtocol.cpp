@@ -55,25 +55,17 @@ void IO::CommunicationProtocol::createGame(int levelSelected) {
 void IO::CommunicationProtocol::getGames(){
     this->command = COMMAND_GET_GAMES;
     this->protocol << this->command;
-    std::vector<std::uint8_t> games;
-    this->protocol >> games;
-//    this->clearScreen();
-    std::cout << "Lobby ID\t\tIn room\t\t\tTotal players\n";
-    std::uint8_t i{0};
-    for (auto &uint : games){
-        std::cout << (int) uint << "\t\t\t\t";
-        if (i == 2) {
-            std::cout << std::endl;
-            i = 0;
-        } else {
-            i++;
-        }
-    }
-    std::cout << std::endl;
+    this->protocol >> this->gamesInfo;
 }
 
 void IO::CommunicationProtocol::joinGame(){
     this->getGames();
+
+    IO::ServerResponse sr;
+    sr.action = IO::ServerResponseAction::gamesInfo;
+    *this->output << sr;
+    return;
+
     std::uint8_t gameToJoin;
     std::cout<< "Choose lobby." << std::endl;
     std::cin >> gameToJoin;

@@ -13,13 +13,13 @@ GUI::Button::Button(ScreenPosition sp, int height, int width, std::string &msg, 
     this->text.set(std::move(msg), SDL_Color{0xFF, 0xFF, 0xFF}, 40);
 }
 
-GUI::Button::Button(std::string &msg, GUI::Font &font, SDL_Color textColor, int textSize) :
+GUI::Button::Button(const std::string &msg, GUI::Font &font, SDL_Color textColor, int textSize) :
         text(font) {
-    this->text.set(std::move(msg), textColor, textSize);
+    this->text.set(msg, textColor, textSize);
 }
 
-GUI::Button::Button(std::string &msg, GUI::Font &font) :
-        msg(std::move(msg)),
+GUI::Button::Button(const std::string &msg, GUI::Font &font) :
+        msg(msg),
         text(font) {
 }
 
@@ -48,4 +48,23 @@ bool GUI::Button::inside(GUI::ScreenPosition sp) {
     }
 
     return inside;
+}
+
+/**
+ * @brief Sets the Text properties.
+ *
+ * @param color Text color.
+ * @param size Text size.
+ */
+void GUI::Button::setText(SDL_Color color, int size) {
+    this->text.set(this->msg, color, size);
+}
+
+/**
+ * @brief Sets the text background color.
+ *
+ * @param color New color.
+ */
+void GUI::Button::setBackground(SDL_Color color) {
+    this->text.setBackground(color);
 }

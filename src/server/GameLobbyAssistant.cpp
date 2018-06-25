@@ -63,7 +63,7 @@ void Worms::GameLobbyAssistant::getLevels() {
     levelsInfo.emplace_back(levelInfo);
     levelInfo = {"Third Stage", 4};
     levelsInfo.emplace_back(levelInfo);
-    
+
     this->protocol << levelsInfo;
 }
 

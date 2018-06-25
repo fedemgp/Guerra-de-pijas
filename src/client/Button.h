@@ -17,11 +17,13 @@ namespace GUI {
         int width{0};
 
         Button(ScreenPosition sp, int height, int width, std::string &msg, Font &font);
-        Button(std::string &msg, GUI::Font &font, SDL_Color textColor, int textSize);
-        Button(std::string &msg, Font &font);
+        Button(const std::string &msg, GUI::Font &font, SDL_Color textColor, int textSize);
+        Button(const std::string &msg, Font &font);
 
         bool inside(ScreenPosition sp);
         void render(GUI::Camera &cam, Window &window);
+        void setText(SDL_Color color, int size);
+        void setBackground(SDL_Color color);
 
     private:
         std::string msg;

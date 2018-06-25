@@ -15,6 +15,7 @@
 #include "SelectActionWindow.h"
 #include "CreateGameWindow.h"
 #include "WaitingPlayersWindow.h"
+#include "Lobby/JoinGameWindow.h"
 
 GUI::LobbyAssistant::LobbyAssistant(ClientSocket &socket, Window &window) :
         window(window),
@@ -101,11 +102,6 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
         }
         case Event::JoinGame: {
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::joinGame};
-            this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
-                                                                                    this->font,
-                                                                                    this->cam,
-                                                                                    0});
-            this->nextGameWindow->addObserver(this);
             break;
         }
         default: {
@@ -133,6 +129,14 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
                                                                                 this->font,
                                                                                 this->cam ,
                                                                                 this->communicationProtocol.levelsInfo});
+            this->nextGameWindow->addObserver(this);
+            break;
+        }
+        case IO::ServerResponseAction::gamesInfo: {
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new JoinGameWindow{this->window,
+                                                                                  this->font,
+                                                                                  this->cam ,
+                                                                                  this->communicationProtocol.gamesInfo});
             this->nextGameWindow->addObserver(this);
             break;
         }

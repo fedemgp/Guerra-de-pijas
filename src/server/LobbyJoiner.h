@@ -15,7 +15,7 @@ namespace Worms {
     class LobbyJoiner : public Thread {
     public:
         explicit LobbyJoiner(Worms::Lobbies &lobbies, IO::Stream<IO::ServerInternalMsg> &serverInput);
-        
+
         void run() override;
         void stop() override;
 

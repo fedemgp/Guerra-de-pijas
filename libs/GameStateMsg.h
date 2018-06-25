@@ -71,12 +71,13 @@ namespace IO {
         getGames,
         joinGame,
         quit,
-        levelSelected
+        levelSelected,
     };
     enum class ServerResponseAction {
         startGame,
         levelsInfo,
-        playerConnected
+        playerConnected,
+        gamesInfo,
     };
 
     struct ClientGUIMsg {
@@ -94,7 +95,7 @@ namespace IO {
         lobbyFinished,
         quit
     };
-    
+
     struct ServerInternalMsg {
         ServerInternalAction action;
     };
@@ -102,6 +103,12 @@ namespace IO {
     struct LevelInfo {
         std::string name;
         uint8_t playersQuantity;
+    };
+
+    struct GameInfo {
+        uint8_t gameID;
+        uint8_t numCurrentPlayers;
+        uint8_t numTotalPlayers;
     };
 
     struct LevelsInfo : public ServerResponse {

@@ -16,6 +16,7 @@
 #include "Observer.h"
 #include "Thread.h"
 #include "GameWindow.h"
+#include "GameStateMsg.h"
 
 namespace GUI { // Había una forward declaration con GameWindow pero no hace falta parece.
     class LobbyAssistant : public Observer {
