@@ -1,0 +1,49 @@
+\documentclass{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,headheight=42pt,hoffset=0.6cm, left=1cm, right=2cm, top=4cm, bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{parcolumns}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{xcolor}
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
+
+
+\usepackage[hang,bf]{caption}
+
+\input{informacionAlumnos.tex}
+\input{comandosUtiles.tex}
+
+\renewcommand{\lstlistingname}{Código}
+
+\begin{document}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markboth{}{\thesection\ \ #1}}
+\lhead{\includegraphics[width= 4 cm]{logofiuba}}
+\chead{}
+\rhead{\codMateria - \nombreMateria}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\newpage
+\input{caratula.tex}
+\section{Introducción}
+\label{sec:intro}	
+\input{intro.tex}
+
+\section{Requisitos de software}
+\label{sec:soft}	
+\input{soft.tex}
+\end{document}

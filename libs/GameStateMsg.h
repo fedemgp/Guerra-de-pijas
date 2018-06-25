@@ -18,10 +18,10 @@
 #define CURRENT_WORM_TO_FOLLOW "curWF"
 #define CURRENT_TEAM "curT"
 #define NUM_WORMS "numW"
-#define NUM_TEAMS "numT"
+#define NUM_TEAMS_KEY "numT"
 #define WORMS_TEAM "wTeam"
 #define WORM_DIRECTION "wDir"
-#define WORM_HEALTH "wHealth"
+#define WORM_HEALTH_KEY "wHealth"
 #define TEAM_HEALTHS "tHealth"
 #define WORM_POSITION "wPos"
 #define WORM_STATES "states"
@@ -190,7 +190,7 @@ struct GameStateMsg {
         emitter << YAML::Key << CURRENT_WORM_TO_FOLLOW << YAML::Value << this->currentWormToFollow;
         emitter << YAML::Key << CURRENT_TEAM << YAML::Value << this->currentTeam;
         emitter << YAML::Key << NUM_WORMS << YAML::Value << this->num_worms;
-        emitter << YAML::Key << NUM_TEAMS << YAML::Value << this->num_teams;
+        emitter << YAML::Key << NUM_TEAMS_KEY << YAML::Value << this->num_teams;
 
         emitter << YAML::Key << WORMS_TEAM << YAML::Value << YAML::BeginSeq;
         for (int i = 0; i < WORMS_QUANTITY; i++) {
@@ -204,7 +204,7 @@ struct GameStateMsg {
         }
         emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << WORM_HEALTH << YAML::Value << YAML::BeginSeq;
+        emitter << YAML::Key << WORM_HEALTH_KEY << YAML::Value << YAML::BeginSeq;
         for (int i = 0; i < WORMS_QUANTITY; i++) {
             emitter << this->wormsHealth[i];
         }
@@ -280,7 +280,7 @@ struct GameStateMsg {
         this->currentWormToFollow = msg[CURRENT_WORM_TO_FOLLOW].as<std::uint8_t>();
         this->currentTeam = msg[CURRENT_TEAM].as<std::uint8_t>();
         this->num_worms = msg[NUM_WORMS].as<std::uint8_t>();
-        this->num_teams = msg[NUM_TEAMS].as<std::uint8_t>();
+        this->num_teams = msg[NUM_TEAMS_KEY].as<std::uint8_t>();
         this->activePlayerWeapon =
             static_cast<Worm::WeaponID>(msg[CURRENT_WEAPON].as<std::uint8_t>());
         this->activePlayerAngle = msg[WORM_ANGLES].as<float>();
@@ -296,7 +296,7 @@ struct GameStateMsg {
             this->wormsTeam[i] = msg[WORMS_TEAM][i].as<std::uint8_t>();
             this->wormsDirection[i] =
                 static_cast<Worm::Direction>(msg[WORM_DIRECTION][i].as<std::uint8_t>());
-            this->wormsHealth[i] = msg[WORM_HEALTH][i].as<std::uint16_t>();
+            this->wormsHealth[i] = msg[WORM_HEALTH_KEY][i].as<std::uint16_t>();
             this->positions[j] = msg[WORM_POSITION][j].as<float>();
             this->positions[j + 1] = msg[WORM_POSITION][j + 1].as<float>();
             this->stateIDs[i] = static_cast<Worm::StateID>(msg[WORM_STATES][i].as<std::uint8_t>());
