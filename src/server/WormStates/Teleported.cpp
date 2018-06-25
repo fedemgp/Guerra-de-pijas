@@ -12,8 +12,7 @@ Worms::Teleported::Teleported()
 
 void Worms::Teleported::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;
-    if (this->timeElapsed >= this->teleportTime) {
-        p.notify(p, Event::Teleported);
+    if (this->timeElapsed >= this->teleportTime){
         p.setState(Worm::StateID::Falling);
     }
 }

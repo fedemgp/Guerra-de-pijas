@@ -24,6 +24,7 @@ std::list<Worms::Bullet> Weapon::Teleport::onExplode(const Worms::Bullet &mainBu
 
 void Weapon::Teleport::positionSelected(Worms::Player &p, Math::Point<float> point) {
     p.teleportPosition = point;
+    p.notify(p, Event::Teleported);
     p.setState(Worm::StateID::Teleporting);
 }
 
