@@ -39,13 +39,13 @@
 #define USED_TOOL "toolUsed"
 #define WAITING_FOR_NEXT_TURN "waiting"
 
-#include <cstring>
 #include <netinet/in.h>
 #include <stdint.h>
-#include <vector>
 #include <yaml-cpp/node/node.h>
 #include <yaml-cpp/yaml.h>
+#include <cstring>
 #include <iostream>
+#include <vector>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -140,7 +140,8 @@ struct PlayerMsg {
 
     void deserialize(const std::string &data) {
         YAML::Node msg = YAML::Load(data);
-        if (!msg["pos"] || !msg["in"] || !msg["pos"]["x"].IsScalar() || !msg["pos"]["y"].IsScalar()){
+        if (!msg["pos"] || !msg["in"] || !msg["pos"]["x"].IsScalar() ||
+            !msg["pos"]["y"].IsScalar()) {
             throw Exception("PlayerMsg: data corrupted");
         }
 
@@ -192,67 +193,68 @@ struct GameStateMsg {
         emitter << YAML::Key << NUM_TEAMS << YAML::Value << this->num_teams;
 
         emitter << YAML::Key << WORMS_TEAM << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++){
+        for (int i = 0; i < WORMS_QUANTITY; i++) {
             emitter << this->wormsTeam[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << WORM_DIRECTION << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++){
+        for (int i = 0; i < WORMS_QUANTITY; i++) {
             emitter << static_cast<std::uint8_t>(this->wormsDirection[i]);
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << WORM_HEALTH << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++){
+        for (int i = 0; i < WORMS_QUANTITY; i++) {
             emitter << this->wormsHealth[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << TEAM_HEALTHS << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++){
+        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++) {
             emitter << this->teamHealths[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << WORM_POSITION << YAML::Value << YAML::BeginSeq;
         int totalPos = WORMS_QUANTITY * 2;
-        for (int i = 0; i < totalPos; i++){
+        for (int i = 0; i < totalPos; i++) {
             emitter << this->positions[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << WORM_STATES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++){
+        for (int i = 0; i < WORMS_QUANTITY; i++) {
             emitter << static_cast<std::uint8_t>(this->stateIDs[i]);
         }
         emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << CURRENT_WEAPON << YAML::Value << static_cast<std::uint8_t >(this->activePlayerWeapon);
+        emitter << YAML::Key << CURRENT_WEAPON << YAML::Value
+                << static_cast<std::uint8_t>(this->activePlayerWeapon);
         emitter << YAML::Key << WORM_ANGLES << YAML::Value << this->activePlayerAngle;
         emitter << YAML::Key << BULLET_QUANTITY_KEY << YAML::Value << this->bulletsQuantity;
 
         emitter << YAML::Key << BULLET_POSITION << YAML::Value << YAML::BeginSeq;
         int totalBullPos = BULLETS_QUANTITY * 2;
-        for (int i = 0; i < totalBullPos; i++){
+        for (int i = 0; i < totalBullPos; i++) {
             emitter << this->bullets[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << BULLET_ANGLES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < BULLETS_QUANTITY; i++){
+        for (int i = 0; i < BULLETS_QUANTITY; i++) {
             emitter << this->bulletsAngle[i];
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << BULLET_TYPES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < BULLETS_QUANTITY; i++){
-            emitter << static_cast<std::uint8_t >(this->bulletType[i]);
+        for (int i = 0; i < BULLETS_QUANTITY; i++) {
+            emitter << static_cast<std::uint8_t>(this->bulletType[i]);
         }
         emitter << YAML::EndSeq;
 
         emitter << YAML::Key << WEAPON_AMMUNITION << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WEAPONS_QUANTITY; i++){
+        for (int i = 0; i < WEAPONS_QUANTITY; i++) {
             emitter << this->weaponAmmunition[i];
         }
         emitter << YAML::EndSeq;
@@ -279,7 +281,8 @@ struct GameStateMsg {
         this->currentTeam = msg[CURRENT_TEAM].as<std::uint8_t>();
         this->num_worms = msg[NUM_WORMS].as<std::uint8_t>();
         this->num_teams = msg[NUM_TEAMS].as<std::uint8_t>();
-        this->activePlayerWeapon = static_cast<Worm::WeaponID >(msg[CURRENT_WEAPON].as<std::uint8_t>());
+        this->activePlayerWeapon =
+            static_cast<Worm::WeaponID>(msg[CURRENT_WEAPON].as<std::uint8_t>());
         this->activePlayerAngle = msg[WORM_ANGLES].as<float>();
         this->bulletsQuantity = msg[BULLET_QUANTITY_KEY].as<std::uint8_t>();
         this->processingInputs = msg[PROCESSING_INPUTS].as<bool>();
@@ -289,27 +292,29 @@ struct GameStateMsg {
         this->playerUsedTool = msg[USED_TOOL].as<bool>();
         this->waitingForNextTurn = msg[WAITING_FOR_NEXT_TURN].as<bool>();
 
-        for (int i = 0, j = 0; i < WORMS_QUANTITY; i++, j+=2){
+        for (int i = 0, j = 0; i < WORMS_QUANTITY; i++, j += 2) {
             this->wormsTeam[i] = msg[WORMS_TEAM][i].as<std::uint8_t>();
-            this->wormsDirection[i] = static_cast<Worm::Direction>(msg[WORM_DIRECTION][i].as<std::uint8_t>());
+            this->wormsDirection[i] =
+                static_cast<Worm::Direction>(msg[WORM_DIRECTION][i].as<std::uint8_t>());
             this->wormsHealth[i] = msg[WORM_HEALTH][i].as<std::uint16_t>();
             this->positions[j] = msg[WORM_POSITION][j].as<float>();
             this->positions[j + 1] = msg[WORM_POSITION][j + 1].as<float>();
-            this->stateIDs[i] = static_cast<Worm::StateID >(msg[WORM_STATES][i].as<std::uint8_t>());
+            this->stateIDs[i] = static_cast<Worm::StateID>(msg[WORM_STATES][i].as<std::uint8_t>());
         }
 
-        for (int i = 0, j = 0; i < BULLETS_QUANTITY; i++, j+=2){
+        for (int i = 0, j = 0; i < BULLETS_QUANTITY; i++, j += 2) {
             this->bullets[j] = msg[BULLET_POSITION][j].as<float>();
             this->bullets[j + 1] = msg[BULLET_POSITION][j + 1].as<float>();
             this->bulletsAngle[i] = msg[BULLET_ANGLES][i].as<float>();
-            this->bulletType[i] = static_cast<Worm::WeaponID>(msg[BULLET_TYPES][i].as<std::uint8_t>());
+            this->bulletType[i] =
+                static_cast<Worm::WeaponID>(msg[BULLET_TYPES][i].as<std::uint8_t>());
         }
 
-        for (int i = 0; i < WEAPONS_QUANTITY; i++){
+        for (int i = 0; i < WEAPONS_QUANTITY; i++) {
             this->weaponAmmunition[i] = msg[WEAPON_AMMUNITION][i].as<std::int16_t>();
         }
 
-        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++){
+        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++) {
             this->teamHealths[i] = msg[TEAM_HEALTHS][i].as<std::uint32_t>();
         }
     }

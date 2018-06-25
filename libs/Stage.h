@@ -44,9 +44,9 @@ class Stage {
 
     float getHeight() const;
     float getWidth() const;
-    const std::map<Worm::WeaponID, std::int16_t>& getAmmoCounter() const;
+    const std::map<Worm::WeaponID, std::int16_t> &getAmmoCounter() const;
 
-private:
+   private:
     std::vector<WormData> players;
     std::vector<GirderData> girders;
     std::unordered_map<std::string, Worm::WeaponID> weaponStrToID;

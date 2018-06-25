@@ -5,9 +5,9 @@
 
 #include <SDL2/SDL.h>
 #include <unistd.h>
+#include <cmath>
 #include <iostream>
 #include <sstream>
-#include <cmath>
 
 #include "GUIGame.h"
 #include "GameStateMsg.h"
@@ -206,7 +206,7 @@ void GUI::Game::inputWorker() {
         while (!this->quit) {
             /* receives the size of the msg */
             std::uint32_t size(0);
-            socket.receive((char *) &size, sizeof(std::uint32_t));
+            socket.receive((char *)&size, sizeof(std::uint32_t));
             size = ntohl(size);
 
             std::vector<char> buffer(size, 0);
@@ -235,13 +235,12 @@ void GUI::Game::outputWorker() {
             std::uint32_t size = buff.size();
             std::uint32_t netSize = htonl(size);
 
-            this->socket.send((char *) &netSize, sizeof(std::uint32_t));
+            this->socket.send((char *)&netSize, sizeof(std::uint32_t));
             this->socket.send(buff.c_str(), size);
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
     }
-
 }
 
 void GUI::Game::start() {
@@ -428,7 +427,8 @@ void GUI::Game::render() {
     }
 
     /* displays the remaining turn time */
-    std::int16_t turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
+    std::int16_t turnTimeLeft =
+        this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
     turnTimeLeft = (turnTimeLeft < 0) ? 0 : turnTimeLeft;
 
     int x = this->window.getWidth() / 2;

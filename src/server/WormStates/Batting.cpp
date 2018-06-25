@@ -7,8 +7,7 @@
 #include "../Player.h"
 
 Worms::Batting::Batting()
-        : State(Worm::StateID::Batting),
-          battingTime(Game::Config::getInstance().getBattingTime()) {}
+    : State(Worm::StateID::Batting), battingTime(Game::Config::getInstance().getBattingTime()) {}
 
 void Worms::Batting::update(Worms::Player &p, float dt, b2Body *body) {
     this->timeElapsed += dt;

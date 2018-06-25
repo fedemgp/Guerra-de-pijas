@@ -22,6 +22,7 @@
 #include "Weapons/WeaponNone.h"
 #include "Worm.h"
 #include "WormState/BackFlip.h"
+#include "WormState/Batting.h"
 #include "WormState/Dead.h"
 #include "WormState/Die.h"
 #include "WormState/Drowning.h"
@@ -38,7 +39,6 @@
 #include "WormState/WormStartJump.h"
 #include "WormState/WormStill.h"
 #include "WormState/WormWalk.h"
-#include "WormState/Batting.h"
 
 Worm::Worm::Worm(ID id, const GUI::GameTextureManager &texture_mgr,
                  const GUI::GameSoundEffectManager &sound_effect_mgr)
@@ -202,8 +202,9 @@ GUI::Animation Worm::Worm::getAnimation(StateID state) const {
             return animation;
         }
         case StateID::Batting: {
-            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormBaseballBatting), false, 25, false};
-//            animation.setAnimateOnce();
+            GUI::Animation animation{this->texture_mgr.get(GUI::GameTextures::WormBaseballBatting),
+                                     false, 25, false};
+            //            animation.setAnimateOnce();
             return animation;
         }
         case StateID::Teleporting: {

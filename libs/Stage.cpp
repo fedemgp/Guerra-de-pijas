@@ -6,9 +6,9 @@
 #include "Stage.h"
 #include <fstream>
 #include "Exception.h"
+#include "GameStateMsg.h"
 #include "Point.h"
 #include "yaml-cpp/yaml.h"
-#include "GameStateMsg.h"
 
 /**
  * @brief Parses a Point from a YAML node.
@@ -118,17 +118,17 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
 
     YAML::Node weaponsNode;
     /* loads the weapon ammo */
-    if (!data["weapons"] || !data["weapons"].IsSequence()){
+    if (!data["weapons"] || !data["weapons"].IsSequence()) {
         weaponsNode = YAML::LoadFile(DEFAULT_WEAPON_CONFIG_PATH);
-    } else{
+    } else {
         weaponsNode = data["weapons"];
     }
 
-    for (std::size_t i = 0; i < weaponsNode.size(); i++){
+    for (std::size_t i = 0; i < weaponsNode.size(); i++) {
         YAML::Node weaponNode = weaponsNode[i];
-        stage.ammunitionCounter.emplace(stage.weaponStrToID.at(weaponNode["name"].as<std::string>()),
-                                        weaponNode["infinity"] ? -1
-                                                              : weaponNode["quantity"].as<std::int16_t>());
+        stage.ammunitionCounter.emplace(
+            stage.weaponStrToID.at(weaponNode["name"].as<std::string>()),
+            weaponNode["infinity"] ? -1 : weaponNode["quantity"].as<std::int16_t>());
     }
     // -1 indicates infinite uses
     stage.ammunitionCounter.emplace(Worm::WNone, -1);
@@ -166,6 +166,6 @@ float Worms::Stage::getWidth() const {
     return this->width;
 }
 
-const std::map<Worm::WeaponID, int16_t> &Worms::Stage::getAmmoCounter() const{
+const std::map<Worm::WeaponID, int16_t> &Worms::Stage::getAmmoCounter() const {
     return this->ammunitionCounter;
 }

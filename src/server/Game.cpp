@@ -100,7 +100,7 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         while (!this->quit) {
             /* receives the size of the msg */
             std::uint32_t size(0);
-            socket.receive((char *) &size, sizeof(std::uint32_t));
+            socket.receive((char *)&size, sizeof(std::uint32_t));
             size = ntohl(size);
 
             std::vector<char> buffer(size, 0);
@@ -148,7 +148,6 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
     }
-
 }
 
 void Worms::Game::start() {
@@ -464,14 +463,15 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
 void Worms::Game::calculateWind() {
     this->wind.xDirection = 1;
     this->wind.instensity = 0.2;
-//    std::random_device rnd_device;
-//    std::mt19937 mersenne_engine(rnd_device());
-//    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
-//
-//    this->wind.xDirection =
-//        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
-//                                                                                              : -1;
-//    this->wind.instensity = (float) distr(mersenne_engine);
+    //    std::random_device rnd_device;
+    //    std::mt19937 mersenne_engine(rnd_device());
+    //    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
+    //
+    //    this->wind.xDirection =
+    //        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f)
+    //        ? 1
+    //                                                                                              : -1;
+    //    this->wind.instensity = (float) distr(mersenne_engine);
 
     //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
     //                                                                    - this->wind.minIntensity)

@@ -9,7 +9,10 @@
 
 GUI::Armory::Armory(const GUI::GameTextureManager &textureManager, GUI::Camera &cam,
                     GUI::Font &font)
-    : manager(textureManager), camera(cam), font(font), weaponButton(font),
+    : manager(textureManager),
+      camera(cam),
+      font(font),
+      weaponButton(font),
       ammunition(WEAPONS_QUANTITY, 0) {}
 
 void GUI::Armory::render() {
@@ -27,7 +30,7 @@ void GUI::Armory::render() {
         std::ostringstream button;
         button << BUTTON_ROOT_STR << i++;
 
-        if (weaponAmmo == -1){
+        if (weaponAmmo == -1) {
             weaponButton.set(std::string("inf"), SDL_Color{0, 0, 0}, 20);
             weaponButton.renderFixed(ammoPos, this->camera);
         } else {
@@ -54,8 +57,8 @@ void GUI::Armory::loadWeapons() {
     this->weaponIcons.emplace_back(&this->manager.get(GUI::GameTextures::TeleportIcon));
 }
 
-void GUI::Armory::update(IO::GameStateMsg &msg){
-    for (int i = 0; i < WEAPONS_QUANTITY; i++){
+void GUI::Armory::update(IO::GameStateMsg &msg) {
+    for (int i = 0; i < WEAPONS_QUANTITY; i++) {
         this->ammunition[i] = msg.weaponAmmunition[i];
     }
 }

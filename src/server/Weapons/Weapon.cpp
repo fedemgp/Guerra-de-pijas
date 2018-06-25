@@ -64,10 +64,10 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
                              this->config.windAffected};
 }
 
-void Worms::Weapon::setAngle(float angle){
+void Worms::Weapon::setAngle(float angle) {
     this->angle = angle;
 }
 
-bool Worms::Weapon::isP2PWeapon(){
+bool Worms::Weapon::isP2PWeapon() {
     return this->isP2P;
 }

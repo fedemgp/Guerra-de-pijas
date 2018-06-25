@@ -6,8 +6,8 @@
 #ifndef __BULLET_CONFIG_H__
 #define __BULLET_CONFIG_H__
 
-#include "yaml-cpp/yaml.h"
 #include <cstdint>
+#include "yaml-cpp/yaml.h"
 
 namespace Config {
 namespace Bullet {

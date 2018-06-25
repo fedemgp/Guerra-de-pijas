@@ -41,7 +41,7 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const GirderData& v) {
 
 StageData::StageData(qreal width, qreal height) : width(width / scale), height(height / scale) {}
 
-QPointF StageData::toGameCoords(const QPointF &point) const {
+QPointF StageData::toGameCoords(const QPointF& point) const {
     qreal xpos = (point.x() / scale - this->width / 2.0);
     qreal ypos = this->height - point.y() / scale;
     return QPointF(xpos, ypos);

@@ -12,8 +12,8 @@
 
 #include <Animation.h>
 #include <Font.h>
-#include <Text.h>
 #include <GameStateMsg.h>
+#include <Text.h>
 #include "GameTextures.h"
 
 namespace GUI {
@@ -25,7 +25,7 @@ class Armory {
     void render();
     void update(IO::GameStateMsg &msg);
 
-private:
+   private:
     const GameTextureManager &manager;
     Camera &camera;
     std::vector<const Texture *> weaponIcons;

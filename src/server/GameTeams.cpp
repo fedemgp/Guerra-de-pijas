@@ -5,7 +5,8 @@
 #include "GameTeams.h"
 #include <random>
 
-void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t numTeams, const std::map<Worm::WeaponID, std::int16_t> &ammoCounter) {
+void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t numTeams,
+                                 const std::map<Worm::WeaponID, std::int16_t> &ammoCounter) {
     uint8_t numPlayers = players.size();
 
     //    for (uint8_t i = 0; i < numTeams; i++) {
@@ -17,10 +18,10 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
         playersNum[i] = i;
     }
 
-//        std::random_device rnd_device;
-//        std::mt19937 mersenne_engine(rnd_device());
-//
-//        shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
+    //        std::random_device rnd_device;
+    //        std::mt19937 mersenne_engine(rnd_device());
+    //
+    //        shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
 
     uint8_t maxTeamPlayers =
         (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
@@ -104,14 +105,14 @@ std::uint8_t Worms::GameTeams::getTeamQuantity() const {
     return (std::uint8_t) this->teams.size();
 }
 
-Worms::Team &Worms::GameTeams::getCurrentTeam(){
+Worms::Team &Worms::GameTeams::getCurrentTeam() {
     return this->teams[this->currentTeam];
 }
 
-void Worms::GameTeams::weaponUsed(const Worm::WeaponID weaponID){
+void Worms::GameTeams::weaponUsed(const Worm::WeaponID weaponID) {
     this->teams[this->currentTeam].weaponUsed(weaponID);
 }
 
-void Worms::GameTeams::serialize(IO::GameStateMsg &msg) const{
+void Worms::GameTeams::serialize(IO::GameStateMsg &msg) const {
     this->teams[this->currentTeam].serialize(msg);
 }

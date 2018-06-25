@@ -19,11 +19,11 @@
 #include "Physics.h"
 #include "Point.h"
 #include "Stream.h"
+#include "Team.h"
 #include "TouchSensor.h"
 #include "Weapons/Bullet.h"
 #include "Weapons/Weapon.h"
 #include "WormStates/PlayerState.h"
-#include "Team.h"
 
 enum class PlayerState { movingRight, movingLeft, still };
 
