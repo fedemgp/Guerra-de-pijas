@@ -38,6 +38,8 @@ namespace Worms {
         void joinGame();
 
         void createGame();
+
+        bool quit{false};
     };
 }
 
