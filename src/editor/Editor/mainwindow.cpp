@@ -68,6 +68,21 @@ void MainWindow::on_bgColorButton_clicked() {
 }
 
 void MainWindow::on_actionOpen_triggered() {
+    /* serializes the stage */
+    StageData sd{13 * 250, 13 * 250};
+
+    sd.closeBgFile = this->closeBgFile;
+    sd.medianBgFile = this->midBgFile;
+    sd.fartherBgFile = this->fartherBgFile;
+    sd.wormsHealth = this->ui->wormsHP->value();
+
+    this->ui->editorView->serialize(sd);
+
+    if(sd.numWorms() == 0) {
+        QErrorMessage::qtHandler()->showMessage("Se necesita al menos 1 worm");
+        return;
+    }
+
     /* gets the output file name */
     QString fileName = QFileDialog::getSaveFileName(this, tr("Nombre de archivo de salida"),
                                                     "/home", tr("YAML (*.yml)"));
@@ -80,18 +95,9 @@ void MainWindow::on_actionOpen_triggered() {
     std::ofstream file;
     file.open(fileName.toStdString(), std::ios::out | std::ios::trunc);
     if (!file) {
-        QErrorMessage msg;
-        msg.showMessage("Error al abrir el archivo");
+        QErrorMessage::qtHandler()->showMessage("Error al abrir el archivo");
         return;
     }
-
-    /* serializes the stage */
-    StageData sd;
-    sd.closeBgFile = this->closeBgFile;
-    sd.medianBgFile = this->midBgFile;
-    sd.fartherBgFile = this->fartherBgFile;
-
-    this->ui->editorView->serialize(sd);
 
     sd.dump(file);
 }

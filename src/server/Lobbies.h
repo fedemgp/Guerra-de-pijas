@@ -16,7 +16,7 @@
 namespace Worms {
     class Lobbies {
     public:
-        Lobbies() = default;
+        explicit Lobbies(std::string &stageFile);
 
         void createGame(int playerID, std::vector<Observer *> lobbyObservers, unsigned int levelSelected);
         void getGames(GamesGetter &getter);
@@ -27,6 +27,7 @@ namespace Worms {
         std::mutex mutex;
         std::list<Lobby> lobbies;
         uint8_t idLobby{0};
+        std::string stageFile;
     };
 }
 

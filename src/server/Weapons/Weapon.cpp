@@ -64,3 +64,11 @@ Worms::BulletInfo Worms::Weapon::getBulletInfo() {
                              this->config.bulletDampingRatio,
                              this->config.windAffected};
 }
+
+void Worms::Weapon::setAngle(float angle){
+    this->angle = angle;
+}
+
+bool Worms::Weapon::isP2PWeapon(){
+    return this->isP2P;
+}

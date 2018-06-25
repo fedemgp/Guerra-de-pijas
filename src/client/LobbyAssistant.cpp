@@ -20,7 +20,7 @@
 GUI::LobbyAssistant::LobbyAssistant(Window &window) :
         window(window),
         font("assets/fonts/gruen_lemonograf.ttf", 28),
-        cam(window, this->scale) {
+        cam(window, this->scale, 600, 600) {
     this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
     this->gameWindow->addObserver(this);
 //    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});

@@ -7,13 +7,17 @@
  *
  * @param window The window where the camera renders.
  * @param scale The pixel/meters relation.
+ * @param width The width of the area where the camera can go.
+ * @param width The height of the area where the camera can go.
  */
-GUI::Camera::Camera(GUI::Window &window, float scale)
+GUI::Camera::Camera(GUI::Window &window, float scale, float width, float height)
     : window(window),
       start(this->cur),
       dst(this->cur),
       scale(scale),
-      renderer(window.getRenderer()) {
+      renderer(window.getRenderer()),
+      width(width),
+      height(height) {
     this->setTo(Position{0, float(this->window.getHeight()) / this->scale / 2.0f});
 }
 
@@ -63,8 +67,7 @@ GUI::Position GUI::Camera::getPosition() const {
 void GUI::Camera::setTo(GUI::Position coord) {
     this->elapsed = 0.0f;
 
-    /* avoids the camera from going below the zero */
-    coord.y = std::max(coord.y, (float(this->window.getHeight()) / this->scale) / 2);
+    coord = this->clamp(coord);
 
     coord.x -= (this->window.getWidth() / 2) / this->scale;
     coord.y += (this->window.getHeight() / 2) / this->scale;
@@ -77,8 +80,7 @@ void GUI::Camera::setTo(GUI::Position coord) {
  * @param coord Coordinates of the final camera position.
  */
 void GUI::Camera::moveTo(GUI::Position coord) {
-    /* avoids the camera from going below the zero */
-    coord.y = std::max(coord.y, (float(this->window.getHeight()) / this->scale) / 2 - 10.0f);
+    coord = this->clamp(coord);
 
     coord.x -= (this->window.getWidth() / 2) / this->scale;
     coord.y += (this->window.getHeight() / 2) / this->scale;
@@ -232,6 +234,27 @@ void GUI::Camera::drawLocal(const Texture &texture, ScreenPosition p, const SDL_
     dst.h = h;
 
     SDL_RenderCopyEx(&this->renderer, texture.get(), &clip, &dst, 0, nullptr, flip);
+}
+
+/**
+ * @brief Clamps a given position to the camera limits.
+ *
+ * @param p Position to clamp.
+ * @return Position Clamped position.
+ */
+GUI::Position GUI::Camera::clamp(Position p) const {
+    float wWidth = this->window.getWidth() / this->scale;
+    float wHeight = this->window.getHeight() / this->scale;
+
+    /* avoids the camera from going way below the zero or above the level limits */
+    p.y = std::max(p.y, wHeight / 2 - 10.0f);
+    p.y = std::min(p.y, this->height - wHeight / 2.0f);
+
+    /* avoids the camera from going out of the level limits in the X axis */
+    p.x = std::max(p.x, (-this->width / 2.0f) + wWidth / 2.0f);
+    p.x = std::min(p.x, (this->width / 2.0f) - wWidth / 2.0f);
+
+    return p;
 }
 
 /**

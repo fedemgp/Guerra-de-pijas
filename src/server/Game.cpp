@@ -52,7 +52,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
         id++;
     }
 
-    this->teams.makeTeams(this->players, (uint8_t)sockets.size());
+    this->teams.makeTeams(this->players, (uint8_t)sockets.size(), this->stage.getAmmoCounter());
     //    this->wind.range = CONFIG.getWindIntensityRange();
     this->wind.minIntensity = CONFIG.getMinWindIntensity();
     this->wind.maxIntensity = CONFIG.getMaxWindIntensity();
@@ -72,6 +72,7 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     this->currentWormToFollow = this->currentWorm;
 
     this->gameClock.addObserver(this);
+    this->gameClock.waitForNextTurn();
 }
 
 Worms::Game::~Game() {
@@ -150,7 +151,6 @@ void Worms::Game::start() {
     try {
         /* game loop */
         Utils::Chronometer chronometer;
-
         while (!quit) {
             double dt = chronometer.elapsed();
 
@@ -220,7 +220,7 @@ void Worms::Game::calculateCurrentPlayer() {
     if (this->gameEnded) {
         this->winnerTeam = this->teams.getWinner();
     }
-    this->currentTeam = this->teams.getCurrentTeam();
+    this->currentTeam = this->teams.getCurrentTeamID();
     this->currentWorm = this->teams.getCurrentPlayerID();
     this->currentWormToFollow = this->currentWorm;
 }
@@ -254,8 +254,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
                (this->wind.maxIntensity - this->wind.minIntensity) * this->wind.xDirection);
 
     /* sets the current player's data */
-    m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
-    m.currentPlayerTurnTime = this->gameClock.getTurnTime();
+    m.elapsedTurnSeconds = static_cast<std::uint16_t>(std::floor(this->gameClock.getTimeElapsed()));
+    m.currentPlayerTurnTime = static_cast<std::uint16_t>(std::floor(this->gameClock.getTurnTime()));
     m.currentWorm = this->currentWorm;
     m.currentWormToFollow = this->currentWormToFollow;
     m.currentTeam = this->currentTeam;
@@ -272,6 +272,10 @@ IO::GameStateMsg Worms::Game::serialize() const {
         m.bulletsAngle[j] = bullet.getAngle();
         m.bulletType[j++] = bullet.getWeaponID();
     }
+    /*
+     * serialize the ammunition counter
+     */
+    this->teams.serialize(m);
     m.processingInputs = this->processingClientInputs;
     m.playerUsedTool = this->currentPlayerShot;
     m.waitingForNextTurn = this->waitingForNextTurn;
@@ -336,9 +340,11 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::OnExplode: {
             auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->calculateDamage(bullet);
+
             this->bullets.merge(this->players[this->currentWorm].onExplode(bullet, this->physics));
-            for (auto &bullet : this->bullets) {
-                bullet.addObserver(this);
+
+            for (auto &fragment : this->bullets) {
+                fragment.addObserver(this);
             }
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
@@ -346,6 +352,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::Teleported: {
             this->gameClock.playerShot();
             this->currentPlayerShot = true;
+            this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
         }
         case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
@@ -461,7 +468,7 @@ void Worms::Game::calculateWind() {
     this->wind.xDirection =
         (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
                                                                                               : -1;
-    this->wind.instensity = distr(mersenne_engine);
+    this->wind.instensity = (float) distr(mersenne_engine);
 
     //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
     //                                                                    - this->wind.minIntensity)

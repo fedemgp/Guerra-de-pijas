@@ -15,9 +15,9 @@ Worms::GameLobby::GameLobby(std::string port) :
     std::cout << "Se bindeo" << std::endl;
 }
 
-void Worms::GameLobby::start() {
+void Worms::GameLobby::start(std::string &stageFile) {
     try {
-        Lobbies lobbies{};
+        Lobbies lobbies{stageFile};
         
         LobbyJoiner lobbyJoiner{lobbies, this->msgToJoiner};
         lobbyJoiner.start();

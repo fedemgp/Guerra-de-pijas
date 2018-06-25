@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <cassert>
 
+const qreal scale = 13.0;
+
 YAML::Emitter& operator<<(YAML::Emitter& out, const QColor& v) {
     out << YAML::Flow;
     out << YAML::BeginSeq << v.red() << v.green() << v.blue() << YAML::EndSeq;
@@ -37,12 +39,31 @@ YAML::Emitter& operator<<(YAML::Emitter& out, const GirderData& v) {
     return out;
 }
 
-StageData::StageData() {}
+StageData::StageData(qreal width, qreal height) : width(width / scale), height(height / scale) {}
+
+QPointF StageData::toGameCoords(const QPointF &point) const {
+    qreal xpos = (point.x() / scale - this->width / 2.0);
+    qreal ypos = this->height - point.y() / scale;
+    return QPointF(xpos, ypos);
+}
+
+std::size_t StageData::numWorms() const {
+    return this->worms.size();
+}
 
 void StageData::dump(std::ostream& output) {
     YAML::Emitter emitter;
 
     emitter << YAML::BeginMap;
+
+    emitter << YAML::Key << "width";
+    emitter << YAML::Value << this->width;
+
+    emitter << YAML::Key << "height";
+    emitter << YAML::Value << this->height;
+
+    emitter << YAML::Key << "wormsHealth";
+    emitter << YAML::Value << this->wormsHealth;
 
     emitter << YAML::Key << "worms";
     emitter << YAML::Value << this->worms;
@@ -80,13 +101,13 @@ void StageData::dump(std::ostream& output) {
 }
 
 void StageData::addWorm(QPointF position) {
-    this->worms.push_back(WormData{position});
+    this->worms.push_back(WormData{this->toGameCoords(position)});
 }
 
 void StageData::addShortGirder(QPointF position, qreal angle) {
-    this->shortGirders.push_back(GirderData{position, angle});
+    this->shortGirders.push_back(GirderData{this->toGameCoords(position), -angle});
 }
 
 void StageData::addLongGirder(QPointF position, qreal angle) {
-    this->longGirders.push_back(GirderData{position, angle});
+    this->longGirders.push_back(GirderData{this->toGameCoords(position), -angle});
 }

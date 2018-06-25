@@ -9,7 +9,7 @@
 #define CONFIG Game::Config::getInstance()
 
 Weapon::Dynamite::Dynamite()
-    : Worms::Weapon(CONFIG.getDynamiteConfig(), Worm::WeaponID::WDynamite, angle) {}
+    : Worms::Weapon(CONFIG.getDynamiteConfig(), Worm::WeaponID::WDynamite, 0.0) {}
 
 void Weapon::Dynamite::update(float dt) {}
 

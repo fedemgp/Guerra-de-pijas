@@ -39,6 +39,7 @@
 #include "WormStates/Teleporting.h"
 #include "WormStates/Walk.h"
 #include "WormStates/Batting.h"
+#include "Weapons/WeaponNone.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -82,7 +83,7 @@ bool Worms::Player::operator!=(const Player &other) {
  * @return true if equal.
  */
 bool Worms::Player::operator==(const Player &other) {
-    return (this->id == other.id) && (this->team == other.team);
+    return (this->id == other.id) && (this->teamID == other.teamID);
 }
 
 /**
@@ -406,61 +407,13 @@ float Worms::Player::getWeaponAngle() const {
 const Worm::WeaponID &Worms::Player::getWeaponID() const {
     return this->weapon->getWeaponID();
 }
-// TODO add creation time in Team, and in this method ask for it. So that the
-// team tracks weapons quantity
+
 void Worms::Player::setWeapon(const Worm::WeaponID &id) {
-    if (this->weapon->getWeaponID() != id) {
-        // keep the last angle
-        float lastAngle = this->weapon->getAngle();
-        switch (id) {
-            case Worm::WeaponID::WBazooka:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Bazooka(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WGrenade:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Grenade(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WCluster:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Cluster(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WMortar:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Mortar(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WBanana:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Banana(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WHoly:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Holy(lastAngle));
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WAerial:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::AerialAttack());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WDynamite:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Dynamite());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WBaseballBat:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::BaseballBat(lastAngle));
-                this->isP2PWeapon = true;
-                break;
-            case Worm::WeaponID::WTeleport:
-                this->weapon = std::shared_ptr<Worms::Weapon>(new ::Weapon::Teleport());
-                this->isP2PWeapon = false;
-                break;
-            case Worm::WeaponID::WNone:
-                break;
-            case Worm::WeaponID::WExplode:
-                break;
-            case Worm::WeaponID::WFragment:
-                break;
-        }
-    }
+    // keep the last angle
+    float lastAngle = this->weapon->getAngle();
+    this->weapon = this->team->getWeapon(id);
+    this->weapon->setAngle(lastAngle);
+    this->isP2PWeapon = this->weapon->isP2PWeapon();
 }
 
 void Worms::Player::increaseWeaponAngle() {
@@ -477,11 +430,12 @@ void Worms::Player::startShot() {
 
 void Worms::Player::endShot() {
     if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
-        this->weapon->getWeaponID() != Worm::WeaponID::WAerial) {
+        this->weapon->getWeaponID() != Worm::WeaponID::WAerial &&
+            this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
         if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
             float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2));
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) + 0.1;
             BulletInfo info = this->weapon->getBulletInfo();
             info.point = position;
             info.safeNonContactDistance = safeNonContactDistance;
@@ -499,16 +453,18 @@ void Worms::Player::endShot() {
             this->setState(Worm::StateID::Batting);
             this->notify(*this, Event::P2PWeaponUsed);
         }
+        this->team->weaponUsed(this->getWeaponID());
     }
 }
 
 void Worms::Player::endShot(std::list<Worms::Bullet> &bullets) {
     this->bullets = std::move(bullets);
     this->notify(*this, Event::Shot);
+    this->team->weaponUsed(this->getWeaponID());
 }
 
-void Worms::Player::setTeam(uint8_t team) {
-    this->team = team;
+void Worms::Player::setTeamID(uint8_t team) {
+    this->teamID = team;
 }
 
 void Worms::Player::increaseHealth(float percentage) {
@@ -516,7 +472,7 @@ void Worms::Player::increaseHealth(float percentage) {
 }
 
 uint8_t Worms::Player::getTeam() const {
-    return this->team;
+    return this->teamID;
 }
 
 void Worms::Player::setId(uint8_t id) {
@@ -584,6 +540,10 @@ std::list<Worms::Bullet> Worms::Player::onExplode(const Bullet &b, Physics &phys
 
 void Worms::Player::reset() {
     this->weapon->endShot();
+    /*
+     * If the weapon has no more ammunition, returns weaponNone
+     */
+    this->setWeapon(this->getWeaponID());
     this->bullets.erase(this->bullets.begin(), this->bullets.end());
 }
 
@@ -595,7 +555,11 @@ const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const {
     return this->weapon;
 }
 
-Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(player)), physics(player.physics), waterLevel(player.waterLevel){
+void Worms::Player::setTeam(Worms::Team *team){
+    this->team = team;
+}
+
+Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(player)), physics(player.physics), waterLevel(player.waterLevel) {
 
     this->body = player.body;
     this->body_kinematic = player.body_kinematic;

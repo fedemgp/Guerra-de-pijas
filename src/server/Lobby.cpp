@@ -7,7 +7,9 @@
 #include "Lobby.h"
 #include "Game.h"
 
-Worms::Lobby::Lobby(int playerID, uint8_t id, std::vector<Observer *> obs): id(id) {
+Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, std::string &stageFile) :
+        id(id),
+        stageFile(stageFile) {
     for (auto *lobbyObserver : obs) {
         this->obs.emplace_back(lobbyObserver);
         this->addObserver(lobbyObserver);
@@ -53,7 +55,9 @@ void Worms::Lobby::addPlayerSocket(CommunicationSocket &&player) {
     this->players.emplace_back(std::move(player));
 }
 
-Worms::Lobby::Lobby(Worms::Lobby &&other) : id(other.id) {
+Worms::Lobby::Lobby(Worms::Lobby &&other) :
+        id(other.id),
+        stageFile(other.stageFile) {
     if (this != &other){
         this->playersQuantity = other.playersQuantity;
         this->actualPlayers = other.actualPlayers;
@@ -71,7 +75,7 @@ void Worms::Lobby::run() {
                 this->players[i].send(buffer, sizeof(buffer));
             }
             std::cout << "game starts" << std::endl;
-            Worms::Game game{Worms::Stage{}, this->players};
+            Worms::Game game{Worms::Stage::fromFile(this->stageFile), this->players};
             game.start();
             this->notify(*this, Event::EndGame);
             this->gameStarted = false;
