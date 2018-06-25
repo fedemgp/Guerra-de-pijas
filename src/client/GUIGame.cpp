@@ -273,6 +273,8 @@ void GUI::Game::start() {
                                 break;
                             }
                         }
+                        default:
+                            break;
                     }
                 }
 
@@ -416,15 +418,15 @@ void GUI::Game::render() {
     }
 
     /* displays the remaining turn time */
-    double turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
-    turnTimeLeft = (turnTimeLeft < 0.0f) ? 0.0f : turnTimeLeft;
+    std::int16_t turnTimeLeft = this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
+    turnTimeLeft = (turnTimeLeft < 0) ? 0 : turnTimeLeft;
 
     int x = this->window.getWidth() / 2;
     int y = 20;
 
     SDL_Color color = {0, 0, 0};
     Text text{this->font};
-    text.set(std::to_string(static_cast<int>(turnTimeLeft)), color);
+    text.set(std::to_string(turnTimeLeft), color);
     text.renderFixed(ScreenPosition{x, y}, this->cam);
 
     /* renders armory */

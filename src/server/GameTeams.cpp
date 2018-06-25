@@ -81,7 +81,7 @@ std::vector<std::uint32_t> Worms::GameTeams::getTotalHealth(std::vector<Worms::P
     return std::move(teamHealths);
 }
 
-char Worms::GameTeams::getCurrentPlayerID() {
+uint8_t Worms::GameTeams::getCurrentPlayerID() {
     return this->teams[this->currentTeam].getCurrentPlayerID();
 }
 

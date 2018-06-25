@@ -251,8 +251,8 @@ IO::GameStateMsg Worms::Game::serialize() const {
                (this->wind.maxIntensity - this->wind.minIntensity) * this->wind.xDirection);
 
     /* sets the current player's data */
-    m.elapsedTurnSeconds = this->gameClock.getTimeElapsed();
-    m.currentPlayerTurnTime = this->gameClock.getTurnTime();
+    m.elapsedTurnSeconds = static_cast<std::uint16_t>(std::floor(this->gameClock.getTimeElapsed()));
+    m.currentPlayerTurnTime = static_cast<std::uint16_t>(std::floor(this->gameClock.getTurnTime()));
     m.currentWorm = this->currentWorm;
     m.currentWormToFollow = this->currentWormToFollow;
     m.currentTeam = this->currentTeam;
@@ -337,9 +337,11 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::OnExplode: {
             auto &bullet = dynamic_cast<const Bullet &>(subject);
             this->calculateDamage(bullet);
+
             this->bullets.merge(this->players[this->currentWorm].onExplode(bullet, this->physics));
-            for (auto &bullet : this->bullets) {
-                bullet.addObserver(this);
+
+            for (auto &fragment : this->bullets) {
+                fragment.addObserver(this);
             }
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
@@ -457,10 +459,10 @@ void Worms::Game::calculateWind() {
     std::mt19937 mersenne_engine(rnd_device());
     std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
 
-    this->wind.xDirection =1;
+    this->wind.xDirection =
         (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f) ? 1
                                                                                               : -1;
-    this->wind.instensity = distr(mersenne_engine);
+    this->wind.instensity = (float) distr(mersenne_engine);
 
     //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
     //                                                                    - this->wind.minIntensity)

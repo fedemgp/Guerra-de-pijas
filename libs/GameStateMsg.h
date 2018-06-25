@@ -14,8 +14,10 @@
 
 #define POWER_CHARGE_TIME 5.0f
 
-#include <stdint.h>
 #include <cstring>
+#include <netinet/in.h>
+#include <stdint.h>
+#include <vector>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -94,7 +96,12 @@ struct PlayerMsg {
     Math::Point<float> position{0.0f, 0.0f};
 
     std::size_t getSerializedSize() {
-        return sizeof(*this);
+        std::size_t length(0);
+        length += sizeof(input);
+        length += sizeof(position.x);
+        length += sizeof(position.y);
+
+        return length;
     }
 
     void serialize(void *buffer, std::size_t buffer_size) {
@@ -117,7 +124,7 @@ struct PlayerMsg {
 };
 
 struct GameStateMsg {
-    double elapsedTurnSeconds;
+    std::uint16_t elapsedTurnSeconds;
     std::int8_t windIntensity;
     std::uint8_t currentWorm;
     std::uint8_t currentWormToFollow;
@@ -139,7 +146,7 @@ struct GameStateMsg {
     std::int16_t weaponAmmunition[WEAPONS_QUANTITY];
 
     bool processingInputs;
-    double currentPlayerTurnTime;
+    std::uint16_t currentPlayerTurnTime;
     bool gameEnded;
     std::uint8_t winner;
     bool playerUsedTool;

@@ -17,7 +17,7 @@ class GameTeams {
     void makeTeams(std::vector<Player> &players, uint8_t numTeams, const std::map<Worm::WeaponID, std::int16_t> &ammoCounter);
     void checkAlive(std::vector<Player> &players);
     bool endTurn(std::vector<Player> &players);
-    char getCurrentPlayerID();
+    uint8_t getCurrentPlayerID();
     std::uint8_t getTeamQuantity() const;
     uint8_t getCurrentTeamID();
     Team &getCurrentTeam();
