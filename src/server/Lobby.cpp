@@ -12,7 +12,7 @@
 
 /** Copio por ¿posible race condition?
  */
-Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const std::vector<std::string> &level) :
+Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData &level) :
         id(id),
         level(level) {
     for (auto *lobbyObserver : obs) {
@@ -80,7 +80,7 @@ void Worms::Lobby::run() {
                 this->players[i].send(buffer, sizeof(buffer));
             }
             std::cout << "game starts" << std::endl;
-            Worms::Game game{Worms::Stage::fromFile(this->level[1]), this->players};
+            Worms::Game game{Worms::Stage::fromFile(this->level.levelPath), this->players};
             game.start();
             this->notify(*this, Event::EndGame);
             this->gameStarted = false;

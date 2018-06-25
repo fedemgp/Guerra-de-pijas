@@ -20,7 +20,7 @@ Worms::GameLobby::GameLobby(std::string port) :
 void Worms::GameLobby::start(std::string &stageFile) {
     try {
         std::string path("../res/");
-        std::vector<std::vector<std::string>> levels;
+        std::vector<IO::LevelData> levels;
         this->loadLevels(path, levels);
 
         Lobbies lobbies{levels};
@@ -113,7 +113,7 @@ void Worms::GameLobby::removePlayers(){
     }
 }
 
-void Worms::GameLobby::loadLevels(std::string &path, std::vector<std::vector<std::string>> &levels) {
+void Worms::GameLobby::loadLevels(std::string &path, std::vector<IO::LevelData> &levels) {
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(path.c_str())) != NULL) {
@@ -132,22 +132,51 @@ void Worms::GameLobby::loadLevels(std::string &path, std::vector<std::vector<std
     }
 }
 
-void Worms::GameLobby::loadLevel(std::string &path, std::vector<std::vector<std::string>> &levels) {
+void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &levels) {
     DIR *dir;
     struct dirent *ent;
-    std::vector<std::string> level;
+    IO::LevelData level;
     if ((dir = opendir(path.c_str())) != NULL) {
         /* print all the files and directories within directory */
         while ((ent = readdir(dir)) != NULL) {
             if (std::string(ent->d_name)[0] != '.') {
                 std::string levelPath(path + ent->d_name);
+                if (std::string(ent->d_name) == "Background") {
+                    std::string backgroundsPath(levelPath + "/");
+                    this->loadLevelBackground(backgroundsPath, level);
+                } else {
 //                std::cout << "\t" << levelPath << std::endl;
+                    std::string levelName(ent->d_name);
+                    levelName = levelName.substr(0, levelName.find("."));
 
-                level.emplace_back(std::move(levelPath));
+                    level.levelPath = std::move(levelPath);
+                    level.levelName = std::move(levelName);
+                }
             }
         }
         closedir (dir);
         levels.emplace_back(std::move(level));
+    } else {
+        /* could not open directory */
+        throw Exception("Could not open directory: &s", path.c_str());
+    }
+}
+
+void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &level) {
+    DIR *dir;
+    struct dirent *ent;
+    std::vector<std::string> backgrounds;
+    if ((dir = opendir(path.c_str())) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir(dir)) != NULL) {
+            if (std::string(ent->d_name)[0] != '.') {
+                std::string backgroundPath(path + ent->d_name);
+//                std::cout << "\t" << backgroundPath << std::endl;
+
+                level.background.emplace_back(std::move(backgroundPath));
+            }
+        }
+        closedir (dir);
     } else {
         /* could not open directory */
         throw Exception("Could not open directory: &s", path.c_str());

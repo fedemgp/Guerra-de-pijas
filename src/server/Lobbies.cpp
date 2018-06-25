@@ -31,6 +31,6 @@ std::list<Worms::Lobby> &Worms::Lobbies::getLobbies() {
     return this->lobbies;
 }
 
-Worms::Lobbies::Lobbies(const std::vector<std::vector<std::string>> &levels) :
+Worms::Lobbies::Lobbies(const std::vector<IO::LevelData> &levels) :
         levels(levels) {
 }

@@ -114,6 +114,12 @@ namespace IO {
         uint8_t numTotalPlayers;
     };
 
+    struct LevelData {
+        std::string levelPath;
+        std::string levelName;
+        std::vector<std::string> background;
+    };
+
     struct LevelsInfo : public ServerResponse {
         LevelsInfo(ServerResponseAction action, std::vector<LevelInfo> &levelsInfo) :
                 action(action),

@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <mutex>
+#include <GameStateMsg.h>
 
 #include "CommunicationSocket.h"
 #include "Subject.h"
@@ -18,7 +19,7 @@
 namespace Worms {
     class Lobby : public Thread, public Subject {
     public:
-        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const std::vector<std::string> &level);
+        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const IO::LevelData &level);
         Lobby(Lobby &&other) noexcept;
         Lobby(Lobby &copy) = delete;
 
@@ -42,7 +43,7 @@ namespace Worms {
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
         std::vector<Observer *> obs;
-        const std::vector<std::string> &level;
+        const IO::LevelData &level;
 
         bool finished{false};
         bool gameStarted{false};
