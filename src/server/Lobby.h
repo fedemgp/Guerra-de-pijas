@@ -7,17 +7,19 @@
 
 
 #include <stdint-gcc.h>
+#include <string>
 #include <vector>
-#include <CommunicationSocket.h>
 #include <mutex>
+
+#include "CommunicationSocket.h"
 #include "Subject.h"
 #include "Thread.h"
 
 namespace Worms {
     class Lobby : public Thread, public Subject {
     public:
-        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, std::string &stageFile);
-        Lobby(Lobby &&other);
+        Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const std::vector<std::string> &level);
+        Lobby(Lobby &&other) noexcept;
         Lobby(Lobby &copy) = delete;
 
         void run() override;
@@ -40,7 +42,7 @@ namespace Worms {
         std::vector<int> playerIDs;
         std::vector<CommunicationSocket> players;
         std::vector<Observer *> obs;
-        std::string &stageFile;
+        const std::vector<std::string> &level;
 
         bool finished{false};
         bool gameStarted{false};

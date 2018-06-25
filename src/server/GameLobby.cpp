@@ -3,12 +3,14 @@
 //
 
 #include <iostream>
-#include <Stage.h>
+#include <dirent.h>
+
 #include "GameLobby.h"
 #include "ServerSocket.h"
 #include "Lobbies.h"
 #include "Game.h"
 #include "LobbyJoiner.h"
+#include "Stage.h"
 
 Worms::GameLobby::GameLobby(std::string port) :
         serverSocket(port.c_str()) {
@@ -17,7 +19,11 @@ Worms::GameLobby::GameLobby(std::string port) :
 
 void Worms::GameLobby::start(std::string &stageFile) {
     try {
-        Lobbies lobbies{stageFile};
+        std::string path("../res/");
+        std::vector<std::vector<std::string>> levels;
+        this->loadLevels(path, levels);
+
+        Lobbies lobbies{levels};
         
         LobbyJoiner lobbyJoiner{lobbies, this->msgToJoiner};
         lobbyJoiner.start();
@@ -104,5 +110,46 @@ void Worms::GameLobby::removePlayers(){
         } else {
             playerIt++;
         }
+    }
+}
+
+void Worms::GameLobby::loadLevels(std::string &path, std::vector<std::vector<std::string>> &levels) {
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(path.c_str())) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir(dir)) != NULL) {
+            if (std::string(ent->d_name)[0] != '.') {
+                std::string levelPath(path + ent->d_name + "/");
+//                std::cout << levelPath << std::endl;
+                this->loadLevel(levelPath, levels);
+            }
+        }
+        closedir (dir);
+    } else {
+        /* could not open directory */
+        throw Exception("Could not open directory: &s", path.c_str());
+    }
+}
+
+void Worms::GameLobby::loadLevel(std::string &path, std::vector<std::vector<std::string>> &levels) {
+    DIR *dir;
+    struct dirent *ent;
+    std::vector<std::string> level;
+    if ((dir = opendir(path.c_str())) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir(dir)) != NULL) {
+            if (std::string(ent->d_name)[0] != '.') {
+                std::string levelPath(path + ent->d_name);
+//                std::cout << "\t" << levelPath << std::endl;
+
+                level.emplace_back(std::move(levelPath));
+            }
+        }
+        closedir (dir);
+        levels.emplace_back(std::move(level));
+    } else {
+        /* could not open directory */
+        throw Exception("Could not open directory: &s", path.c_str());
     }
 }

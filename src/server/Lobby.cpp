@@ -2,14 +2,19 @@
 // Created by rodrigo on 16/06/18.
 //
 
-#include <Stage.h>
 #include <iostream>
+#include <string>
+
 #include "Lobby.h"
+#include "Stage.h"
 #include "Game.h"
 
-Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, std::string &stageFile) :
+
+/** Copio por ¿posible race condition?
+ */
+Worms::Lobby::Lobby(int playerID, std::uint8_t id, std::vector<Observer *> obs, const std::vector<std::string> &level) :
         id(id),
-        stageFile(stageFile) {
+        level(level) {
     for (auto *lobbyObserver : obs) {
         this->obs.emplace_back(lobbyObserver);
         this->addObserver(lobbyObserver);
@@ -55,9 +60,9 @@ void Worms::Lobby::addPlayerSocket(CommunicationSocket &&player) {
     this->players.emplace_back(std::move(player));
 }
 
-Worms::Lobby::Lobby(Worms::Lobby &&other) :
+Worms::Lobby::Lobby(Worms::Lobby &&other) noexcept :
         id(other.id),
-        stageFile(other.stageFile) {
+        level(other.level){
     if (this != &other){
         this->playersQuantity = other.playersQuantity;
         this->actualPlayers = other.actualPlayers;
@@ -75,7 +80,7 @@ void Worms::Lobby::run() {
                 this->players[i].send(buffer, sizeof(buffer));
             }
             std::cout << "game starts" << std::endl;
-            Worms::Game game{Worms::Stage::fromFile(this->stageFile), this->players};
+            Worms::Game game{Worms::Stage::fromFile(this->level[1]), this->players};
             game.start();
             this->notify(*this, Event::EndGame);
             this->gameStarted = false;

@@ -36,6 +36,10 @@ namespace Worms {
          * it and erase it (because the sockets was already moved to the Lobby)
          */
         void removePlayers();
+
+        void loadLevels(std::string &path, std::vector<std::vector<std::string>> &levels);
+
+        void loadLevel(std::string &path, std::vector<std::vector<std::string>> &levels);
     };
 }
 
