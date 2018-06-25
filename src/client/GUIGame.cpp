@@ -166,6 +166,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
                                 "assets/sound/Effects/ROCKETRELEASE.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
+    this->sound_effect_mgr.load(GUI::GameSoundEffects::Background,
+                                "assets/sound/Background/background.wav");
 
     /* updates the armory */
     this->armory.loadWeapons();
@@ -191,6 +193,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
         new GUI::Animation(this->texture_mgr.get(GUI::GameTextures::CurrentPlayerArrow), false));
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
+
+    this->soundEffectPlayer =
+            std::unique_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
+                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Background)});
+    this->soundEffectPlayer->loop = true;
+    this->soundEffectPlayer->play();
 }
 
 GUI::Game::~Game() {

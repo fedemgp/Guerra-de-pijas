@@ -73,6 +73,7 @@ class Game {
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
+    std::unique_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
 };
 }  // namespace GUI
 

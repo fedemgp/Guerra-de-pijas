@@ -28,5 +28,5 @@ void GUI::SoundEffectPlayer::update(float dt) {
 }
 
 void GUI::SoundEffectPlayer::play() {
-    this->soundEffect->play();
+    this->soundEffect->play(this->loop);
 }
