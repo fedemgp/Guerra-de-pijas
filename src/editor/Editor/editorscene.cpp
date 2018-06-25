@@ -45,10 +45,10 @@ void EditorScene::addItem(StageElement *elem) {
 void EditorScene::removeItem(StageElement *elem) {
     if (this->contains(elem)) {
         this->elements.erase(this->elements.find(elem));
-    }
 
-    if (elem->scene()) {
-        QGraphicsScene::removeItem(elem);
+        if (elem->scene()) {
+            QGraphicsScene::removeItem(elem);
+        }
     }
 }
 

@@ -52,7 +52,7 @@ void EditorView::deleteAt(QPoint pos) {
     this->scene()->removeItem(this->stageElem);
     QGraphicsItem *item = this->itemAt(pos);
     if (item) {
-        this->escene->removeItem(dynamic_cast<StageElement *>(item));
+        this->escene->removeItem(static_cast<StageElement *>(item));
     }
     this->escene->addItem(this->stageElem);
 }
