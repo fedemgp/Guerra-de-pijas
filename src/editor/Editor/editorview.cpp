@@ -113,6 +113,7 @@ bool EditorView::event(QEvent *event) {
     switch (event->type()) {
         case QEvent::HoverEnter:
             if (this->stageElem) {
+                this->setFocus();
                 this->escene->addItem(this->stageElem);
             }
             return true;

@@ -23,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(this->ui->actionShort_Girder, SIGNAL(triggered(bool)), this->ui->editorView,
             SLOT(setShortGirder()));
 
+    QColor defaultColor{0xba, 0x8d, 0xc6};
+    this->scene->setBgColor(defaultColor);
+    this->ui->colorPreview->setBackgroundBrush(QBrush(defaultColor));
+
     this->showMaximized();
 }
 
@@ -60,7 +64,7 @@ void MainWindow::on_actionCercano_triggered() {
 }
 
 void MainWindow::on_bgColorButton_clicked() {
-    QColor color = QColorDialog::getColor(Qt::yellow, this);
+    QColor color = QColorDialog::getColor(Qt::white, this);
     if (color.isValid()) {
         this->scene->setBgColor(color);
         this->ui->colorPreview->setBackgroundBrush(QBrush(color));
