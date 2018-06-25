@@ -16,53 +16,73 @@ worms:
   - position: [-87.61538461538461, 122]
   - position: [97.15384615384616, 157.1538461538462]
   - position: [-0.2307692307692264, 55.92307692307693]
-longGirders:
+girders:
   - position: [-0.1538461538461604, 54]
     angle: -0
+    length: 10.769
   - position: [22.74273644307698, 59.22059590999996]
     angle: -0
+    length: 10.769
   - position: [88.5344237653847, 151.0651318461538]
     angle: 54
+    length: 10.769
   - position: [-80.07692307692308, 116.3076923076923]
     angle: -54
+    length: 10.769
   - position: [96.30769230769232, 155.2307692307692]
     angle: -0
+    length: 10.769
   - position: [-88, 120.1538461538462]
     angle: -0
+    length: 10.769
   - position: [-56.8998324207692, 106.37954973]
     angle: -0
+    length: 10.769
   - position: [78.14626260923083, 135.5653358353846]
     angle: 54
+    length: 10.769
   - position: [61.98690081076927, 111.4911845846153]
     angle: 18
+    length: 10.769
   - position: [68.74745013461546, 117.7570595676923]
     angle: 63
+    length: 10.769
   - position: [73.19951920153852, 126.9909805953846]
     angle: 63
+    length: 10.769
   - position: [11.03544371153851, 56.5823327592307]
     angle: -0
+    length: 10.769
   - position: [-17.98545094692304, 84.44898728923073]
     angle: -45
+    length: 10.769
   - position: [14.0034897561539, 84.77877018307689]
     angle: 54
+    length: 10.769
   - position: [32.63622325846157, 61.69396761384607]
     angle: 27
+    length: 10.769
   - position: [45.00308177769236, 102.9168293446153]
     angle: -0
+    length: 10.769
   - position: [-10.23555294153843, 55.75787552461532]
     angle: -18
+    length: 10.769
   - position: [-26.06513184615382, 65.32157944615378]
     angle: -36
+    length: 10.769
   - position: [-45.85210547692304, 100.113674746923]
     angle: -0
+    length: 10.769
   - position: [83.42278891076927, 143.3152338407692]
     angle: 54
+    length: 10.769
   - position: [-67.69230769230769, 110.3076923076923]
     angle: -0
+    length: 10.769
   - position: [-17.98545094692304, 59.71527025076918]
     angle: -36
-shortGirders:
-  []
+    length: 10.769
 background:
   closeBackgroundFile: ""
   midBackgroundFile: ""

@@ -68,9 +68,7 @@ static Worms::GirderData _parseGirder(YAML::Node &node) {
     Math::Point<float> position = _parsePoint(positionNode);
 
     float angle = node["angle"].as<float>();
-
-    // TODO: use predefined length for short/long girders or load it from the YAML
-    float length = 10.769f;
+    float length = node["length"].as<float>();
 
     return Worms::GirderData{length, 1.42f, angle, position};
 }
@@ -108,11 +106,11 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
     }
 
     /* loads the girders */
-    if (!data["longGirders"] || !data["longGirders"].IsSequence()) {
-        throw Exception{"Invalid stage: expected a sequence of 'longGirders'"};
+    if (!data["girders"] || !data["girders"].IsSequence()) {
+        throw Exception{"Invalid stage: expected a sequence of 'girders'"};
     }
-    for (std::size_t i = 0; i < data["longGirders"].size(); i++) {
-        YAML::Node girderNode = data["longGirders"][i];
+    for (std::size_t i = 0; i < data["girders"].size(); i++) {
+        YAML::Node girderNode = data["girders"][i];
         stage.girders.push_back(_parseGirder(girderNode));
     }
 

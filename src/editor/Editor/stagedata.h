@@ -14,6 +14,7 @@
 struct GirderData {
     QPointF position;
     qreal angle;
+    qreal length;
 };
 
 struct WormData {
@@ -44,8 +45,7 @@ class StageData {
 
     qreal width;
     qreal height;
-    std::vector<GirderData> longGirders;
-    std::vector<GirderData> shortGirders;
+    std::vector<GirderData> girders;
     std::vector<WormData> worms;
     std::map<std::string, int> weapons;
 };
