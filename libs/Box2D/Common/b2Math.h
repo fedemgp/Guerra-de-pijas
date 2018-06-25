@@ -22,12 +22,18 @@
 #include "Box2D/Common/b2Settings.h"
 #include <math.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 /// This function is used to ensure that a floating point number is not a NaN or infinity.
 inline bool b2IsValid(float32 x)
 {
 	int32 ix = *reinterpret_cast<int32*>(&x);
 	return (ix & 0x7f800000) != 0x7f800000;
 }
+#pragma GCC diagnostic pop
 
 /// This is a approximate yet fast inverse square-root.
 inline float32 b2InvSqrt(float32 x)
@@ -66,7 +72,7 @@ struct b2Vec2
 
 	/// Negate this vector.
 	b2Vec2 operator -() const { b2Vec2 v; v.Set(-x, -y); return v; }
-	
+
 	/// Read from and indexed element.
 	float32 operator () (int32 i) const
 	{
@@ -84,7 +90,7 @@ struct b2Vec2
 	{
 		x += v.x; y += v.y;
 	}
-	
+
 	/// Subtract a vector from this vector.
 	void operator -= (const b2Vec2& v)
 	{
@@ -722,4 +728,5 @@ inline void b2Sweep::Normalize()
 	a -= d;
 }
 
+#pragma GCC diagnostic pop
 #endif
