@@ -6,6 +6,7 @@
 #define INC_4_WORMS_PROTOCOL_H
 
 
+#include <fstream>
 #include <netinet/in.h>
 #include <string>
 #include <vector>
@@ -14,6 +15,8 @@
 
 #define COMMAND_LENGTH 1
 #define INT_LENGTH 4
+#define FILE_CHUNK_LENGTH 512
+
 template <typename SOCKET>
 class Protocol {
 private:
@@ -77,6 +80,26 @@ public:
         }
     }
 
+    void operator<<(std::ifstream &file) {
+        std::vector<char> chunk(FILE_CHUNK_LENGTH);
+
+        file.seekg(0, file.end);
+        uint32_t length = file.tellg();
+        file.seekg(0, file.beg);
+
+        *this << length;
+
+        uint32_t charactersToRead = length;
+
+        while (charactersToRead > 0) {
+            file.read(chunk.data(), FILE_CHUNK_LENGTH);
+            uint32_t charactersRead = file.gcount();
+            this->socket.send(chunk.data(), charactersRead);
+            charactersToRead -= charactersRead;
+        }
+    }
+
+
     /* Recibe un comando.
      */
     Protocol & operator>>(unsigned char &command){
@@ -133,6 +156,28 @@ public:
 
         return *this;
     }
+
+    Protocol &operator>>(std::ofstream &file) {
+        std::vector<char> chunk(FILE_CHUNK_LENGTH);
+        uint32_t fileLength;
+        *this >> fileLength;
+        uint32_t fileBytesWritten = 0;
+
+        /* La cantidad de bytes a recibir es el mínimo entre los bytes
+         * que quedan por recibir y el tamaño máximo de chunk.
+         */
+        while (fileBytesWritten < fileLength) {
+            size_t bytesReceived = this->socket.receive(
+                    chunk.data(),
+                    std::min(fileLength - fileBytesWritten,
+                             (uint32_t) FILE_CHUNK_LENGTH));
+            file.write(chunk.data(), bytesReceived);
+            fileBytesWritten += bytesReceived;
+        }
+
+        return *this;
+    }
+
 
     /**
      * @brief returns socket by move semantic

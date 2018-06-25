@@ -2,6 +2,7 @@
 // Created by rodrigo on 15/06/18.
 //
 
+#include <fstream>
 #include <iostream>
 
 #include "GameLobbyAssistant.h"
@@ -71,6 +72,8 @@ void Worms::GameLobbyAssistant::getLevels() {
 void Worms::GameLobbyAssistant::createGame() {
     uint8_t levelSelected{0};
     this->protocol >> levelSelected;
+    this->sendLevelFiles(levelSelected);
+
     this->lobbies.createGame(this->playerID, this->lobbyObservers, levelSelected);
     this->quit = true;
 }
@@ -85,6 +88,7 @@ void Worms::GameLobbyAssistant::joinGame() {
     std::uint8_t gameID{0};
     this->protocol >> gameID;
     std::cout << "Joining game with ID " << (int) gameID << std::endl;
+    this->sendLevelFiles(gameID);
     this->lobbies.joinGame(gameID, this->playerID, this);
     this->quit = true;
 }
@@ -113,4 +117,19 @@ int Worms::GameLobbyAssistant::getPlayerID() const{
 
 bool Worms::GameLobbyAssistant::itsOver() const{
     return this->finished;
+}
+
+void Worms::GameLobbyAssistant::sendLevelFiles(uint8_t level) {
+    const IO::LevelData &levelData = this->lobbies.getLevelData(level);
+    this->protocol << levelData.levelName;
+//    std::string levelFilename(levelData.levelPath);
+    std::ifstream levelFile(levelData.levelPath, std::ifstream::binary);
+    this->protocol << levelFile;
+
+    this->protocol << levelData.backgroundName;
+    for (auto &background : levelData.backgroundPath) {
+//        std::string backgroundFilename(background);
+        std::ifstream backgroundFile(background, std::ifstream::binary);
+        this->protocol << backgroundFile;
+    }
 }

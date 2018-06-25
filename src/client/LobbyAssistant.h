@@ -21,6 +21,9 @@
 namespace GUI { // Había una forward declaration con GameWindow pero no hace falta parece.
     class LobbyAssistant : public Observer {
     public:
+        std::string levelPath;
+        std::vector<std::string> backgroundPath;
+        
         explicit LobbyAssistant(Window &window);
         //TODO overrrite
         void run();

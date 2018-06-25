@@ -18,6 +18,9 @@ namespace IO {
         uint8_t levelToCreate{0};
         std::vector<GameInfo> gamesInfo;
         uint8_t gameToJoin{0};
+        std::string levelPath;
+        std::vector<std::string> backgroundPath;
+
 
         explicit CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
                                        IO::Stream<IO::ServerResponse> *output);
@@ -43,6 +46,8 @@ namespace IO {
         void handleClientInput(ClientGUIMsg &msg);
 
         void createGame();
+
+        void getLevelFiles();
     };
 }
 

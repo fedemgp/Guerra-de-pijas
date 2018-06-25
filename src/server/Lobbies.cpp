@@ -46,3 +46,7 @@ Worms::Lobbies::Lobbies(const std::vector<IO::LevelData> &levels) :
 const std::vector<IO::LevelInfo> &Worms::Lobbies::getLevels() {
     return this->levelsInfo;
 }
+
+const IO::LevelData & Worms::Lobbies::getLevelData(uint8_t levelSelected) {
+    return this->levels[levelSelected];
+}

@@ -147,7 +147,7 @@ void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &
                 } else {
 //                std::cout << "\t" << levelPath << std::endl;
                     std::string levelName(ent->d_name);
-                    levelName = levelName.substr(0, levelName.find("."));
+//                    levelName = levelName.substr(0, levelName.find('.'));
 
                     level.levelPath = std::move(levelPath);
                     level.levelName = std::move(levelName);
@@ -171,9 +171,11 @@ void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &lev
         while ((ent = readdir(dir)) != NULL) {
             if (std::string(ent->d_name)[0] != '.') {
                 std::string backgroundPath(path + ent->d_name);
+                std::string backgroundName(ent->d_name);
 //                std::cout << "\t" << backgroundPath << std::endl;
 
-                level.background.emplace_back(std::move(backgroundPath));
+                level.backgroundPath.emplace_back(std::move(backgroundPath));
+                level.backgroundName.emplace_back(std::move(backgroundName));
             }
         }
         closedir (dir);

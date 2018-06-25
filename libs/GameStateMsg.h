@@ -117,7 +117,8 @@ namespace IO {
     struct LevelData {
         std::string levelPath;
         std::string levelName;
-        std::vector<std::string> background;
+        std::vector<std::string> backgroundPath;
+        std::vector<std::string> backgroundName;
     };
 
     struct LevelsInfo : public ServerResponse {

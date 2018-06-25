@@ -158,6 +158,8 @@ ClientSocket GUI::LobbyAssistant::getSocket() {
 void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
     switch (response.action) {
         case IO::ServerResponseAction::startGame: {
+            this->levelPath = std::move(this->communicationProtocol->levelPath);
+            this->backgroundPath = std::move(this->communicationProtocol->backgroundPath);
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::quit};
             this->quit = true;
             break;

@@ -2,10 +2,12 @@
 // Created by rodrigo on 20/06/18.
 //
 
+#include <fstream>
 #include <iostream>
-#include <GameStateMsg.h>
-#include <Stream.h>
+
 #include "CommunicationProtocol.h"
+#include "GameStateMsg.h"
+#include "Stream.h"
 
 IO::CommunicationProtocol::CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
                                                  IO::Stream<IO::ServerResponse> *output)
@@ -50,6 +52,7 @@ void IO::CommunicationProtocol::createGame() {
     this->command = COMMAND_CREATE_GAME;
     this->protocol << this->command;
     this->protocol << this->levelToCreate;
+    this->getLevelFiles();
     this->waitGameStart(this->levelsInfo[this->levelToCreate].playersQuantity);
 }
 
@@ -74,6 +77,7 @@ void IO::CommunicationProtocol::joinGame() {
     this->protocol << this->command;
     std::cout<<"mando sala "<< (int) this->gameToJoin <<std::endl;
     this->protocol << this->gameToJoin;
+    this->getLevelFiles();
     this->waitGameStart(this->gamesInfo[this->gameToJoin].numTotalPlayers);
 }
 
@@ -126,6 +130,18 @@ void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
         default: {
             break;
         }
+    }
+}
+
+void IO::CommunicationProtocol::getLevelFiles() {
+    this->protocol >> this->levelPath;
+    std::ofstream levelFile(this->levelPath, std::ofstream::binary);
+    this->protocol >> levelFile;
+
+    this->protocol >> this->backgroundPath;
+    for (auto &background : this->backgroundPath) {
+        std::ofstream backgroundFile(background, std::ofstream::binary);
+        this->protocol >> backgroundFile;
     }
 }
 

@@ -40,6 +40,8 @@ namespace Worms {
         void createGame();
 
         bool quit{false};
+
+        void sendLevelFiles(uint8_t level);
     };
 }
 
