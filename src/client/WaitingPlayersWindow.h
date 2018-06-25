@@ -19,7 +19,8 @@ namespace GUI {
     public:
         uint8_t playersConnected{0};
 
-        explicit WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam, unsigned int playersQuantity);
+        WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam, uint8_t playersQuantity);
+        WaitingPlayersWindow(Window &window, Font &font, Camera &cam, uint8_t playersQuantity, uint8_t playersConnected);
 
         void start() override;
         void render() override;

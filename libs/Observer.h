@@ -32,7 +32,8 @@ enum class Event {
     CreateGame,
     JoinGame,
     LevelSelected,
-    ConnectionToServer
+    ConnectionToServer,
+    LobbyToJoinSelected
 };
 
 class Subject;

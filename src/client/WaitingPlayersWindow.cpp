@@ -4,9 +4,16 @@
 
 #include "WaitingPlayersWindow.h"
 
-GUI::WaitingPlayersWindow::WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam, unsigned int playersQuantity) :
+GUI::WaitingPlayersWindow::WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam,
+                                                uint8_t playersQuantity) :
         GameWindow(window, font, cam),
         playersQuantity(playersQuantity) {
+}
+
+GUI::WaitingPlayersWindow::WaitingPlayersWindow(GUI::Window &window, GUI::Font &font, GUI::Camera &cam,
+                                                uint8_t playersQuantity, uint8_t playersConnected) :
+        WaitingPlayersWindow(window, font, cam, playersQuantity) {
+    this->playersConnected = playersConnected;
 }
 
 void GUI::WaitingPlayersWindow::start() {

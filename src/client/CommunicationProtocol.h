@@ -16,6 +16,7 @@ namespace IO {
     public:
         std::vector<LevelInfo> levelsInfo;
         std::vector<GameInfo> gamesInfo;
+        uint8_t gameToJoin;
 
         explicit CommunicationProtocol(ClientSocket &socket, IO::Stream<IO::ClientGUIMsg> *clientStream,
                                        IO::Stream<IO::ServerResponse> *output);
@@ -34,7 +35,7 @@ namespace IO {
         bool quit{false};
 
         void startCreateGame();
-        void getGames();
+        void startJoinGame();
         void joinGame();
         void waitGameStart(int levelSelected);
 

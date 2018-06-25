@@ -22,10 +22,14 @@ GUI::LobbyAssistant::LobbyAssistant(Window &window) :
         window(window),
         font("assets/fonts/gruen_lemonograf.ttf", 28),
         cam(window, this->scale, 600, 600) {
-    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
-    this->gameWindow->addObserver(this);
-//    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+//    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
 //    this->gameWindow->addObserver(this);
+    ClientSocket socket("localhost", "1050");
+    this->communicationProtocol = std::shared_ptr<IO::CommunicationProtocol>(
+            new IO::CommunicationProtocol(socket, &this->output, &this->serverStream));
+    this->communicationProtocol->start();
+    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+    this->gameWindow->addObserver(this);
 }
 
 void GUI::LobbyAssistant::run() {
@@ -122,7 +126,19 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
             break;
         }
         case Event::JoinGame: {
+            this->output << IO::ClientGUIMsg{IO::ClientGUIInput::startJoinGame};
+            break;
+        }
+        case Event::LobbyToJoinSelected: {
+            auto joinGameWindow = dynamic_cast<JoinGameWindow *>(this->gameWindow.get());
+            this->communicationProtocol->gameToJoin = joinGameWindow->currentGameIndex;
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::joinGame};
+            this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
+                                                                                        this->font,
+                                                                                        this->cam,
+                                                                                        joinGameWindow->info[joinGameWindow->currentGameIndex].numTotalPlayers,
+                                                                                        joinGameWindow->info[joinGameWindow->currentGameIndex].numCurrentPlayers});
+            this->nextGameWindow->addObserver(this);
             break;
         }
         default: {

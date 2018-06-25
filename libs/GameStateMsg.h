@@ -71,10 +71,10 @@ enum WeaponID {
 namespace IO {
     enum class ClientGUIInput {
         startCreateGame,
-        getGames,
-        joinGame,
+        startJoinGame,
         quit,
         levelSelected,
+        joinGame
     };
     enum class ServerResponseAction {
         startGame,

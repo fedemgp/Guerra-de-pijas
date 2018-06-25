@@ -9,12 +9,13 @@
 #include <list>
 #include <string>
 
+#include "GameStateMsg.h"
 #include "Lobby.h"
 
 struct GamesGetter{
 public:
     void operator()(const std::list<Worms::Lobby> &lobbies);
-    std::vector<uint8_t> lobbies;
+    std::vector<IO::GameInfo> gamesInfo;
 };
 
 

@@ -12,6 +12,8 @@ namespace GUI {
 class JoinGameWindow : public GameWindow {
    public:
     JoinGameWindow(Window &window, Font &font, Camera &cam, std::vector<IO::GameInfo> &info);
+    std::vector<IO::GameInfo> &info;
+    uint8_t currentGameIndex{0};
 
     void start() override;
     void render() override;
@@ -20,12 +22,11 @@ class JoinGameWindow : public GameWindow {
     void buttonPressed(ScreenPosition sp) override;
 
    private:
-    uint8_t currentGameIndex{0};
     Text gameName;
     Text numPlayers;
     Button prev;
     Button next;
-    std::vector<IO::GameInfo> &info;
+    Button join;
 };
 }  // namespace GUI
 

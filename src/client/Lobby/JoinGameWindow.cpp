@@ -3,23 +3,35 @@
 const SDL_Color WHITE = {0xff, 0xff, 0xff};
 const SDL_Color BLACK = {0, 0, 0};
 
-const int TEXT_SIZE = 40;
+const int TEXT_SIZE = 30;
 
 GUI::JoinGameWindow::JoinGameWindow(Window &window, Font &font, Camera &cam,
                                     std::vector<IO::GameInfo> &info)
     : GameWindow(window, font, cam),
+      info(info),
       gameName(font),
       numPlayers(font),
-      prev("previous", font),
-      next("next", font),
-      info(info) {
+      prev("Previous", font),
+      next("Next", font),
+      join("Join", font) {
+    int height = TEXT_SIZE * 3 / 2;
     this->prev.textColor = WHITE;
     this->prev.textSize = TEXT_SIZE;
-    this->prev.setBackground(BLACK);
+    this->prev.position = {this->window.getWidth() / 4, this->window.getHeight() / 2};
+    this->prev.height = height;
+    this->prev.width = this->prev.msg.size() * 9 + 20;
 
     this->next.textColor = WHITE;
     this->next.textSize = TEXT_SIZE;
-    this->next.setBackground(BLACK);
+    this->next.position = {this->window.getWidth() * 3 / 4, this->window.getHeight() / 2};
+    this->next.height = height;
+    this->next.width = this->next.msg.size() * 9 + 20;
+
+    this->join.textColor = WHITE;
+    this->join.textSize = TEXT_SIZE;
+    this->join.position = {this->window.getWidth() / 2, this->window.getHeight() * 3 / 4};
+    this->join.height = height;
+    this->join.width = this->join.msg.size() * 9 + 20;
 }
 
 /**
@@ -37,11 +49,9 @@ void GUI::JoinGameWindow::render() {
 
     const ScreenPosition center{this->window.getWidth() / 2, this->window.getHeight() / 2};
 
-    this->prev.position = {this->window.getWidth() / 4, this->window.getHeight() / 2};
-    this->next.position = {this->window.getWidth() * 3 / 4, this->window.getHeight() / 2};
-
     this->prev.render(this->cam);
     this->next.render(this->cam);
+    this->join.render(this->cam);
 
     if (this->info.size() > 0) {
         const IO::GameInfo &info = this->info.at(this->currentGameIndex);
@@ -53,6 +63,7 @@ void GUI::JoinGameWindow::render() {
         std::string msg =
             std::to_string(info.numCurrentPlayers) + "/" + std::to_string(info.numTotalPlayers);
         this->numPlayers.set(msg, BLACK, TEXT_SIZE * 2);
+        this->numPlayers.renderFixed(center, this->cam);
     }
 
     this->window.render();
@@ -70,8 +81,10 @@ void GUI::JoinGameWindow::buttonPressed(ScreenPosition sp) {
         } else {
             this->currentGameIndex--;
         }
-    } else if (this->prev.inside(sp)) {
+    } else if (this->next.inside(sp)) {
         this->currentGameIndex = (this->currentGameIndex + 1) % this->info.size();
+    } else if (this->join.inside(sp)) {
+        this->notify(*this, Event::LobbyToJoinSelected);
     }
 }
 

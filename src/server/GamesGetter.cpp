@@ -7,8 +7,9 @@
 
 void GamesGetter::operator()(const std::list<Worms::Lobby> &lobbies){
     for (auto &lobby : lobbies) {
-        this->lobbies.emplace_back(lobby.getID());
-        this->lobbies.emplace_back(lobby.getActualPlayers());
-        this->lobbies.emplace_back(lobby.getPlayersQuantity());
+        IO::GameInfo gameInfo{lobby.getID(),
+                              lobby.getActualPlayers(),
+                              lobby.getPlayersQuantity()};
+        this->gamesInfo.emplace_back(gameInfo);
     }
 }

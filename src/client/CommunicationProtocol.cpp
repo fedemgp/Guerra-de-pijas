@@ -53,28 +53,27 @@ void IO::CommunicationProtocol::createGame(int levelSelected) {
     this->waitGameStart(levelSelected);
 }
 
-void IO::CommunicationProtocol::getGames(){
+void IO::CommunicationProtocol::startJoinGame(){
     this->command = COMMAND_GET_GAMES;
     this->protocol << this->command;
     this->protocol >> this->gamesInfo;
-}
-
-void IO::CommunicationProtocol::joinGame(){
-    this->getGames();
-
+    
     IO::ServerResponse sr;
     sr.action = IO::ServerResponseAction::gamesInfo;
     *this->output << sr;
-    return;
+}
 
-    std::uint8_t gameToJoin;
-    std::cout<< "Choose lobby." << std::endl;
-    std::cin >> gameToJoin;
-    gameToJoin -= 48;
+void IO::CommunicationProtocol::joinGame() {
+    
+
+//    std::uint8_t gameToJoin;
+//    std::cout<< "Choose lobby." << std::endl;
+//    std::cin >> gameToJoin;
+//    gameToJoin -= 48;
     this->command = COMMAND_JOIN_GAME;
     this->protocol << this->command;
-    std::cout<<"mando sala "<< (int) gameToJoin<<std::endl;
-    this->protocol << gameToJoin;
+    std::cout<<"mando sala "<< (int) this->gameToJoin <<std::endl;
+    this->protocol << this->gameToJoin;
     this->waitGameStart(0);
 }
 
@@ -108,6 +107,11 @@ void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
             auto &levelSelected = (IO::LevelSelected &)(msg);
             std::cout << " asdasd";
             this->createGame(levelSelected.levelSelected);
+            break;
+        }
+        case IO::ClientGUIInput::startJoinGame: {
+            std::cout << " asdasd";
+            this->startJoinGame();
             break;
         }
         case IO::ClientGUIInput::joinGame: {

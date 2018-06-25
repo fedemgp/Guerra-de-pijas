@@ -77,7 +77,7 @@ void Worms::GameLobbyAssistant::createGame() {
 void Worms::GameLobbyAssistant::getGames() {
     GamesGetter getter;
     this->lobbies.getGames(getter);
-    this->protocol << getter.lobbies;
+    this->protocol << getter.gamesInfo;
 }
 
 void Worms::GameLobbyAssistant::joinGame() {
