@@ -14,7 +14,7 @@ message("[INFO] Loading sources to the client")
 file(GLOB_RECURSE CLIENT_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/client/*.cpp" "src/client/*.h")
 file(GLOB CLIENT_LIB_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/*.h" "libs/*.cpp")
 
-add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES})
+add_executable(worms_client ${CLIENT_SOURCES}  ${CLIENT_LIB_SOURCES} src/client/BackgroundMusic.cpp src/client/BackgroundMusic.h src/client/BackgroundMusicManager.h src/client/GameBackgroundMusic.h src/client/BackgroundMusicPlayer.cpp src/client/BackgroundMusicPlayer.h)
 target_link_libraries(worms_client SDL2 SDL2_image SDL2_ttf SDL2_mixer yaml-cpp)
 
 message("[INFO] Adding Box2D as library")

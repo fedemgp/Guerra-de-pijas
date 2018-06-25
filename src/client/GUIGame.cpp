@@ -21,6 +21,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
+      background_music_mgr(),
       stage(stage),
       cam(w, this->scale, this->stage.getWidth(), this->stage.getHeight()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
@@ -166,8 +167,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
                                 "assets/sound/Effects/ROCKETRELEASE.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
-    this->sound_effect_mgr.load(GUI::GameSoundEffects::Background,
+
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::Original,
                                 "assets/sound/Background/background.wav");
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::MurderTrain, "assets/sound/Background/MurderTrain.wav");
 
     /* updates the armory */
     this->armory.loadWeapons();
@@ -194,11 +197,12 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
 
-    this->soundEffectPlayer =
-            std::unique_ptr<GUI::SoundEffectPlayer>(new GUI::SoundEffectPlayer{
-                    this->sound_effect_mgr.get(GUI::GameSoundEffects::Background)});
-    this->soundEffectPlayer->loop = true;
-    this->soundEffectPlayer->play();
+//    this->backGroundMusicPlayer =
+//            std::unique_ptr<GUI::BackgroundMusicPlayer>(new GUI::BackgroundMusicPlayer{
+//                    this->background_music_mgr.get(GUI::GameBackgroundMusic::Original)});
+//    this->backGroundMusicPlayer->play();
+    this->backgroundMusic = &this->background_music_mgr.get(GUI::GameBackgroundMusic::MurderTrain);
+    this->backgroundMusic->play();
 }
 
 GUI::Game::~Game() {

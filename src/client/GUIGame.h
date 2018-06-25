@@ -28,6 +28,9 @@
 #include "Wind.h"
 #include "Window.h"
 #include "Worm.h"
+#include "BackgroundMusic.h"
+#include "GameBackgroundMusic.h"
+#include "BackgroundMusicPlayer.h"
 
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
@@ -55,6 +58,7 @@ class Game {
     Window &window;
     GameTextureManager texture_mgr;
     GameSoundEffectManager sound_effect_mgr;
+    GameBackgroundMusicManager background_music_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::list<std::shared_ptr<Ammo::Bullet>> bullets;
@@ -73,7 +77,8 @@ class Game {
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
-    std::unique_ptr<GUI::SoundEffectPlayer> soundEffectPlayer{nullptr};
+    std::unique_ptr<GUI::BackgroundMusicPlayer> backGroundMusicPlayer{nullptr};
+    const BackgroundMusic *backgroundMusic{nullptr};
 };
 }  // namespace GUI
 

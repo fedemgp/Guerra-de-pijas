@@ -24,8 +24,7 @@ enum class GameSoundEffects {
     AirStrike,
     Teleport,
     Shot,
-    Banana,
-    Background
+    Banana
 };
 
 /** Specialized SoundEffectManager class. */
