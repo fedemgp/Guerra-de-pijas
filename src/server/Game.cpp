@@ -22,7 +22,7 @@
 #include "Weapons/BaseballBat.h"
 
 #define CONFIG ::Game::Config::getInstance()
-#define TIME_STEP (1.0f / 60.0f)
+#define TIME_STEP (1.0f / 30.0f)
 
 Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
     : physics(b2Vec2{0.0f, -10.0f}, TIME_STEP),
@@ -84,6 +84,73 @@ Worms::Game::~Game() {
         t.join();
     }
 }
+///**
+// * @brief Reads player messages from a socket and pushes them into the input queue.
+// *
+// * @param playerIndex The index of the player.
+// */
+//void Worms::Game::inputWorker(std::size_t playerIndex) {
+//    PlayerInput &input = this->inputs.at(playerIndex);
+//    CommunicationSocket &socket = this->sockets.at(playerIndex);
+//
+//    /* TODO: avoid hardcoding the size */
+//    IO::PlayerMsg msg;
+//    char *buffer = new char[msg.getSerializedSize()];
+//
+//    try {
+//        while (!this->quit) {
+//            /* reads the raw data from the buffer */
+//            socket.receive(buffer, msg.getSerializedSize());
+//
+//            /* sets the struct data from the buffer */
+//            msg.deserialize(buffer, msg.getSerializedSize());
+//
+//            /* pushes the message into the player's input queue if it's the current player */
+//            if (this->currentTeam == playerIndex) {
+//                input.push(msg);
+//            }
+//        }
+//    } catch (const std::exception &e) {
+//        std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+//        msg.input = IO::PlayerInput::disconnected;
+//        msg.position = Math::Point<float>{0, 0};
+//        input.push(msg);
+//    } catch (...) {
+//        std::cerr << "Unknown error in Worms::Game::inputWorker()" << std::endl;
+//    }
+//
+//    delete[] buffer;
+//}
+//
+///**
+// * @brief Sends model snapshot messages to a socket.
+// *
+// * @param playerIndex The index of the player to send the spanshots to.
+// */
+//void Worms::Game::outputWorker(std::size_t playerIndex) {
+//    CommunicationSocket &socket = this->sockets.at(playerIndex);
+//    GameSnapshot &snapshot = this->snapshots.at(playerIndex);
+//
+//    IO::GameStateMsg msg;
+//    char *buffer = new char[msg.getSerializedSize()];
+//
+//    try {
+//        while (!this->quit) {
+//            msg = snapshot.get(true);
+//            msg.serialize(buffer, msg.getSerializedSize());
+//            socket.send(buffer, msg.getSerializedSize());
+//        }
+//    } catch (const IO::Interrupted &e) {
+//        /* this means that the game is ready to exit */
+//    } catch (const std::exception &e) {
+//        std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
+//    } catch (...) {
+//        std::cerr << "Unknown error in Worms::Game::outputWorker()" << std::endl;
+//    }
+//
+//    delete[] buffer;
+//}
+
 
 /**
  * @brief Reads player messages from a socket and pushes them into the input queue.
