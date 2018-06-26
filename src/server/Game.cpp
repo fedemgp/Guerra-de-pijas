@@ -432,6 +432,9 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->endTurn();
             break;
         }
+        default: {
+            break;
+        }
     }
 }
 
