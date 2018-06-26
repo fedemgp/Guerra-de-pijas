@@ -9,19 +9,16 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
                                  const std::map<Worm::WeaponID, std::int16_t> &ammoCounter) {
     uint8_t numPlayers = players.size();
 
-    //    for (uint8_t i = 0; i < numTeams; i++) {
-    //        this->teams.emplace_back(Team{std::vector<uint8_t>, 0})
-    //    }
     this->teams.reserve(numTeams);
     std::vector<uint8_t> playersNum(numPlayers);
     for (uint8_t i = 0; i < numPlayers; i++) {
         playersNum[i] = i;
     }
 
-    //        std::random_device rnd_device;
-    //        std::mt19937 mersenne_engine(rnd_device());
-    //
-    //        shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
+            std::random_device rnd_device;
+            std::mt19937 mersenne_engine(rnd_device());
+
+            shuffle(playersNum.begin(), playersNum.end(), mersenne_engine);
 
     uint8_t maxTeamPlayers =
         (numPlayers % numTeams == 0) ? numPlayers / numTeams : numPlayers / numTeams + 1;
