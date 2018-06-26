@@ -6,7 +6,7 @@
 #define INC_4_WORMS_GAMELOBBY_H
 
 
-#define RESOURCE_PATH "../res/"
+#define RESOURCE_PATH "/var/Worms/res/"
 
 #include <list>
 #include <string>

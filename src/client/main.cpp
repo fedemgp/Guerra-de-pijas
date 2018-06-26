@@ -12,27 +12,22 @@
 #include "GameEndWindow.h"
 
 int main(int argc, const char *argv[]) {
-    if (argc != 3) {
-        std::cout << "Usage: ./client HOST PORT" << std::endl;
+    if (argc != 1) {
+        std::cout << "Usage: ./client" << std::endl;
         return EXIT_FAILURE;
     }
 
     try {
         GUI::Window window{};
         window.clear();
-        //TODO run a thread running this
         GUI::LobbyAssistant lobby(window);
         lobby.run();
-        //TODO join Lobby thread
 
         if (!lobby.exit) {
             ClientSocket socket = std::move(lobby.getSocket());
 
             char buffer[1];
             socket.receive(buffer, sizeof(buffer));
-
-//        GUI::Window window{};
-//        window.clear();
 
             GUI::Game game{window, Worms::Stage::fromFile(lobby.levelPath), lobby.backgroundPath, socket,
                            (std::uint8_t) buffer[0]};
