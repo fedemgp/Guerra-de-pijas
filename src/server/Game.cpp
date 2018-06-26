@@ -374,6 +374,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             this->gameClock.playerShot();
             this->currentPlayerShot = true;
             this->teams.weaponUsed(this->players[this->currentWorm].getWeaponID());
+            break;
         }
         case Event::WormFalling: {
             this->gameTurn.wormFalling(dynamic_cast<const Player &>(subject).getId());
@@ -423,6 +424,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
                 Worm::StateID wormState = this->players[worm].getStateId();
                 if (this->players[worm].health == 0) {
                     if (wormState != Worm::StateID::Die && wormState != Worm::StateID::Dead) {
+                        this->players[worm].notify(this->players[worm], Event::Dying);
                         this->players[worm].setState(Worm::StateID::Die);
                     }
                 }

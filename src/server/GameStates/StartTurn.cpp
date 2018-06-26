@@ -41,4 +41,12 @@ void Worms::StartTurn::wormDisconnectedDying(uint8_t wormId) {
     }
 }
 
-void Worms::StartTurn::wormDisconnectedDead(uint8_t wormId) {}
+void Worms::StartTurn::wormDisconnectedDead(uint8_t wormId) {
+    this->wormsDisconnectedDying.erase(
+            std::remove(this->wormsDisconnectedDying.begin(), this->wormsDisconnectedDying.end(), wormId),
+            this->wormsDisconnectedDying.end());
+    if (this->wormToFollow == wormId) {
+        this->wormToFollow = this->wormsDisconnectedDying[0];
+        this->notify(*this, Event::NewWormToFollow);
+    }
+}
