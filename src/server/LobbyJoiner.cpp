@@ -3,6 +3,7 @@
 //
 
 #include <GameStateMsg.h>
+#include <iostream>
 #include "LobbyJoiner.h"
 
 Worms::LobbyJoiner::LobbyJoiner(Worms::Lobbies &lobbies, IO::Stream<IO::ServerInternalMsg> &serverInput) :
@@ -11,12 +12,22 @@ Worms::LobbyJoiner::LobbyJoiner(Worms::Lobbies &lobbies, IO::Stream<IO::ServerIn
 }
 
 void Worms::LobbyJoiner::run() {
-    while (!this->finished) {
-        IO::ServerInternalMsg msg;
-        if (this->serverInput.pop(msg)) {
-            this->handleServerInput(msg);
+    try{
+        while (!this->finished) {
+            IO::ServerInternalMsg msg;
+            if (this->serverInput.pop(msg)) {
+                this->handleServerInput(msg);
+            }
         }
+    } catch (std::exception &e){
+        if(!this->finished){
+            std::cerr << e.what() << std::endl;
+        }
+    } catch (...){
+        std::cerr << "Unknown error in LobbyJoiner::run()" << std::endl;
     }
+
+    this->killLobbies();
 }
 
 void Worms::LobbyJoiner::stop() {

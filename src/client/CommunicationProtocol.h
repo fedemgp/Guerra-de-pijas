@@ -31,7 +31,7 @@ namespace IO {
         ClientSocket getSocket();
 
     private:
-        Protocol<ClientSocket> protocol;
+        Protocol<ClienstSocket> protocol;
         unsigned char command{0};
         std::uint8_t playersQuantity{0};
         IO::Stream<IO::ClientGUIMsg> *clientStream;

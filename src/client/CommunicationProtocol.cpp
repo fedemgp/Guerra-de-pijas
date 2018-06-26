@@ -18,13 +18,20 @@ IO::CommunicationProtocol::CommunicationProtocol(ClientSocket &socket, IO::Strea
 }
 
 void IO::CommunicationProtocol::run() {
-    while (!this->quit) {
-        IO::ClientGUIMsg msg;
-        if (clientStream->pop(msg)) {
-            this->handleClientInput(msg);
+    try {
+        while (!this->quit) {
+            IO::ClientGUIMsg msg;
+            if (clientStream->pop(msg)) {
+                this->handleClientInput(msg);
+            }
         }
+    } catch (std::exception &e){
+        if (!this->quit){
+            std::cerr << e.what() << std::endl;
+        }
+    } catch (...){
+        std::cerr << "Unknown Error in CommunicationProtocol::run()" << std::endl;
     }
-    std::cout<<"dhsdfhs";
 }
 
 //void IO::CommunicationProtocol::clearScreen(){

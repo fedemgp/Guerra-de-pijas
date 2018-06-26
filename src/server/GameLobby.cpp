@@ -45,7 +45,7 @@ void Worms::GameLobby::run() {
             std::cerr << e.what() << std::endl;
         }
     } catch (...) {
-        std::cerr << "Unkown error in main thread" << std::endl;
+        std::cerr << "Unkown error in GameLobby::run()" << std::endl;
     }
 
     this->killPlayers();

@@ -212,6 +212,8 @@ void GUI::Game::inputWorker() {
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in GUI::Game::inputWorker()" << std::endl;
     }
 
     delete[] buffer;
@@ -229,6 +231,8 @@ void GUI::Game::outputWorker() {
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in GUI::Game::outputWorker()" << std::endl;
     }
 
     delete[] buffer;

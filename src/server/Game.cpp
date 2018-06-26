@@ -114,6 +114,8 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in Worms::Game::inputWorker()" << std::endl;
     }
 
     delete[] buffer;
@@ -142,6 +144,8 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
         this->playerDisconnected(/*playerIndex*/);
+    } catch (...) {
+        std::cerr << "Unknown error in Worms::Game::outputWorker()" << std::endl;
     }
 
     delete[] buffer;
