@@ -57,5 +57,3 @@ void Worms::Lobbies::configure(){
 
 Worms::Lobbies::~Lobbies(){}
 
-uint8_t Worms::Lobbies::getLevelFromLobby(uint8_t gameID) {
-}

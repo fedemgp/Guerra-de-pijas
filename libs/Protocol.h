@@ -70,6 +70,8 @@ public:
 
     void operator<<(const IO::GameInfo &info) {
         *this << info.gameID;
+        *this << info.levelID;
+        *this << info.levelName;
         *this << info.numCurrentPlayers;
         *this << info.numTotalPlayers;
     };
@@ -142,6 +144,8 @@ public:
 
     Protocol &operator>>(IO::GameInfo &info){
         *this >> info.gameID;
+        *this >> info.levelID;
+        *this >> info.levelName;
         *this >> info.numCurrentPlayers;
         *this >> info.numTotalPlayers;
         return *this;

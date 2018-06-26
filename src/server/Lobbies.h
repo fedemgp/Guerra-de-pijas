@@ -22,7 +22,6 @@ namespace Worms {
         void createGame(int playerID, std::vector<Observer *> lobbyObservers, uint8_t levelSelected);
         void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID, Observer *lobbyObserver);
-        uint8_t getLevelFromLobby(uint8_t gameID);
         const std::vector<IO::LevelInfo> &getLevels();
         const IO::LevelData & getLevelData(uint8_t levelSelected);
         std::list<Lobby> &getLobbies();
