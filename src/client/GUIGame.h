@@ -33,7 +33,6 @@
 #include "GameBackgroundMusic.h"
 #include "BackgroundMusicPlayer.h"
 
-#define ASSETS_PATH "/var/Worms/assets"
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {

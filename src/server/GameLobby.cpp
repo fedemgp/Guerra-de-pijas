@@ -123,7 +123,7 @@ void Worms::GameLobby::loadLevels(std::string &path, std::vector<IO::LevelData> 
         closedir (dir);
     } else {
         /* could not open directory */
-        throw Exception("Could not open directory: &s", path.c_str());
+        throw Exception("Could not open directory: %s", path.c_str());
     }
 }
 
@@ -167,7 +167,7 @@ void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &
         levels.emplace_back(std::move(level));
     } else {
         /* could not open directory */
-        throw Exception("Could not open directory: &s", path.c_str());
+        throw Exception("Could not open directory: %s", path.c_str());
     }
 }
 
@@ -211,7 +211,7 @@ void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &lev
         closedir (dir);
     } else {
         /* could not open directory */
-        throw Exception("Could not open directory: &s", path.c_str());
+        throw Exception("Could not open directory: %s", path.c_str());
     }
 }
 

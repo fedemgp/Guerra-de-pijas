@@ -33,7 +33,7 @@ girders:
     angle: -0
     length: 10.769
 background:
-  closeBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg3.png
-  midBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg2.png
-  fartherBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg1.png
+  closeBackgroundFile: "/home/rodrigo/Guerra-de-pijas/assets/img/background/bg1.png"
+  midBackgroundFile: "/home/rodrigo/Guerra-de-pijas/assets/img/background/bg2.png"
+  fartherBackgroundFile: "/home/rodrigo/Guerra-de-pijas/assets/img/background/bg3.png"
   color: [186, 141, 198]

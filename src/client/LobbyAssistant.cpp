@@ -20,15 +20,9 @@
 
 GUI::LobbyAssistant::LobbyAssistant(Window &window) :
         window(window),
-        font("assets/fonts/gruen_lemonograf.ttf", 28),
+        font(std::string(ASSETS_PATH) + "/fonts/gruen_lemonograf.ttf", 28),
         cam(window, this->scale, 600, 600) {
-//    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
-//    this->gameWindow->addObserver(this);
-    ClientSocket socket("localhost", "1050");
-    this->communicationProtocol = std::shared_ptr<IO::CommunicationProtocol>(
-            new IO::CommunicationProtocol(socket, &this->output, &this->serverStream));
-    this->communicationProtocol->start();
-    this->gameWindow = std::shared_ptr<GameWindow>(new SelectActionWindow{this->window, this->font, this->cam});
+    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
     this->gameWindow->addObserver(this);
 }
 

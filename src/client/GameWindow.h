@@ -6,12 +6,16 @@
 #define INC_4_WORMS_GAMEWINDOW_H
 
 
-#include <Camera.h>
-#include "Font.h"
-#include <Window.h>
 #include <vector>
-#include "Subject.h"
+
 #include "Button.h"
+#include "Camera.h"
+#include "Font.h"
+#include "Subject.h"
+#include "Window.h"
+
+#define ASSETS_PATH "/var/Worms/assets"
+
 
 namespace GUI {
     struct TextField {

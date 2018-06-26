@@ -9,13 +9,15 @@
 #include <iostream>
 #include <sstream>
 
-#include "GUIGame.h"
 #include "GameStateMsg.h"
+#include "GameWindow.h"
+#include "GUIGame.h"
 #include "Stream.h"
 #include "Text.h"
 #include "Weapons/Bullet.h"
 #include "Window.h"
 #include "WrapTexture.h"
+
 
 // TODO DEHARDCODE
 GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
@@ -25,7 +27,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
       sound_effect_mgr(),
       stage(stage),
       cam(w, this->scale, this->stage.getWidth(), this->stage.getHeight()),
-      font("assets/fonts/gruen_lemonograf.ttf", 28),
+      font(std::string(ASSETS_PATH) + "/fonts/gruen_lemonograf.ttf", 28),
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
       team(team),
