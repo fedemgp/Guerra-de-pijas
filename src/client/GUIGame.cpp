@@ -206,8 +206,12 @@ void GUI::Game::start() {
 
                 this->handleCamera(dt);
                 this->update(dt);
+
+                this->render();
+            } else {
+                this->youWin = this->snapshot.winner == this->team;
+                this->quit = true;
             }
-            this->render();
         }
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl << "In GUI::Game::start" << std::endl;
@@ -382,18 +386,6 @@ void GUI::Game::renderStatic() {
     this->armory.render();
 
     this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
-
-    if (this->snapshot.gameEnded) {
-        int x = this->window.getWidth() / 2;
-        int y = this->window.getHeight() / 2;
-        Text textGameEnd{this->font};
-        if (this->snapshot.winner == this->team) {
-            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
-        } else {
-            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
-        }
-        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
-    }
 }
 
 /**

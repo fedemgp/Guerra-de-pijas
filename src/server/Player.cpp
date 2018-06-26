@@ -493,6 +493,7 @@ void Worms::Player::landDamage(float yDistance) {
     if (yDistance > CONFIG.getSafeFallDistance()) {
         this->health -=
             (yDistance > CONFIG.getMaxFallDamage()) ? CONFIG.getMaxFallDamage() : yDistance;
+        this->health = (this->health < 0) ? 0 : this->health;
         if (this->health > 0) {
             this->notify(*this, Event::DamageOnLanding);
         }

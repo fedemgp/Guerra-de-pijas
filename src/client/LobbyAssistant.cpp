@@ -34,7 +34,6 @@ void GUI::LobbyAssistant::run() {
                 case SDL_QUIT: {
                     this->quit = true;
                     this->exit = true;
-//                    throw;
                     break;
                 }
                 case SDL_KEYDOWN: {

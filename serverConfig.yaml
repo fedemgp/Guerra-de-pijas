@@ -26,7 +26,7 @@
     drowningTime: 1.0,
     battingTime: 0.5,
     teleportTime: 2.0,
-    waterLevel: -2,
+    waterLevel: 0,
     powerChargeMaxTime: 1.0
   },
   windIntensity: {
