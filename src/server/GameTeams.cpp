@@ -45,11 +45,13 @@ void Worms::GameTeams::makeTeams(std::vector<Worms::Player> &players, uint8_t nu
 }
 
 void Worms::GameTeams::checkAlive(std::vector<Worms::Player> &players) {
+    std::uint8_t teamID{0};
     for (auto &team : this->teams) {
         team.checkAlive(players);
-        if (!team.isAlive()) {
-            this->deadTeams++;
+        if (!team.isAlive() && std::find(this->deadTeams.begin(), this->deadTeams.end(), teamID) == this->deadTeams.end()) {
+            this->deadTeams.emplace_back(teamID);
         }
+        teamID++;
     }
 }
 
@@ -62,7 +64,7 @@ bool Worms::GameTeams::endTurn(std::vector<Player> &players) {
 
     this->teams[this->currentTeam].endTurn(players);
 
-    if (this->deadTeams >= this->teams.size() - 1) {
+    if (this->deadTeams.size() >= this->teams.size() - 1) {
         return true;
     } else {
         return false;
