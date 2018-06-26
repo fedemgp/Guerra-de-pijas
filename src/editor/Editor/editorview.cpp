@@ -119,7 +119,7 @@ bool EditorView::event(QEvent *event) {
             return true;
         case QEvent::HoverLeave:
             if (this->stageElem) {
-                this->scene()->removeItem(this->stageElem);
+                this->escene->removeItem(this->stageElem);
             }
             return true;
         default:
