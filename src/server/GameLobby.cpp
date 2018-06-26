@@ -17,15 +17,16 @@ Worms::GameLobby::GameLobby(std::string port) :
     std::cout << "Se bindeo" << std::endl;
 }
 
-void Worms::GameLobby::start(std::string &stageFile) {
-    try {
-        std::string path("../res/");
-        std::vector<IO::LevelData> levels;
-        this->loadLevels(path, levels);
+void Worms::GameLobby::run() {
+    std::string path(RESOURCE_PATH);
+    std::vector<IO::LevelData> levels;
 
-        Lobbies lobbies{levels};
-        
-        LobbyJoiner lobbyJoiner{lobbies, this->msgToJoiner};
+    Lobbies lobbies{levels};
+
+    LobbyJoiner lobbyJoiner{lobbies, this->msgToJoiner};
+    try {
+        this->loadLevels(path, levels);
+        lobbies.configure();
         lobbyJoiner.start();
         int id = 0;
 
@@ -38,33 +39,27 @@ void Worms::GameLobby::start(std::string &stageFile) {
 
             std::cout << "hubo una conexión" << std::endl;
         }
-        this->removePlayers();
-        
-        this->msgToJoiner << IO::ServerInternalMsg{IO::ServerInternalAction::quit};
-        lobbyJoiner.join();
-        
+
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        if (!this->quit){
+            std::cerr << e.what() << std::endl;
+        }
     } catch (...) {
         std::cerr << "Unkown error in main thread" << std::endl;
     }
+
+    this->killPlayers();
+    this->msgToJoiner << IO::ServerInternalMsg{IO::ServerInternalAction::quit};
+    lobbyJoiner.join();
 }
 
-void Worms::GameLobby::exit() {
+void Worms::GameLobby::stop() {
     this->quit = true;
+    this->serverSocket.shutdown();
 }
 
 void Worms::GameLobby::onNotify(Subject &subject, Event event) {
     switch (event) {
-//        case Event::NewPlayer: {
-//            auto lobby = dynamic_cast<const Lobby &>(subject);
-//            const std::vector<int> &playerIDs = lobby.getPlayerIDs();
-//            for (auto playerID : playerIDs) {
-//                auto it = std::next(this->players.begin(), playerID);
-//                (*it).newPlayer();
-//            }
-//            break;
-//        }
         case Event::StartGame: {
             auto &lobby = dynamic_cast<Lobby &>(subject);
 
@@ -77,7 +72,6 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
 
             const std::vector<int> &playerIDs = lobby.getPlayerIDs();
             for (auto &playerID : playerIDs) {
-//                auto it = std::next(this->players.begin(), playerID);
                 for (auto &player : this->players){
                     if ( player.getPlayerID() == playerID){
                         //TODO revisar el lugar donde se setea terminado el hilo
@@ -183,4 +177,15 @@ void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &lev
         /* could not open directory */
         throw Exception("Could not open directory: &s", path.c_str());
     }
+}
+
+void Worms::GameLobby::killPlayers(){
+    std::list<GameLobbyAssistant>::iterator playerIt;
+    playerIt = this->players.begin();
+    while (playerIt != this->players.end()){
+        playerIt->stop();
+        playerIt->join();
+        playerIt++;
+    }
+    this->players.erase(this->players.begin(), this->players.end());
 }

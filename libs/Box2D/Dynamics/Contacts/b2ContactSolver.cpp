@@ -251,7 +251,7 @@ void b2ContactSolver::InitializeVelocityConstraints()
 
 void b2ContactSolver::WarmStart()
 {
-	// Warm start.
+	// Warm run.
 	for (int32 i = 0; i < m_count; ++i)
 	{
 		b2ContactVelocityConstraint* vc = m_velocityConstraints + i;

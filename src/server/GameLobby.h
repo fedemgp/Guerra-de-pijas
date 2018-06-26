@@ -6,6 +6,8 @@
 #define INC_4_WORMS_GAMELOBBY_H
 
 
+#define RESOURCE_PATH "../res/"
+
 #include <list>
 #include <string>
 
@@ -17,14 +19,14 @@
 #include "GameLobbyAssistant.h"
 
 namespace Worms {
-    class GameLobby : public Observer {
+    class GameLobby : public Observer, public Thread {
     public:
         GameLobby(std::string port);
         GameLobby(GameLobby &copy) = delete;
 
-        void start(std::string &stageFile);
+        void run() override;
         void onNotify(Subject &subject, Event event) override;
-        void exit();
+        void stop() override;
 
     private:
         ServerSocket serverSocket;
@@ -42,6 +44,8 @@ namespace Worms {
         void loadLevel(std::string &path, std::vector<IO::LevelData> &levels);
 
         void loadLevelBackground(std::string &path, IO::LevelData &level);
+
+        void killPlayers();
     };
 }
 

@@ -17,7 +17,8 @@ namespace Worms {
     class Lobbies {
     public:
         explicit Lobbies(const std::vector<IO::LevelData> &levels);
-
+        ~Lobbies();
+        void configure();
         void createGame(int playerID, std::vector<Observer *> lobbyObservers, uint8_t levelSelected);
         void getGames(GamesGetter &getter);
         void joinGame(int gameID, int playerID, Observer *lobbyObserver);

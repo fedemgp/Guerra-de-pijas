@@ -33,7 +33,17 @@ std::list<Worms::Lobby> &Worms::Lobbies::getLobbies() {
 }
 
 Worms::Lobbies::Lobbies(const std::vector<IO::LevelData> &levels) :
-        levels(levels) {
+        levels(levels) {}
+
+const std::vector<IO::LevelInfo> &Worms::Lobbies::getLevels() {
+    return this->levelsInfo;
+}
+
+const IO::LevelData & Worms::Lobbies::getLevelData(uint8_t levelSelected) {
+    return this->levels[levelSelected];
+}
+
+void Worms::Lobbies::configure(){
     for (auto &level : this->levels) {
         YAML::Node data = YAML::LoadFile(level.levelPath);
         std::string name = data["name"].as<std::string>();
@@ -43,10 +53,4 @@ Worms::Lobbies::Lobbies(const std::vector<IO::LevelData> &levels) :
     }
 }
 
-const std::vector<IO::LevelInfo> &Worms::Lobbies::getLevels() {
-    return this->levelsInfo;
-}
-
-const IO::LevelData & Worms::Lobbies::getLevelData(uint8_t levelSelected) {
-    return this->levels[levelSelected];
-}
+Worms::Lobbies::~Lobbies(){}

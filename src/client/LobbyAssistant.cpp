@@ -24,7 +24,7 @@ GUI::LobbyAssistant::LobbyAssistant(Window &window) :
         cam(window, this->scale, 600, 600) {
 //    this->gameWindow = std::shared_ptr<GameWindow>(new ConnectionWindow{this->window, this->font, this->cam});
 //    this->gameWindow->addObserver(this);
-    ClientSocket socket("localhost", "1050");
+    ClientSocket socket("localhost", "1052");
     this->communicationProtocol = std::shared_ptr<IO::CommunicationProtocol>(
             new IO::CommunicationProtocol(socket, &this->output, &this->serverStream));
     this->communicationProtocol->start();

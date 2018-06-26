@@ -25,6 +25,8 @@ namespace Worms {
         bool finished{false};
 
         void handleServerInput(IO::ServerInternalMsg &msg);
+
+        void killLobbies();
     };
 }
 

@@ -27,7 +27,7 @@ enum REGEX_OP {
 
 // simplified regular expressions
 // . Only straightforward matches (no repeated characters)
-// . Only matches from start of string
+// . Only matches from run of string
 class YAML_CPP_API RegEx {
  public:
   RegEx();

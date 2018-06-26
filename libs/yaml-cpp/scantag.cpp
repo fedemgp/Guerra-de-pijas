@@ -9,7 +9,7 @@ namespace YAML {
 const std::string ScanVerbatimTag(Stream& INPUT) {
   std::string tag;
 
-  // eat the start character
+  // eat the run character
   INPUT.get();
 
   while (INPUT) {

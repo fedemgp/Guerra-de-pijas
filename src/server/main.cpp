@@ -40,8 +40,8 @@ static void _signal_handler(int _) {
 //}
 
 int main(int argc, const char *argv[]) {
-    if (argc != 3) {
-        std::cout << "Usage: ./server PORT STAGE" << std::endl;
+    if (argc != 2) {
+        std::cout << "Usage: ./server PORT" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -50,30 +50,18 @@ int main(int argc, const char *argv[]) {
         signal(SIGINT, _signal_handler);
         signal(SIGTERM, _signal_handler);
 
-	    std::string stageFile = argv[2];
-
         std::string port(argv[1]);
         Worms::GameLobby gameLobby{port};
-//        ServerSocket s(port.c_str());
-//        std::cout << "Se bindeo" << std::endl;
 
-        gameLobby.start(stageFile);
+        gameLobby.start();
+        char quit{0};
+        while (quit != 'q'){
+            std::cin >> quit;
+        }
 
-//        /* get based on the number of players selected for the game */
-//        const uint8_t numTeams = 2;
-//
-//        std::vector<CommunicationSocket> players;
-//        for (uint8_t i = 0; i < numTeams; i++) {
-//            players.push_back(s.accept());
-//            std::cout << "hubo conexión" << std::endl;
-//        }
+        gameLobby.stop();
+        gameLobby.join();
 
-//        std::cout << "game starts" << std::endl;
-//        Worms::Game game{Worms::Stage::fromFile(stageFile), players};
-//
-//        std::thread exit_handler([&] { _exit_handler(game); });
-//        game.start();
-//        exit_handler.join();
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;

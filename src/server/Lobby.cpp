@@ -74,25 +74,36 @@ Worms::Lobby::Lobby(Worms::Lobby &&other) noexcept :
 }
 
 void Worms::Lobby::run() {
-    while (!this->finished) {
-        if (this->gameStarted) {
-            for (std::uint8_t i = 0; i < levelInfo.playersQuantity; i++) {
-                char buffer[1];
-                buffer[0] = i;
-                this->players[i].send(buffer, sizeof(buffer));
+    try {
+        while (!this->finished) {
+            if (this->gameStarted) {
+                for (std::uint8_t i = 0; i < levelInfo.playersQuantity; i++) {
+                    char buffer[1];
+                    buffer[0] = i;
+                    this->players[i].send(buffer, sizeof(buffer));
+                }
+                std::cout << "game starts" << std::endl;
+                Worms::Game game{Worms::Stage::fromFile(this->level.levelPath), this->players};
+                game.start();
+                this->notify(*this, Event::EndGame);
+                this->gameStarted = false;
+                this->finished = true;
             }
-            std::cout << "game starts" << std::endl;
-            Worms::Game game{Worms::Stage::fromFile(this->level.levelPath), this->players};
-            game.start();
-            this->notify(*this, Event::EndGame);
-            this->gameStarted = false;
-            this->finished = true;
         }
+    } catch (std::exception &e){
+        if (!this->finished){
+            std::cerr << e.what() << std::endl;
+        }
+    } catch (...){
+        std::cerr << "Unkown error in Lobby::run()" << std::endl;
     }
 }
 
 void Worms::Lobby::stop() {
     this->finished = true;
+    for(auto &player: this->players){
+        player.shutdown();
+    }
 }
 
 bool Worms::Lobby::itsOver() {
