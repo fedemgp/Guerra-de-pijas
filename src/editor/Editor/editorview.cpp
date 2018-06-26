@@ -2,6 +2,7 @@
 #include <QGraphicsPixmapItem>
 #include <QImage>
 #include <QtDebug>
+#include <QScrollBar>
 #include <cmath>
 #include "stageelementworm.h"
 #include "stageelemlonggirder.h"
@@ -20,6 +21,8 @@ void EditorView::drawCloseBg(QString &) {}
 void EditorView::setScene(EditorScene *scene) {
     QGraphicsView::setScene(scene);
     this->escene = scene;
+    this->horizontalScrollBar()->setValue(this->horizontalScrollBar()->maximum() / 2);
+    this->verticalScrollBar()->setValue(this->verticalScrollBar()->maximum());
 }
 
 void EditorView::setWorm() {
