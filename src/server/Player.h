@@ -103,7 +103,7 @@ class Player : public PhysicsEntity {
     void landDamage(float yDistance);
     void setTeamID(uint8_t team);
     void setTeam(Worms::Team *team);
-    void increaseHealth(float percentage);
+    void increaseHealth(float extraPoints);
     uint8_t getTeam() const;
     void setId(uint8_t id);
     uint8_t getId() const;

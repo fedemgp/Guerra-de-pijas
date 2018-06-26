@@ -31,7 +31,7 @@ class GameTeams {
 
 private:
     std::vector<Team> teams;
-    std::uint8_t deadTeams{0};
+    std::vector<std::uint8_t> deadTeams;
     uint8_t currentTeam{0};
 };
 }

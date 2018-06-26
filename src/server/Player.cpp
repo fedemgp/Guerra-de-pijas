@@ -319,7 +319,6 @@ void Worms::Player::setState(Worm::StateID stateID) {
                 this->state = std::shared_ptr<State>(new Hit());
                 break;
             case Worm::StateID::Die:
-                this->notify(*this, Event::Dying);
                 this->state = std::shared_ptr<State>(new Die());
                 break;
             case Worm::StateID::Drowning:
@@ -469,8 +468,9 @@ void Worms::Player::setTeamID(uint8_t team) {
     this->teamID = team;
 }
 
-void Worms::Player::increaseHealth(float percentage) {
-    this->health += (percentage / 100.0f) * this->health;
+void Worms::Player::increaseHealth(float extraPoints) {
+//    this->health += (percentage / 100.0f) * this->health; //    25% more
+    this->health += extraPoints; //    25 points more
 }
 
 uint8_t Worms::Player::getTeam() const {
