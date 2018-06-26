@@ -195,8 +195,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
 }
 
 GUI::Game::~Game() {
-    this->quit = true;
-    this->socket.shutdown();
+    this->exit();
     this->outputThread.join();
     this->inputThread.join();
 }
