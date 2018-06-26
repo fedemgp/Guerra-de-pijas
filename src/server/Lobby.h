@@ -34,6 +34,7 @@ namespace Worms {
         const std::vector<int> &getPlayerIDs() const;
         std::uint8_t getID() const;
         void addLobbyObserver(Observer *lobbyObserver);
+        bool started();
         void addPlayerSocket(CommunicationSocket &&player);
 
     private:

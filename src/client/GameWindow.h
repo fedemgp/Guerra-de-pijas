@@ -14,7 +14,7 @@
 #include "Subject.h"
 #include "Window.h"
 
-#define ASSETS_PATH "/var/Worms/assets"
+#define ASSETS_PATH "assets"
 
 
 namespace GUI {

@@ -51,7 +51,7 @@ void Worms::LobbyJoiner::handleServerInput(IO::ServerInternalMsg &msg) {
             break;
         }
         case IO::ServerInternalAction::quit: {
-            this->killLobbies();
+//            this->killLobbies();
             this->finished = true;
             break;
         }
@@ -60,8 +60,10 @@ void Worms::LobbyJoiner::handleServerInput(IO::ServerInternalMsg &msg) {
 
 void Worms::LobbyJoiner::killLobbies(){
     for (auto &lobby: this->lobbies){
-        lobby.stop();
-        lobby.join();
+        if (lobby.started()) {
+            lobby.stop();
+            lobby.join();
+        }
     }
     this->lobbies.erase(this->lobbies.begin(), this->lobbies.end());
 }

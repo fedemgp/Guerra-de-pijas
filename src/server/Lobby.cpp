@@ -114,3 +114,7 @@ void Worms::Lobby::addLobbyObserver(Observer *lobbyObserver) {
     this->obs.emplace_back(lobbyObserver);
     this->addObserver(lobbyObserver);
 }
+
+bool Worms::Lobby::started() {
+    return this->gameStarted;
+}
