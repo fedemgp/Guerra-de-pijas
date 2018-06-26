@@ -51,7 +51,6 @@ void GUI::JoinGameWindow::render() {
 
     this->prev.render(this->cam);
     this->next.render(this->cam);
-    this->join.render(this->cam);
 
     if (this->info.size() > 0) {
         const IO::GameInfo &info = this->info.at(this->currentGameIndex);
@@ -64,6 +63,10 @@ void GUI::JoinGameWindow::render() {
             std::to_string(info.numCurrentPlayers) + "/" + std::to_string(info.numTotalPlayers);
         this->numPlayers.set(msg, BLACK, TEXT_SIZE * 2);
         this->numPlayers.renderFixed(center, this->cam);
+
+        if (info.numCurrentPlayers < info.numTotalPlayers) {
+            this->join.render(this->cam);
+        }
     }
 
     this->window.render();
@@ -84,7 +87,10 @@ void GUI::JoinGameWindow::buttonPressed(ScreenPosition sp) {
     } else if (this->next.inside(sp)) {
         this->currentGameIndex = (this->currentGameIndex + 1) % this->info.size();
     } else if (this->join.inside(sp)) {
-        this->notify(*this, Event::LobbyToJoinSelected);
+        const IO::GameInfo &info = this->info.at(this->currentGameIndex);
+        if (info.numCurrentPlayers < info.numTotalPlayers) {
+            this->notify(*this, Event::LobbyToJoinSelected);
+        }
     }
 }
 
