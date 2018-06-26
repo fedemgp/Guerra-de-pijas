@@ -9,6 +9,8 @@
 #include "../Config/Config.h"
 #include "Bullet.h"
 #include "Weapon.h"
+#include "../Physics.h"
+#include "../PhysicsEntity.h"
 
 Worms::Bullet::Bullet(BulletInfo &info, Worms::Physics &physics, Worm::WeaponID weapon)
     : PhysicsEntity(Worms::EntityID::EtBullet), physics(physics), weaponID(weapon), info(info) {

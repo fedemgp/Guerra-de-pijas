@@ -3,12 +3,16 @@
  * Date: 02/05/2018.
  */
 
+#include <cstring>
 #include <netdb.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
 
+#include "ErrorMessages.h"
+#include "Exception.h"
 #include "Socket.h"
+
 
 Socket::Socket() : fd(-1) {}
 

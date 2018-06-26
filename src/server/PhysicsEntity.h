@@ -15,6 +15,8 @@ enum EntityID { EtWorm, EtBullet, Sensor, EtGirder };
 class PhysicsEntity : public Subject {
    public:
     explicit PhysicsEntity(EntityID id);
+    PhysicsEntity(PhysicsEntity &&other);
+    PhysicsEntity(PhysicsEntity &copy) = delete;
 
     virtual EntityID getEntityId();
     virtual void startContact(Worms::PhysicsEntity *physicsEntity) {}
@@ -23,7 +25,7 @@ class PhysicsEntity : public Subject {
     virtual void endContact(Worms::PhysicsEntity *physicsEntity, b2Contact &contact) {}
     virtual void contactWith(PhysicsEntity &physicsEntity, b2Contact &contact) {}
 
-   private:
+   protected:
     EntityID id;
     bool handlingContact{false};
 };

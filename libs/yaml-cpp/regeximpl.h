@@ -36,7 +36,7 @@ inline bool RegEx::Matches(const Source& source) const {
 // . Returns -1 if no characters were matched (the reason for
 //   not returning zero is that we may have an empty regex
 //   which is ALWAYS successful at matching zero characters).
-// . REMEMBER that we only match from the start of the buffer!
+// . REMEMBER that we only match from the run of the buffer!
 inline int RegEx::Match(const std::string& str) const {
   StringCharSource source(str.c_str(), str.size());
   return Match(source);

@@ -101,3 +101,11 @@ void Worms::GameTurn::wormDead() {
 void Worms::GameTurn::wormDying() {
     this->state->wormDying();
 }
+
+void Worms::GameTurn::playerDisconnected(uint8_t wormId) {
+    this->state->wormDisconnectedDying(wormId);
+}
+
+void Worms::GameTurn::playerDisconnectedDead(uint8_t wormId) {
+    this->state->wormDisconnectedDead(wormId);
+}

@@ -12,6 +12,7 @@
 
 #include "../Config/Config.h"
 #include "Bullet.h"
+#include "../Config/WeaponConfig.h"
 
 namespace Worms {
 class Player;

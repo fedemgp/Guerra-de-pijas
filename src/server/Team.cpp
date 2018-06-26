@@ -128,3 +128,10 @@ void Worms::Team::serialize(IO::GameStateMsg &msg) const {
         msg.weaponAmmunition[i] = this->ammunitionCounter.at(weapons[i]);
     }
 }
+
+void Worms::Team::kill(std::vector<Worms::Player> &players) {
+    for (auto &playerID : this->playerIDs) {
+        players[playerID].die();
+    }
+    this->alive = false;
+}

@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "../Subject.h"
+#include "../../../libs/Subject.h"
 #include "GameStateMsg.h"
 
 namespace Worms {
@@ -29,11 +29,16 @@ class GameTurnState : public Subject {
     virtual void wormLanded(uint8_t wormId);
     virtual void wormDying();
     virtual void wormDead();
+    virtual void wormDisconnectedDying(uint8_t wormId) = 0;
+    virtual void wormDisconnectedDead(uint8_t wormId) = 0;
+    virtual uint8_t getWormToFollow() const;
 
    protected:
     std::vector<uint8_t> wormsFalling;
     std::vector<uint8_t> wormsDrowning;
     uint8_t wormsDying{0};
+    std::vector<uint8_t> wormsDisconnectedDying;
+    uint8_t wormToFollow{0};
 };
 }
 

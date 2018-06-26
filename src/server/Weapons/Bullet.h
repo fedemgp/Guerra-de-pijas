@@ -10,7 +10,7 @@
 
 #include "../Config/Config.h"
 #include "../Config/WindConfig.h"
-#include "../Observer.h"
+#include "../../../libs/Observer.h"
 #include "../Physics.h"
 #include "../PhysicsEntity.h"
 #include "Point.h"

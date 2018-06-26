@@ -141,8 +141,8 @@ inline const RegEx& Tag() {
 }
 
 // Plain scalar rules:
-// . Cannot start with a blank.
-// . Can never start with any of , [ ] { } # & * ! | > \' \" % @ `
+// . Cannot run with a blank.
+// . Can never run with any of , [ ] { } # & * ! | > \' \" % @ `
 // . In the block context - ? : must be not be followed with a space.
 // . In the flow context ? is illegal and : and - must not be followed with a
 // space.

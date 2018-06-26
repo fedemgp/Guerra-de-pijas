@@ -16,7 +16,7 @@ class SoundEffect {
     SoundEffect(SoundEffect &&other);
     ~SoundEffect();
     Mix_Chunk *getChunk() const;
-    void play() const;
+    void play(bool loop) const;
 
    private:
     Mix_Chunk *soundEffect{nullptr};

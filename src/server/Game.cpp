@@ -31,7 +31,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
       gameTurn(*this),
       sockets(sockets),
       inputs(sockets.size()),
-      snapshots(sockets.size()) {
+      snapshots(sockets.size()),
+      playersConnected(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {
@@ -95,7 +96,6 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
 
     /* TODO: avoid hardcoding the size */
     IO::PlayerMsg msg;
-
     try {
         while (!this->quit) {
             /* receives the size of the msg */
@@ -132,7 +132,6 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
     GameSnapshot &snapshot = this->snapshots.at(playerIndex);
 
     IO::GameStateMsg msg;
-
     try {
         while (!this->quit) {
             msg = snapshot.get(true);
@@ -162,11 +161,17 @@ void Worms::Game::start() {
 
             IO::PlayerMsg pMsg;
             if (this->inputs.at(this->currentTeam).pop(pMsg, false)) {
-                if (this->processingClientInputs) {
-                    if (this->currentPlayerShot) {
-                        if (pMsg.input != IO::PlayerInput::startShot &&
-                            pMsg.input != IO::PlayerInput::endShot &&
-                            pMsg.input != IO::PlayerInput::positionSelected) {
+                if (pMsg.input == IO::PlayerInput::disconnected) {
+                    this->playerDisconnected(this->currentTeam);
+                } else {
+                    if (this->processingClientInputs) {
+                        if (this->currentPlayerShot) {
+                            if (pMsg.input != IO::PlayerInput::startShot &&
+                                pMsg.input != IO::PlayerInput::endShot &&
+                                pMsg.input != IO::PlayerInput::positionSelected) {
+                                this->players.at(this->currentWorm).handleState(pMsg);
+                            }
+                        } else {
                             this->players.at(this->currentWorm).handleState(pMsg);
                         }
                     } else {
@@ -352,6 +357,14 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
+        case Event::DyingDueToDisconnection: {
+            this->gameTurn.playerDisconnected(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::DeadDueToDisconnection: {
+            this->gameTurn.playerDisconnectedDead(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
         case Event::Teleported: {
             this->gameClock.playerShot();
             this->currentPlayerShot = true;
@@ -392,7 +405,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         }
         case Event::NewWormToFollow: {
             this->currentWormToFollow =
-                dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
+                dynamic_cast<const GameTurnState &>(subject).getWormToFollow();
             break;
         }
         case Event::DamageOnLanding: {
@@ -429,6 +442,9 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::NextTurn: {
             this->currentPlayerShot = false;
             this->endTurn();
+            break;
+        }
+        default: {
             break;
         }
     }
@@ -470,4 +486,13 @@ void Worms::Game::calculateWind() {
             ? 1
                                                                                                   : -1;
         this->wind.instensity = (float) distr(mersenne_engine);
+}
+
+void Worms::Game::playerDisconnected(uint8_t teamDisconnected) {
+    this->playersConnected--;
+    this->teams.kill(teamDisconnected, this->players);
+    if (this->playersConnected <= 1) {
+        this->winnerTeam = this->teams.getWinner();
+        this->gameEnded = true;
+    }
 }

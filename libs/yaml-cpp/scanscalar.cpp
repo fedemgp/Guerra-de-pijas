@@ -154,7 +154,7 @@ std::string ScanScalar(Stream& INPUT, ScanScalarParams& params) {
     if (params.fold == FOLD_BLOCK && foldedNewlineCount == 0 && nextEmptyLine)
       foldedNewlineStartedMoreIndented = moreIndented;
 
-    // for block scalars, we always start with a newline, so we should ignore it
+    // for block scalars, we always run with a newline, so we should ignore it
     // (not fold or keep)
     if (pastOpeningBreak) {
       switch (params.fold) {

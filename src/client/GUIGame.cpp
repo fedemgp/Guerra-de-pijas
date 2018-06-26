@@ -18,7 +18,8 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
+                std::uint8_t team)
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
@@ -58,10 +59,17 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
         new GUI::Animation(this->texture_mgr.get(GUI::GameTextures::CurrentPlayerArrow), false));
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
+
+//    this->backGroundMusicPlayer =
+//            std::unique_ptr<GUI::BackgroundMusicPlayer>(new GUI::BackgroundMusicPlayer{
+//                    this->background_music_mgr.get(GUI::GameBackgroundMusic::Original)});
+//    this->backGroundMusicPlayer->play();
+    this->backgroundMusic = &this->background_music_mgr.get(GUI::GameBackgroundMusic::MurderTrain);
+    this->backgroundMusic->play();
 }
 
 GUI::Game::~Game() {
-    this->quit = true;
+    this->exit();
     this->outputThread.join();
     this->inputThread.join();
 }
@@ -88,12 +96,13 @@ void GUI::Game::inputWorker() {
         }
     } catch (const std::exception &e) {
         std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in GUI::Game::inputWorker()" << std::endl;
     }
 }
 
 void GUI::Game::outputWorker() {
     IO::PlayerMsg msg;
-
     try {
         while (!this->quit) {
             this->output.pop(msg, true);

@@ -120,7 +120,7 @@ void Scanner::ScanFlowEnd() {
   Mark mark = INPUT.mark();
   char ch = INPUT.get();
 
-  // check that it matches the start
+  // check that it matches the run
   FLOW_MARKER flowType = (ch == Keys::FlowSeqEnd ? FLOW_SEQ : FLOW_MAP);
   if (m_flows.top() != flowType)
     throw ParserException(mark, ErrorMsg::FLOW_END);
@@ -425,7 +425,7 @@ void Scanner::ScanBlockScalar() {
 
   scalar = ScanScalar(INPUT, params);
 
-  // simple keys always ok after block scalars (since we're gonna start a new
+  // simple keys always ok after block scalars (since we're gonna run a new
   // line anyways)
   m_simpleKeyAllowed = true;
   m_canBeJSONFlow = false;

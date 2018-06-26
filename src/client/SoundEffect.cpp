@@ -26,6 +26,6 @@ GUI::SoundEffect::SoundEffect(GUI::SoundEffect &&other) {
     std::swap(this->soundEffect, other.soundEffect);
 }
 
-void GUI::SoundEffect::play() const {
-    Mix_PlayChannel(-1, this->soundEffect, 0);
+void GUI::SoundEffect::play(bool loop) const {
+    Mix_PlayChannel(-1, this->soundEffect, -1 * loop);
 }

@@ -29,14 +29,19 @@
 #include "Wind.h"
 #include "Window.h"
 #include "Worm.h"
+#include "BackgroundMusic.h"
+#include "GameBackgroundMusic.h"
+#include "BackgroundMusicPlayer.h"
 
 #define ASSETS_PATH "./assets"
-
 namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {
    public:
-    Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team);
+    bool youWin{false};
+
+    Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
+             std::uint8_t team);
     ~Game();
     void start();
     void update(float dt);
@@ -58,6 +63,7 @@ class Game {
     Window &window;
     GameTextureManager texture_mgr;
     GameSoundEffectManager sound_effect_mgr;
+    GameBackgroundMusicManager background_music_mgr;
     std::vector<Worm::Worm> worms;
     Worms::Stage stage;
     std::list<std::shared_ptr<Ammo::Bullet>> bullets;
@@ -77,7 +83,9 @@ class Game {
     GUI::Wind wind;
     GUI::Water water;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
-
+    std::unique_ptr<GUI::BackgroundMusicPlayer> backGroundMusicPlayer{nullptr};
+    const BackgroundMusic *backgroundMusic{nullptr};
+    
     void loadTextureManager();
 
     void loadSoundManager();

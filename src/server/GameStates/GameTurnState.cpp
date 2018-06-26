@@ -25,3 +25,7 @@ void Worms::GameTurnState::wormDead() {
 void Worms::GameTurnState::wormDying() {
     this->wormsDying++;
 }
+
+uint8_t Worms::GameTurnState::getWormToFollow() const {
+    return this->wormToFollow;
+}

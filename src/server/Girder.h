@@ -11,6 +11,8 @@ class Girder : public PhysicsEntity {
     const float angle;
 
     Girder(const Worms::GirderData &data, Physics &physics);
+    Girder(Girder &copy) = delete;
+    Girder(Girder &&other) noexcept;
     ~Girder() = default;
 };
 }  // namespace Worms

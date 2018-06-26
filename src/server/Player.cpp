@@ -21,7 +21,6 @@
 #include "Weapons/Mortar.h"
 #include "Weapons/Teleport.h"
 #include "Weapons/Weapon.h"
-#include "Weapons/WeaponNone.h"
 #include "WormStates/BackFlipping.h"
 #include "WormStates/Batting.h"
 #include "WormStates/Dead.h"
@@ -40,6 +39,7 @@
 #include "WormStates/Teleported.h"
 #include "WormStates/Teleporting.h"
 #include "WormStates/Walk.h"
+#include "Weapons/WeaponNone.h"
 
 #define CONFIG Game::Config::getInstance()
 
@@ -94,7 +94,7 @@ bool Worms::Player::operator==(const Player &other) {
  */
 void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
     if (entity.getEntityId() == Worms::EntityID::EtGirder) {
-        Worms::Girder girder = dynamic_cast<Worms::Girder &>(entity);
+        Worms::Girder &girder = dynamic_cast<Worms::Girder &>(entity);
         if (std::abs(girder.angle) > PI / 4.0f) {
             this->lastGroundNormal = contact.GetManifold()->localNormal;
         } else {
@@ -265,6 +265,8 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::teleport:
             this->state->teleport(*this);
             break;
+        default:
+            break;
     }
 }
 
@@ -431,12 +433,11 @@ void Worms::Player::startShot() {
 void Worms::Player::endShot() {
     if (this->weapon->getWeaponID() != Worm::WeaponID::WTeleport &&
         this->weapon->getWeaponID() != Worm::WeaponID::WAerial &&
-        this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
+            this->weapon->getWeaponID() != Worm::WeaponID::WNone) {
         if (!this->isP2PWeapon) {
             Math::Point<float> position = this->getPosition();
             float safeNonContactDistance = sqrt((PLAYER_WIDTH / 2) * (PLAYER_WIDTH / 2) +
-                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) +
-                                           0.1;
+                                                (PLAYER_HEIGHT / 2) * (PLAYER_HEIGHT / 2)) + 0.1;
             BulletInfo info = this->weapon->getBulletInfo();
             info.point = position;
             info.safeNonContactDistance = safeNonContactDistance;
@@ -558,4 +559,32 @@ const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const {
 
 void Worms::Player::setTeam(Worms::Team *team) {
     this->team = team;
+}
+
+Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(player)), physics(player.physics), waterLevel(player.waterLevel) {
+
+    this->body = player.body;
+    this->body_kinematic = player.body_kinematic;
+    this->footSensor = player.footSensor;
+
+    this->state = player.state;
+    this->weapon = player.weapon;
+    this->team = player.team;
+    this->id = player.id;
+    this->bullets = std::move(player.bullets);
+
+    player.body = nullptr;
+    player.body_kinematic = nullptr;
+    player.footSensor = nullptr;
+    player.state = nullptr;
+    player.weapon = nullptr;
+    player.team = 0;
+    player.id = 0;
+}
+
+void Worms::Player::die() {
+    this->setState(Worm::StateID::Die);
+    this->health = 0;
+    this->dyingDisconnected = true;
+    this->notify(*this, Event::DyingDueToDisconnection);
 }

@@ -31,6 +31,8 @@ void GUI::Text::render(GUI::Position p, GUI::Camera& camera) {
         this->needs_render = false;
     }
 
+    float scale = float(this->size) / float(this->font.size);
+
     if (this->hasBackground) {
         GUI::ScreenPosition sp = camera.globalToScreen(p);
 
@@ -39,16 +41,15 @@ void GUI::Text::render(GUI::Position p, GUI::Camera& camera) {
                                this->background.b, 255);
 
         SDL_Rect r = {};
-        r.x = sp.x - this->texture->getWidth() / 2;
-        r.y = sp.y - (this->texture->getHeight() - 10) / 2;
-        r.w = this->texture->getWidth();
-        r.h = this->texture->getHeight() - 10;
+        r.x = sp.x - this->texture->getWidth() * scale / 2;
+        r.y = sp.y - (this->texture->getHeight() * scale - 10) / 2;
+        r.w = this->texture->getWidth() * scale;
+        r.h = this->texture->getHeight() * scale - 10;
 
         SDL_RenderFillRect(&renderer, &r);
     }
 
     SDL_Rect clip = {0, 0, this->texture->getWidth(), this->texture->getHeight()};
-    float scale = float(this->size) / float(this->font.size);
     camera.draw(*this->texture, p, clip, SDL_FLIP_NONE, scale);
 }
 

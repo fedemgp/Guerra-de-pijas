@@ -92,6 +92,74 @@ enum WeaponID {
 }  // namespace Worm
 
 namespace IO {
+    enum class ClientGUIInput {
+        startCreateGame,
+        startJoinGame,
+        quit,
+        levelSelected,
+        joinGame
+    };
+    enum class ServerResponseAction {
+        startGame,
+        levelsInfo,
+        playerConnected,
+        gamesInfo,
+    };
+
+    struct ClientGUIMsg {
+        ClientGUIMsg() = default;
+        explicit ClientGUIMsg(ClientGUIInput input) :
+                input(input) {};
+        ClientGUIInput input;
+    };
+    struct ServerResponse {
+        ServerResponseAction action;
+    };
+
+    //TODO put this in dedicated file.
+    enum class ServerInternalAction {
+        lobbyFinished,
+        quit
+    };
+
+    struct ServerInternalMsg {
+        ServerInternalAction action;
+    };
+
+    struct LevelInfo {
+        uint8_t id;
+        std::string name;
+        uint8_t playersQuantity;
+    };
+
+    struct GameInfo {
+        uint8_t gameID;
+        uint8_t levelID;
+        std::string levelName;
+        uint8_t numCurrentPlayers;
+        uint8_t numTotalPlayers;
+    };
+
+    struct LevelData {
+        std::string levelPath;
+        std::string levelName;
+        std::vector<std::string> backgroundPath;
+        std::vector<std::string> backgroundName;
+    };
+
+    struct LevelsInfo : public ServerResponse {
+        LevelsInfo(ServerResponseAction action, std::vector<LevelInfo> &levelsInfo) :
+                action(action),
+                levelsInfo(std::move(levelsInfo)) {}
+        ServerResponseAction action;
+        std::vector<LevelInfo> levelsInfo;
+    };
+    struct LevelSelected : public ClientGUIMsg {
+        LevelSelected(ClientGUIInput input, unsigned int levelSelected) :
+                ClientGUIMsg(input),
+                levelSelected(levelSelected) {};
+        unsigned int levelSelected;
+    };
 enum class PlayerInput {
     moveNone,
     moveRight,
@@ -118,7 +186,8 @@ enum class PlayerInput {
     aerialAttack,
     dynamite,
     teleport,
-    baseballBat
+    baseballBat,
+    disconnected
 };
 
 struct PlayerMsg {

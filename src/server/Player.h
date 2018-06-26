@@ -35,8 +35,12 @@ class Player : public PhysicsEntity {
     Worm::Direction lastWalkDirection;
     std::uint16_t health{0};
     Math::Point<float> teleportPosition{0.0f, 0.0f};
+    bool dyingDisconnected{false};
 
     explicit Player(Physics &physics);
+    Player(Player &&player) noexcept;
+    Player(Player &copy) = delete;
+
     ~Player();
 
     /* contact handlers */
@@ -124,6 +128,7 @@ class Player : public PhysicsEntity {
     bool operator==(const Player &other);
 
     void endShot(std::list<Worms::Bullet> &bullets);
+    void die();
 
    private:
     b2Body *createBody(b2BodyType type);

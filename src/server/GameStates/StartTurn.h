@@ -5,7 +5,7 @@
 #ifndef INC_4_WORMS_STARTTURN_H
 #define INC_4_WORMS_STARTTURN_H
 
-#include "../Observer.h"
+#include "../../../libs/Observer.h"
 #include "GameTurnState.h"
 
 namespace Worms {
@@ -21,6 +21,8 @@ class StartTurn : public GameTurnState {
     void wormDrowning(GameTurn &gt, uint8_t wormId) override;
     void wormDrowned(GameTurn &gt, uint8_t wormId) override;
     void explosion() override;
+    void wormDisconnectedDying(uint8_t wormId) override;
+    void wormDisconnectedDead(uint8_t wormId) override;
 };
 }
 

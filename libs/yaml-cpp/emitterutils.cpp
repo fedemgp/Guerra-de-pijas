@@ -158,7 +158,7 @@ bool IsValidPlainScalar(const std::string& str, FlowType::value flowType,
     return false;
   }
 
-  // check the start
+  // check the run
   const RegEx& start = (flowType == FlowType::Flow ? Exp::PlainScalarInFlow()
                                                    : Exp::PlainScalar());
   if (!start.Matches(str)) {
