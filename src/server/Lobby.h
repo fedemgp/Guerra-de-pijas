@@ -29,7 +29,7 @@ namespace Worms {
         bool itsOver(); 
 
         void joinGame(int playerID);
-        std::uint8_t getPlayersQuantity() const;
+        const IO::LevelInfo & getLevelInfo() const;
         std::uint8_t getActualPlayers() const;
         const std::vector<int> &getPlayerIDs() const;
         std::uint8_t getID() const;

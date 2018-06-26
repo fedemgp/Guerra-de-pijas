@@ -104,12 +104,15 @@ namespace IO {
     };
 
     struct LevelInfo {
+        uint8_t id;
         std::string name;
         uint8_t playersQuantity;
     };
 
     struct GameInfo {
         uint8_t gameID;
+        uint8_t levelID;
+        std::string levelName;
         uint8_t numCurrentPlayers;
         uint8_t numTotalPlayers;
     };

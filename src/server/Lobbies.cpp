@@ -44,13 +44,18 @@ const IO::LevelData & Worms::Lobbies::getLevelData(uint8_t levelSelected) {
 }
 
 void Worms::Lobbies::configure(){
+    uint8_t id{0};
     for (auto &level : this->levels) {
         YAML::Node data = YAML::LoadFile(level.levelPath);
         std::string name = data["name"].as<std::string>();
         uint8_t playersQuantity = static_cast<uint8_t>(data["players"].as<int>());
-        IO::LevelInfo levelInfo{name, playersQuantity};
+        IO::LevelInfo levelInfo{id, name, playersQuantity};
         this->levelsInfo.emplace_back(levelInfo);
+        id++;
     }
 }
 
 Worms::Lobbies::~Lobbies(){}
+
+uint8_t Worms::Lobbies::getLevelFromLobby(uint8_t gameID) {
+}

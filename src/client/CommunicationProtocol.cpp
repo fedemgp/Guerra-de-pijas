@@ -85,6 +85,7 @@ void IO::CommunicationProtocol::joinGame() {
     this->protocol << this->command;
     std::cout<<"mando sala "<< (int) this->gameToJoin <<std::endl;
     this->protocol << this->gameToJoin;
+    this->protocol << this->levelOfGameToJoin;
     this->getLevelFiles();
     this->waitGameStart(this->gamesInfo[this->gameToJoin].numTotalPlayers);
 }

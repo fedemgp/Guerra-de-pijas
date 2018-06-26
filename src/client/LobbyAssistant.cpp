@@ -133,6 +133,7 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
         case Event::LobbyToJoinSelected: {
             auto joinGameWindow = dynamic_cast<JoinGameWindow *>(this->gameWindow.get());
             this->communicationProtocol->gameToJoin = joinGameWindow->currentGameIndex;
+            this->communicationProtocol->levelOfGameToJoin = joinGameWindow->info[joinGameWindow->currentGameIndex].levelID;
             this->output << IO::ClientGUIMsg{IO::ClientGUIInput::joinGame};
             this->nextGameWindow = std::shared_ptr<GameWindow>(new WaitingPlayersWindow{this->window,
                                                                                         this->font,

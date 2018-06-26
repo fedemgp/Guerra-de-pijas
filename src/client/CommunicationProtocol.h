@@ -18,6 +18,7 @@ namespace IO {
         uint8_t levelToCreate{0};
         std::vector<GameInfo> gamesInfo;
         uint8_t gameToJoin{0};
+        uint8_t levelOfGameToJoin{0};
         std::string levelPath;
         std::vector<std::string> backgroundPath;
 

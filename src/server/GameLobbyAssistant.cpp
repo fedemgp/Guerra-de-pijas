@@ -87,9 +87,11 @@ void Worms::GameLobbyAssistant::getGames() {
 
 void Worms::GameLobbyAssistant::joinGame() {
     std::uint8_t gameID{0};
+    std::uint8_t levelID{0};
     this->protocol >> gameID;
+    this->protocol >> levelID;
     std::cout << "Joining game with ID " << (int) gameID << std::endl;
-    this->sendLevelFiles(gameID);
+    this->sendLevelFiles(levelID);
     this->lobbies.joinGame(gameID, this->playerID, this);
     this->quit = true;
 }

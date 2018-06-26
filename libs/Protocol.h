@@ -63,6 +63,7 @@ public:
     };
 
     void operator<<(const IO::LevelInfo &levelInfo){
+        *this << levelInfo.id;
         *this << levelInfo.name;
         *this << levelInfo.playersQuantity;
     };
@@ -133,6 +134,7 @@ public:
     };
 
     Protocol & operator>>(IO::LevelInfo &levelInfo) {
+        *this >> levelInfo.id;
         *this >> levelInfo.name;
         *this >> levelInfo.playersQuantity;
         return *this;

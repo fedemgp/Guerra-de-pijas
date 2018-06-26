@@ -42,8 +42,8 @@ void Worms::Lobby::joinGame(int playerID) {
     }
 }
 
-std::uint8_t Worms::Lobby::getPlayersQuantity() const{
-    return this->levelInfo.playersQuantity;
+const IO::LevelInfo & Worms::Lobby::getLevelInfo() const{
+    return this->levelInfo;
 }
 
 std::uint8_t Worms::Lobby::getActualPlayers() const{
