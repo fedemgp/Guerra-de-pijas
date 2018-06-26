@@ -83,7 +83,6 @@ class Game {
     GUI::Water water;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
     std::unique_ptr<GUI::BackgroundMusicPlayer> backGroundMusicPlayer{nullptr};
-    const BackgroundMusic *backgroundMusic{nullptr};
     
     void loadTextureManager();
     void loadBackgroundManager();

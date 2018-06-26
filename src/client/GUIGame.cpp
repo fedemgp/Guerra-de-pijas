@@ -57,18 +57,17 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
     this->teamColors.push_back(SDL_Color{0xFF, 0, 0});
     this->teamColors.push_back(SDL_Color{0, 0xFF, 0});
     this->teamColors.push_back(SDL_Color{0, 0, 0xFF});
+    this->teamColors.push_back(SDL_Color{0xFF, 0, 0xFF});
 
     this->currentPlayerArrow = std::unique_ptr<GUI::Animation>(
         new GUI::Animation(this->texture_mgr.get(GUI::GameTextures::CurrentPlayerArrow), false));
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
 
-//    this->backGroundMusicPlayer =
-//            std::unique_ptr<GUI::BackgroundMusicPlayer>(new GUI::BackgroundMusicPlayer{
-//                    this->background_music_mgr.get(GUI::GameBackgroundMusic::Original)});
-//    this->backGroundMusicPlayer->play();
-    this->backgroundMusic = &this->background_music_mgr.get(GUI::GameBackgroundMusic::MurderTrain);
-    this->backgroundMusic->play();
+    this->backGroundMusicPlayer =
+            std::unique_ptr<GUI::BackgroundMusicPlayer>(new GUI::BackgroundMusicPlayer{
+                    this->background_music_mgr.get(GUI::GameBackgroundMusic::MurderTrain)});
+    this->backGroundMusicPlayer->play();
 }
 
 GUI::Game::~Game() {
