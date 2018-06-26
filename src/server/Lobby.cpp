@@ -92,6 +92,7 @@ void Worms::Lobby::run() {
         }
     } catch (std::exception &e){
         if (!this->finished){
+            std::cerr << "In Lobby::run()" << std::endl;
             std::cerr << e.what() << std::endl;
         }
     } catch (...){

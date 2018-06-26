@@ -46,6 +46,7 @@ void Worms::GameLobbyAssistant::run() {
 //        this->createGame();
 //        this->getGames();
     } catch (std::exception &e) {
+        std::cerr << "In GameLobbyAssistant::run()" << std::endl;
         std::cerr << e.what() << std::endl;
     } catch (...) {
         std::cerr << "Unkown error in GameLobbyAssistant::run()" << std::endl;

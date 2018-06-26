@@ -21,6 +21,7 @@ void Worms::LobbyJoiner::run() {
         }
     } catch (std::exception &e){
         if(!this->finished){
+            std::cerr << "In LobbyJoiner::run()" << std::endl;
             std::cerr << e.what() << std::endl;
         }
     } catch (...){

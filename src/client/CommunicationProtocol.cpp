@@ -27,6 +27,7 @@ void IO::CommunicationProtocol::run() {
         }
     } catch (std::exception &e){
         if (!this->quit){
+            std::cerr << "In CommunicationProtocol::run()" << std::endl;
             std::cerr << e.what() << std::endl;
         }
     } catch (...){

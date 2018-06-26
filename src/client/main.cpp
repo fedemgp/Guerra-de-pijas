@@ -35,6 +35,7 @@ int main(int argc, const char *argv[]) {
         GUI::Game game{window, Worms::Stage::fromFile(lobby.levelPath), socket, (std::uint8_t)buffer[0]};
         game.start();
     } catch (std::exception &e) {
+        std::cerr << "In main()" << std::endl;
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

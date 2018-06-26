@@ -42,6 +42,7 @@ void Worms::GameLobby::run() {
 
     } catch (std::exception &e) {
         if (!this->quit){
+            std::cerr << "In GameLobby::run()" << std::endl;
             std::cerr << e.what() << std::endl;
         }
     } catch (...) {
