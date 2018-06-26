@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "../Subject.h"
+#include "../../../libs/Subject.h"
 #include "GameStateMsg.h"
 
 namespace Worms {

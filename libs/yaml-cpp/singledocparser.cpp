@@ -31,7 +31,7 @@ void SingleDocParser::HandleDocument(EventHandler& eventHandler) {
 
   eventHandler.OnDocumentStart(m_scanner.peek().mark);
 
-  // eat doc start
+  // eat doc run
   if (m_scanner.peek().type == Token::DOC_START)
     m_scanner.pop();
 
@@ -134,7 +134,7 @@ void SingleDocParser::HandleNode(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleSequence(EventHandler& eventHandler) {
-  // split based on start token
+  // split based on run token
   switch (m_scanner.peek().type) {
     case Token::BLOCK_SEQ_START:
       HandleBlockSequence(eventHandler);
@@ -148,7 +148,7 @@ void SingleDocParser::HandleSequence(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleBlockSequence(EventHandler& eventHandler) {
-  // eat start token
+  // eat run token
   m_scanner.pop();
   m_pCollectionStack->PushCollectionType(CollectionType::BlockSeq);
 
@@ -181,7 +181,7 @@ void SingleDocParser::HandleBlockSequence(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleFlowSequence(EventHandler& eventHandler) {
-  // eat start token
+  // eat run token
   m_scanner.pop();
   m_pCollectionStack->PushCollectionType(CollectionType::FlowSeq);
 
@@ -214,7 +214,7 @@ void SingleDocParser::HandleFlowSequence(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleMap(EventHandler& eventHandler) {
-  // split based on start token
+  // split based on run token
   switch (m_scanner.peek().type) {
     case Token::BLOCK_MAP_START:
       HandleBlockMap(eventHandler);
@@ -234,7 +234,7 @@ void SingleDocParser::HandleMap(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleBlockMap(EventHandler& eventHandler) {
-  // eat start token
+  // eat run token
   m_scanner.pop();
   m_pCollectionStack->PushCollectionType(CollectionType::BlockMap);
 
@@ -273,7 +273,7 @@ void SingleDocParser::HandleBlockMap(EventHandler& eventHandler) {
 }
 
 void SingleDocParser::HandleFlowMap(EventHandler& eventHandler) {
-  // eat start token
+  // eat run token
   m_scanner.pop();
   m_pCollectionStack->PushCollectionType(CollectionType::FlowMap);
 

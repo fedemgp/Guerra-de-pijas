@@ -14,6 +14,7 @@
 #include "CommunicationSocket.h"
 #include "Game.h"
 #include "ServerSocket.h"
+#include "GameLobby.h"
 
 static volatile bool quit = false;
 
@@ -26,21 +27,21 @@ static void _signal_handler(int _) {
     quit = true;
 }
 
-/**
- * @brief Thread handler that signals the Game to exit.
- *
- * @param game
- */
-static void _exit_handler(Worms::Game &game) {
-    while (!quit) {
-        usleep(100000);
-    }
-    game.exit();
-}
+///**
+// * @brief Thread handler that signals the Game to exit.
+// *
+// * @param game
+// */
+//static void _exit_handler(Worms::Game &game) {
+//    while (!quit) {
+//        usleep(100000);
+//    }
+//    game.exit();
+//}
 
 int main(int argc, const char *argv[]) {
-    if (argc != 3) {
-        std::cout << "Usage: ./server PORT STAGE" << std::endl;
+    if (argc != 2) {
+        std::cout << "Usage: ./server PORT" << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -50,31 +51,19 @@ int main(int argc, const char *argv[]) {
         signal(SIGTERM, _signal_handler);
 
         std::string port(argv[1]);
-        std::string stageFile = argv[2];
+        Worms::GameLobby gameLobby{port};
 
-        ServerSocket s(port.c_str());
-        std::cout << "Se bindeo" << std::endl;
-
-        /* get based on the number of players selected for the game */
-        const uint8_t numTeams = 2;
-
-        std::vector<CommunicationSocket> players;
-        for (uint8_t i = 0; i < numTeams; i++) {
-            players.push_back(s.accept());
-            char buffer[1];
-            buffer[0] = i;
-            players.back().send(buffer, sizeof(buffer));
-            std::cout << "hubo conexión" << std::endl;
+        gameLobby.start();
+        char quit{0};
+        while (quit != 'q'){
+            std::cin >> quit;
         }
 
-        std::cout << "game starts" << std::endl;
-        Worms::Game game{Worms::Stage::fromFile(stageFile), players};
+        gameLobby.stop();
+        gameLobby.join();
 
-        std::thread exit_handler([&] { _exit_handler(game); });
-        game.start();
-        std::cout << "game ends" << std::endl;
-        exit_handler.join();
     } catch (std::exception &e) {
+        std::cerr << "In main()" << std::endl;
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

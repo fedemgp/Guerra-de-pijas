@@ -5,7 +5,7 @@
 #ifndef INC_4_WORMS_STARTTURN_H
 #define INC_4_WORMS_STARTTURN_H
 
-#include "../Observer.h"
+#include "../../../libs/Observer.h"
 #include "GameTurnState.h"
 
 namespace Worms {

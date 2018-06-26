@@ -7,7 +7,7 @@
 
 #include <GameStateMsg.h>
 #include <vector>
-#include "../Observer.h"
+#include "../../../libs/Observer.h"
 #include "GameTurnState.h"
 
 namespace Worms {

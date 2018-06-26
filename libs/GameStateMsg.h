@@ -10,7 +10,15 @@
 #define TOTAL_TEAM_QUANTITY 5
 #define WEAPONS_QUANTITY 10
 
+// TODO move this in client and Server global Config
+
 #define POWER_CHARGE_TIME 5.0f
+
+#define COMMAND_GET_LEVELS 0
+#define COMMAND_JOIN_GAME 1
+#define COMMAND_GET_GAMES 2
+#define COMMAND_CREATE_GAME 3
+#define COMMAND_QUIT 5
 
 #define ELAPSED_TURN "elapT"
 #define WIND_INTENSITY "windI"
@@ -92,6 +100,74 @@ enum WeaponID {
 }  // namespace Worm
 
 namespace IO {
+    enum class ClientGUIInput {
+        startCreateGame,
+        startJoinGame,
+        quit,
+        levelSelected,
+        joinGame
+    };
+    enum class ServerResponseAction {
+        startGame,
+        levelsInfo,
+        playerConnected,
+        gamesInfo,
+    };
+
+    struct ClientGUIMsg {
+        ClientGUIMsg() = default;
+        explicit ClientGUIMsg(ClientGUIInput input) :
+                input(input) {};
+        ClientGUIInput input;
+    };
+    struct ServerResponse {
+        ServerResponseAction action;
+    };
+
+    //TODO put this in dedicated file.
+    enum class ServerInternalAction {
+        lobbyFinished,
+        quit
+    };
+
+    struct ServerInternalMsg {
+        ServerInternalAction action;
+    };
+
+    struct LevelInfo {
+        uint8_t id;
+        std::string name;
+        uint8_t playersQuantity;
+    };
+
+    struct GameInfo {
+        uint8_t gameID;
+        uint8_t levelID;
+        std::string levelName;
+        uint8_t numCurrentPlayers;
+        uint8_t numTotalPlayers;
+    };
+
+    struct LevelData {
+        std::string levelPath;
+        std::string levelName;
+        std::vector<std::string> backgroundPath;
+        std::vector<std::string> backgroundName;
+    };
+
+    struct LevelsInfo : public ServerResponse {
+        LevelsInfo(ServerResponseAction action, std::vector<LevelInfo> &levelsInfo) :
+                action(action),
+                levelsInfo(std::move(levelsInfo)) {}
+        ServerResponseAction action;
+        std::vector<LevelInfo> levelsInfo;
+    };
+    struct LevelSelected : public ClientGUIMsg {
+        LevelSelected(ClientGUIInput input, unsigned int levelSelected) :
+                ClientGUIMsg(input),
+                levelSelected(levelSelected) {};
+        unsigned int levelSelected;
+    };
 enum class PlayerInput {
     moveNone,
     moveRight,

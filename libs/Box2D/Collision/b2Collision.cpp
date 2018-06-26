@@ -184,7 +184,7 @@ bool b2AABB::RayCast(b2RayCastOutput* output, const b2RayCastInput& input) const
 		}
 	}
 
-	// Does the ray start inside the box?
+	// Does the ray run inside the box?
 	// Does the ray intersect beyond the max fraction?
 	if (tmin < 0.0f || input.maxFraction < tmin)
 	{

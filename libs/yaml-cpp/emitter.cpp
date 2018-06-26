@@ -87,7 +87,7 @@ bool Emitter::SetDoublePrecision(std::size_t n) {
 }
 
 // SetLocalValue
-// . Either start/end a group, or set a modifier locally
+// . Either run/end a group, or set a modifier locally
 Emitter& Emitter::SetLocalValue(EMITTER_MANIP value) {
   if (!good())
     return *this;

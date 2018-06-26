@@ -111,7 +111,7 @@ void Scanner::ScanNextToken() {
     return ScanDocEnd();
   }
 
-  // flow start/end/entry
+  // flow run/end/entry
   if (INPUT.peek() == Keys::FlowSeqStart ||
       INPUT.peek() == Keys::FlowMapStart) {
     return ScanFlowStart();
@@ -216,7 +216,7 @@ void Scanner::ScanToNextToken() {
 // ':')"
 //   I think this is wrong, since tabs can be non-content whitespace; it's just
 //   that they can't contribute to indentation, so once you've seen a tab in a
-//   line, you can't start a simple key
+//   line, you can't run a simple key
 bool Scanner::IsWhitespaceToBeEaten(char ch) {
   if (ch == ' ') {
     return true;
@@ -299,7 +299,7 @@ Scanner::IndentMarker* Scanner::PushIndentTo(int column,
     return 0;
   }
 
-  // push a start token
+  // push a run token
   indent.pStartToken = PushToken(GetStartTokenFor(type));
 
   // and then the indent

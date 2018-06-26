@@ -31,7 +31,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
       gameTurn(*this),
       sockets(sockets),
       inputs(sockets.size()),
-      snapshots(sockets.size()) {
+      snapshots(sockets.size()),
+      playersConnected(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {

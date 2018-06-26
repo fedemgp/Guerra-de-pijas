@@ -38,6 +38,7 @@ class Camera {
     void drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip);
     void drawLocal(const Texture &texture, ScreenPosition p, const SDL_Rect &clip,
                    SDL_RendererFlip flip, float scale = 1);
+    void drawLocal(ScreenPosition p, const SDL_Rect &clip, SDL_Color color);
 
     Position clamp(Position p) const;
 

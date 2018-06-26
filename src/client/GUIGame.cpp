@@ -18,7 +18,8 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
+                std::uint8_t team)
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
@@ -61,14 +62,14 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
 }
 
 GUI::Game::~Game() {
-    this->quit = true;
+    this->exit();
     this->outputThread.join();
     this->inputThread.join();
 }
 
 void GUI::Game::inputWorker() {
     IO::GameStateMsg msg;
-    try {
+  try {
         while (!this->quit) {
             /* receives the size of the msg */
             std::uint32_t size(0);

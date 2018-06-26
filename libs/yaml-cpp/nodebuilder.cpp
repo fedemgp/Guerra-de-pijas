@@ -12,7 +12,7 @@ struct Mark;
 
 NodeBuilder::NodeBuilder()
     : m_pMemory(new detail::memory_holder), m_pRoot(0), m_mapDepth(0) {
-  m_anchors.push_back(0);  // since the anchors start at 1
+  m_anchors.push_back(0);  // since the anchors run at 1
 }
 
 NodeBuilder::~NodeBuilder() {}

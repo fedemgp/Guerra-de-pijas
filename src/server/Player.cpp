@@ -94,7 +94,7 @@ bool Worms::Player::operator==(const Player &other) {
  */
 void Worms::Player::contactWith(PhysicsEntity &entity, b2Contact &contact) {
     if (entity.getEntityId() == Worms::EntityID::EtGirder) {
-        Worms::Girder girder = dynamic_cast<Worms::Girder &>(entity);
+        Worms::Girder &girder = dynamic_cast<Worms::Girder &>(entity);
         if (std::abs(girder.angle) > PI / 4.0f) {
             this->lastGroundNormal = contact.GetManifold()->localNormal;
         } else {
@@ -558,4 +558,25 @@ const std::shared_ptr<Worms::Weapon> Worms::Player::getWeapon() const {
 
 void Worms::Player::setTeam(Worms::Team *team) {
     this->team = team;
+}
+
+Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(player)), physics(player.physics), waterLevel(player.waterLevel) {
+
+    this->body = player.body;
+    this->body_kinematic = player.body_kinematic;
+    this->footSensor = player.footSensor;
+
+    this->state = player.state;
+    this->weapon = player.weapon;
+    this->team = player.team;
+    this->id = player.id;
+    this->bullets = std::move(player.bullets);
+
+    player.body = nullptr;
+    player.body_kinematic = nullptr;
+    player.footSensor = nullptr;
+    player.state = nullptr;
+    player.weapon = nullptr;
+    player.team = 0;
+    player.id = 0;
 }

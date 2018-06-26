@@ -37,6 +37,9 @@ class Player : public PhysicsEntity {
     Math::Point<float> teleportPosition{0.0f, 0.0f};
 
     explicit Player(Physics &physics);
+    Player(Player &&player) noexcept;
+    Player(Player &copy) = delete;
+
     ~Player();
 
     /* contact handlers */

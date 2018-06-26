@@ -95,10 +95,13 @@ class Game : Observer {
     std::vector<CommunicationSocket> &sockets;
     std::vector<PlayerInput> inputs;
     std::vector<GameSnapshot> snapshots;
+    std::uint8_t playersConnected;
     bool removeBullets{false};
     bool gameEnded{false};
     std::uint8_t winnerTeam{0};
     bool waitingForNextTurn{true};
+
+void playerDisconnected();
 };
 }  // namespace Worms
 
