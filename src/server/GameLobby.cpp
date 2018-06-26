@@ -136,17 +136,31 @@ void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &
         while ((ent = readdir(dir)) != NULL) {
             if (std::string(ent->d_name)[0] != '.') {
                 std::string levelPath(path + ent->d_name);
-                if (std::string(ent->d_name) == "Background") {
-                    std::string backgroundsPath(levelPath + "/");
-                    this->loadLevelBackground(backgroundsPath, level);
-                } else {
+//                if (std::string(ent->d_name) == "Background") {
+//                    std::string backgroundsPath(levelPath + "/");
+//                    this->loadLevelBackground(backgroundsPath, level);
+//                } else {
 //                std::cout << "\t" << levelPath << std::endl;
-                    std::string levelName(ent->d_name);
+                std::string levelName(ent->d_name);
+                YAML::Node data = YAML::LoadFile(levelPath);
+                std::set<char> delims{'/'};
+                std::string closeBackgroundFile = data["background"]["closeBackgroundFile"].as<std::string>();
+                level.backgroundName.emplace_back(std::move(this->splitpath(closeBackgroundFile, delims)));
+                level.backgroundPath.emplace_back(std::move(closeBackgroundFile));
+                std::string midBackgroundFile = data["background"]["midBackgroundFile"].as<std::string>();
+                level.backgroundName.emplace_back(std::move(this->splitpath(midBackgroundFile, delims)));
+                level.backgroundPath.emplace_back(std::move(midBackgroundFile));
+                std::string fartherBackgroundFile = data["background"]["fartherBackgroundFile"].as<std::string>();
+                level.backgroundName.emplace_back(std::move(this->splitpath(fartherBackgroundFile, delims)));
+                level.backgroundPath.emplace_back(std::move(fartherBackgroundFile));
+
+
+
 //                    levelName = levelName.substr(0, levelName.find('.'));
 
-                    level.levelPath = std::move(levelPath);
-                    level.levelName = std::move(levelName);
-                }
+                level.levelPath = std::move(levelPath);
+                level.levelName = std::move(levelName);
+//                }
             }
         }
         closedir (dir);
@@ -155,6 +169,27 @@ void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &
         /* could not open directory */
         throw Exception("Could not open directory: &s", path.c_str());
     }
+}
+
+std::string Worms::GameLobby::splitpath(const std::string &str, const std::set<char> &delimiters) {
+    std::vector<std::string> result;
+
+    char const* pch = str.c_str();
+    char const* start = pch;
+    for(; *pch; ++pch) {
+        if (delimiters.find(*pch) != delimiters.end()) {
+            if (start != pch) {
+                std::string str(start, pch);
+                result.push_back(str);
+            } else {
+                result.emplace_back("");
+            }
+            start = pch + 1;
+        }
+    }
+    result.emplace_back(start);
+
+    return result.back();
 }
 
 void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &level) {

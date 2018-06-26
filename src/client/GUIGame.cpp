@@ -17,7 +17,8 @@
 #include "WrapTexture.h"
 
 // TODO DEHARDCODE
-GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint8_t team)
+GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
+                std::uint8_t team)
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
@@ -69,11 +70,11 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
                            GUI::Color{0x80, 0x80, 0xC0});
     this->texture_mgr.load(GUI::GameTextures::Smoke, "assets/img/Effects/smkdrk20.png",
                            GUI::Color{0xC0, 0xC0, 0x80});
-    this->texture_mgr.load(GUI::GameTextures::Background1, "assets/img/background/bg1.png",
+    this->texture_mgr.load(GUI::GameTextures::Background1, backgroundPaths[0],
                            GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background2, "assets/img/background/bg2.png",
+    this->texture_mgr.load(GUI::GameTextures::Background2, backgroundPaths[1],
                            GUI::Color{0xff, 0xff, 0xff});
-    this->texture_mgr.load(GUI::GameTextures::Background3, "assets/img/background/bg3.png",
+    this->texture_mgr.load(GUI::GameTextures::Background3, backgroundPaths[2],
                            GUI::Color{0xff, 0xff, 0xff});
     this->texture_mgr.load(GUI::GameTextures::WormGrenade, "assets/img/Worms/wthrgrn.png",
                            GUI::Color{0x7f, 0x7f, 0xbb});
