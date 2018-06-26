@@ -22,6 +22,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
     : window(w),
       texture_mgr(w.getRenderer()),
       sound_effect_mgr(),
+      background_music_mgr(),
       stage(stage),
       cam(w, this->scale, this->stage.getWidth(), this->stage.getHeight()),
       font("assets/fonts/gruen_lemonograf.ttf", 28),
@@ -168,6 +169,10 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 "assets/sound/Effects/BananaImpact.wav");
 
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::Original,
+                                "assets/sound/Background/background.wav");
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::MurderTrain, "assets/sound/Background/MurderTrain.wav");
+
     /* updates the armory */
     this->armory.loadWeapons();
     /* allocates space in the array to avoid the player addresses from changing */
@@ -192,6 +197,13 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
         new GUI::Animation(this->texture_mgr.get(GUI::GameTextures::CurrentPlayerArrow), false));
     this->inputThread = std::thread([this] { this->inputWorker(); });
     this->outputThread = std::thread([this] { this->outputWorker(); });
+
+//    this->backGroundMusicPlayer =
+//            std::unique_ptr<GUI::BackgroundMusicPlayer>(new GUI::BackgroundMusicPlayer{
+//                    this->background_music_mgr.get(GUI::GameBackgroundMusic::Original)});
+//    this->backGroundMusicPlayer->play();
+    this->backgroundMusic = &this->background_music_mgr.get(GUI::GameBackgroundMusic::MurderTrain);
+    this->backgroundMusic->play();
 }
 
 GUI::Game::~Game() {
