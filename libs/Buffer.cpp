@@ -30,8 +30,12 @@ std::string IO::Buffer::asString() {
 void IO::Buffer::appendFloat(float v) {
     static_assert(sizeof(v) == 4, "needs 32 bit float");
 
-    uint32_t u32 = *((uint32_t *)&v);
-    this->append(u32);
+    union {
+        uint32_t u32;
+        float f;
+    } u;
+    u.f = v;
+    this->append(u.u32);
 }
 
 void IO::Buffer::appendBuffer(void *data, std::size_t dataSize) {
@@ -54,5 +58,9 @@ void IO::Buffer::getData(const uint8_t **data, std::size_t *size) {
 
 float IO::Buffer::extractFloat() {
     uint32_t v = this->extract<uint32_t>();
-    return *((float *)&v);
+    union {
+        uint32_t u32;
+        float f;
+    } u = {v};
+    return u.f;
 }

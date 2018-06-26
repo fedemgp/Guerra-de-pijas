@@ -18,33 +18,6 @@
 #define COMMAND_CREATE_GAME 3
 #define COMMAND_QUIT 5
 
-#define ELAPSED_TURN "elapT"
-#define WIND_INTENSITY "windI"
-#define CURRENT_WORM "curW"
-#define CURRENT_WORM_TO_FOLLOW "curWF"
-#define CURRENT_TEAM "curT"
-#define NUM_WORMS "numW"
-#define NUM_TEAMS_KEY "numT"
-#define WORMS_TEAM "wTeam"
-#define WORM_DIRECTION "wDir"
-#define WORM_HEALTH_KEY "wHealth"
-#define TEAM_HEALTHS "tHealth"
-#define WORM_POSITION "wPos"
-#define WORM_STATES "states"
-#define CURRENT_WEAPON "curWeap"
-#define WORM_ANGLES "wAngle"
-#define BULLET_QUANTITY_KEY "bullQ"
-#define BULLET_POSITION "bullP"
-#define BULLET_ANGLES "bullA"
-#define WEAPON_AMMUNITION "wAmmo"
-#define BULLET_TYPES "bullT"
-#define PROCESSING_INPUTS "procIn"
-#define CURRENT_TURN_TIME "curTime"
-#define GAME_ENDED "gameEnd"
-#define WINNER "win"
-#define USED_TOOL "toolUsed"
-#define WAITING_FOR_NEXT_TURN "waiting"
-
 #include "Buffer.h"
 #include <netinet/in.h>
 #include <stdint.h>
@@ -53,7 +26,7 @@
 #include <cstring>
 #include <vector>
 #include <cstdint>
-#include <stdint-gcc.h>
+#include <stdint.h>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -218,32 +191,6 @@ struct PlayerMsg {
         this->position.x = buffer.extractFloat();
         this->position.y = buffer.extractFloat();
     }
-//    std::size_t getSerializedSize() {
-//        std::size_t length(0);
-//        length += sizeof(input);
-//        length += sizeof(position.x);
-//        length += sizeof(position.y);
-//
-//        return length;
-//    }
-//
-//    void serialize(void *buffer, std::size_t buffer_size) {
-//        if (this->getSerializedSize() > buffer_size) {
-//            throw Exception{"PlayerMsg: buffer too small"};
-//        }
-//
-//        /* TODO: serialize each field with hton functions */
-//        memcpy(buffer, this, this->getSerializedSize());
-//    }
-//
-//    void deserialize(const void *buffer, std::size_t buffer_size) {
-//        if (this->getSerializedSize() != buffer_size) {
-//            throw Exception{"PlayerMsg: buffer size mismatch"};
-//        }
-//
-//        /* TODO: deserialize each field with ntoh functions */
-//        memcpy(this, buffer, this->getSerializedSize());
-//    }
 };
 
 
@@ -371,27 +318,6 @@ struct GameStateMsg {
         this->playerUsedTool = static_cast<bool>(buffer.extract<uint8_t>());
         this->waitingForNextTurn = static_cast<bool>(buffer.extract<uint8_t>());
     }
-//    std::size_t getSerializedSize() {
-//        return sizeof(*this);
-//    }
-//
-//    void serialize(void *buffer, std::size_t buffer_size) {
-//        if (this->getSerializedSize() > buffer_size) {
-//            throw Exception{"GameStateMsg: buffer too small"};
-//        }
-//
-//        /* TODO: serialize each field with hton functions */
-//        memcpy(buffer, this, this->getSerializedSize());
-//    }
-//
-//    void deserialize(const void *buffer, std::size_t buffer_size) {
-//        if (this->getSerializedSize() != buffer_size) {
-//            throw Exception{"GameStateMsg: buffer size mismatch"};
-//        }
-//
-//        /* TODO: deserialize each field with ntoh functions */
-//        memcpy(this, buffer, this->getSerializedSize());
-//    }
 };
 }  // namespace IO
 
