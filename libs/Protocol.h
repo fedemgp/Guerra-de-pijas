@@ -190,12 +190,17 @@ public:
      * @return
      */
     SOCKET getSocket() {
+        this->socketRemoved = false;
         return std::move(this->socket);
     };
 
-    void configure(SOCKET &socket) {
-        this->socket = std::move(socket);
+    void stopCommunication() {
+        if (this->socketRemoved) {
+            this->socket.shutdown();
+        }
     }
+
+    bool socketRemoved{false};
 };
 
 

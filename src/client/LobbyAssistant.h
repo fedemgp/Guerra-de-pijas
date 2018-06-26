@@ -23,8 +23,10 @@ namespace GUI { // Había una forward declaration con GameWindow pero no hace fa
     public:
         std::string levelPath;
         std::vector<std::string> backgroundPath;
+        bool exit{false};
         
         explicit LobbyAssistant(Window &window);
+        ~LobbyAssistant();
         //TODO overrrite
         void run();
         void onNotify(Subject &subject, Event event) override;

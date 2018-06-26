@@ -25,19 +25,22 @@ int main(int argc, const char *argv[]) {
         lobby.run();
         //TODO join Lobby thread
 
-        ClientSocket socket = std::move(lobby.getSocket());
+        if (!lobby.exit) {
+            ClientSocket socket = std::move(lobby.getSocket());
 
-        char buffer[1];
-        socket.receive(buffer, sizeof(buffer));
+            char buffer[1];
+            socket.receive(buffer, sizeof(buffer));
 
 //        GUI::Window window{};
 //        window.clear();
 
-        GUI::Game game{window, Worms::Stage::fromFile(lobby.levelPath), lobby.backgroundPath, socket, (std::uint8_t) buffer[0]};
-        game.start();
+            GUI::Game game{window, Worms::Stage::fromFile(lobby.levelPath), lobby.backgroundPath, socket,
+                           (std::uint8_t) buffer[0]};
+            game.start();
 
-        GUI::GameEndWindow gameEndWindow(window, lobby.getFont(), lobby.getCam(), game.youWin);
-        gameEndWindow.start();
+            GUI::GameEndWindow gameEndWindow(window, lobby.getFont(), lobby.getCam(), game.youWin);
+            gameEndWindow.start();
+        }
     } catch (std::exception &e) {
         std::cerr << "In main()" << std::endl;
         std::cerr << e.what() << std::endl;

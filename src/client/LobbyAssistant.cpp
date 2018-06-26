@@ -39,7 +39,8 @@ void GUI::LobbyAssistant::run() {
             switch (e.type) {
                 case SDL_QUIT: {
                     this->quit = true;
-                    throw;
+                    this->exit = true;
+//                    throw;
                     break;
                 }
                 case SDL_KEYDOWN: {
@@ -151,8 +152,6 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
 
 ClientSocket GUI::LobbyAssistant::getSocket() {
 //    ClientSocket socket(std::move(this->communicationProtocol->getSocket()));
-    this->communicationProtocol->stop();
-    this->communicationProtocol->join();
     return /*std::move(socket);//*/std::move(this->communicationProtocol->getSocket());
 }
 
@@ -197,4 +196,11 @@ GUI::Font & GUI::LobbyAssistant::getFont() {
 
 GUI::Camera & GUI::LobbyAssistant::getCam() {
     return this->cam;
+}
+
+GUI::LobbyAssistant::~LobbyAssistant() {
+    this->output.close();
+    this->serverStream.close();
+    this->communicationProtocol->stop();
+    this->communicationProtocol->join();
 }

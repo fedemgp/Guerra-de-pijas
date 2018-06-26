@@ -107,6 +107,7 @@ void IO::CommunicationProtocol::waitGameStart(uint8_t playersQuantity) {
 
 void IO::CommunicationProtocol::stop() {
     this->quit = true;
+    this->protocol.stopCommunication();
 }
 
 void IO::CommunicationProtocol::handleClientInput(IO::ClientGUIMsg &msg) {
