@@ -31,7 +31,8 @@ Worms::Game::Game(Stage &&stage, std::vector<CommunicationSocket> &sockets)
       gameTurn(*this),
       sockets(sockets),
       inputs(sockets.size()),
-      snapshots(sockets.size()) {
+      snapshots(sockets.size()){
+//      playersConnected(sockets.size()) {
     this->inputThreads.reserve(sockets.size());
     this->outputThreads.reserve(sockets.size());
     for (std::size_t i = 0; i < sockets.size(); i++) {
@@ -98,19 +99,15 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
 
     try {
         while (!this->quit) {
-            /* receives the size of the msg */
-            std::uint32_t size(0);
-            socket.receive((char *)&size, sizeof(std::uint32_t));
+            std::uint32_t size{0};
+            socket.receive((char *)&size, 4);
             size = ntohl(size);
-
-            std::vector<char> buffer(size, 0);
+            std::vector<std::uint8_t> buffer(size, 0);
             /* reads the raw data from the buffer */
-            socket.receive(buffer.data(), size);
-
-            std::string buff(buffer.data(), size);
+            socket.receive((char *) buffer.data(), size);
 
             /* sets the struct data from the buffer */
-            msg.deserialize(buff);
+            msg.deserialize(buffer);
 
             /* pushes the message into the player's input queue if it's the current player */
             if (this->currentTeam == playerIndex) {
@@ -119,7 +116,10 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "Unknown error in Worms::Game::inputWorker()" << std::endl;
     }
+
 }
 
 /**
@@ -132,22 +132,24 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
     GameSnapshot &snapshot = this->snapshots.at(playerIndex);
 
     IO::GameStateMsg msg;
-
     try {
         while (!this->quit) {
             msg = snapshot.get(true);
-            std::string buff = msg.serialize();
-            std::uint32_t size = buff.size();
-            std::uint32_t netInt = htonl(size);
-
-            socket.send((char *)&netInt, sizeof(std::uint32_t));
-            socket.send(buff.data(), size);
+            std::vector<std::uint8_t>buffer = msg.serialize();
+            std::uint32_t size =  buffer.size();
+            std::uint32_t netSize = htonl(size);
+            socket.send((const char *) &netSize, 4);
+            socket.send((const char *) buffer.data(), size);
         }
     } catch (const IO::Interrupted &e) {
         /* this means that the game is ready to exit */
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
+//        this->playerDisconnected(/*playerIndex*/);
+    } catch (...) {
+        std::cerr << "Unknown error in Worms::Game::outputWorker()" << std::endl;
     }
+
 }
 
 void Worms::Game::start() {
@@ -429,6 +431,9 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         case Event::NextTurn: {
             this->currentPlayerShot = false;
             this->endTurn();
+            break;
+        }
+        default: {
             break;
         }
     }

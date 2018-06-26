@@ -92,6 +92,74 @@ enum WeaponID {
 }  // namespace Worm
 
 namespace IO {
+    enum class ClientGUIInput {
+        startCreateGame,
+        startJoinGame,
+        quit,
+        levelSelected,
+        joinGame
+    };
+    enum class ServerResponseAction {
+        startGame,
+        levelsInfo,
+        playerConnected,
+        gamesInfo,
+    };
+
+    struct ClientGUIMsg {
+        ClientGUIMsg() = default;
+        explicit ClientGUIMsg(ClientGUIInput input) :
+                input(input) {};
+        ClientGUIInput input;
+    };
+    struct ServerResponse {
+        ServerResponseAction action;
+    };
+
+    //TODO put this in dedicated file.
+    enum class ServerInternalAction {
+        lobbyFinished,
+        quit
+    };
+
+    struct ServerInternalMsg {
+        ServerInternalAction action;
+    };
+
+    struct LevelInfo {
+        uint8_t id;
+        std::string name;
+        uint8_t playersQuantity;
+    };
+
+    struct GameInfo {
+        uint8_t gameID;
+        uint8_t levelID;
+        std::string levelName;
+        uint8_t numCurrentPlayers;
+        uint8_t numTotalPlayers;
+    };
+
+    struct LevelData {
+        std::string levelPath;
+        std::string levelName;
+        std::vector<std::string> backgroundPath;
+        std::vector<std::string> backgroundName;
+    };
+
+    struct LevelsInfo : public ServerResponse {
+        LevelsInfo(ServerResponseAction action, std::vector<LevelInfo> &levelsInfo) :
+                action(action),
+                levelsInfo(std::move(levelsInfo)) {}
+        ServerResponseAction action;
+        std::vector<LevelInfo> levelsInfo;
+    };
+    struct LevelSelected : public ClientGUIMsg {
+        LevelSelected(ClientGUIInput input, unsigned int levelSelected) :
+                ClientGUIMsg(input),
+                levelSelected(levelSelected) {};
+        unsigned int levelSelected;
+    };
 enum class PlayerInput {
     moveNone,
     moveRight,
@@ -125,32 +193,32 @@ struct PlayerMsg {
     PlayerInput input;
     Math::Point<float> position{0.0f, 0.0f};
 
-    std::string serialize() {
-        YAML::Emitter emitter;
-        emitter << YAML::BeginMap;
-        emitter << YAML::Key << "in" << YAML::Value << static_cast<std::uint32_t>(this->input);
-        emitter << YAML::Key << "pos" << YAML::Value;
-        {
-            emitter << YAML::BeginMap;
-            emitter << YAML::Key << "x" << YAML::Value << this->position.x;
-            emitter << YAML::Key << "y" << YAML::Value << this->position.y;
-            emitter << YAML::EndMap;
+    std::vector<std::uint8_t> serialize() {
+        std::vector<std::uint8_t> buffer;
+
+        buffer.emplace_back(static_cast<std::uint8_t>(this->input));
+        std::uint32_t netX = htonl(*((std::uint32_t *) &this->position.x));
+        std::uint32_t netY = htonl(*((std::uint32_t *) &this->position.y));
+        for (int i = 0; i < 4; i++){
+            buffer.emplace_back(((std::uint8_t *) &netX)[i]);
         }
-        emitter << YAML::EndMap;
-        return std::move(std::string(emitter.c_str()));
+
+        for (int i = 0; i < 4; i++){
+            buffer.emplace_back(((std::uint8_t *) &netY)[i]);
+        }
+        return std::move(buffer);
     }
 
-    void deserialize(const std::string &data) {
-        YAML::Node msg = YAML::Load(data);
-        if (!msg["pos"] || !msg["in"] || !msg["pos"]["x"].IsScalar() ||
-            !msg["pos"]["y"].IsScalar()) {
-            throw Exception("PlayerMsg: data corrupted");
-        }
+    void deserialize(std::vector<std::uint8_t> &buffer) {
+        this->input = static_cast<PlayerInput>(buffer[0]);
 
-        this->position.x = msg["pos"]["x"].as<float>();
-        this->position.y = msg["pos"]["y"].as<float>();
+        std::uint32_t netX = *((std::uint32_t *)(buffer.data() + 1)),
+                netY = *((std::uint32_t *)(buffer.data() + 5));
+        netX = ntohl(netX);
+        netY = ntohl(netY);
 
-        this->input = static_cast<PlayerInput>(msg["in"].as<std::uint32_t>());
+        this->position.x = *(float *) (&netX);
+        this->position.y = *(float *) (&netY);
     }
 };
 
@@ -183,142 +251,203 @@ struct GameStateMsg {
     bool playerUsedTool;
     bool waitingForNextTurn;
 
-    std::string serialize() {
-        YAML::Emitter emitter;
-        emitter << YAML::BeginMap;
-        emitter << YAML::Key << ELAPSED_TURN << YAML::Value << this->elapsedTurnSeconds;
-        emitter << YAML::Key << WIND_INTENSITY << YAML::Value << (int) this->windIntensity;
-        emitter << YAML::Key << CURRENT_WORM << YAML::Value << this->currentWorm;
-        emitter << YAML::Key << CURRENT_WORM_TO_FOLLOW << YAML::Value << this->currentWormToFollow;
-        emitter << YAML::Key << CURRENT_TEAM << YAML::Value << this->currentTeam;
-        emitter << YAML::Key << NUM_WORMS << YAML::Value << this->num_worms;
-        emitter << YAML::Key << NUM_TEAMS_KEY << YAML::Value << this->num_teams;
+    std::vector<std::uint8_t> serialize() {
+        std::vector<std::uint8_t> buffer;
 
-        emitter << YAML::Key << WORMS_TEAM << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++) {
-            emitter << this->wormsTeam[i];
+//        buffer.emplace_back(static_cast<std::uint8_t>(this->input));
+//        std::uint32_t netX = htonl(*((std::uint32_t *) &this->position.x));
+//        std::uint32_t netY = htonl(*((std::uint32_t *) &this->position.y));
+//
+//        for (int i = 0; i < 4; i++){
+//            buffer.emplace_back(((std::uint8_t *) &netX)[i]);
+//        }
+        std::uint16_t ishort = htons(this->elapsedTurnSeconds);
+        for (int i = 0; i < 2; i++){
+            buffer.emplace_back(((std::uint8_t *) &ishort)[i]);
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << WORM_DIRECTION << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++) {
-            emitter << static_cast<std::uint8_t>(this->wormsDirection[i]);
+        buffer.emplace_back(this->windIntensity);
+        buffer.emplace_back(this->currentWorm);
+        buffer.emplace_back(this->currentWormToFollow);
+        buffer.emplace_back(this->currentTeam);
+        buffer.emplace_back(this->num_worms);
+        buffer.emplace_back(this->num_teams);
+
+        for(int i = 0 ; i < WORMS_QUANTITY; i++){
+            buffer.emplace_back(this->wormsTeam[i]);
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << WORM_HEALTH_KEY << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++) {
-            emitter << this->wormsHealth[i];
+        for(int i = 0 ; i < WORMS_QUANTITY; i++){
+            buffer.emplace_back(static_cast<std::uint8_t >(this->wormsDirection[i]));
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << TEAM_HEALTHS << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++) {
-            emitter << this->teamHealths[i];
+        for(int i = 0; i < WORMS_QUANTITY; i++){
+            ishort = htons(this->wormsHealth[i]);
+            for (int j = 0; j < 2; j++){
+                buffer.emplace_back(((std::uint8_t *) &ishort)[j]);
+            }
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << WORM_POSITION << YAML::Value << YAML::BeginSeq;
-        int totalPos = WORMS_QUANTITY * 2;
-        for (int i = 0; i < totalPos; i++) {
-            emitter << this->positions[i];
+        std::uint32_t ilong{0};
+        for(int i= 0; i < TOTAL_TEAM_QUANTITY ; i++){
+            ilong = htonl(this->teamHealths[i]);
+            for (int j = 0; j < 4; j++){
+                buffer.emplace_back(((std::uint8_t *) &ilong)[j]);
+            }
         }
-        emitter << YAML::EndSeq;
-
-        emitter << YAML::Key << WORM_STATES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WORMS_QUANTITY; i++) {
-            emitter << static_cast<std::uint8_t>(this->stateIDs[i]);
+        int posQuantity = 2 * WORMS_QUANTITY;
+        for(int i = 0; i < posQuantity; i++){
+            ilong = htonl(*((std::uint32_t *) &this->positions[i]));
+            for (int j = 0; j < 4; j++){
+                buffer.emplace_back(((std::uint8_t *) &ilong)[j]);
+            }
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << CURRENT_WEAPON << YAML::Value
-                << static_cast<std::uint8_t>(this->activePlayerWeapon);
-        emitter << YAML::Key << WORM_ANGLES << YAML::Value << this->activePlayerAngle;
-        emitter << YAML::Key << BULLET_QUANTITY_KEY << YAML::Value << this->bulletsQuantity;
-
-        emitter << YAML::Key << BULLET_POSITION << YAML::Value << YAML::BeginSeq;
-        int totalBullPos = BULLETS_QUANTITY * 2;
-        for (int i = 0; i < totalBullPos; i++) {
-            emitter << this->bullets[i];
+        for(int i = 0; i < WORMS_QUANTITY; i++){
+            buffer.emplace_back((std::uint8_t) stateIDs[i]);
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << BULLET_ANGLES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < BULLETS_QUANTITY; i++) {
-            emitter << this->bulletsAngle[i];
+        buffer.emplace_back((std::uint8_t) activePlayerWeapon);
+
+        ilong = htonl(*((std::uint32_t *) &this->activePlayerAngle));
+        for (int j = 0; j < 4; j++){
+            buffer.emplace_back(((std::uint8_t *) &ilong)[j]);
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << BULLET_TYPES << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < BULLETS_QUANTITY; i++) {
-            emitter << static_cast<std::uint8_t>(this->bulletType[i]);
+        buffer.emplace_back(this->bulletsQuantity);
+
+        int bullPosQ = 2 * BULLETS_QUANTITY;
+        for(int i = 0; i < bullPosQ; i++){
+            ilong = htonl(*((std::uint32_t *) &this->bullets[i]));
+            for (int j = 0; j < 4; j++){
+                buffer.emplace_back(((std::uint8_t *) &ilong)[j]);
+            }
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << WEAPON_AMMUNITION << YAML::Value << YAML::BeginSeq;
-        for (int i = 0; i < WEAPONS_QUANTITY; i++) {
-            emitter << this->weaponAmmunition[i];
+        for(int i = 0; i < BULLETS_QUANTITY; i++){
+            ilong = htonl(*((std::uint32_t *) &this->bulletsAngle[i]));
+            for (int j = 0; j < 4; j++){
+                buffer.emplace_back(((std::uint8_t *) &ilong)[j]);
+            }
         }
-        emitter << YAML::EndSeq;
 
-        emitter << YAML::Key << PROCESSING_INPUTS << YAML::Value << this->processingInputs;
-        emitter << YAML::Key << CURRENT_TURN_TIME << YAML::Value << this->currentPlayerTurnTime;
-        emitter << YAML::Key << GAME_ENDED << YAML::Value << this->gameEnded;
-        emitter << YAML::Key << WINNER << YAML::Value << this->winner;
-        emitter << YAML::Key << USED_TOOL << YAML::Value << this->playerUsedTool;
-        emitter << YAML::Key << WAITING_FOR_NEXT_TURN << YAML::Value << this->waitingForNextTurn;
+        for(int i = 0; i < BULLETS_QUANTITY; i++){
+            buffer.emplace_back((std::uint8_t) this->bulletType[i]);
+        }
 
-        emitter << YAML::EndMap;
+        for(int i = 0; i < WEAPONS_QUANTITY; i++){
+            ishort = htons((std::uint16_t) this->weaponAmmunition[i]);
+            for (int j = 0; j < 2; j++){
+                buffer.emplace_back(((std::uint8_t *) &ishort)[j]);
+            }
+        }
 
-        return std::move(std::string(emitter.c_str()));
+        buffer.emplace_back((std::uint8_t) this->processingInputs);
+
+        ishort = htons(this->currentPlayerTurnTime);
+        for (int j = 0; j < 2; j++){
+            buffer.emplace_back(((std::uint8_t *) &ishort)[j]);
+        }
+
+        buffer.emplace_back((std::uint8_t) this->gameEnded);
+        buffer.emplace_back(this->winner);
+        buffer.emplace_back((std::uint8_t) this->playerUsedTool);
+        buffer.emplace_back((std::uint8_t) this->waitingForNextTurn);
+
+        return std::move(buffer);
     }
 
-    void deserialize(const std::string &data) {
-        YAML::Node msg = YAML::Load(data);
+    void deserialize(std::vector<std::uint8_t> &buffer) {
+        std::size_t i{0};
 
-        this->elapsedTurnSeconds = msg[ELAPSED_TURN].as<std::uint16_t>();
-        this->windIntensity = static_cast<std::int8_t >(msg[WIND_INTENSITY].as<int>());
-        this->currentWorm = msg[CURRENT_WORM].as<std::uint8_t>();
-        this->currentWormToFollow = msg[CURRENT_WORM_TO_FOLLOW].as<std::uint8_t>();
-        this->currentTeam = msg[CURRENT_TEAM].as<std::uint8_t>();
-        this->num_worms = msg[NUM_WORMS].as<std::uint8_t>();
-        this->num_teams = msg[NUM_TEAMS_KEY].as<std::uint8_t>();
-        this->activePlayerWeapon =
-            static_cast<Worm::WeaponID>(msg[CURRENT_WEAPON].as<std::uint8_t>());
-        this->activePlayerAngle = msg[WORM_ANGLES].as<float>();
-        this->bulletsQuantity = msg[BULLET_QUANTITY_KEY].as<std::uint8_t>();
-        this->processingInputs = msg[PROCESSING_INPUTS].as<bool>();
-        this->currentPlayerTurnTime = msg[CURRENT_TURN_TIME].as<std::uint16_t>();
-        this->gameEnded = msg[GAME_ENDED].as<bool>();
-        this->winner = msg[WINNER].as<std::uint8_t>();
-        this->playerUsedTool = msg[USED_TOOL].as<bool>();
-        this->waitingForNextTurn = msg[WAITING_FOR_NEXT_TURN].as<bool>();
+        std::uint16_t ishort = *((std::uint16_t *)(buffer.data()));
+        this->elapsedTurnSeconds = ntohs(ishort);
+        i+=2;
+        this->windIntensity = (std::int8_t) buffer[i++];
+        this->currentWorm = buffer[i++];
+        this->currentWormToFollow = buffer[i++];
+        this->currentTeam = buffer[i++];
+        this->num_worms = buffer[i++];
+        this->num_teams = buffer[i++];
 
-        for (int i = 0, j = 0; i < WORMS_QUANTITY; i++, j += 2) {
-            this->wormsTeam[i] = msg[WORMS_TEAM][i].as<std::uint8_t>();
-            this->wormsDirection[i] =
-                static_cast<Worm::Direction>(msg[WORM_DIRECTION][i].as<std::uint8_t>());
-            this->wormsHealth[i] = msg[WORM_HEALTH_KEY][i].as<std::uint16_t>();
-            this->positions[j] = msg[WORM_POSITION][j].as<float>();
-            this->positions[j + 1] = msg[WORM_POSITION][j + 1].as<float>();
-            this->stateIDs[i] = static_cast<Worm::StateID>(msg[WORM_STATES][i].as<std::uint8_t>());
+        for(int j = 0; j < WORMS_QUANTITY; j++){
+            this->wormsTeam[j] = buffer[i++];
         }
 
-        for (int i = 0, j = 0; i < BULLETS_QUANTITY; i++, j += 2) {
-            this->bullets[j] = msg[BULLET_POSITION][j].as<float>();
-            this->bullets[j + 1] = msg[BULLET_POSITION][j + 1].as<float>();
-            this->bulletsAngle[i] = msg[BULLET_ANGLES][i].as<float>();
-            this->bulletType[i] =
-                static_cast<Worm::WeaponID>(msg[BULLET_TYPES][i].as<std::uint8_t>());
+        for(int j = 0; j < WORMS_QUANTITY; j++){
+            this->wormsDirection[j] = (Worm::Direction) buffer[i++];
         }
 
-        for (int i = 0; i < WEAPONS_QUANTITY; i++) {
-            this->weaponAmmunition[i] = msg[WEAPON_AMMUNITION][i].as<std::int16_t>();
+        for (int j = 0; j < WORMS_QUANTITY; j++){
+            ishort = *((std::uint16_t *)(buffer.data() + i));
+            this->wormsHealth[j] = ntohs(ishort);
+            i += 2;
         }
 
-        for (int i = 0; i < TOTAL_TEAM_QUANTITY; i++) {
-            this->teamHealths[i] = msg[TEAM_HEALTHS][i].as<std::uint32_t>();
+        std::uint32_t ilong{0};
+        for (int j = 0; j < TOTAL_TEAM_QUANTITY; j++){
+            ilong = *((std::uint32_t *)(buffer.data() + i));
+            this->teamHealths[j] = ntohl(ilong);
+            i += 4;
         }
+
+        int posQ = 2 * WORMS_QUANTITY;
+        for (int j = 0; j < posQ; j++){
+            ilong = *((std::uint32_t *)(buffer.data() + i));
+            ilong = ntohl(ilong);
+            this->positions[j] = *(float *) (&ilong);
+            i += 4;
+        }
+
+        for (int j = 0; j < WORMS_QUANTITY ; j++){
+            this->stateIDs[j] = static_cast<Worm::StateID>(buffer[i++]);
+        }
+
+        this->activePlayerWeapon = static_cast<Worm::WeaponID>(buffer[i++]);
+
+        ilong = *((std::uint32_t *)(buffer.data() + i));
+        ilong = ntohl(ilong);
+        this->activePlayerAngle = *(float *) (&ilong);
+        i += 4;
+
+        this->bulletsQuantity = buffer[i++];
+
+        int bullPosQ = BULLETS_QUANTITY * 2;
+        for (int j = 0; j < bullPosQ; j++){
+            ilong = *((std::uint32_t *)(buffer.data() + i));
+            ilong = ntohl(ilong);
+            this->bullets[j] = *(float *) (&ilong);
+            i += 4;
+        }
+
+        for (int j = 0; j < BULLETS_QUANTITY; j++){
+            ilong = *((std::uint32_t *)(buffer.data() + i));
+            ilong = ntohl(ilong);
+            this->bulletsAngle[j] = *(float *) (&ilong);
+            i += 4;
+        }
+
+        for (int j = 0; j < BULLETS_QUANTITY; j++){
+            this->bulletType[j] = static_cast<Worm::WeaponID>(buffer[i++]);
+        }
+
+        for (int j = 0; j < BULLETS_QUANTITY; j++){
+            ishort = *((std::uint16_t *)(buffer.data() + i));
+            this->weaponAmmunition[j] = ntohs(ishort);
+            i += 2;
+        }
+
+        this->processingInputs = (bool) buffer[i++];
+
+        ishort = *((std::uint16_t *)(buffer.data() + i));
+        this->currentPlayerTurnTime = ntohs(ishort);
+        i += 2;
+
+        this->gameEnded = (bool) buffer[i++];
+        this->winner = buffer[i++];
+        this->playerUsedTool = (bool) buffer[i++];
+        this->waitingForNextTurn = (bool) buffer[i++];
+
     }
 };
 }  // namespace IO

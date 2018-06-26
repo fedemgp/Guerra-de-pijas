@@ -85,7 +85,7 @@ girders:
     angle: -36
     length: 10.769
 background:
-  closeBackgroundFile: ""
-  midBackgroundFile: ""
-  fartherBackgroundFile: ""
+  closeBackgroundFile: "/home/fedemgp/CLionProjects/4Worms/assets/img/background/bg1.png"
+  midBackgroundFile: "/home/fedemgp/CLionProjects/4Worms/assets/img/background/bg2.png"
+  fartherBackgroundFile: "/home/fedemgp/CLionProjects/4Worms/assets/img/background/bg3.png"
   color: [255, 255, 255]
