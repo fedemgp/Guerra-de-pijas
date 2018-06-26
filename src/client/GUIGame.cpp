@@ -397,23 +397,24 @@ void GUI::Game::handleCamera(float dt) {
     SDL_GetMouseState(&mx, &my);
 
     const float cameraSpeed = 15.0f;
+    const int cameraMargin = 50;
 
     /* checks if the camera should be moved horizontally */
     if (this->window.containsMouse()) {
-        if (mx < 20) {
+        if (mx < cameraMargin) {
             auto p = this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt;
             this->cam.moveTo(this->cam.getPosition() - GUI::Position{cameraSpeed, 0.0f} * dt);
             this->lastCameraUpdate = 0.0f;
-        } else if (mx > this->window.getWidth() - 20) {
+        } else if (mx > this->window.getWidth() - cameraMargin) {
             this->cam.moveTo(this->cam.getPosition() + GUI::Position{cameraSpeed, 0.0f} * dt);
             this->lastCameraUpdate = 0.0f;
         }
 
         /* checks if the camera should be moved vertically */
-        if (my < 20) {
+        if (my < cameraMargin) {
             this->cam.moveTo(this->cam.getPosition() + GUI::Position{0.0f, cameraSpeed} * dt);
             this->lastCameraUpdate = 0.0f;
-        } else if (my > this->window.getHeight() - 20) {
+        } else if (my > this->window.getHeight() - cameraMargin) {
             this->cam.moveTo(this->cam.getPosition() - GUI::Position{0.0f, cameraSpeed} * dt);
             this->lastCameraUpdate = 0.0f;
         }
