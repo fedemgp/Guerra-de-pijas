@@ -12,7 +12,6 @@ Worm::Dead::Dead() : State(StateID::Dead) {}
 Worm::Dead::~Dead() {}
 
 void Worm::Dead::update(float dt) {
-    //    std::cout<<"dead ";
 }
 
 IO::PlayerInput Worm::Dead::moveRight(Worm &w) {

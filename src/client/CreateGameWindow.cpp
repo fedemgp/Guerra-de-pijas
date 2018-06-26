@@ -39,9 +39,6 @@ void GUI::CreateGameWindow::start() {
 }
 
 void GUI::CreateGameWindow::render() {
-//    for (auto & levelInfo : this->levelsInfo) {
-//        std::cout << levelInfo.name << " " << (int) levelInfo.playersQuantity << std::endl;
-//    }
     this->window.clear(SDL_Color{0xFF, 0xFF, 0xFF});
 
     SDL_Color white{0xFF, 0xFF, 0xFF};

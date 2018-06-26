@@ -71,21 +71,6 @@ void GUI::LobbyAssistant::run() {
 
         this->gameWindow->render();
         usleep(50 * 1000);
-
-//        this->clearScreen();
-//        this->printCommands();
-//        std::cin >> this->command;
-//        this->command -= 48; //TODO encapsulate this
-//        switch (this->command) {
-//            case COMMAND_CREATE_GAME: {
-//                this->createGame();
-//                break;
-//            }
-//            case COMMAND_JOIN_GAME: {
-//                this->joinGame();
-//                break;
-//            }
-//        }
     }
 }
 
@@ -144,8 +129,7 @@ void GUI::LobbyAssistant::onNotify(Subject &subject, Event event) {
 }
 
 ClientSocket GUI::LobbyAssistant::getSocket() {
-//    ClientSocket socket(std::move(this->communicationProtocol->getSocket()));
-    return /*std::move(socket);//*/std::move(this->communicationProtocol->getSocket());
+    return std::move(this->communicationProtocol->getSocket());
 }
 
 void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
@@ -194,6 +178,8 @@ GUI::Camera & GUI::LobbyAssistant::getCam() {
 GUI::LobbyAssistant::~LobbyAssistant() {
     this->output.close();
     this->serverStream.close();
-    this->communicationProtocol->stop();
-    this->communicationProtocol->join();
+    if (this->communicationProtocol != nullptr) {
+        this->communicationProtocol->stop();
+        this->communicationProtocol->join();
+    }
 }

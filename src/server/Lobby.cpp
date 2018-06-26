@@ -82,7 +82,6 @@ void Worms::Lobby::run() {
                     buffer[0] = i;
                     this->players[i].send(buffer, sizeof(buffer));
                 }
-                std::cout << "game starts" << std::endl;
                 Worms::Game game{Worms::Stage::fromFile(this->level.levelPath), this->players};
                 game.start();
                 this->notify(*this, Event::EndGame);

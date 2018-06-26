@@ -25,7 +25,6 @@ void Worms::GameLobbyAssistant::run() {
         std::uint8_t command{COMMAND_GET_LEVELS};
         while (!this->quit) {
             this->protocol >> command;
-            std::cout << "command: " << (int) command << std::endl;
             switch (command) {
                 case COMMAND_GET_LEVELS:
                     this->getLevels();
@@ -90,7 +89,6 @@ void Worms::GameLobbyAssistant::joinGame() {
     std::uint8_t levelID{0};
     this->protocol >> gameID;
     this->protocol >> levelID;
-    std::cout << "Joining game with ID " << (int) gameID << std::endl;
     this->sendLevelFiles(levelID);
     this->lobbies.joinGame(gameID, this->playerID, this);
     this->quit = true;
@@ -100,7 +98,6 @@ void Worms::GameLobbyAssistant::onNotify(Subject &subject, Event event) {
     switch (event) {
         case Event::NewPlayer: {
             auto &lobby = dynamic_cast<Lobby &>(subject);
-            std::cout<<"new Player, actualPlayers: "<< (int) lobby.getActualPlayers()<<std::endl;
             this->protocol << lobby.getActualPlayers();
             break;
         }
@@ -125,16 +122,13 @@ bool Worms::GameLobbyAssistant::itsOver() const{
 void Worms::GameLobbyAssistant::sendLevelFiles(uint8_t level) {
     const IO::LevelData &levelData = this->lobbies.getLevelData(level);
     this->protocol << levelData.levelName;
-//    std::string levelFilename(levelData.levelPath);
     std::ifstream levelFile(levelData.levelPath, std::ifstream::binary);
     this->protocol << levelFile;
 
     this->protocol << levelData.backgroundName;
     for (auto &background : levelData.backgroundPath) {
-//        std::string backgroundFilename(background);
         std::ifstream backgroundFile(background, std::ifstream::binary);
         if (!backgroundFile) {
-            std::cout<<"asdas";
         }
         this->protocol << backgroundFile;
     }

@@ -116,7 +116,6 @@ void Worms::GameLobby::loadLevels(std::string &path, std::vector<IO::LevelData> 
         while ((ent = readdir(dir)) != NULL) {
             if (std::string(ent->d_name)[0] != '.') {
                 std::string levelPath(path + ent->d_name + "/");
-//                std::cout << levelPath << std::endl;
                 this->loadLevel(levelPath, levels);
             }
         }
@@ -140,7 +139,6 @@ void Worms::GameLobby::loadLevel(std::string &path, std::vector<IO::LevelData> &
 //                    std::string backgroundsPath(levelPath + "/");
 //                    this->loadLevelBackground(backgroundsPath, level);
 //                } else {
-//                std::cout << "\t" << levelPath << std::endl;
                 std::string levelName(ent->d_name);
                 YAML::Node data = YAML::LoadFile(levelPath);
                 std::set<char> delims{'/'};
@@ -202,7 +200,6 @@ void Worms::GameLobby::loadLevelBackground(std::string &path, IO::LevelData &lev
             if (std::string(ent->d_name)[0] != '.') {
                 std::string backgroundPath(path + ent->d_name);
                 std::string backgroundName(ent->d_name);
-//                std::cout << "\t" << backgroundPath << std::endl;
 
                 level.backgroundPath.emplace_back(std::move(backgroundPath));
                 level.backgroundName.emplace_back(std::move(backgroundName));
