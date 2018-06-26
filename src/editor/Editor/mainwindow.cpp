@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
-    this->scene = new EditorScene{QRect{0, 0, 13 * 250, 13 * 250}};
+    this->scene = new EditorScene{this->stageSize};
     this->ui->editorView->setScene(this->scene);
 
     this->ui->colorPreview->setScene(new QGraphicsScene);
@@ -73,7 +73,7 @@ void MainWindow::on_bgColorButton_clicked() {
 
 void MainWindow::on_actionOpen_triggered() {
     /* serializes the stage */
-    StageData sd{13 * 250, 13 * 250};
+    StageData sd{this->stageSize.width(), stageSize.height()};
 
     sd.closeBgFile = this->closeBgFile;
     sd.medianBgFile = this->midBgFile;

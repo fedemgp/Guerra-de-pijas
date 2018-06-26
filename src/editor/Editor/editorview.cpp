@@ -117,12 +117,12 @@ bool EditorView::event(QEvent *event) {
         case QEvent::HoverEnter:
             if (this->stageElem) {
                 this->setFocus();
-                this->escene->addItem(this->stageElem);
+                this->escene->addItem(dynamic_cast<QGraphicsItem *>(this->stageElem));
             }
             return true;
         case QEvent::HoverLeave:
             if (this->stageElem) {
-                this->escene->removeItem(this->stageElem);
+                this->escene->removeItem(dynamic_cast<QGraphicsItem *>(this->stageElem));
             }
             return true;
         default:

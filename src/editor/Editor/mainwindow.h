@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow {
 
    private:
     Ui::MainWindow *ui;
+    QRectF stageSize{0, 0, 13 * 250, 13 * 250};
     EditorScene *scene;
     QString closeBgFile;
     QString midBgFile;

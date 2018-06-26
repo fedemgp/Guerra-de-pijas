@@ -15,7 +15,7 @@ class EditorScene : public QGraphicsScene {
     Q_OBJECT
 
    public:
-    EditorScene(QRect rect);
+    EditorScene(QRectF rect);
 
     void setCursor(StageElement *newCursor);
     void hideCursor();
@@ -40,7 +40,7 @@ class EditorScene : public QGraphicsScene {
    private:
     void setBackground(QImage image, QGraphicsItemLayer **layerPtr, qreal zValue);
 
-    QRect rect;
+    QRectF rect;
     QColor bgColor{Qt::white};
     QGraphicsItemLayer *closeBg{nullptr};
     QGraphicsItemLayer *medianBg{nullptr};

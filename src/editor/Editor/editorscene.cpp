@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-EditorScene::EditorScene(QRect rect) : QGraphicsScene(nullptr), rect(rect) {
+EditorScene::EditorScene(QRectF rect) : QGraphicsScene(nullptr), rect(rect) {
     this->setSceneRect(rect);
 }
 
@@ -37,6 +37,9 @@ void EditorScene::addItem(QGraphicsItem *elem) {
 
 void EditorScene::addItem(StageElement *elem) {
     if (elem->scene() != this) {
+        if (!this->rect.contains(elem->getPosition())) {
+            return;
+        }
         QGraphicsScene::addItem(elem);
         this->elements.insert(elem);
     }
