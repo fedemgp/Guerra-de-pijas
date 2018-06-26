@@ -1,13 +1,12 @@
 #include "Text.h"
+#include <random>
 #include "Exception.h"
+
+std::unordered_map<GUI::TextCacheKey, GUI::TexturePtr, GUI::TextKeyHash> GUI::Text::cache;
 
 GUI::Text::Text(GUI::Font& font) : font(font) {}
 
-GUI::Text::~Text() {
-    if (this->texture) {
-        delete this->texture;
-    }
-}
+GUI::Text::~Text() {}
 
 void GUI::Text::setBackground(SDL_Color color) {
     this->hasBackground = true;
@@ -69,12 +68,25 @@ void GUI::Text::renderFixed(GUI::ScreenPosition p, GUI::Camera& camera) {
  * @param renderer Renderer.
  */
 void GUI::Text::createTexture(SDL_Renderer* renderer) {
-    if (this->texture) {
-        delete this->texture;
+    /* checks if the texture is already in the cache */
+    uint32_t color = 0 | this->color.r << 16 | this->color.g << 8 | this->color.b;
+    TextCacheKey key{this->text, color};
+    if (GUI::Text::cache.find(key) != GUI::Text::cache.end()) {
+        this->texture = GUI::Text::cache.at(key);
+        return;
+    }
+
+    /* if the cache is full, removes a random entry */
+    if (Text::cache.size() >= 150) {
+        std::mt19937 rng;
+        rng.seed(std::random_device()());
+        std::uniform_int_distribution<std::mt19937::result_type> r(0, Text::cache.size() - 1);
+        auto random_it = std::next(std::begin(Text::cache), r(rng));
+        Text::cache.erase(random_it);
     }
 
     /* render text surface */
-    SDL_Surface* surface = TTF_RenderText_Solid(this->font.get(), text.c_str(), color);
+    SDL_Surface* surface = TTF_RenderText_Solid(this->font.get(), text.c_str(), this->color);
     if (surface == NULL) {
         throw Exception{"Failed rendering text surface: %s", TTF_GetError()};
     }
@@ -86,7 +98,8 @@ void GUI::Text::createTexture(SDL_Renderer* renderer) {
         throw Exception{"Failed create texture from rendered text: %s", SDL_GetError()};
     }
 
-    this->texture = new Texture{texture, surface->w, surface->h};
+    GUI::Text::cache[key] = TexturePtr(new Texture{texture, surface->w, surface->h});
+    this->texture = GUI::Text::cache[key];
 
     SDL_FreeSurface(surface);
 }
