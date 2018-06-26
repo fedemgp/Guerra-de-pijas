@@ -1,0 +1,106 @@
+\documentclass{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,headheight=42pt,hoffset=0.6cm, left=1cm, right=2cm, top=4cm, bottom=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{parcolumns}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{epstopdf}
+\usepackage{xcolor}
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
+
+
+\usepackage[hang,bf]{caption}
+
+\input{informacionAlumnos.tex}
+\input{comandosUtiles.tex}
+
+\renewcommand{\lstlistingname}{Código}
+
+\begin{document}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markboth{}{\thesection\ \ #1}}
+\lhead{\includegraphics[width= 4 cm]{logofiuba}}
+\chead{}
+\rhead{\codMateria - \nombreMateria}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\newpage
+\input{caratula.tex}
+\section{Integrantes y división de tareas}
+\label{sec:integrantes}	
+%\input{integrantes.tex}
+\textbf{Axel Lidjens}
+
+\begin{itemize}
+	\item Editor.
+	\item Carga del nivel de juego mediante los datos provistos por el editor.
+	\item Protocolo de comunicación durante el juego.
+	\item Encapsulamiento de animaciones, texturas y texto en clases para un fácil manejo de los mismos.
+	\item Manejo de la cámara.
+	\item Lógica de contacto de los \textit{worms} para evitar que se muevan entre ellos.
+	\item Lógica de respuesta de los \textit{worms} frente a vigas inclinadas.
+\end{itemize}
+
+\textbf{Federico Gómez Peter}
+
+\begin{itemize}
+	\item Lógica de estados de armas y generación de proyectiles, con su posterior destrucción.
+	\item Animación de las armas, mira y barra de carga.
+	\item Lógia de estados de \textit{worms}.
+	\item Parámetros configurables mediante YAML.
+	\item Serialización de estado del juego mediante YAML.
+	\item Cierre ordenado del servidor.
+\end{itemize}
+
+\textbf{Rodrigo Bourbon Navarro}
+
+\begin{itemize}
+	\item Lógica de estados de juego.
+	\item Lógia de estados de \textit{worms}.
+	\item Generación de equipos.
+	\item Interfaz gráfica del cliente y protocolo de comunicación con el servidor hasta el comienzo de las partidas.
+	\item Lógica de partidas en simultáneo en el servidor.
+	\item Cierre ordenado del servidor.
+\end{itemize}
+
+\newpage
+
+\section{Inconvenientes}
+\label{sec:inconvenientes}	
+\input{inconvenientes.tex}
+
+\subsection{Herramientas}
+%\label{sec:herramientas}
+%\input{herramientas.tex}
+\subsection{Editores de interfaz gráfica}
+
+\begin{itemize}
+	\item CLion: IDE de \textit{JetBrains} que permite compilar y debuguear con y sin \textit{valgrind} en base a un \textit{CMake}.
+	\item VSCode: editor de texto de \textit{Microsoft} que permite compilar y debuguear, pero sus capacidades son más limitadas que las del CLion.
+\end{itemize}
+
+\subsection{Control de versiones}
+
+Se trabajó con un control de versiones \textit{git}, en un repositorio alojado en \textit{GitHub}.
+
+%\section{Configuración}
+%\label{sec:config}
+%\input{config.tex}
+%
+%\section{Forma de uso}
+%\label{sec:uso}
+%\input{uso.tex}
+\end{document}
