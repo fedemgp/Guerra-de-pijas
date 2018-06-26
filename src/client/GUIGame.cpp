@@ -196,6 +196,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
 
 GUI::Game::~Game() {
     this->quit = true;
+    this->socket.shutdown();
     this->outputThread.join();
     this->inputThread.join();
 }
@@ -440,15 +441,17 @@ void GUI::Game::render() {
     this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
 
     if (this->snapshot.gameEnded) {
-        int x = this->window.getWidth() / 2;
-        int y = this->window.getHeight() / 2;
-        Text textGameEnd{this->font};
-        if (this->snapshot.winner == this->team) {
-            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
-        } else {
-            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
-        }
-        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
+//        int x = this->window.getWidth() / 2;
+//        int y = this->window.getHeight() / 2;
+//        Text textGameEnd{this->font};
+//        if (this->snapshot.winner == this->team) {
+//            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
+//        } else {
+//            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
+//        }
+//        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
+        this->youWin = this->snapshot.winner == this->team;
+        this->quit = true;
     }
 
     this->window.render();

@@ -33,6 +33,8 @@ namespace GUI {
 using GameOutput = IO::Stream<IO::PlayerMsg>;
 class Game {
    public:
+    bool youWin{false};
+
     Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backgroundPaths, ClientSocket &socket,
              std::uint8_t team);
     ~Game();

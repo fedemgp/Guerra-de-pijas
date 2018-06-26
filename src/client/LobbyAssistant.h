@@ -31,6 +31,10 @@ namespace GUI { // Había una forward declaration con GameWindow pero no hace fa
 
         ClientSocket getSocket();
 
+        Font & getFont();
+
+        Camera & getCam();
+
     private:
         Window &window;
         float scale{13.0f};

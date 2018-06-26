@@ -9,6 +9,7 @@
 #include "ClientSocket.h"
 #include "GUIGame.h"
 #include "LobbyAssistant.h"
+#include "GameEndWindow.h"
 
 int main(int argc, const char *argv[]) {
     if (argc != 3) {
@@ -34,6 +35,9 @@ int main(int argc, const char *argv[]) {
 
         GUI::Game game{window, Worms::Stage::fromFile(lobby.levelPath), lobby.backgroundPath, socket, (std::uint8_t) buffer[0]};
         game.start();
+
+        GUI::GameEndWindow gameEndWindow(window, lobby.getFont(), lobby.getCam(), game.youWin);
+        gameEndWindow.start();
     } catch (std::exception &e) {
         std::cerr << "In main()" << std::endl;
         std::cerr << e.what() << std::endl;
