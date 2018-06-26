@@ -130,6 +130,9 @@ void Worms::GameLobbyAssistant::sendLevelFiles(uint8_t level) {
     for (auto &background : levelData.backgroundPath) {
 //        std::string backgroundFilename(background);
         std::ifstream backgroundFile(background, std::ifstream::binary);
+        if (!backgroundFile) {
+            std::cout<<"asdas";
+        }
         this->protocol << backgroundFile;
     }
 }

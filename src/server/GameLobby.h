@@ -38,9 +38,8 @@ namespace Worms {
         void removePlayers();
 
         void loadLevels(std::string &path, std::vector<IO::LevelData> &levels);
-
         void loadLevel(std::string &path, std::vector<IO::LevelData> &levels);
-
+        std::string splitpath(const std::string &str, const std::set<char> &delimiters);
         void loadLevelBackground(std::string &path, IO::LevelData &level);
     };
 }
