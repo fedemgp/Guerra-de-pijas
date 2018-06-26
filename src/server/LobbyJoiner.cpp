@@ -51,7 +51,6 @@ void Worms::LobbyJoiner::handleServerInput(IO::ServerInternalMsg &msg) {
             break;
         }
         case IO::ServerInternalAction::quit: {
-//            this->killLobbies();
             this->finished = true;
             break;
         }

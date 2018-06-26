@@ -54,6 +54,7 @@ void Worms::GameLobbyAssistant::run() {
 
 void Worms::GameLobbyAssistant::stop() {
     this->finished = true;
+    this->protocol.stopCommunication();
 }
 
 void Worms::GameLobbyAssistant::getLevels() {

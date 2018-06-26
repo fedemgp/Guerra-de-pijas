@@ -119,6 +119,11 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+        msg.input = IO::PlayerInput::disconnected;
+        msg.position = Math::Point<float>{0, 0};
+        input.push(msg);
+    } catch (...) {
+        std::cerr << "Unknown error in Worms::Game::inputWorker()" << std::endl;
     }
 }
 
