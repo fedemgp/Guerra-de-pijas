@@ -74,10 +74,10 @@ void Worms::GameLobby::onNotify(Subject &subject, Event event) {
             const std::vector<int> &playerIDs = lobby.getPlayerIDs();
             for (auto &playerID : playerIDs) {
                 for (auto &player : this->players){
-                    if ( player.getPlayerID() == playerID){
+                    if (player.getPlayerID() == playerID){
                         //TODO revisar el lugar donde se setea terminado el hilo
-                        player.stop();
                         lobby.addPlayerSocket(std::move(player.getSocket()));
+                        player.stop();
                     };
                 }
             }

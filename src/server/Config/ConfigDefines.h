@@ -6,7 +6,7 @@
 #ifndef __CONFIG_DEFINES_H__
 #define __CONFIG_DEFINES_H__
 
-#define CONFIG_PATH "../serverConfig.yaml"
+#define CONFIG_PATH "/etc/Worms/serverConfig.yaml"
 
 #define JUMP "jump"
 #define VELOCITY "velocity"

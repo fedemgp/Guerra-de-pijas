@@ -69,7 +69,10 @@ void GUI::LobbyAssistant::run() {
             this->nextGameWindow = nullptr;
         }
 
-        this->gameWindow->render();
+        if (this->gameWindow != nullptr) {
+            this->gameWindow->render();
+        }
+        
         usleep(50 * 1000);
     }
 }
@@ -159,6 +162,12 @@ void GUI::LobbyAssistant::handleServerResponse(IO::ServerResponse &response) {
         }
         case IO::ServerResponseAction::playerConnected: {
             dynamic_cast<WaitingPlayersWindow *>(this->gameWindow.get())->playersConnected++;
+            break;
+        }
+        case IO::ServerResponseAction::serverClosed: {
+            this->quit = true;
+            this->exit = true;
+            this->gameWindow = nullptr;
             break;
         }
         default: {

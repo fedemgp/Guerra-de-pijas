@@ -110,6 +110,7 @@ namespace IO {
         levelsInfo,
         playerConnected,
         gamesInfo,
+        serverClosed
     };
 
     struct ClientGUIMsg {

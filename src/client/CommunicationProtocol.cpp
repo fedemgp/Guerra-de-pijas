@@ -29,6 +29,8 @@ void IO::CommunicationProtocol::run() {
         if (!this->quit){
             std::cerr << "In CommunicationProtocol::run()" << std::endl;
             std::cerr << e.what() << std::endl;
+            IO::ServerResponse sr{IO::ServerResponseAction::serverClosed};
+            *this->output << sr;
         }
     } catch (...){
         std::cerr << "Unknown Error in CommunicationProtocol::run()" << std::endl;
