@@ -112,7 +112,6 @@ class Config {
     const float battingTime;
     const float teleportTime;
     const int waterLevel;
-    //    ::Config::Wind::IntensityRange windRange;
     const float minWindIntensity;
     const float maxWindIntensity;
     // weapons

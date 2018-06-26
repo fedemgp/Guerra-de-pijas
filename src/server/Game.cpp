@@ -461,22 +461,13 @@ void Worms::Game::calculateDamage(std::shared_ptr<Worms::Weapon> weapon,
 }
 
 void Worms::Game::calculateWind() {
-    this->wind.xDirection = 1;
-    this->wind.instensity = 0.2;
-    //    std::random_device rnd_device;
-    //    std::mt19937 mersenne_engine(rnd_device());
-    //    std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
-    //
-    //    this->wind.xDirection =
-    //        (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f)
-    //        ? 1
-    //                                                                                              : -1;
-    //    this->wind.instensity = (float) distr(mersenne_engine);
+        std::random_device rnd_device;
+        std::mt19937 mersenne_engine(rnd_device());
+        std::uniform_real_distribution<> distr(this->wind.minIntensity, this->wind.maxIntensity);
 
-    //    char windIntensity = (char) (127.0f * this->wind.instensity /  (this->wind.maxIntensity
-    //                                                                    - this->wind.minIntensity)
-    //                                 * this->wind.xDirection);
-    //    std::cout << "wind intensity: " << this->wind.instensity << std::endl
-    //              << "wind direction: " << this->wind.xDirection << std::endl
-    //              << "message.windIntensity: " << (int) windIntensity << std::endl;
+        this->wind.xDirection =
+            (distr(mersenne_engine) > (this->wind.maxIntensity - this->wind.minIntensity) / 2.0f)
+            ? 1
+                                                                                                  : -1;
+        this->wind.instensity = (float) distr(mersenne_engine);
 }

@@ -7,8 +7,6 @@
 Worm::Explosion::Explosion(const GUI::GameTextureManager &texture_mgr) : texture_mgr(texture_mgr) {
     this->animations.emplace_back(this->texture_mgr.get(GUI::GameTextures::Explosion));
     this->animations.back().setAnimateOnce();
-    //    this->animations.emplace_back(this->texture_mgr.get(GUI::GameTextures::Flame));
-    //    this->animations.emplace_back(this->texture_mgr.get(GUI::GameTextures::Smoke));
 }
 // TODO make observer in client side to clean exploded bullet
 void Worm::Explosion::update(float dt) {
