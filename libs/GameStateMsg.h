@@ -46,6 +46,8 @@
 #include <cstring>
 #include <iostream>
 #include <vector>
+#include <cstdint>
+#include <stdint-gcc.h>
 
 #include "Direction.h"
 #include "Exception.h"
@@ -185,7 +187,7 @@ struct GameStateMsg {
         YAML::Emitter emitter;
         emitter << YAML::BeginMap;
         emitter << YAML::Key << ELAPSED_TURN << YAML::Value << this->elapsedTurnSeconds;
-        emitter << YAML::Key << WIND_INTENSITY << YAML::Value << this->windIntensity;
+        emitter << YAML::Key << WIND_INTENSITY << YAML::Value << (int) this->windIntensity;
         emitter << YAML::Key << CURRENT_WORM << YAML::Value << this->currentWorm;
         emitter << YAML::Key << CURRENT_WORM_TO_FOLLOW << YAML::Value << this->currentWormToFollow;
         emitter << YAML::Key << CURRENT_TEAM << YAML::Value << this->currentTeam;
@@ -275,7 +277,7 @@ struct GameStateMsg {
         YAML::Node msg = YAML::Load(data);
 
         this->elapsedTurnSeconds = msg[ELAPSED_TURN].as<std::uint16_t>();
-        this->windIntensity = msg[WIND_INTENSITY].as<std::int8_t>();
+        this->windIntensity = static_cast<std::int8_t >(msg[WIND_INTENSITY].as<int>());
         this->currentWorm = msg[CURRENT_WORM].as<std::uint8_t>();
         this->currentWormToFollow = msg[CURRENT_WORM_TO_FOLLOW].as<std::uint8_t>();
         this->currentTeam = msg[CURRENT_TEAM].as<std::uint8_t>();
