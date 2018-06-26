@@ -28,6 +28,7 @@ class StageData {
     QString closeBgFile;
     QColor bgColor;
     int wormsHealth;
+    int numPlayers;
 
     StageData(qreal width, qreal height);
 

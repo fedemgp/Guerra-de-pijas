@@ -99,6 +99,11 @@ Worms::Stage Worms::Stage::fromFile(const std::string &filename) {
         throw Exception{"Invalid stage: expected a sequence of 'worms'"};
     }
 
+    if (!data["numPlayers"]) {
+        throw Exception{"Invalid stage: expected integer 'numPlayers'"};
+    }
+    stage.numPlayers = data["numPlayers"].as<int>();
+
     /* loads the worms */
     for (std::size_t i = 0; i < data["worms"].size(); i++) {
         YAML::Node wormNode = data["worms"][i];

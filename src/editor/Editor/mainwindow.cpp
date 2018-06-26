@@ -79,6 +79,7 @@ void MainWindow::on_actionOpen_triggered() {
     sd.medianBgFile = this->midBgFile;
     sd.fartherBgFile = this->fartherBgFile;
     sd.wormsHealth = this->ui->wormsHP->value();
+    sd.numPlayers= this->ui->numPlayers->value();
 
     /* weapon ammo */
     const QString WEAPON_PREFIX = "wpn_";
@@ -93,8 +94,8 @@ void MainWindow::on_actionOpen_triggered() {
 
     this->ui->editorView->serialize(sd);
 
-    if (sd.numWorms() == 0) {
-        QErrorMessage::qtHandler()->showMessage("Se necesita al menos 1 worm");
+    if (static_cast<int>(sd.numWorms()) < sd.numPlayers) {
+        QErrorMessage::qtHandler()->showMessage("Se necesita al menos 1 worm por jugador");
         return;
     }
 

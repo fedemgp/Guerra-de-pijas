@@ -59,6 +59,9 @@ void StageData::dump(std::ostream& output) {
 
     emitter << YAML::BeginMap;
 
+    emitter << YAML::Key << "numPlayers";
+    emitter << YAML::Value << this->numPlayers;
+
     emitter << YAML::Key << "weaponsAmmo";
     emitter << YAML::Value << this->weapons;
 

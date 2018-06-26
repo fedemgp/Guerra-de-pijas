@@ -43,6 +43,7 @@ class Stage {
     std::string fartherBackgroundFile;
     std::string midBackgroundFile;
     std::string closerBackgroundFile;
+    int numPlayers;
 
     Stage();
     ~Stage() = default;

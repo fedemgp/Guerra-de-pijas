@@ -42,9 +42,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-86</y>
+         <y>0</y>
          <width>235</width>
-         <height>584</height>
+         <height>617</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -96,14 +96,14 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0" colspan="2">
+        <item row="4" column="0" colspan="2">
          <widget class="Line" name="line">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
+        <item row="5" column="0">
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -116,7 +116,7 @@
           </property>
          </spacer>
         </item>
-        <item row="5" column="0" colspan="2">
+        <item row="6" column="0" colspan="2">
          <widget class="QLabel" name="label_3">
           <property name="text">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Turno&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -126,14 +126,14 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
+        <item row="7" column="0">
          <widget class="QLabel" name="label_4">
           <property name="text">
            <string>Duración [s]</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="1">
          <widget class="QSpinBox" name="spinBox_2">
           <property name="maximum">
            <number>120</number>
@@ -146,7 +146,7 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="0" colspan="2">
+        <item row="8" column="0" colspan="2">
          <widget class="Line" name="line_2">
           <property name="minimumSize">
            <size>
@@ -159,7 +159,7 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
+        <item row="9" column="0">
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -172,7 +172,7 @@
           </property>
          </spacer>
         </item>
-        <item row="9" column="0" colspan="2">
+        <item row="10" column="0" colspan="2">
          <widget class="QLabel" name="label_5">
           <property name="text">
            <string>&lt;b&gt;Armas&lt;/b&gt;</string>
@@ -182,14 +182,14 @@
           </property>
          </widget>
         </item>
-        <item row="10" column="0">
+        <item row="11" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
            <string>Bazooka</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
+        <item row="11" column="1">
          <widget class="QSpinBox" name="wpn_bazooka">
           <property name="maximum">
            <number>999</number>
@@ -199,14 +199,14 @@
           </property>
          </widget>
         </item>
-        <item row="11" column="0">
+        <item row="12" column="0">
          <widget class="QLabel" name="label_7">
           <property name="text">
            <string>Granada Verde</string>
           </property>
          </widget>
         </item>
-        <item row="11" column="1">
+        <item row="12" column="1">
          <widget class="QSpinBox" name="wpn_grenade">
           <property name="maximum">
            <number>999</number>
@@ -216,14 +216,14 @@
           </property>
          </widget>
         </item>
-        <item row="12" column="0">
+        <item row="13" column="0">
          <widget class="QLabel" name="label_8">
           <property name="text">
            <string>Granada Roja</string>
           </property>
          </widget>
         </item>
-        <item row="12" column="1">
+        <item row="13" column="1">
          <widget class="QSpinBox" name="wpn_cluster">
           <property name="maximum">
            <number>999</number>
@@ -233,28 +233,28 @@
           </property>
          </widget>
         </item>
-        <item row="13" column="0">
+        <item row="14" column="0">
          <widget class="QLabel" name="label_9">
           <property name="text">
            <string>Mortero</string>
           </property>
          </widget>
         </item>
-        <item row="13" column="1">
+        <item row="14" column="1">
          <widget class="QSpinBox" name="wpn_mortar">
           <property name="value">
            <number>5</number>
           </property>
          </widget>
         </item>
-        <item row="14" column="0">
+        <item row="15" column="0">
          <widget class="QLabel" name="label_10">
           <property name="text">
            <string>Banana</string>
           </property>
          </widget>
         </item>
-        <item row="14" column="1">
+        <item row="15" column="1">
          <widget class="QSpinBox" name="wpn_banana">
           <property name="maximum">
            <number>999</number>
@@ -264,14 +264,14 @@
           </property>
          </widget>
         </item>
-        <item row="15" column="0">
+        <item row="16" column="0">
          <widget class="QLabel" name="label_11">
           <property name="text">
            <string>Granada Santa</string>
           </property>
          </widget>
         </item>
-        <item row="15" column="1">
+        <item row="16" column="1">
          <widget class="QSpinBox" name="wpn_holy">
           <property name="maximum">
            <number>999</number>
@@ -281,14 +281,14 @@
           </property>
          </widget>
         </item>
-        <item row="16" column="0">
+        <item row="17" column="0">
          <widget class="QLabel" name="label_12">
           <property name="text">
            <string>Dinamita</string>
           </property>
          </widget>
         </item>
-        <item row="16" column="1">
+        <item row="17" column="1">
          <widget class="QSpinBox" name="wpn_dynamite">
           <property name="maximum">
            <number>999</number>
@@ -298,14 +298,14 @@
           </property>
          </widget>
         </item>
-        <item row="17" column="0">
+        <item row="18" column="0">
          <widget class="QLabel" name="label_13">
           <property name="text">
            <string>Aereo</string>
           </property>
          </widget>
         </item>
-        <item row="17" column="1">
+        <item row="18" column="1">
          <widget class="QSpinBox" name="wpn_aerialAttack">
           <property name="maximum">
            <number>999</number>
@@ -315,14 +315,14 @@
           </property>
          </widget>
         </item>
-        <item row="18" column="0">
+        <item row="19" column="0">
          <widget class="QLabel" name="label_14">
           <property name="text">
            <string>Bate </string>
           </property>
          </widget>
         </item>
-        <item row="18" column="1">
+        <item row="19" column="1">
          <widget class="QSpinBox" name="wpn_baseballBat">
           <property name="maximum">
            <number>999</number>
@@ -332,14 +332,14 @@
           </property>
          </widget>
         </item>
-        <item row="19" column="0">
+        <item row="20" column="0">
          <widget class="QLabel" name="label_15">
           <property name="text">
            <string>Teletransportación</string>
           </property>
          </widget>
         </item>
-        <item row="19" column="1">
+        <item row="20" column="1">
          <widget class="QSpinBox" name="wpn_teleport">
           <property name="maximum">
            <number>999</number>
@@ -349,7 +349,7 @@
           </property>
          </widget>
         </item>
-        <item row="20" column="0" colspan="2">
+        <item row="21" column="0" colspan="2">
          <widget class="Line" name="line_3">
           <property name="minimumSize">
            <size>
@@ -362,7 +362,7 @@
           </property>
          </widget>
         </item>
-        <item row="21" column="0">
+        <item row="22" column="0">
          <spacer name="verticalSpacer_4">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -375,7 +375,7 @@
           </property>
          </spacer>
         </item>
-        <item row="22" column="0" colspan="2">
+        <item row="23" column="0" colspan="2">
          <widget class="QLabel" name="label_16">
           <property name="text">
            <string>&lt;b&gt;Fondo&lt;/b&gt;</string>
@@ -385,14 +385,14 @@
           </property>
          </widget>
         </item>
-        <item row="23" column="0">
+        <item row="24" column="0">
          <widget class="QPushButton" name="bgColorButton">
           <property name="text">
            <string>Color</string>
           </property>
          </widget>
         </item>
-        <item row="23" column="1">
+        <item row="24" column="1">
          <widget class="QGraphicsView" name="colorPreview">
           <property name="enabled">
            <bool>true</bool>
@@ -420,6 +420,23 @@
              <blue>198</blue>
             </color>
            </brush>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QSpinBox" name="numPlayers">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>4</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_17">
+          <property name="text">
+           <string>Jugadores</string>
           </property>
          </widget>
         </item>
