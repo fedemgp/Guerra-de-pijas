@@ -228,7 +228,34 @@ struct PlayerMsg {
 
         this->input = static_cast<PlayerInput>(msg["in"].as<std::uint32_t>());
     }
+//    std::size_t getSerializedSize() {
+//        std::size_t length(0);
+//        length += sizeof(input);
+//        length += sizeof(position.x);
+//        length += sizeof(position.y);
+//
+//        return length;
+//    }
+//
+//    void serialize(void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() > buffer_size) {
+//            throw Exception{"PlayerMsg: buffer too small"};
+//        }
+//
+//        /* TODO: serialize each field with hton functions */
+//        memcpy(buffer, this, this->getSerializedSize());
+//    }
+//
+//    void deserialize(const void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() != buffer_size) {
+//            throw Exception{"PlayerMsg: buffer size mismatch"};
+//        }
+//
+//        /* TODO: deserialize each field with ntoh functions */
+//        memcpy(this, buffer, this->getSerializedSize());
+//    }
 };
+
 
 struct GameStateMsg {
     std::uint16_t elapsedTurnSeconds;
@@ -396,6 +423,27 @@ struct GameStateMsg {
             this->teamHealths[i] = msg[TEAM_HEALTHS][i].as<std::uint32_t>();
         }
     }
+//    std::size_t getSerializedSize() {
+//        return sizeof(*this);
+//    }
+//
+//    void serialize(void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() > buffer_size) {
+//            throw Exception{"GameStateMsg: buffer too small"};
+//        }
+//
+//        /* TODO: serialize each field with hton functions */
+//        memcpy(buffer, this, this->getSerializedSize());
+//    }
+//
+//    void deserialize(const void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() != buffer_size) {
+//            throw Exception{"GameStateMsg: buffer size mismatch"};
+//        }
+//
+//        /* TODO: deserialize each field with ntoh functions */
+//        memcpy(this, buffer, this->getSerializedSize());
+//    }
 };
 }  // namespace IO
 

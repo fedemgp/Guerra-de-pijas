@@ -120,6 +120,45 @@ void GUI::Game::outputWorker() {
     }
 }
 
+//void GUI::Game::inputWorker() {
+//    IO::GameStateMsg msg;
+//    char *buffer = new char[msg.getSerializedSize()];
+//
+//    try {
+//        while (!this->quit) {
+//            this->socket.receive(buffer, msg.getSerializedSize());
+//            msg.deserialize(buffer, msg.getSerializedSize());
+//            this->snapshotBuffer.set(msg);
+//            this->snapshotBuffer.swap();
+//        }
+//    } catch (const std::exception &e) {
+//        std::cerr << "GUI::Game::inputWorker:" << e.what() << std::endl;
+//    } catch (...) {
+//        std::cerr << "Unknown error in GUI::Game::inputWorker()" << std::endl;
+//    }
+//
+//    delete[] buffer;
+//}
+//
+//void GUI::Game::outputWorker() {
+//    IO::PlayerMsg msg;
+//    char *buffer = new char[msg.getSerializedSize()];
+//
+//    try {
+//        while (!this->quit) {
+//            this->output.pop(msg, true);
+//            msg.serialize(buffer, msg.getSerializedSize());
+//            this->socket.send(buffer, msg.getSerializedSize());
+//        }
+//    } catch (const std::exception &e) {
+//        std::cerr << "GUI::Game::outputWorker:" << e.what() << std::endl;
+//    } catch (...) {
+//        std::cerr << "Unknown error in GUI::Game::outputWorker()" << std::endl;
+//    }
+//
+//    delete[] buffer;
+//}
+
 void GUI::Game::start() {
     try {
         uint32_t prev = SDL_GetTicks();
