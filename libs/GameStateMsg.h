@@ -163,7 +163,8 @@ enum class PlayerInput {
     aerialAttack,
     dynamite,
     teleport,
-    baseballBat
+    baseballBat,
+    disconnected
 };
 
 struct PlayerMsg {

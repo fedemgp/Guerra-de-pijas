@@ -115,3 +115,7 @@ void Worms::GameTeams::weaponUsed(const Worm::WeaponID weaponID){
 void Worms::GameTeams::serialize(IO::GameStateMsg &msg) const{
     this->teams[this->currentTeam].serialize(msg);
 }
+
+void Worms::GameTeams::kill(uint8_t team, std::vector<Worms::Player> &players) {
+    this->teams[team].kill(players);
+}

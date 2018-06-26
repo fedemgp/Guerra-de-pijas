@@ -26,6 +26,8 @@ class GameTeams {
     void weaponUsed(const Worm::WeaponID weaponID);
     void serialize(IO::GameStateMsg &msg) const;
 
+    void kill(uint8_t team, std::vector<Player> &players);
+
 private:
     std::vector<Team> teams;
     std::uint8_t deadTeams{0};

@@ -27,6 +27,7 @@ class Team {
     std::shared_ptr<Weapon> getWeapon(const Worm::WeaponID &id);
     void weaponUsed(const Worm::WeaponID weaponID);
     void serialize(IO::GameStateMsg &msg) const;
+    void kill(std::vector<Worms::Player> &players);
 
 private:
     std::vector<uint8_t> playerIDs;

@@ -114,6 +114,9 @@ void Worms::Game::inputWorker(std::size_t playerIndex) {
         }
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::inputWorker:" << e.what() << std::endl;
+        msg.input = IO::PlayerInput::disconnected;
+        msg.position = Math::Point<float>{0, 0};
+        input.push(msg);
     } catch (...) {
         std::cerr << "Unknown error in Worms::Game::inputWorker()" << std::endl;
     }
@@ -143,7 +146,6 @@ void Worms::Game::outputWorker(std::size_t playerIndex) {
         /* this means that the game is ready to exit */
     } catch (const std::exception &e) {
         std::cerr << "Worms::Game::outputWorker:" << e.what() << std::endl;
-        this->playerDisconnected(/*playerIndex*/);
     } catch (...) {
         std::cerr << "Unknown error in Worms::Game::outputWorker()" << std::endl;
     }
@@ -163,15 +165,19 @@ void Worms::Game::start() {
 
             IO::PlayerMsg pMsg;
             if (this->inputs.at(this->currentTeam).pop(pMsg, false)) {
-                if (this->processingClientInputs) {
-                    if (this->currentPlayerShot) {
-                        if (pMsg.input != IO::PlayerInput::startShot &&
-                            pMsg.input != IO::PlayerInput::endShot &&
-                            pMsg.input != IO::PlayerInput::positionSelected) {
+                if (pMsg.input == IO::PlayerInput::disconnected) {
+                    this->playerDisconnected(this->currentTeam);
+                } else {
+                    if (this->processingClientInputs) {
+                        if (this->currentPlayerShot) {
+                            if (pMsg.input != IO::PlayerInput::startShot &&
+                                pMsg.input != IO::PlayerInput::endShot &&
+                                pMsg.input != IO::PlayerInput::positionSelected) {
+                                this->players.at(this->currentWorm).handleState(pMsg);
+                            }
+                        } else {
                             this->players.at(this->currentWorm).handleState(pMsg);
                         }
-                    } else {
-                        this->players.at(this->currentWorm).handleState(pMsg);
                     }
                 }
             }
@@ -484,9 +490,11 @@ void Worms::Game::calculateWind() {
     //              << "message.windIntensity: " << (int) windIntensity << std::endl;
 }
 
-void Worms::Game::playerDisconnected() {
+void Worms::Game::playerDisconnected(uint8_t teamDisconnected) {
     this->playersConnected--;
+    this->teams.kill(teamDisconnected, this->players);
     if (this->playersConnected <= 1) {
-        this->quit = true;
+        this->winnerTeam = this->teams.getWinner();
+        this->gameEnded = true;
     }
 }

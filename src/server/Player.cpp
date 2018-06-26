@@ -265,6 +265,8 @@ void Worms::Player::handleState(IO::PlayerMsg pi) {
         case IO::PlayerInput::teleport:
             this->state->teleport(*this);
             break;
+        default:
+            break;
     }
 }
 
@@ -578,4 +580,9 @@ Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(
     player.weapon = nullptr;
     player.team = 0;
     player.id = 0;
+}
+
+void Worms::Player::die() {
+    this->setState(Worm::StateID::Die);
+//    this->notify(*this, Event::DyingDueTi)
 }

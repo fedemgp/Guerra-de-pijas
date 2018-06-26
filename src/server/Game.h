@@ -101,7 +101,7 @@ class Game : Observer {
     std::uint8_t winnerTeam{0};
     bool waitingForNextTurn{true};
 
-void playerDisconnected();
+void playerDisconnected(uint8_t teamDisconnected);
 };
 }  // namespace Worms
 

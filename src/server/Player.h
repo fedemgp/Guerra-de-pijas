@@ -127,6 +127,7 @@ class Player : public PhysicsEntity {
     bool operator==(const Player &other);
 
     void endShot(std::list<Worms::Bullet> &bullets);
+    void die();
 
    private:
     b2Body *createBody(b2BodyType type);
