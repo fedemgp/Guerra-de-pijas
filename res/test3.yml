@@ -1,0 +1,55 @@
+numPlayers: 3
+weaponsAmmo:
+  aerialAttack: 4
+  banana: 11
+  baseballBat: 3
+  bazooka: 999
+  cluster: 10
+  dynamite: 0
+  grenade: 999
+  holy: 3
+  mortar: 14
+  teleport: 22
+width: 250
+height: 250
+wormsHealth: 120
+worms:
+  - position: [-43.30769230769231, 44.15384615384616]
+  - position: [45.07692307692307, 5.384615384615387]
+  - position: [6, 33.53846153846155]
+girders:
+  - position: [22.46153846153845, 9.538461538461547]
+    angle: -9
+    length: 10.769
+  - position: [-10.07692307692308, 11.07692307692307]
+    angle: -0
+    length: 10.769
+  - position: [-35.76923076923077, 21.69230769230768]
+    angle: -45
+    length: 5.3845
+  - position: [5.84615384615384, 31.53846153846155]
+    angle: -0
+    length: 10.769
+  - position: [-44.15384615384616, 39.15384615384616]
+    angle: -63
+    length: 5.3845
+  - position: [-25.38461538461539, 9.615384615384613]
+    angle: -0
+    length: 10.769
+  - position: [-40.23076923076923, 31]
+    angle: -45
+    length: 5.3845
+  - position: [42.53846153846155, 3.461538461538453]
+    angle: -0
+    length: 10.769
+  - position: [32.38461538461539, 6.15384615384616]
+    angle: -27
+    length: 10.769
+  - position: [-17.92307692307692, 10.23076923076923]
+    angle: 18
+    length: 5.3845
+background:
+  closeBackgroundFile: ""
+  midBackgroundFile: ""
+  fartherBackgroundFile: ""
+  color: [186, 141, 198]

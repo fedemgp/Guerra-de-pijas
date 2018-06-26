@@ -49,6 +49,24 @@ float GUI::Camera::getScale() const {
 }
 
 /**
+ * @brief Gets the size of the screen in game coordinates.
+ *
+ * @return float Screen width.
+ */
+float GUI::Camera::screenWidth() const {
+    return float(this->window.getWidth()) / this->scale;
+}
+
+/**
+ * @brief Gets the size of the screen in game coordinates.
+ *
+ * @return float Screen height.
+ */
+float GUI::Camera::screenHeight() const {
+    return float(this->window.getHeight()) / this->scale;
+}
+
+/**
  * @brief Returns the camera position in global coordinates.
  *
  * @return Position Camera position.

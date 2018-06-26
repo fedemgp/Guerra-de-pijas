@@ -23,6 +23,7 @@
 #include "Stage.h"
 #include "Stream.h"
 #include "TextureManager.h"
+#include "Water.h"
 #include "Weapons/Bullet.h"
 #include "Weapons/Explosion.h"
 #include "Wind.h"
@@ -44,7 +45,7 @@ class Game {
     void exit();
 
    private:
-    void render_controls();
+    void renderStatic();
     void renderBackground();
     void handleCamera(float dt);
 
@@ -74,6 +75,7 @@ class Game {
     std::uint8_t team{0};
     uint8_t explodedQuantity{0};
     GUI::Wind wind;
+    GUI::Water water;
     std::unique_ptr<Animation> currentPlayerArrow{nullptr};
 
     void loadTextureManager();

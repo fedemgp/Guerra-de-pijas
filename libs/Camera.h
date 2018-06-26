@@ -27,6 +27,8 @@ class Camera {
     float getScale() const;
     Position getPosition() const;
     SDL_Renderer &getRenderer() const;
+    float screenWidth() const;
+    float screenHeight() const;
 
     void draw(const Texture &texture, Position p);
     void draw(const Texture &texture, Position p, const SDL_Rect &clip);

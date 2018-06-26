@@ -28,7 +28,8 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, ClientSocket &socket, std::uint
       armory(this->texture_mgr, this->cam, this->font),
       socket(socket),
       team(team),
-      wind(this->texture_mgr, this->cam) {
+      wind(this->texture_mgr, this->cam),
+      water(this->texture_mgr) {
 
     this->loadTextureManager();
     this->loadSoundManager();
@@ -221,6 +222,8 @@ void GUI::Game::update(float dt) {
     for (auto &bullet : this->bullets) {
         bullet->update(dt);
     }
+
+    this->water.update(dt);
 }
 
 void GUI::Game::render() {
@@ -268,58 +271,10 @@ void GUI::Game::render() {
             health.render(GUI::Position{cur_x, cur_y + 2.2f}, this->cam);
         }
     }
-    /* render the arrow to notify the current player when wainting for next turn*/
-    if (this->snapshot.waitingForNextTurn) {
-        float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
-        float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
-        GUI::Position position = GUI::Position{cur_x, cur_y + 4.4f};
-        this->currentPlayerArrow->render(position, this->cam, SDL_FLIP_NONE);
-    }
 
-    /* health bars of the team */
-    uint8_t numTeams = this->snapshot.num_teams;
-    int textHeight = 25;
-    for (uint8_t i = 0; i < numTeams; i++) {
-        Text health{this->font};
-        std::ostringstream oss;
-        oss << "Team " << i + 1 << ": " << this->snapshot.teamHealths[i];
+    this->water.render(this->cam);
 
-        health.setBackground(SDL_Color{0, 0, 0});
-        health.set(oss.str(), this->teamColors[i], textHeight);
-        int x = this->window.getWidth() / 2;
-        int y = this->window.getHeight() - (textHeight * (numTeams - i));
-        health.renderFixed(ScreenPosition{x, y}, this->cam);
-    }
-
-    /* displays the remaining turn time */
-    std::int16_t turnTimeLeft =
-        this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
-    turnTimeLeft = (turnTimeLeft < 0) ? 0 : turnTimeLeft;
-
-    int x = this->window.getWidth() / 2;
-    int y = 20;
-
-    SDL_Color color = {0, 0, 0};
-    Text text{this->font};
-    text.set(std::to_string(turnTimeLeft), color);
-    text.renderFixed(ScreenPosition{x, y}, this->cam);
-
-    /* renders armory */
-    this->armory.render();
-
-    this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
-
-    if (this->snapshot.gameEnded) {
-        int x = this->window.getWidth() / 2;
-        int y = this->window.getHeight() / 2;
-        Text textGameEnd{this->font};
-        if (this->snapshot.winner == this->team) {
-            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
-        } else {
-            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
-        }
-        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
-    }
+    this->renderStatic();
 
     this->window.render();
 }
@@ -373,8 +328,60 @@ void GUI::Game::renderBackground() {
 /**
  * @brief Draws the game controls.
  */
-void GUI::Game::render_controls() {
-    /* draws the remaining time */
+void GUI::Game::renderStatic() {
+
+    /* render the arrow to notify the current player when wainting for next turn*/
+    if (this->snapshot.waitingForNextTurn) {
+        float cur_x = this->snapshot.positions[this->snapshot.currentWorm * 2];
+        float cur_y = this->snapshot.positions[this->snapshot.currentWorm * 2 + 1];
+        GUI::Position position = GUI::Position{cur_x, cur_y + 4.4f};
+        this->currentPlayerArrow->render(position, this->cam, SDL_FLIP_NONE);
+    }
+
+    /* health bars of the team */
+    uint8_t numTeams = this->snapshot.num_teams;
+    int textHeight = 25;
+    for (uint8_t i = 0; i < numTeams; i++) {
+        Text health{this->font};
+        std::ostringstream oss;
+        oss << "Team " << i + 1 << ": " << this->snapshot.teamHealths[i];
+
+        health.setBackground(SDL_Color{0, 0, 0});
+        health.set(oss.str(), this->teamColors[i], textHeight);
+        int x = this->window.getWidth() / 2;
+        int y = this->window.getHeight() - (textHeight * (numTeams - i));
+        health.renderFixed(ScreenPosition{x, y}, this->cam);
+    }
+
+    /* displays the remaining turn time */
+    std::int16_t turnTimeLeft =
+        this->snapshot.currentPlayerTurnTime - this->snapshot.elapsedTurnSeconds;
+    turnTimeLeft = (turnTimeLeft < 0) ? 0 : turnTimeLeft;
+
+    int x = this->window.getWidth() / 2;
+    int y = 20;
+
+    SDL_Color color = {0, 0, 0};
+    Text text{this->font};
+    text.set(std::to_string(turnTimeLeft), color);
+    text.renderFixed(ScreenPosition{x, y}, this->cam);
+
+    /* renders armory */
+    this->armory.render();
+
+    this->wind.render(this->snapshot.windIntensity, this->window.getWidth());
+
+    if (this->snapshot.gameEnded) {
+        int x = this->window.getWidth() / 2;
+        int y = this->window.getHeight() / 2;
+        Text textGameEnd{this->font};
+        if (this->snapshot.winner == this->team) {
+            textGameEnd.set(std::string("You Win!"), this->teamColors[this->team], 60);
+        } else {
+            textGameEnd.set(std::string("You Lose!"), this->teamColors[this->team], 60);
+        }
+        textGameEnd.renderFixed(ScreenPosition{x, y}, this->cam);
+    }
 }
 
 /**
@@ -557,6 +564,8 @@ void GUI::Game::loadTextureManager(){
                            path + "/img/Weapon Icons/baseball.1.png", GUI::Color{0x00, 0x00, 0x00});
     this->texture_mgr.load(GUI::GameTextures::TeleportIcon,
                            path + "/img/Weapon Icons/teleport.1.png", GUI::Color{0x00, 0x00, 0x00});
+    this->texture_mgr.load(GUI::GameTextures::Water,
+                           path + "/img/background/water.png", GUI::Color{0x00, 0x00, 0x00});
 }
 
 void GUI::Game::loadSoundManager(){
