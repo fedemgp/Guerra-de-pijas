@@ -1,0 +1,48 @@
+name: level1
+numPlayers: 2
+weaponsAmmo:
+  aerialAttack: 1
+  banana: 5
+  baseballBat: 1
+  bazooka: 999
+  cluster: 5
+  dynamite: 2
+  grenade: 999
+  holy: 2
+  mortar: 5
+  teleport: 2
+width: 250
+height: 250
+wormsHealth: 100
+worms:
+  - position: [-40.69230769230769, 7.384615384615387]
+  - position: [29.38461538461539, 7.84615384615384]
+  - position: [-18.84615384615384, 8.461538461538453]
+  - position: [4.230769230769226, 6.692307692307679]
+girders:
+  - position: [17.76923076923077, 9]
+    angle: -90
+    length: 5.3845
+  - position: [-20.53846153846153, 4.923076923076934]
+    angle: -0
+    length: 10.769
+  - position: [-31.38461538461539, 10.69230769230768]
+    angle: -90
+    length: 5.3845
+  - position: [-5.15384615384616, 8.076923076923066]
+    angle: -90
+    length: 5.3845
+  - position: [27.46153846153845, 4.076923076923066]
+    angle: -0
+    length: 10.769
+  - position: [-41, 5.15384615384616]
+    angle: -0
+    length: 10.769
+  - position: [7.384615384615387, 3.692307692307679]
+    angle: -0
+    length: 10.769
+background:
+  closeBackgroundFile: /var/Worms/assets/img/background/bg3.png
+  midBackgroundFile: /var/Worms/assets/img/background/bg2.png
+  fartherBackgroundFile: /var/Worms/assets/img/background/bg1.png
+  color: [186, 141, 198]
