@@ -12,6 +12,12 @@
 
 #define POWER_CHARGE_TIME 5.0f
 
+#define COMMAND_GET_LEVELS 0
+#define COMMAND_JOIN_GAME 1
+#define COMMAND_GET_GAMES 2
+#define COMMAND_CREATE_GAME 3
+#define COMMAND_QUIT 5
+
 #define ELAPSED_TURN "elapT"
 #define WIND_INTENSITY "windI"
 #define CURRENT_WORM "curW"

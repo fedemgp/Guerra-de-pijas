@@ -34,6 +34,7 @@ GUI::Game::Game(Window &w, Worms::Stage &&stage, std::vector<std::string> &backg
 
     this->loadTextureManager();
     this->loadSoundManager();
+    this->loadBackgroundManager();
 
     /* updates the armory */
     this->armory.loadWeapons();
@@ -606,4 +607,11 @@ void GUI::Game::loadSoundManager(){
                                 path + "/sound/Effects/ROCKETRELEASE.WAV");
     this->sound_effect_mgr.load(GUI::GameSoundEffects::Banana,
                                 path + "/sound/Effects/BananaImpact.wav");
+}
+
+void GUI::Game::loadBackgroundManager(){
+    std::string path(ASSETS_PATH);
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::Original,
+                                   path + "/sound/Background/background.wav");
+    this->background_music_mgr.load(GUI::GameBackgroundMusic::MurderTrain, path + "/sound/Background/MurderTrain.wav");
 }

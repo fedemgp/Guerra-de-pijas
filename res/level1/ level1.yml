@@ -1,0 +1,39 @@
+name: " level1"
+numPlayers: 2
+weaponsAmmo:
+  aerialAttack: 1
+  banana: 5
+  baseballBat: 1
+  bazooka: 999
+  cluster: 5
+  dynamite: 2
+  grenade: 999
+  holy: 2
+  mortar: 5
+  teleport: 2
+width: 250
+height: 250
+wormsHealth: 100
+worms:
+  - position: [20.15384615384616, 47.69230769230768]
+  - position: [-27.23076923076923, 27.61538461538461]
+  - position: [-0.0769230769230802, 28.84615384615384]
+  - position: [-39.38461538461539, 51.53846153846155]
+girders:
+  - position: [-26.53846153846153, 25.46153846153845]
+    angle: -0
+    length: 10.769
+  - position: [-40.15384615384616, 49.46153846153845]
+    angle: -0
+    length: 10.769
+  - position: [19.07692307692307, 45.38461538461539]
+    angle: -0
+    length: 10.769
+  - position: [-1.84615384615384, 26.30769230769232]
+    angle: -0
+    length: 10.769
+background:
+  closeBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg3.png
+  midBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg2.png
+  fartherBackgroundFile: /home/fedemgp/CLionProjects/4Worms/assets/img/background/bg1.png
+  color: [186, 141, 198]

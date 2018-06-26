@@ -87,7 +87,7 @@ class Game {
     const BackgroundMusic *backgroundMusic{nullptr};
     
     void loadTextureManager();
-
+    void loadBackgroundManager();
     void loadSoundManager();
 };
 }  // namespace GUI

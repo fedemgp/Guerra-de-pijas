@@ -54,10 +54,13 @@ std::size_t StageData::numWorms() const {
     return this->worms.size();
 }
 
-void StageData::dump(std::ostream& output) {
+void StageData::dump(std::ostream& output, std::string fileName) {
     YAML::Emitter emitter;
 
     emitter << YAML::BeginMap;
+
+    emitter << YAML::Key << "name";
+    emitter << YAML::Value << fileName;
 
     emitter << YAML::Key << "numPlayers";
     emitter << YAML::Value << this->numPlayers;

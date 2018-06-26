@@ -48,7 +48,7 @@ void Worms::Lobbies::configure(){
     for (auto &level : this->levels) {
         YAML::Node data = YAML::LoadFile(level.levelPath);
         std::string name = data["name"].as<std::string>();
-        uint8_t playersQuantity = static_cast<uint8_t>(data["players"].as<int>());
+        uint8_t playersQuantity = static_cast<uint8_t>(data["numPlayers"].as<int>());
         IO::LevelInfo levelInfo{id, name, playersQuantity};
         this->levelsInfo.emplace_back(levelInfo);
         id++;

@@ -32,7 +32,7 @@ class StageData {
 
     StageData(qreal width, qreal height);
 
-    void dump(std::ostream &output);
+    void dump(std::ostream &output, std::string fileName);
 
     std::size_t numWorms() const;
 

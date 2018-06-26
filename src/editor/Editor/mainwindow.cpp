@@ -114,6 +114,10 @@ void MainWindow::on_actionOpen_triggered() {
         QErrorMessage::qtHandler()->showMessage("Error al abrir el archivo");
         return;
     }
-
-    sd.dump(file);
+    /* gets the base name of the file */
+    QStringList list = fileName.split('/');
+    QList<QString>::Iterator it = list.end();
+    it--;
+    QStringList list2 = it->split('.');
+    sd.dump(file,list2[0].toStdString());
 }
