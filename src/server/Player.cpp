@@ -584,5 +584,7 @@ Worms::Player::Player(Worms::Player &&player) noexcept: PhysicsEntity(std::move(
 
 void Worms::Player::die() {
     this->setState(Worm::StateID::Die);
-//    this->notify(*this, Event::DyingDueTi)
+    this->health = 0;
+    this->dyingDisconnected = true;
+    this->notify(*this, Event::DyingDueToDisconnection);
 }

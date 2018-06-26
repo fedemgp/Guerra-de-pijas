@@ -21,6 +21,8 @@ class PlayerShot : public GameTurnState {
     void wormDrowning(GameTurn &gt, uint8_t wormId) override;
     void wormDrowned(GameTurn &gt, uint8_t wormId) override;
     void explosion() override;
+    void wormDisconnectedDying(uint8_t wormId) override;
+    void wormDisconnectedDead(uint8_t wormId) override;
 };
 }
 

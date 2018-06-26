@@ -35,6 +35,7 @@ class Player : public PhysicsEntity {
     Worm::Direction lastWalkDirection;
     float health{0};
     Math::Point<float> teleportPosition{0.0f, 0.0f};
+    bool dyingDisconnected{false};
 
     explicit Player(Physics &physics);
     Player(Player &&player) noexcept;

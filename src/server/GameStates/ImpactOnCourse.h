@@ -23,14 +23,15 @@ class ImpactOnCourse : public GameTurnState {
     void wormDrowning(GameTurn &gt, uint8_t wormId) override;
     void wormDrowned(GameTurn &gt, uint8_t wormId) override;
     void explosion() override;
-    uint8_t getWormToFollow() const;
+    void wormDisconnectedDying(uint8_t wormId) override;
+    void wormDisconnectedDead(uint8_t wormId) override;
     std::vector<uint8_t> &getWormsHit();
     void impactNotEnded();
 
    private:
     std::vector<uint8_t> wormsStillHit;
     std::vector<uint8_t> wormsHit;
-    uint8_t wormToFollow{0};
+//    uint8_t wormToFollow{0};
     bool impactEnded{false};
     uint8_t bulletFragments{0};
     uint8_t fragmentExplosions{0};

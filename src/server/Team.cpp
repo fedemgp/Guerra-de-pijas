@@ -134,4 +134,5 @@ void Worms::Team::kill(std::vector<Worms::Player> &players) {
     for (auto &playerID : this->playerIDs) {
         players[playerID].die();
     }
+    this->alive = false;
 }

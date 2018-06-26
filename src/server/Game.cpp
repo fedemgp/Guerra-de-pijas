@@ -359,6 +359,14 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
             //            this->players[this->currentWorm].addObserverToBullets(this);
             break;
         }
+        case Event::DyingDueToDisconnection: {
+            this->gameTurn.playerDisconnected(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
+        case Event::DeadDueToDisconnection: {
+            this->gameTurn.playerDisconnectedDead(dynamic_cast<const Player &>(subject).getId());
+            break;
+        }
         case Event::Teleported: {
             this->gameClock.playerShot();
             this->currentPlayerShot = true;
@@ -399,7 +407,7 @@ void Worms::Game::onNotify(Subject &subject, Event event) {
         }
         case Event::NewWormToFollow: {
             this->currentWormToFollow =
-                dynamic_cast<const ImpactOnCourse &>(subject).getWormToFollow();
+                dynamic_cast<const GameTurnState &>(subject).getWormToFollow();
             break;
         }
         case Event::DamageOnLanding: {

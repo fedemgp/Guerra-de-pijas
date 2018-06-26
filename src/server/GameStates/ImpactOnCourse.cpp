@@ -10,7 +10,7 @@
 
 void Worms::ImpactOnCourse::endTurn(GameTurn &gt) {
     if (this->impactEnded && this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0 &&
-        !this->wormsDying) {
+        !this->wormsDying && this->wormsDisconnectedDying.size() == 0) {
         this->notify(*this, Event::TurnEnded);
     }
 }
@@ -57,10 +57,6 @@ void Worms::ImpactOnCourse::wormDrowned(Worms::GameTurn &gt, uint8_t wormId) {
     }
 }
 
-uint8_t Worms::ImpactOnCourse::getWormToFollow() const {
-    return this->wormToFollow;
-}
-
 std::vector<uint8_t> &Worms::ImpactOnCourse::getWormsHit() {
     return this->wormsHit;
 }
@@ -84,5 +80,23 @@ void Worms::ImpactOnCourse::update(float dt) {
             this->impactEnded = true;
             this->notify(*this, Event::ImpactEnd);
         }
+    }
+}
+
+void Worms::ImpactOnCourse::wormDisconnectedDying(uint8_t wormId) {
+    this->wormsDisconnectedDying.emplace_back(wormId);
+    if (this->wormToFollow != this->wormsDisconnectedDying[0] && this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0) {
+        this->wormToFollow = this->wormsDisconnectedDying[0];
+        this->notify(*this, Event::NewWormToFollow);
+    }
+}
+
+void Worms::ImpactOnCourse::wormDisconnectedDead(uint8_t wormId) {
+    this->wormsDisconnectedDying.erase(
+            std::remove(this->wormsDisconnectedDying.begin(), this->wormsDisconnectedDying.end(), wormId),
+            this->wormsDisconnectedDying.end());
+    if (this->wormToFollow == wormId) {
+        this->wormToFollow = this->wormsDisconnectedDying[0];
+        this->notify(*this, Event::NewWormToFollow);
     }
 }

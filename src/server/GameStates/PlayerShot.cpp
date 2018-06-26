@@ -19,3 +19,7 @@ Worms::PlayerShot::PlayerShot() {}
 void Worms::PlayerShot::explosion() {}
 
 void Worms::PlayerShot::update(float dt) {}
+
+void Worms::PlayerShot::wormDisconnectedDying(uint8_t wormId) {}
+
+void Worms::PlayerShot::wormDisconnectedDead(uint8_t wormId) {}

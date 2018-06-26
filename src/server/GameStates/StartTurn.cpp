@@ -7,7 +7,7 @@
 #include "StartTurn.h"
 
 void Worms::StartTurn::endTurn(GameTurn &gt) {
-    if (this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0 && !this->wormsDying) {
+    if (this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0 && !this->wormsDying && this->wormsDisconnectedDying.size() == 0) {
         this->notify(*this, Event::TurnEnded);
     }
 }
@@ -32,3 +32,13 @@ Worms::StartTurn::StartTurn() {}
 void Worms::StartTurn::explosion() {}
 
 void Worms::StartTurn::update(float dt) {}
+
+void Worms::StartTurn::wormDisconnectedDying(uint8_t wormId) {
+    this->wormsDisconnectedDying.emplace_back(wormId);
+    if (this->wormToFollow != this->wormsDisconnectedDying[0] && this->wormsFalling.size() == 0 && this->wormsDrowning.size() == 0) {
+        this->wormToFollow = this->wormsDisconnectedDying[0];
+        this->notify(*this, Event::NewWormToFollow);
+    }
+}
+
+void Worms::StartTurn::wormDisconnectedDead(uint8_t wormId) {}

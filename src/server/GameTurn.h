@@ -26,16 +26,14 @@ class GameTurn : public Subject {
     void wormDrowned(uint8_t wormId);
     void restart();
     void update(float dt);
-
     void wormFalling(uint8_t wormId);
-
     void wormLanded(uint8_t wormId);
-
     void wormDead();
-
     void wormDying();
+    void playerDisconnected(uint8_t wormId);
+    void playerDisconnectedDead(uint8_t wormId);
 
-   private:
+private:
     std::shared_ptr<GameTurnState> state{nullptr};
     Observer &game;
     GameTurnStateID stateID;
