@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.1.0)
 project(4-Worms)
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror -pedantic -pthread")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -std=c++11 -Wall -Werror -pedantic -pthread")
 
 message("[INFO] Adding yaml-cpp as a library")
 file(GLOB_RECURSE YAML_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "libs/yaml-cpp/*.cpp" "libs/yaml-cpp/*.h")
@@ -38,6 +38,7 @@ file(GLOB SERVER_LIBS_SOURCES RELATIVE ${CMAKE_SOURCE_DIR}
 	"libs/Stream.*"
 	"libs/Subject.*"
 	"libs/Thread.*"
+	"libs/Buffer.*"
 	"libs/utils.*")
 add_executable(worms_server ${SERVER_SOURCES} ${SERVER_LIBS_SOURCES})
 target_link_libraries(worms_server Box2D yaml-cpp)
