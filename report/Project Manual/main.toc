@@ -1,0 +1,7 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Integrantes y divisi\IeC {\'o}n de tareas}{2}
+\contentsline {section}{\numberline {2}Inconvenientes}{3}
+\contentsline {subsection}{\numberline {2.1}Serializaci\IeC {\'o}n de mensajes de forma portable}{3}
+\contentsline {subsection}{\numberline {2.2}Herramientas}{3}
+\contentsline {subsection}{\numberline {2.3}Editores de interfaz gr\IeC {\'a}fica}{3}
+\contentsline {subsection}{\numberline {2.4}Control de versiones}{3}

@@ -218,7 +218,34 @@ struct PlayerMsg {
         this->position.x = buffer.extractFloat();
         this->position.y = buffer.extractFloat();
     }
+//    std::size_t getSerializedSize() {
+//        std::size_t length(0);
+//        length += sizeof(input);
+//        length += sizeof(position.x);
+//        length += sizeof(position.y);
+//
+//        return length;
+//    }
+//
+//    void serialize(void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() > buffer_size) {
+//            throw Exception{"PlayerMsg: buffer too small"};
+//        }
+//
+//        /* TODO: serialize each field with hton functions */
+//        memcpy(buffer, this, this->getSerializedSize());
+//    }
+//
+//    void deserialize(const void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() != buffer_size) {
+//            throw Exception{"PlayerMsg: buffer size mismatch"};
+//        }
+//
+//        /* TODO: deserialize each field with ntoh functions */
+//        memcpy(this, buffer, this->getSerializedSize());
+//    }
 };
+
 
 struct GameStateMsg {
     std::uint16_t elapsedTurnSeconds;
@@ -344,6 +371,27 @@ struct GameStateMsg {
         this->playerUsedTool = static_cast<bool>(buffer.extract<uint8_t>());
         this->waitingForNextTurn = static_cast<bool>(buffer.extract<uint8_t>());
     }
+//    std::size_t getSerializedSize() {
+//        return sizeof(*this);
+//    }
+//
+//    void serialize(void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() > buffer_size) {
+//            throw Exception{"GameStateMsg: buffer too small"};
+//        }
+//
+//        /* TODO: serialize each field with hton functions */
+//        memcpy(buffer, this, this->getSerializedSize());
+//    }
+//
+//    void deserialize(const void *buffer, std::size_t buffer_size) {
+//        if (this->getSerializedSize() != buffer_size) {
+//            throw Exception{"GameStateMsg: buffer size mismatch"};
+//        }
+//
+//        /* TODO: deserialize each field with ntoh functions */
+//        memcpy(this, buffer, this->getSerializedSize());
+//    }
 };
 }  // namespace IO
 
