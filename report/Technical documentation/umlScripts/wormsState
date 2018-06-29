@@ -1,0 +1,55 @@
+@startuml
+
+title Worm state
+[*] --> Still
+Still --> Walk : moveRight / moveLeft
+Still --> StartJump : startJump
+Still --> StartBackflip : startBackFlip
+Still --> Teleporting : positionSelected
+Still --> Hit
+Still --> Batting : startShot
+
+Walk : direction
+Walk : impulses - vector
+Walk --> Still : stopMove
+Walk --> Falling
+Walk --> Walk : moveRight / moveLeft
+Walk --> Sliding
+
+StartJump : jumpTime
+StartJump : impulseApplied
+StartJump : jumpVelocity
+StartJump --> Still
+StartJump --> Jumping
+
+Jumping --> Land
+
+Land --> Die
+Land --> Still
+Land --> Sliding
+
+StartBackflip --> Backflipping
+StartBackflip --> Still
+
+Backflipping --> Land
+
+Teleporting --> Teleported
+
+Teleported --> Falling
+Teleported --> Sliding
+
+Falling --> Land
+Falling --> Drowning
+
+Hit --> Land
+Hit --> Drowning
+Hit --> Sliding
+
+Batting --> Still
+
+Die --> Dead
+
+Drowning --> Dead
+
+Dead --> [*]
+@enduml

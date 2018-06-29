@@ -1,0 +1,34 @@
+@startuml
+
+title Weapon use
+
+class Player {
+    -shared_ptr<Weapon> weapon
+    + void handleState(PlayerMsg pi)
+    + void setWeapon(const WeaponID id)
+}
+
+abstract class PlayerState {
+    + void bazooka(Player &player)
+    + void grenade(Player &player)
+    + void cluster(Player &player)
+    + void mortar(Player &player)
+    + void banana(Player &player)
+    + void holy(Player &player)
+    + void aerialAttack(Player &player)
+    + void dynamite(Player &player)
+    + void baseballBat(Player &player)
+    + void teleport(Player &player)
+    
+    + void startShot(Player &player)
+    + void endShot(Player &player)
+    + void pointUp(Player &player)
+    + void pointDown(Player &player)
+}
+
+class Still
+
+PlayerState <|-- Still
+Still *-- Player 
+
+@enduml

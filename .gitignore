@@ -9,7 +9,7 @@ target/
 .vscode/
 *.pro.user*
 src/editor/build-Editor-Desktop-Debug
-report/User Manual/*.gz
-report/User Manual/*.log
-report/User Manual/*.toc
-report/User Manual/*.aux
+report/*/*.gz
+report/*/*.log
+report/*/*.toc
+report/*/*.aux
