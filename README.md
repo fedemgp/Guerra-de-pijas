@@ -1,33 +1,37 @@
 ## Build Dependencies
 
+Implemented in Ubuntu 16.04.
+
 ### SDL2
 
-SDL2 handles the GUI on the client application.
+SDL2 handles the GUI on the client application. Required version 2.0.4
 
     sudo apt-get install libsdl2-dev
 
 
 ### SDL2 image
 
-SDL2-image is a library that allows to load (among others) PNG images using SDL2.
+SDL2-image is a library that allows to load (among others) PNG images using SDL2. Version 2.0.1
 
     sudo apt-get install libsdl2-image-dev
 
 
 ### SDL ttf
 
-A library to render text from SDL.
+A library to render text from SDL. Version 2.0.14
 
     sudo apt-get install libsdl2-ttf-dev
 
 ### SDL mixer
 
-A library to use sound from SDL.
+A library to use sound from SDL. Version 2.0.1
 
     sudo apt-get install libsdl2-mixer-dev
 
 
 ## Qt-5 (editor)
+
+Implemented using Qt version 5.6.0.
 
     sudo apt-get install qt5-default qtdeclarative5-dev qtcreator
 
