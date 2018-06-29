@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.8.22)  29 JUN 2018 13:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/W32TeX) (preloaded format=pdflatex 2016.8.22)  29 JUN 2018 17:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -664,6 +664,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 >] (./main.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 5.
 )
 \tf@toc=\write3
 \openout3 = `main.toc'.
@@ -678,36 +680,60 @@ LaTeX Info: Redefining \. on input line 30.
 LaTeX Info: Redefining \% on input line 30.
 
 [1 <./img/logofiuba.png>]) (./soft.tex) (./descripcion_general.tex)
-(./cliente.tex)
+(./cliente.tex
+File: img/logofiuba.png Graphic file (type png)
+ <use img/logofiuba.png>
+Package pdftex.def Info: img/logofiuba.png used on input line 10.
+(pdftex.def)             Requested size: 71.13188pt x 23.77588pt.
+LaTeX Info: Redefining \. on input line 10.
+LaTeX Info: Redefining \% on input line 10.
+ [2]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 25.
+
+(c:/texlive/2016/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 25.
+File: img/logofiuba.png Graphic file (type png)
+ <use img/logofiuba.png>
+Package pdftex.def Info: img/logofiuba.png used on input line 30.
+(pdftex.def)             Requested size: 71.13188pt x 23.77588pt.
+LaTeX Info: Redefining \. on input line 30.
+LaTeX Info: Redefining \% on input line 30.
+
+[3])
 File: img/logofiuba.png Graphic file (type png)
  <use img/logofiuba.png>
 Package pdftex.def Info: img/logofiuba.png used on input line 59.
 (pdftex.def)             Requested size: 71.13188pt x 23.77588pt.
 LaTeX Info: Redefining \. on input line 59.
 LaTeX Info: Redefining \% on input line 59.
- [2] (./main.aux
+ [4] (./main.aux
 LaTeX Info: Redefining \. on input line 6.
 LaTeX Info: Redefining \% on input line 6.
 ) ) 
 Here is how much of TeX's memory you used:
- 6367 strings out of 493013
- 89971 string characters out of 6136993
- 176635 words of memory out of 5000000
- 9810 multiletter control sequences out of 15000+600000
- 6111 words of font info for 22 fonts, out of 8000000 for 9000
+ 6390 strings out of 493013
+ 90326 string characters out of 6136993
+ 180635 words of memory out of 5000000
+ 9829 multiletter control sequences out of 15000+600000
+ 6777 words of font info for 24 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,15n,43p,1121b,410s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,15n,43p,1121b,505s stack positions out of 5000i,500n,10000p,200000b,80000s
 <c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2016/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2016/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2016/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr17.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmti10.pfb>
-Output written on main.pdf (3 pages, 153945 bytes).
+6/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/texlive/2016/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2016/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr12.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr17.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+sy10.pfb><c:/texlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+
+Output written on main.pdf (5 pages, 190314 bytes).
 PDF statistics:
- 46 PDF objects out of 1000 (max. 8388607)
- 31 compressed objects within 1 object stream
+ 60 PDF objects out of 1000 (max. 8388607)
+ 41 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

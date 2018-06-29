@@ -1,2 +1,65 @@
-Como lo explicado en la sección precedente, la aplicación del cliente inicia mostrando una sucesión de pantallas para conectarse al servidor y crear o unirse a una partida.
+Como lo explicado en la sección precedente, la aplicación del cliente inicia mostrando una sucesión de pantallas para conectarse al servidor y crear o unirse a una partida. Cada \textit{input} de teclado o mouse que se detecta por parte de un jugador es procesado en caso de que sea el turno del mismo, no se le haya acabado el tiempo, la partida no haya terminado, y el jugador no haya perdido. La acción que debe realizarse en base al \textit{input} del jugador se decide de acuerdo al estado en el que se encuentre el gusano, el cual responde y dicha respuesta es enviada al servidor. Se utilizó el patrón de diseño \textit{State} para modelar todos los posibles estados del gusano. El servidor es el que tiene la lógica del juego, entonces siempre se envía al cliente el estado en el que se encuentran los gusanos. Cada estado tiene asociada una animación y en ciertos casos también un sonido.\\
+\indent Las texturas utilizadas en las animaciones y los sonidos (tanto los efectos de sonido como la música de fondo), se cargan en memoria una única vez al comienzo de la partida a fin de no comprometer la \textit{performance} de la aplicación, ya que el proceso de animar se realiza permanentemente, y cargar las diferentes texturas una y otra vez no sería eficiente, al igual que en lo que respecta a los sonidos.\\
+\indent Para las diferentes armas que ofrece el juego se realizó otro patrón \textit{State}, de modo que cada vez que hay un disparo, cada arma sabe cómo responder.
+
+\subsection{Clases}
+
+\begin{itemize}
+	\item \textbf{\textit{Animation}}: se construye a partir de una textura y se encarga de renderizar la misma de acuerdo a un \textit{framrate} de 25 \textit{frames} or segundo en la posición que se le indica. Puede renderizarse en \textit{loop} desde el \textit{frame} incial hasta el último y a continuación el primero nuevamente, en \textit{loop} llegando al final y volviendo al comienzo (indicado con el \textit{flag} \textit{playReversed}), animarse una única vez quedando en el último \textit{frame} (indicado con el \textit{flag} \textit{playOnce}), animarse en sentido inverso (indicado con el \textit{flag} \textit{playInverse} y utilizado para la teletransportación) o puede setearse un \textit{frame} manualmente (para el caso en el que se esté apuntando un arma por ejemplo). La actualización del \textit{frame} que debe renderizarse se hace mediante el método \textit{update}, el cual recibe el tiempo que ha pasado desde el último cambio. Cuando este tiempo acumulado supera el \textit{framrate} se realiza el cambio de \textit{frame}.\\
+	\indent Los métodos principales son el ya mencionado \textit{update}, el método \textit{render}, que recibe la posición en donde debe renderizarse, el modo de \textit{flip}, y la cámara del juego que es la que calcula las coordenadas y la muestra en pantalla. Finalmente el método \textit{advanceFrame} es el que se encarga, en base a los \textit{flags} que se encuentren seteados, de establecer el siguiente \textit{frame} que debe ser animado.
+	
+	\item \textbf{\textit{Camera}}: se construye en base a la ventana donde se renderizará, la relación pixels/metro deseada  y el ancho y alto del área a donde la cámara puede ir. Se destacan los métodos \textit{isMoving} para saber si la cámara está en movimiento a la hora de decidir qué renderizar, \textit{update} que se encarga de actualizar la posición de la cámara, y luego los métodos \textit{draw} y \textit{drawLocal} que dibujan en pantalla una textura o un rectángulo que reciben por parámetro.
+	
+	\item \textbf{\textit{Texture}}: encapsula la creación y liberación de recursos correspondiente a una textura. Únicamente devuelve el puntero correspondiente a la textura, su alto o su ancho.
+	
+	\item \textbf{\textit{Font}}: encapsula la creación y liberación de recursos correspondiente a una fuente de texto. Solo devuelve un puntero correspondiente a la fuente.
+	
+	\item \textbf{\textit{Text}}: se construye a partir de una fuente. Se le setea el texto deseado e internamente crea una textura con el mismo, la cual es renderizada con o sin fondo. El método \textit{render} es el encargado de dibujar el texto en pantalla de acuerdo a una posición y la cámara recibidos por parámetro.
+
+	\item \textbf{\textit{WrapTexture}}: se crea a partir de una textura, un ancho y un alto. Solapa la misma textura o la recorta en base a las dimensiones de la misma y al ancho y al alto especificados. Se destaca el método \textit{render}, que dibuja la textura en pantalla en la posición deseada y el método \textit{render} que hace lo propio pero especificando también un ángulo.
+	
+	\item \textbf{\textit{Button}}: representa un botón y se crea a partid de una posición, un ancho y un alto. Puede seteársele un mensaje y el color de texto y de fondo. Se destaca el método \textit{inside} que establece a partir de la posición en la que el usuario hizo click recibida por parámetro si esta se encuentra dentro del botón, y \textit{render}, que a partir de una \textit{cámara} recibida por parámetro lo dibuja en pantalla.
+	
+	\item \textbf{\textit{GameWindow}}: es una interfaz para todas las ventanas que posee la aplicación. Se construye a partir de la ventana del juego, una fuente de texto y una cámara. Define una estructura \textit{TextField} que procesa los \textit{inputs} de texto del usuario, y tiene un vector de botones \textit{Button}. Posee los métodos \textit{handleKeyDown} (responde a \textit{inputs} del usuario), \textit{appendCharacter} (responde a \textit{inputs} de texto del usuario), \textit{buttonPressed} (responde en el caso que un usuario presione un botón), y \textit{render} (dibuja todo lo que deba dibujarse en la ventana). Las clases que implementan esta interfaz son:
+	\begin{itemize}
+		\item \textbf{\textit{ConnectionWindow}}: tiene dos \textit{TextField} donde permite al usuario ingresar la \textit{ip} y el puerto del servidor al que desea conectarse y un botón que al presionarlo crea la conexión.
+		\item \textbf{\textit{SelecActionWindow}}: tiene dos botones con los cuales permite al usuario elegir entre crear una partida o unirse a una existente.
+		\item \textbf{\textit{CreateGameWindow}}: permite crear una partida. Muestra en pantalla un nivel con su nombre y cantidad de jugadores y tiene tres botones, dos para alternar entre los niveles disponibles (anterior y siguiente), y otro para seleccionar el nivel.
+		\item \textbf{\textit{JoinGameWindow}}: permite unirse a una partida. Muestra en pantalla una partida con la cantidad de jugadores que hay actualmente en dicha partida y la cantidad de jugadores que debe haber para comenzar. Tiene tres botones, dos para alternar entre las partidas disponibles (anterior y siguiente), y otro para seleccionar la partida.
+		\item \textbf{\textit{WaitingPlayersWindow}}: una vez que se seleccionó el nivel a crear o se eligió la partida a unirse, se muestra una pantalla con la cantidad actual de jugadores conectados y la cantidad necesaria para que comience el juego. Cuando esta cantidad es alcanzada, el juego comienza automáticamente.
+		\item \textbf{\textit{GameEndWindow}}: al finalizar el juego o el jugador desconectarse, se muestra en pantalla un mensaje haciendo alusión a si ganó o perdió.
+	\end{itemize}
+
+	\item \textbf{\textit{WormState}}: representa el estado del gusano. Todos los \textit{inputs} del jugador están representados en métodos (\textit{moveLeft}, \textit{moveRight}, \textit{jump}, \textit{bazooka}, \textit{startShot}, etc.), y cada estado sabrá responder en consecuencia. Se destaca el método que devuelve el \textit{id} del estado  Las clases que implementan esta interfaz son:
+	\begin{itemize}
+		\item \textbf{\textit{WormWalk}}.
+		\item \textbf{\textit{WormStill}}.
+		\item \textbf{\textit{WormStartJump}}.
+		\item \textbf{\textit{WormJump}}.
+		\item \textbf{\textit{WormEndJump}}.
+		\item \textbf{\textit{BackFlip}}.
+		\item \textbf{\textit{WormBackFlipping}}.
+		\item \textbf{\textit{WormEndBackFlip}}.
+		\item \textbf{\textit{Hit}}.
+		\item \textbf{\textit{Die}}.
+		\item \textbf{\textit{Dead}}.
+		\item \textbf{\textit{Drowning}}.
+		\item \textbf{\textit{Falling}}.
+		\item \textbf{\textit{Land}}.
+		\item \textbf{\textit{Sliding}}.
+		\item \textbf{\textit{Teleporting}}.
+		\item \textbf{\textit{Teleported}}.
+		\item \textbf{\textit{Batting}}.
+	\end{itemize}
+	
+	\item \textbf{\textit{TextureManager}}: es un template que permite guardar texturas en un \textit{unordered map} con un \textit{hash} redefinido.
+	
+	\item \textbf{\textit{SoundEffectManager}}: idéntico funcionamiento que el \textit{TextureManager} salvo que ahora se almacenan efectos de sonido en vez de texturas, y ya no es necesario el renderizador.
+	
+	\item \textbf{\textit{BackgroundMusicManager}}: idéntico funcionamiento que el \textit{SoundEffectManager} salvo que ahora se almacenan archivos de música de fondo en vez de efectos de sonido.
+	
+	\item \textbf{\textit{Armory}}: se construye a partir de un \textit{gameTextureManager}, que es un \textit{TextureManager} cuyo \textit{id} es de tipo \textit{GameTextures} (clase \textit{enum} con los \textit{ids} de cada textura utilizada). 
+	
+	
+\end{itemize}
 

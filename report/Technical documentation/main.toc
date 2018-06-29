@@ -2,5 +2,6 @@
 \contentsline {section}{\numberline {1}Requerimientos de software}{2}
 \contentsline {section}{\numberline {2}Descripci\IeC {\'o}n general}{2}
 \contentsline {section}{\numberline {3}Cliente}{2}
-\contentsline {section}{\numberline {4}Servidor}{2}
-\contentsline {section}{\numberline {5}Editor}{2}
+\contentsline {subsection}{\numberline {3.1}Clases}{3}
+\contentsline {section}{\numberline {4}Servidor}{4}
+\contentsline {section}{\numberline {5}Editor}{4}
