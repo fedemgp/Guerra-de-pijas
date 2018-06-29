@@ -40,17 +40,16 @@ A library to use sound from SDL.
 
 ## Build instructions
 
-Run `make help` to get more information about different build options.
-### Alternative
 create a build folder, then in that folder open a console and type:
 
 	cmake ..
 	make
-
-It will generate the client and server executables and it will copy the assets folder in there so the user can execute the game without a problem.
+	sudo make install
 
 ## Run
-**Important!!** the client must be executed in the folder where the assets folder is located and it is necessary to open two clients so the game can start.
+
+Once installed, the server can be executed with the command `worms_server PORT` and the client with `worms_client`. The levels editor can be opened by typing `worms_editor`.
+
 
 ### Buttons
  * Left, Right arrows moves the worm across the map.
@@ -59,7 +58,8 @@ It will generate the client and server executables and it will copy the assets f
  * Enter: jump.
  * BackSpace: back flip .
  * Numbers 1 to 5 sets timeout of grenades before exploding.
- * F1 to F6 selects weapons, according to the armory help inside the game.
+ * F1 to F10 selects weapons, according to the armory help inside the game.
+ * Use the mouse to pan the camera.
 
 ## FeatureList
 
