@@ -156,6 +156,27 @@ A continuación se describen las clases propias del cliente:
 	
 	\item \textbf{\textit{Water}}: se construye a partir de un \textit{GameTextureManager}. Su método \textit{render} dibuja en pantalla la textura del agua, y el método \textit{update} realiza el efecto de animación de la misma.
 	
+	\item \textbf{\textit{Explosion}}: se construye a partir de un \textit{GameTextureManager} de donde se obtiene la animación necesaria. En el método \textit{render} se renderiza la animación y en el método \textit{update} se actualiza, seteando un \textit{flag} de acuerdo a si esta terminó. Dicho \textit{flag} es devuelto en el método \textit{finished}.
 	
+	\item \textbf{\textit{Bullet}}: se construye a partir de un \textit{GameTextureManager} de donde se obtiene la animación necesaria de acuerdo al \textit{id} del arma que la disparó, y de un \textit{GameSoundEffectManager} para reproducir el sonido de la explosión. El método \textit{setAngle} setea el ángulo de la bala para actualizar luego la animación en base a este. Con el método \textit{madeImpact} el \textit{Game} le indica a la bala que hizo impacto, por lo que setea un \textit{flag} indicándolo y reproduce el sonido de la explosión. En \textit{render} y \textit{update} se renderiza y actualiza respectivamente la animación de la bala si esta no explotó, o la explosión (de clase \textit{Explosion}, que posee internamente la bala) en caso contrario.
+	
+	\item \textbf{\textit{Scope}}: se construye a partir de un \textit{GameTextureManager} de donde se obtiene la animación necesaria. El método \textit{setAngle} setea el ángulo en el que apunta el gusano, que luego se utiliza en el método \textit{render} para dibujar la mira en la posición correcta. El método \textit{update} actualiza la animación.
+	
+	\item \textbf{\textit{PowerBar}}: se construye a partir de un \textit{GameTextureManager} de donde se obtienen las animaciones necesarias. El método \textit{setAngle} setea el ángulo en el que apunta el gusano, que luego se utiliza en el método \textit{render} para dibujar la barra en la posición correcta. El método \textit{update} agrega animaciones para simular el cargado de la barra conforme pasa el tiempo. Los métodos \textit{startShot} y \textit{endShot} determinan cuándo debe renderizarse.
+	
+	\item \textbf{\textit{Weapon}}: es una clase abstracta que encapsula el comportamiento de las armas. Las clases que heredan de esta se construyen en base a un \textit{GameTextureManager}, el \textit{id} de una textura y el \textit{frame} en que debe setearse (según el ángulo en el que está apuntando el gusano, que luego será alterado por el método \textit{setAngle}). Según el arma, puede poseer mira (\textit{Scope}) y disparar con potencia variable (\textit{PowerBar}). El método \textit{positionSelected} se utiliza para animar el ataque aéreo, y los métodos \textit{startShot} y \textit{endShot} comienzan y terminan la animación de la barra de potencia respectivamente. En el método \textit{update} se actualizan y en el método \textit{render} se dibujan: la mira, la barra de potencia (si estas existen), y la animación del arma. Las clases de armas que heredan de esta son:
+	\begin{itemize}
+		\item \textbf{\textit{AerialAttack}}.
+		\item \textbf{\textit{Banana}}.
+		\item \textbf{\textit{BaseballBat}}.
+		\item \textbf{\textit{Bazooka}}.
+		\item \textbf{\textit{Cluster}}.
+		\item \textbf{\textit{Dynamite}}.
+		\item \textbf{\textit{Grenade}}.
+		\item \textbf{\textit{Holy}}.
+		\item \textbf{\textit{Mortar}}.
+		\item \textbf{\textit{Teleport}}.
+		\item \textbf{\textit{WeaponNone}}.
+	\end{itemize}
 \end{itemize}
 
