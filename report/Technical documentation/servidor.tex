@@ -5,3 +5,17 @@ Continuando con la descripción de los módulos, se verá ahora en detalle el se
 
 \subsection{Desarrollo del juego}
 Durante el juego, que transcurre en la clase Game, los distintos clientes son tratados con dos hilos para cada uno, uno que se encarga de recibir datos del cliente (por medio del método \emph{inputWorker}) y otra que se encarga de enviarle el estado del juego (por medio del método \emph{outputWorker}). Estos métodos de la instancia Game se encargan de \emph{serializar} y \emph{deserializar} los mensajes que envía y los que recibe del cliente.
+
+\subsection{Clases}
+
+Se describen ahora las clases utilizadas en el servidor.
+
+\begin{itemize}
+	\item \textbf{\textit{CommunicationSocket}}: clase que se usa para comunicarse con el cliente. Tiene la posibilidad de enviar y recibir mensajes, y es devuelta por movimiento cuando se acepta una conexión. En el cliente se usa indirectamente, ya que es padre de la clase \textit{ClientSocket}, la cual tiene la capacidad de realizar un \textit{connect} al servidor. Sus métodos son \textit{send} y \textit{receive}, utilizados para enviar y recibir información por el \textit{socket} respectivamente.
+	
+	\item \textbf{\textit{ServerSocket}}: acepta una conexión y devuelve un \textit{CommunicationSocket} por movimiento. Sus métodos son \textit{bindAndListen}, donde se \textit{bindea} a un puerto y escucha conexiones, y \textit{accept}, que hace lo explicado anteriormente.
+	
+	\item \textbf{\textit{ServerInternalAction}}: clase \textit{enum} que posee las acciones que internamente el servidor envía en \textit{GameLobby} a \textit{LobbyJoiner}.
+	
+	\item \textbf{\textit{ServerInternalMsg}}: es una estructura que posee un \textit{ServerInternalAction}. Es un mensaje que envía \textit{GameLobby} a \textit{LobbyJoiner}.
+\end{itemize}
