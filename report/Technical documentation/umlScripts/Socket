@@ -1,0 +1,34 @@
+@startuml
+
+title Socket
+
+
+class Socket {
+  #int fd
+  #Socket(int fd)
+  #Socket()
+  #void close()
+  +void shutdown()
+}
+
+class CommunicationSocket {
+  #CommunicationSocket()
+  +CommunicationSocket(int fd)
+  +unsigned int send(const char *buffer, unsigned int length)
+  +unsigned int receive(char *buffer, unsgined int length)
+}
+
+class ClientSocket {
+  +ClientSocket(const char *hostname, const char *port)
+}
+
+class ServerSocket {
+  +ServerSocket(const char *port)
+  +CommunicationSocket accept()
+  +void bindAndListen(const char *port)
+}
+
+Socket <|-- CommunicationSocket
+CommunicationSocket <|-- ClientSocket
+Socket <|-- ServerSocket
+@enduml

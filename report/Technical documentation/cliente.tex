@@ -39,7 +39,7 @@ Primero se describen las clases que son utilizadas tanto por el cliente como por
 	
 	\item \textbf{\textit{Point}}: es una clase \textit{template} que define un punto de coordenadas \textit{(x, y)} del tipo numérico indicado en el \textit{template} y define las operaciones de suma, resta, multiplicación, división y los operadores $==$ y  $!=$, además de la distancia entre dos puntos.
 	
-	\item \textbf{\textit{Socket}}: esta clase está preparada para que las clases hijas  \textit{ClientSocket} y \textit{ServerSocket} establezcan la conexión y por lo tanto el \textit{file descriptor}. Sabe como destruirse y también como construirse por movimiento (también asignación por movimiento). Sus métodos son \textit{close}, que cierra el \textit{file descriptor} y \textit{shutdown}, que cierra la comunicación bidireccionalmente.
+	\item \textbf{\textit{Socket}}: implementación según el paradigma de objetos socket. Es una implementación para que las clases hijas (\emph{ServerSocket}, \emph{CommunicationSocket} y \emph{ClientSocket}) implementen y se utilicen de forma RAII la comunicación entre equipos. En la figura \ref{im:socket} puede verse un diagrama de clase de estas clases mencionadas. Sabe como destruirse y también como construirse por movimiento (también asignación por movimiento). Sus métodos son \textit{close}, que cierra el \textit{file descriptor} y \textit{shutdown}, que cierra la comunicación bidireccionalmente. El método close es protegido y solo puede usarse internamente en alguna de las hijas. También se usa internamente en el destructor.
 	
 	\item \textbf{\textit{Protocol}}: es una clase \textit{template} donde el parámetro del \textit{template} es el tipo de \textit{socket} que utilizará. Establece un protocolo de comunicación entre cliente y servidor. Tiene sobrecargados los operadores $>>$ y $<<$ para diversos tipos de datos, y los métodos \textit{getSocket}, que devuelve por movimiento el \textit{socket} dejando inutilizado el protocolo, y \textit{stopCommunication}, que para la comunicación del \textit{socket} mediante un \textit{shutdown}.
 	
@@ -54,6 +54,11 @@ Primero se describen las clases que son utilizadas tanto por el cliente como por
 	\item \textbf{\textit{Stage}}: carga la información de un nivel desde un archivo de configuración en formato \textit{YAML} con el método estático \textit{fromFile} utilizando las funciones estáticas \textit{\_parsePoint}, \textit{\_parseWorm} y \textit{\_parseGirder}, y luego devuelve un \textit{Stage} con los datos ya cargados. Se construye creando un mapa \textit{unordered map} para asociar los nombres de las armas con sus \textit{ids}. El método \textit{getAmmoCounter} devuelve una referencia constante a un mapa donde se almacena la cantidad de municiones que cada jugador dispone de cada arma en el nivel.
 \end{itemize}
 
+\begin{figure}[H]
+	\includegraphics[scale=0.6]{Socket.png}
+	\caption{Diagrama de clase de Socket}
+	\label{im:socket}
+\end{figure}
 A continuación se describen las clases propias del cliente:
 
 \begin{itemize}

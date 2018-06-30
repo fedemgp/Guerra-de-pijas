@@ -4,7 +4,7 @@ Continuando con la descripción de los módulos, se verá ahora en detalle el se
 \indent Una vez que el juego termina, ya sea porque terminó normalmente, o porque quedó un solo jugador conectado, se debe proceder a realizar un \emph{join} del hilo. De esto se encarga el\emph{LobbyJoiner}. Este proceso, que opera en un hilo aparte, se encarga de iterar sobre los Lobby terminados, para realizar un join y eliminarlo del arreglo. A primera vista, pareciera que este ciclo ocurre indefinidamente, pudiendo consumir una cantidad de recursos considerable de la computadora. Sin embargo, el GameLobby se comunica con esta clase mediante una cola bloqueante. Esta le manda mensajes al LobbyJoiner cuando una partida termina, para que este se active y libere el recurso.
 
 \subsection{Desarrollo del juego}
-Durante el juego, que transcurre en la clase Game, los distintos clientes son tratados con dos hilos para cada uno, uno que se encarga de recibir datos del cliente (por medio del método \emph{inputWorker}) y otra que se encarga de enviarle el estado del juego (por medio del método \emph{outputWorker}). Estos métodos de la instancia Game se encargan de \emph{serializar} y \emph{deserializar} los mensajes que envía y los que recibe del cliente.
+Durante el juego, que transcurre en la clase Game, los distintos clientes son tratados con dos hilos para cada uno, uno que se encarga de recibir datos del cliente (por medio del método \emph{inputWorker}) y otro que se encarga de enviarle el estado del juego (por medio del método \emph{outputWorker}). Estos métodos de la instancia Game se encargan de \emph{serializar} y \emph{deserializar} los mensajes que envía y los que recibe del cliente.
 
 \subsection{Clases}
 
@@ -21,7 +21,7 @@ Se describen ahora las clases utilizadas en el servidor.
 	
 	\item \textbf{\textit{Physics}}: maneja la lógica correspondiente a la física del juego. Internamente crea un mundo \textit{b2World} de la biblioteca \textit{Box2D} que es donde estará contenido todo lo que suceda en el juego. Sus métodos son \textit{update}, que actualiza el estado del mundo con el tiempo transcurrido desde la última actualización, y \textit{createBody}, que crea un cuerpo \textit{b2Body} a partir de una definición para el mismo de tipo \textit{b2BodyDef}.
 	
-	\item \textbf{\textit{PhysicsEntity}}: herde de \textit{Subject}, se construye a partir de un \textit{id} de tipo enumerativo que indica el tipo de entidad que es y sus métodos son \textit{startContact}, \textit{endContact} y \textit{contactWith}, que serán redefinidos por las clases que hereden de esta.
+	\item \textbf{\textit{PhysicsEntity}}: hereda de \textit{Subject}, se construye a partir de un \textit{id} de tipo enumerativo que indica el tipo de entidad que es y sus métodos son \textit{startContact}, \textit{endContact} y \textit{contactWith}, que serán redefinidos por las clases que hereden de esta.
 	
 	\item \textbf{\textit{ContactEventListener}}: hereda de la clase \textit{b2ContactListener} de la biblioteca \textit{Box2D} y redefine los métodos \textit{PreSolve}, \textit{BeginContact} y \textit{EndContact}, los cuales delegan la acción en las entidades físicas.
 	
@@ -52,10 +52,10 @@ Se describen ahora las clases utilizadas en el servidor.
 		\item \textbf{\textit{Still}}.
 		\item \textbf{\textit{StartJump}}.
 		\item \textbf{\textit{Jump}}.
-		\item \textbf{\textit{EndJump}}.
+		\item \textbf{\textit{\sout{EndJump}}}.
 		\item \textbf{\textit{BackFlip}}.
 		\item \textbf{\textit{BackFlipping}}.
-		\item \textbf{\textit{EndBackFlip}}.
+		\item \textbf{\textit{\sout{EndBackFlip}}}.
 		\item \textbf{\textit{Hit}}.
 		\item \textbf{\textit{Die}}.
 		\item \textbf{\textit{Dead}}.
@@ -67,6 +67,38 @@ Se describen ahora las clases utilizadas en el servidor.
 		\item \textbf{\textit{Teleported}}.
 		\item \textbf{\textit{Batting}}.
 	\end{itemize}
+	En la figura \ref{im:serverState} puede verse un diagrama de estado que muestra como pueden ir cambiando estos. Las dos clases tachadas se hicieron previamente pero no cuentan con uso en el programa final.
 	
 	\item \textbf{\textit{Player}}: hereda de \textit{PhysicsEntity}. Se construye creando un cuerpo con las dimensiones de un gusano, añadiéndole un \textit{TouchSensor} (el gusano está compuesto por un rectángulo en su parte superior y un círculo en su parte inferior). Los métodos \textit{contactWith}, \textit{isOnGround} y \textit{getGroundNormal} manejan la lógica necesaria para que los gusanos no se empujen entre sí, no puedan desplazarse por vigas con inclinación superior a $45º$ (se deslicen por ellas si están cayendo), y puedan hacerlo por aquellas con pendiente menor o igual a $45º$. Tiene sobrecargados los operadores $==$ y $!=$ para compararlo como entidad física. Posee un \textit{PlayerState}, que maneja la lógica de cómo responder ante los \textit{inputs} que llegan del cliente, los cuales se procesan mediante \textit{handleState}, y posee un \textit{Weapon}, el cual se utiliza para delegar los métodos \textit{increaseAngle}, \textit{decreaseAngle} y \textit{startShot}. Al momento de realizar el disparo, se ejecuta el método \textit{endShot}, el cual crea la bala y la dispara, avisándole al equipo del gusano que dispone de un proyectil menos del arma usada. El método \textit{acknoledgeDamage} calcula el daño sufrido por el gusano y el impulso que debe aplicársele de acuerdo a su posición y la de la explosión, y \textit{landDamage}, determina si el gusano sufrió algún daño al caer, en base a la altura de la caída. El método \textit{die} mata al gusano (se da cunado un jugador se desconecta), \textit{reset} elimina las balas que haya y reincia el arma. Finalmente, \textit{onExplode} devuelve los fragmentos de bala si corresponde, y \textit{update} actualiza el estado, el arma, y realiza chequeos sobre la pendiente sobre la cual está el gusano y si está por debajo del nivel de agua (se está ahogando).
+	
+	\item \textbf{\textit{Weapon}}: Clase abstracta de la que heredarán las distintas armas del juego. Esta clase se encuentra contenida en el Player mediante \emph{smart pointers}. El player delega en el estado la respuesta que debe tener ante algún evento de las armas. Solo el estado \emph{Still} aplica las acciones del arma. Esto si bien pareció correcto en un inicio, generó que la clase State sea una especie de "bolsa de gatos". Si bien es cierto que las acciones del arma dependen del estado (no puedo disparar cuando estoy saltando, o caminando, o cayendo), no debería haberse realizado de esta manera. Un refactor posterior podria ser que el estado tenga una función \emph{handleWeaponAction}, y que la clase Still llame las funciones necesarias en el Player. En la figura \ref{im:serverWeapons} puede verse un diagrama de clase que detalla el uso de las armas en el servidor. Las armas implementadas son:
+	
+	\begin{itemize}
+		\item \textbf{\textit{AerialAttack}}.
+		\item \textbf{\textit{Banana}}.
+		\item \textbf{\textit{Bazooka}}.
+		\item \textbf{\textit{BaseballBat}}.
+		\item \textbf{\textit{Cluster}}.
+		\item \textbf{\textit{Dynamite}}.
+		\item \textbf{\textit{Grenade}}.
+		\item \textbf{\textit{Holy}}.
+		\item \textbf{\textit{Mortar}}.
+		\item \textbf{\textit{Teleport}}.
+		\item \textbf{\textit{WeaponNone}}.
+	\end{itemize}
+	
 \end{itemize}
+
+\begin{sidewaysfigure}[!ht]
+	\centering
+	\includegraphics[scale=0.5]{ServerStates.png}
+	\caption{Diagrama de estados de los estados posibles del jugador.}
+	\label{im:serverState}
+\end{sidewaysfigure}
+
+\begin{sidewaysfigure}[!ht]
+	\centering
+	\includegraphics[scale=0.4]{ServerWeapons.png}
+	\caption{Diagrama de clase que muestra el uso de las armas.}
+	\label{im:serverWeapons}
+\end{sidewaysfigure}
