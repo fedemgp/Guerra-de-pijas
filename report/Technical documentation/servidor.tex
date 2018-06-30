@@ -19,7 +19,54 @@ Se describen ahora las clases utilizadas en el servidor.
 	
 	\item \textbf{\textit{ServerInternalMsg}}: es una estructura que posee un \textit{ServerInternalAction}. Es un mensaje que envía \textit{GameLobby} a \textit{LobbyJoiner}.
 	
+	\item \textbf{\textit{Physics}}: maneja la lógica correspondiente a la física del juego. Internamente crea un mundo \textit{b2World} de la biblioteca \textit{Box2D} que es donde estará contenido todo lo que suceda en el juego. Sus métodos son \textit{update}, que actualiza el estado del mundo con el tiempo transcurrido desde la última actualización, y \textit{createBody}, que crea un cuerpo \textit{b2Body} a partir de una definición para el mismo de tipo \textit{b2BodyDef}.
+	
+	\item \textbf{\textit{PhysicsEntity}}: herde de \textit{Subject}, se construye a partir de un \textit{id} de tipo enumerativo que indica el tipo de entidad que es y sus métodos son \textit{startContact}, \textit{endContact} y \textit{contactWith}, que serán redefinidos por las clases que hereden de esta.
+	
+	\item \textbf{\textit{ContactEventListener}}: hereda de la clase \textit{b2ContactListener} de la biblioteca \textit{Box2D} y redefine los métodos \textit{PreSolve}, \textit{BeginContact} y \textit{EndContact}, los cuales delegan la acción en las entidades físicas.
+	
+	\item \textbf{\textit{TouchSensor}}: hereda de \textit{PhysicsEntity}, y se construye a partir de un cuerpo y una forma que asociará al cuerpo como sensor. Se destacan los métodos \textit{startContact}, que se llama cuando el sensor entra en contacto con otra entidad física, \textit{endContact}, que se llama cuando el sensor deja de hacer contacto con otra entidad física, \textit{isActive}, que indica si el sensor está en contacto con otro cuerpo, e \textit{ignore}, que agrega una entidad que debe ser ignorada por el sensor.
+	
 	\item \textbf{\textit{Chronometer}}: es una clase que encapsula el cálculo del tiempo transcurrido entre distintas llamadas a su método \textit{elapsed}, que devuelve el valor de dicho tiempo.
 	
 	\item \textbf{\textit{GameClock}}: cuenta el tiempo de los turnos del juego y responde a distintos eventos del mismo, que modifican su valor. Hereda de \textit{Subject}, y notificará eventos al \textit{Game}. En su construcción toma de la configuración los valores correspondientes a la duración de un turno, el tiempo extra que recibe un jugador al disparar, y el tiempo que se deja pasar entre turno y turno para mejorar la dinámica del juego. El método \textit{playerShot} pone el tiempo transcurrido en cero y el tiempo actual del turno en el tiempo extra que corresponde al jugador luego de disparar. Cuando el juego establece que el turno ha terminado (ya sea por el final del tiempo u otro evento como que el gusano activo sufre daño), llama al método \textit{waitForNextTurn}, que pone el tiempo transcurrido en cero, el tiempo que debe transcurrir igual al correspondiente a la espera entre turno y turno, y setea un \textit{flag}. Hace uso de este último en su método \textit{update}, donde recibe el tiempo transcurrido desde su última llamada y lo acumula en un atributo, y si su valor supera al tiempo que posee el jugador actualmente, se notifica o bien que el turno terminó en lo que respecta al tiempo, o bien que el turno siguiente debe comenzar si el \textit{flag} está seteado. El método \textit{endTurn} fuerza el reloj a terminar y notificar un evento de fin de turno, por ejemplo cuando el gusano activo sufre daño al caerse de una altura determinada. El método \textit{restart} vuelve el tiempo acumulado a cero, quita el \textit{flag} de espera del siguiente turno y establece el tiempo de turno en su valor original.
+	
+	\item \textbf{\textit{Team}}: se construye con los \textit{ids} de los gusanos que son parte del equipo. Los métodos que se destacan son \textit{endTurn}, que define qué gusano utilizará el equipo en un nuevo turno, \textit{weaponUsed}, que decrementa en uno la cantidad de municiones disponible de un arma, \textit{serialize}, que incluye en el mensaje destinado al jugador la cantidad de municiones de que dispone, \textit{checkAlive}, que determina si hay algún gusano con vida en el equipo y de lo contrario setea el \textit{flag} \textit{alive} en falso, y \textit{kill}, que mata a todos los gusanos del equipo y setea el \textit{flag} \textit{alive} en falso.
+	
+	\item \textbf{\textit{GameTeams}}: esta clase posee toda la información relacionada a los equipos del juego. El método \textit{makeTeams} crea los equipos (\textit{Team}) correspondientes asignando de manera aleatoria los gusanos del nivel y definiendo su vida de acuerdo a la cantidad de gusanos que haya. Se destacan también los métodos \textit{checkAlive}, que realiza para todos los equipos el chequeo de si tienen algún gusano vivo, \textit{endTurn}, que define cuál es el siguiente equipo a jugar, \textit{weaponUsed}, que le indica al equipo actual qué arma se utilizó y de la cual dispone de una munición menos, \textit{serialize}, que hace que todos los equipos serialicen su estado, y \textit{kill}, que elimina un equipo del juego cuando un jugador se desconecta. Finalmente, el método \textit{getWinner} devuelve el \textit{id} del equipo ganador si es que existe, o un \textit{id} que no corresponde a ningún equipo si no hay un ganador.
+	
+	\item \textbf{\textit{GameTurnState}}: es una clase abstracta que hereda de \textit{Subject}, ya que notificará al \textit{Game} de los eventos que sucedan durante el turno. Los métodos a destacar son \textit{endTurn}, que determina si el turno terminó y lo notifica, \textit{explosion}, que indica al estado que una explosión ha ocurrido, \textit{update}, que actualiza la información del turno utilizada para determinar su fin, y \textit{getWormToFollow}, que devuelve el \textit{id} del gusano que debe ser seguido por la cámara de acuerdo a los eventos acontecidos durante el turno. El resto de los métodos indican todos el comienzo y el fin de un estado del gusano, del estilo \textit{wormHit}, \textit{wormEndHit}, \textit{wormDrowning}, \textit{wormDrowned}, etc. Las clases que heredan de esta son:
+	\begin{itemize}
+		\item \textbf{\textit{StartTurn}}: cuando el tiempo termina el turno termina.
+		\item \textbf{\textit{PlayerShot}}: es el estado cunado un jugador dispara.
+		\item \textbf{\textit{ImpactOnCourse}}: es el estado cuando una explosión sucede. Una vez que el tiempo terminó, todas las balas impactaron y los gusanos están quietos el turno puede terminar.
+	\end{itemize}
+	
+	\item \textbf{\textit{GameTurn}}: hereda de \textit{Subject}. Internamente tiene un \textit{GameTurnState}, hace de interfaz entre este y el \textit{Game}. Se construye con el estado inicial \textit{StartTurn} y en el método \textit{restart}, que se llama cuando el turno ha terminado, vuelve a setearse en ese estado. En el método \textit{update} actualiza el estado de ser necesario, lo cual se indica con un \textit{flag}.
+	
+	\item \textbf{\textit{Girder}}: hereda de \textit{PhysicsEntity}. Se construye creando un cuerpo con las dimensiones provistas en la información de la viga.
+	
+	\item \textbf{\textit{State}}: representa el estado del gusano. Todos las acciones provenientes del cliente están representadas en métodos (\textit{moveLeft}, \textit{moveRight}, \textit{jump}, \textit{bazooka}, \textit{startShot}, etc.), y cada estado sabrá responder en consecuencia. Se destaca el método que devuelve el \textit{id} del estado. Las clases que implementan esta interfaz son:
+	\begin{itemize}
+		\item \textbf{\textit{Walk}}.
+		\item \textbf{\textit{Still}}.
+		\item \textbf{\textit{StartJump}}.
+		\item \textbf{\textit{Jump}}.
+		\item \textbf{\textit{EndJump}}.
+		\item \textbf{\textit{BackFlip}}.
+		\item \textbf{\textit{BackFlipping}}.
+		\item \textbf{\textit{EndBackFlip}}.
+		\item \textbf{\textit{Hit}}.
+		\item \textbf{\textit{Die}}.
+		\item \textbf{\textit{Dead}}.
+		\item \textbf{\textit{Drowning}}.
+		\item \textbf{\textit{Falling}}.
+		\item \textbf{\textit{Land}}.
+		\item \textbf{\textit{Sliding}}.
+		\item \textbf{\textit{Teleporting}}.
+		\item \textbf{\textit{Teleported}}.
+		\item \textbf{\textit{Batting}}.
+	\end{itemize}
+	
+	\item \textbf{\textit{Player}}: hereda de \textit{PhysicsEntity}. Se construye creando un cuerpo con las dimensiones de un gusano, añadiéndole un \textit{TouchSensor} (el gusano está compuesto por un rectángulo en su parte superior y un círculo en su parte inferior). Los métodos \textit{contactWith}, \textit{isOnGround} y \textit{getGroundNormal} manejan la lógica necesaria para que los gusanos no se empujen entre sí, no puedan desplazarse por vigas con inclinación superior a $45º$ (se deslicen por ellas si están cayendo), y puedan hacerlo por aquellas con pendiente menor o igual a $45º$. Tiene sobrecargados los operadores $==$ y $!=$ para compararlo como entidad física. Posee un \textit{PlayerState}, que maneja la lógica de cómo responder ante los \textit{inputs} que llegan del cliente, los cuales se procesan mediante \textit{handleState}, y posee un \textit{Weapon}, el cual se utiliza para delegar los métodos \textit{increaseAngle}, \textit{decreaseAngle} y \textit{startShot}. Al momento de realizar el disparo, se ejecuta el método \textit{endShot}, el cual crea la bala y la dispara, avisándole al equipo del gusano que dispone de un proyectil menos del arma usada. El método \textit{acknoledgeDamage} calcula el daño sufrido por el gusano y el impulso que debe aplicársele de acuerdo a su posición y la de la explosión, y \textit{landDamage}, determina si el gusano sufrió algún daño al caer, en base a la altura de la caída. El método \textit{die} mata al gusano (se da cunado un jugador se desconecta), \textit{reset} elimina las balas que haya y reincia el arma. Finalmente, \textit{onExplode} devuelve los fragmentos de bala si corresponde, y \textit{update} actualiza el estado, el arma, y realiza chequeos sobre la pendiente sobre la cual está el gusano y si está por debajo del nivel de agua (se está ahogando).
 \end{itemize}

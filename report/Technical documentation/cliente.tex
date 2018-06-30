@@ -109,16 +109,16 @@ A continuación se describen las clases propias del cliente:
 	
 	\item \textbf{\textit{Worm}}: esta clase representa al gusano y se construye con un \textit{id} que lo identifica, un \textit{GameTextureManager} y un \textit{SoundEffectManager} ya que de acuerdo a su estado se renderizará con distintas texturas y reproducirá sonidos. Se destacan los métodos \textit{handleKeyDown}, \textit{handleKeyUp} y \textit{mouseButtonDown} para procesar \textit{inputs} del usuario, y \textit{update} que actualiza el estado, la animación, el arma, la explosión asociada a esta si existe y el efecto de sonido si este correspondiera. El método \textit{setState}, que setea su estado con la información proveniente del servidor, y \textit{getAnimation} y \textit{playSoundEffect}, que establecen la textura a renderizar y el sonido a reproducir en base al estado. El método \textit{setWeapon} establece el arma a utilizar y \textit{playWeaponSoundEffect} su efecto de sonido asociado. Finalmente, \textit{startShot} y \textit{endShot} realizan la lógica del disparo de acuerdo a cómo responde el arma.
 
-	\item \textbf{\textit{WormState}}: representa el estado del gusano. Todos los \textit{inputs} del jugador están representados en métodos (\textit{moveLeft}, \textit{moveRight}, \textit{jump}, \textit{bazooka}, \textit{startShot}, etc.), y cada estado sabrá responder en consecuencia. Se destaca el método que devuelve el \textit{id} del estado  Las clases que implementan esta interfaz son:
+	\item \textbf{\textit{State}}: representa el estado del gusano. Todos los \textit{inputs} del jugador están representados en métodos (\textit{moveLeft}, \textit{moveRight}, \textit{jump}, \textit{bazooka}, \textit{startShot}, etc.), y cada estado sabrá responder en consecuencia. Se destaca el método que devuelve el \textit{id} del estado. Las clases que implementan esta interfaz son:
 	\begin{itemize}
-		\item \textbf{\textit{WormWalk}}.
-		\item \textbf{\textit{WormStill}}.
-		\item \textbf{\textit{WormStartJump}}.
-		\item \textbf{\textit{WormJump}}.
-		\item \textbf{\textit{WormEndJump}}.
+		\item \textbf{\textit{Walk}}.
+		\item \textbf{\textit{Still}}.
+		\item \textbf{\textit{StartJump}}.
+		\item \textbf{\textit{Jump}}.
+		\item \textbf{\textit{EndJump}}.
 		\item \textbf{\textit{BackFlip}}.
-		\item \textbf{\textit{WormBackFlipping}}.
-		\item \textbf{\textit{WormEndBackFlip}}.
+		\item \textbf{\textit{BackFlipping}}.
+		\item \textbf{\textit{EndBackFlip}}.
 		\item \textbf{\textit{Hit}}.
 		\item \textbf{\textit{Die}}.
 		\item \textbf{\textit{Dead}}.
