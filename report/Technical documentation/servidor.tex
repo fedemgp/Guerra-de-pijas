@@ -4,7 +4,52 @@ Continuando con la descripción de los módulos, se verá ahora en detalle el se
 \indent Una vez que el juego termina, ya sea porque terminó normalmente, o porque quedó un solo jugador conectado, se debe proceder a realizar un \textit{\emph{join}} del hilo. De esto se encarga el \textit{\emph{LobbyJoiner}}. Este proceso, que opera en un hilo aparte, se encarga de iterar sobre los \textit{Lobby} terminados, para realizar un \textit{join} y eliminarlo del arreglo. A primera vista, pareciera que este ciclo ocurre indefinidamente, pudiendo consumir una cantidad de recursos considerable de la computadora. Sin embargo, el \textit{GameLobby} se comunica con esta clase mediante una cola bloqueante. Esta le manda mensajes al \textit{LobbyJoiner} cuando una partida termina, para que este se active y libere el recurso.
 
 \subsection{Desarrollo del juego}
-Durante el juego, que transcurre en la clase \textit{Game}, los distintos clientes son tratados con dos hilos para cada uno, uno que se encarga de recibir datos del cliente (por medio del método \textit{\emph{inputWorker}}) y otro que se encarga de enviarle el estado del juego (por medio del método \textit{\emph{outputWorker}}). Estos métodos de la instancia \textit{Game} se encargan de \emph{serializar} y \emph{deserializar} los mensajes que envía y los que recibe del cliente.
+Las partidas las maneja el objeto \texttt{Game}. Al crear el juego, debe recibir los jugadores (sockets) y el
+\texttt{Stage} que debe crear. Este objeto consta de varios threads:
+
+\begin{itemize}
+    \item El gameloop.
+    \item Un thread que lee de la entrada de cada cliente.
+    \item Un thread que env\'ia los datos para cada cliente.
+\end{itemize}
+
+
+\subsection{Gameloop}
+
+El game loop obtiene y ejecuta las acciones del jugador al cual le corresponde el turno, actualiza el motor de f\'isica,
+serializa el nuevo estado del juego en un snapshot y duerme el tiempo necesario. El servidor es totalmente autoritario,
+es decir, no acepta \'ordenes por parte del cliente, sino que recibe acciones y es \'el el que decide si son
+aceptadas o no. El gameloop se actualiza en un framerate determinado (60 veces por segundo), con lo cual es importante
+que pueda trabajar sin bloquearse en ninguna operacion, ya que afectar\'ia a todos los jugadores y arruinar\'ia la
+experiencia de juego.
+
+
+\subsubsection{Input workers}
+
+Para evitar bloquear el gameloop, toda comunicaci\'on con los clientes se realiza mediante threads independientes. La acciones de los jugadores
+son insertadas por los threads de entrada (\texttt{inputWorkers}) en una cola. Las colas utilizadas son
+una objetos de tipo \texttt{Stream}, el cu\'al funciona como una cola protegida por un mutex que permite
+hacer \texttt{pop} tanto en forma bloqueante o no bloqueante. El \texttt{Game} luego obtiene
+en forma no bloqueante una acci\'on del jugador (cada uno tiene una cola asignada) y la procesa. Leer de forma
+no bloqueante significa que, de no haber ninguna acci\'on del cliente encolada, se retorna \texttt{false} y
+el gameloop continua con la ejecuci\'on. En caso que un cliente se desconecte, este thread realiza un \texttt{push}
+de un evento \texttt{disconnect} en la cola, el cu\'al es leido por el gameloop cuando llega su turno, y maneja
+el evento de la forma que corresponda.
+
+
+\subsubsection{Output workers}
+
+Al terminar una iteraci\'on, el estado del juego se almacena en un snapshot el cual es leido por threads
+asignados a cada cliente (los \texttt{outputWorkers}), los cuales lo env\'ian serializado por el
+socket correspondiente. Como cada snapshot tiene toda la informaci\'on sobre el estado juego
+en un determinado momento, los \texttt{outputWorkers} solo necesitan enviar el mas reciente, por lo que no
+es necesario utilizar una cola, sino que se usa un \texttt{DoubleBuffer}. Este objeto reserva memoria
+para 2 copias de un objeto de un tipo determinado. En una de ellas (background copy) es en la que se escribe, y
+la otra (current copy) puede ser leida al mismo tiempo. El escritor puede realizar un \texttt{swap} de las copias,
+con lo que background se convierte en current. Para evitar problemas de concurrencia el \texttt{DoubleBuffer}
+contiene un mutex que bloquea las operaciones \texttt{swap} mientras otro thread est\'e copiando al current.
+Un thread puede bloquearse esperando un \texttt{swap} en un \texttt{DoubleBuffer}, lo cual permite que los
+\texttt{outputWorkers} s\'olo envien datos cuando hay un nuevo snapshot disponible.
 
 \subsection{Clases}
 

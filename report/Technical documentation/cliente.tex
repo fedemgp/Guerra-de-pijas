@@ -2,6 +2,56 @@ Como lo explicado en la sección precedente, la aplicación del cliente inicia m
 \indent Las texturas utilizadas en las animaciones y los sonidos (tanto los efectos de sonido como la música de fondo), se cargan en memoria una única vez al comienzo de la partida a fin de no comprometer la \textit{performance} de la aplicación, ya que el proceso de animar se realiza permanentemente, y cargar las diferentes texturas una y otra vez no sería eficiente, al igual que en lo que respecta a los sonidos.\\
 \indent Para las diferentes armas que ofrece el juego se realizó otro patrón \textit{State}, de modo que cada vez que hay un disparo, cada arma sabe cómo responder.
 
+\subsection{Desarrollo del juego}
+El cliente tiene 3 threads:
+
+\begin{itemize}
+    \item El principal (renderer).
+    \item El input worker.
+    \item El output worker.
+\end{itemize}
+
+
+\subsubsection{Renderer}
+
+Este thread es el encargado de dibujar el juego en la pantalla. Si bien maneja algunas animaciones client side,
+mayormente dibuja el \'ultimo snapshot recibido del modelo. Es importante que este thread no se bloquee en ninguna
+operaci\'on ya que dar\'ia la sensaci\'on de que el juego no responde. Es por esto que de no haber recibido un
+snapshot nuevo, de todas formas continua ejecut\'andose y dubujando el \'ultimo recibido (adem\'as de continuar
+actualizando las animaciones est\'eticas).
+
+Otra tarea es la de obtener los eventos de SDL para procesarlos y actualizar animaciones. Esto no se realiza
+en un thread independiente porque no es necesario ya que un ser humano no tiene la velocidad de generar demasiados
+eventos en una iteracion de forma que se pudiera demorar proces\'andolos. Esto resulta una ventaja porque de esta
+forma no es necesaria la utilizaci\'on de threads (y mutex) en el render loop, minimizando los posibles errores
+y la complejidad del mismo.
+
+
+\subsubsection{Input worker}
+
+Este thread obtiene de la conexi\'on con el servidor los nuevos snapshots. De forma similar a como trabaja el servidor,
+este thread almacena los snapshots en un \texttt{DoubleBuffer}, con la diferencia de que el \texttt{Renderer} no
+se bloquea esperando un \texttt{swap}, sino que siempre obtiene una copia (aunque sea una ya leida previamente).
+
+
+\subsubsection{Output worker}
+
+El cliente debe enviar las acciones del cliente al servidor mediante el socket. Para evitar bloquearse en un \texttt{send},
+esta tarea es realizada por un thread. La comunicaci\'on entre este thread y el renderer se realiza mediante un
+\texttt{Stream}. El renderer hace \texttt{push} y este thread hace un \texttt{pop} bloqueante para evitar un busy wait.
+Cada acci\'on es luego serializada y enviada al servidor.
+
+
+En la figura \ref{im:comunicacion} muestra la comunicaci\'on entre un cliente y el servidor. Cada flecha vertical representa un thread
+en el proceso en el cual se origina, mientras que las flechas horizontales indican comunicaci\'on de alguna forma:
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{gameCommunication.png}
+	\caption{Comunicación entre cliente y servidor}
+	\label{im:comunicacion}
+\end{figure}
+
 \subsection{Clases}
 
 Primero se describen las clases que son utilizadas tanto por el cliente como por el servidor.
