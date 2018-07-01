@@ -14,38 +14,38 @@ El cliente tiene 3 threads:
 
 \subsubsection{Renderer}
 
-Este thread es el encargado de dibujar el juego en la pantalla. Si bien maneja algunas animaciones client side,
-mayormente dibuja el \'ultimo snapshot recibido del modelo. Es importante que este thread no se bloquee en ninguna
+Este thread es el encargado de dibujar el juego en la pantalla. Si bien maneja algunas animaciones \textit{client side},
+mayormente dibuja el \'ultimo \textit{snapshot} recibido del modelo. Es importante que este thread no se bloquee en ninguna
 operaci\'on ya que dar\'ia la sensaci\'on de que el juego no responde. Es por esto que de no haber recibido un
-snapshot nuevo, de todas formas continua ejecut\'andose y dubujando el \'ultimo recibido (adem\'as de continuar
+\textit{snapshot} nuevo, de todas formas continua ejecut\'andose y dibujando el \'ultimo recibido (adem\'as de continuar
 actualizando las animaciones est\'eticas).
 
-Otra tarea es la de obtener los eventos de SDL para procesarlos y actualizar animaciones. Esto no se realiza
-en un thread independiente porque no es necesario ya que un ser humano no tiene la velocidad de generar demasiados
-eventos en una iteracion de forma que se pudiera demorar proces\'andolos. Esto resulta una ventaja porque de esta
-forma no es necesaria la utilizaci\'on de threads (y mutex) en el render loop, minimizando los posibles errores
+Otra tarea es la de obtener los eventos de \textit{SDL} para procesarlos y actualizar animaciones. Esto no se realiza
+en un \textit{thread} independiente porque no es necesario ya que un ser humano no tiene la velocidad de generar demasiados
+eventos en una iteración de forma que se pudiera demorar proces\'andolos. Esto resulta una ventaja porque de esta
+forma no es necesaria la utilizaci\'on de \textit{threads} (y \textit{mutex}) en el \textit{render loop}, minimizando los posibles errores
 y la complejidad del mismo.
 
 
 \subsubsection{Input worker}
 
-Este thread obtiene de la conexi\'on con el servidor los nuevos snapshots. De forma similar a como trabaja el servidor,
-este thread almacena los snapshots en un \texttt{DoubleBuffer}, con la diferencia de que el \texttt{Renderer} no
-se bloquea esperando un \texttt{swap}, sino que siempre obtiene una copia (aunque sea una ya leida previamente).
+Este \textit{thread} obtiene de la conexi\'on con el servidor los nuevos \textit{snapshots}. De forma similar a como trabaja el servidor,
+este \textit{thread} almacena los snapshots en un \texttt{DoubleBuffer}, con la diferencia de que el \texttt{Renderer} no
+se bloquea esperando un \texttt{swap}, sino que siempre obtiene una copia (aunque sea una ya leída previamente).
 
 
 \subsubsection{Output worker}
 
-El cliente debe enviar las acciones del cliente al servidor mediante el socket. Para evitar bloquearse en un \texttt{send},
-esta tarea es realizada por un thread. La comunicaci\'on entre este thread y el renderer se realiza mediante un
-\texttt{Stream}. El renderer hace \texttt{push} y este thread hace un \texttt{pop} bloqueante para evitar un busy wait.
+El cliente debe enviar las acciones del mismo al servidor mediante el \textit{socket}. Para evitar bloquearse en un \texttt{send},
+esta tarea es realizada por un \textit{thread}. La comunicaci\'on entre este \textit{thread} y el \textit{renderer} se realiza mediante un
+\texttt{Stream}. El \textit{renderer} hace \texttt{push} y este \textit{thread} hace un \texttt{pop} bloqueante para evitar un \textit{busy wait}.
 Cada acci\'on es luego serializada y enviada al servidor.
 
 
-En la figura \ref{im:comunicacion} muestra la comunicaci\'on entre un cliente y el servidor. Cada flecha vertical representa un thread
+En la figura \ref{im:comunicacion} muestra la comunicaci\'on entre un cliente y el servidor. Cada flecha vertical representa un \textit{thread}
 en el proceso en el cual se origina, mientras que las flechas horizontales indican comunicaci\'on de alguna forma:
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{gameCommunication.png}
 	\caption{Comunicación entre cliente y servidor}
@@ -59,7 +59,7 @@ Primero se describen las clases que son utilizadas tanto por el cliente como por
 \begin{itemize}
 	\item \textbf{\textit{Direction}}: clase \textit{enum} que indica la dirección del gusano (derecha o izquierda).
 	
-	\item \textbf{\textit{DoubleBuffer}}: HACER BIEN. se utiliza para enviar (en el servidor), y recibir (en el cliente), los \textit{snapshots} con la información del estado del juego.
+	\item \textbf{\textit{DoubleBuffer}}: se utiliza para enviar (en el servidor), y recibir (en el cliente), los \textit{snapshots} con la información del estado del juego.
 	
 	\item \textbf{\textit{EnumClassHash}}: es una estructura que define el operador \textit{()} para tipos enumerativos.
 	
