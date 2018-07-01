@@ -7,3 +7,12 @@
 
 \newcommand{\imgdir}{img}
 \graphicspath{{\imgdir/}}
+
+\newcommand{\addFigure}[4]{
+	\begin{figure}
+		\centering
+		\includegraphics[scale=#1]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{figure}
+}
