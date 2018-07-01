@@ -178,17 +178,18 @@ Se describen ahora las clases utilizadas en el servidor.
 	
 	\item \textbf{\textit{Game}}: es la clase donde se desarrolla el juego. Maneja la comunicación con todos los clientes en el transcurso del mismo. En su método \textit{start} se reciben \textit{inputs} de los usuarios, y se realiza una actualización de los gusanos, de la/s bala/s si existen, y de la física del juego. También actualiza el estado del juego, lo serializa y lo envía a los clientes. Se destacan los métodos \textit{onNotify}, donde se controla toda la lógica del juego (qué sucede cuando hay un disparo, una explosión, un gusano glpeado, ahogándose, muriendo, si el tiempo se terminó, etc.), \textit{playerDisconnected}, que mata a los gusanos del equipo desconectado y termina el juego si la cantidad de equipos restante es igual a uno, y \textit{endTurn}, donde se setean los parámetros necesarios para comenzar un nuevo turno.
 \end{itemize}
-
+\clearpage
 \begin{sidewaysfigure}[!ht]
 	\centering
 	\includegraphics[scale=0.5]{ServerStates.png}
 	\caption{Diagrama de estados de los estados posibles del jugador.}
 	\label{im:serverState}
 \end{sidewaysfigure}
-
+\clearpage
 \begin{sidewaysfigure}[!ht]
 	\centering
 	\includegraphics[scale=0.4]{ServerWeapons.png}
 	\caption{Diagrama de clase que muestra el uso de las armas.}
 	\label{im:serverWeapons}
 \end{sidewaysfigure}
+\clearpage
