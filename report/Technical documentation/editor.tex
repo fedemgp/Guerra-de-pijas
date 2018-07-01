@@ -1,0 +1,30 @@
+El editor fue desarrollado en Qt5 debido a que, al contrario de SDL, posee ciertas facilidades como
+entradas de texto, scroll bars, etc.
+
+Utilizando QtCreator se creó una ventana con los controles básicos y una vista dónde se dibuja el nivel.
+La vista es un objeto \texttt{EditorView} con su \texttt{EditorScene}, que heredan de \texttt{QGraphicsView}
+y \texttt{QGraphicsScene} respectivamente. Estas clases se encargan de manejar la lógica del editor, como
+dibujar el "ghost" a modo de cursor, llevar la cuenta de los objectos creados, etc.
+
+\texttt{EditorView} se encarga además de manejar los eventos del usuario (teclado, mouse) de forma tal que
+permita el uso adecuado del \texttt{EditorScene}. Este, por su parte, almacena internamente en un \texttt{map}
+las vigas y worms para que puedan ser obtenidas mas tarde. También dibuja los fondos para reflejar las elecciones
+del usuario, y evita que se inserten objetos que no corresponden, como ser una viga superpuesta a un worm o
+un elemento fuera del área definida para el nivel.
+
+Cada elemento del juego (vigas, o worms) son subclases de \texttt{StageElement} (subclase de \texttt{QGraphicsItem}).
+Esta interfaz permite que la vista tenga un puntero a un \texttt{StageElement} genérico (el cuál se elige mediante
+los controles) que puede utilizar para instanciar elementos en el nivel de forma similar a un prototype.
+Estos objetos además implementan su propia serialización, que luego utiliza un objeto \texttt{StageData}
+como visitor para recolectar los datos finales. De esta forma crear un nuevo elemento no resulta muy complejo
+ya que sólo de debe implementar una nueva subclase de \texttt{StageElement}.
+
+El objeto \texttt{StageData} es el encargado de transformar los datos obtenidos en un YAML que luego la
+ventana principal guarda en un archivo seleccionado por el usuario.
+
+
+\subsection{Conclusiones}
+
+Si bien Qt ofrece bastante funcionalidad "out of the box", no siempre es tan inmediato el uso, ya que
+la variedad de parámetros a configurar es muy grande y suelen afectarse entre si. Además, al ser un
+framework tan grande, tiene una curva de aprendizaje mas empinada que la de SDL.
