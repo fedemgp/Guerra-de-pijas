@@ -228,5 +228,7 @@ A continuación se describen las clases propias del cliente:
 		\item \textbf{\textit{Teleport}}.
 		\item \textbf{\textit{WeaponNone}}.
 	\end{itemize}
+
+	\item \textbf{\textit{Game}}: es la clase donde se desarrolla el juego. Uno de los parámetros que recibe al construirse es el número de equipo asociado al jugador, que se utilizará para decidir si se aceptan \textit{inputs} del mismo. Su método \textit{start} tiene el ciclo que se repite hasta que la partida termina o el jugador se desconecta, y en el cual se actualiza el manejo de la cámara mediante \textit{handleCamera}, se actualizan los gusanos, la cámara, el agua, y la/s bala/s si existen mediante \textit{update}, y se renderiza mediante \textit{render}. Se destacan los métodos \textit{loadTextureManager}, \textit{loadSoundManager} y \textit{loadBackgroundManager}, donde se cargan las texturas, efectos de sonido y la música de fondo respectivamente.
 \end{itemize}
 
