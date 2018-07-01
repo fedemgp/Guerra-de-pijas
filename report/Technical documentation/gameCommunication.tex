@@ -28,7 +28,9 @@ una objetos de tipo \texttt{Stream}, el cu\'al funciona como una cola protegida 
 hacer \texttt{pop} tanto en forma bloqueante o no bloqueante. El \texttt{Game} luego obtiene
 en forma no bloqueante una acci\'on del jugador (cada uno tiene una cola asignada) y la procesa. Leer de forma
 no bloqueante significa que, de no haber ninguna acci\'on del cliente encolada, se retorna \texttt{false} y
-el gameloop continua con la ejecuci\'on.
+el gameloop continua con la ejecuci\'on. En caso que un cliente se desconecte, este thread realiza un \textt{push}
+de un evento \textt{disconnect} en la cola, el cu\'al es leido por el gameloop cuando llega su turno, y maneja
+el evento de la forma que corresponda.
 
 
 \subsection{Output workers}
