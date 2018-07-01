@@ -1,0 +1,55 @@
+@startuml
+
+activate GameLobby
+activate GameLobbyAssistant
+activate Lobbies
+activate Lobby
+
+GameLobbyAssistant -> GameLobbyAssistant: joinGame
+activate GameLobbyAssistant
+
+GameLobbyAssistant -> GameLobbyAssistant: sendLevelFiles
+activate GameLobbyAssistant
+deactivate GameLobbyAssistant
+
+GameLobbyAssistant -> Lobbies: joinGame
+activate Lobbies
+
+loop Itero arreglo de Lobby hasta encontrar el lobby al que me quiero unir
+end
+
+Lobbies -> Lobby: addLobbyObserver
+activate Lobby
+Lobby --> Lobbies
+deactivate Lobby
+
+
+Lobbies -> Lobby: joinGame
+activate Lobby
+Lobby -> Lobby: notify(nuevo jugador)
+activate Lobby
+deactivate Lobby
+group Cantidad necesaria de jugadores alcanzada
+    Lobby -> Lobby: notify(juego Comienza)
+    activate Lobby
+    Lobby -> GameLobby: onNotify
+    activate GameLobby
+    group Obtengo sockets de los jugadores de la partida
+        GameLobby -> Lobby: addPlayerSocket
+        activate Lobby
+        Lobby --> GameLobby
+        deactivate Lobby
+        GameLobby -> GameLobbyAssistant: stop
+        activate GameLobbyAssistant
+        GameLobbyAssistant --> GameLobby
+        deactivate GameLobbyAssistant
+        GameLobby -> Lobby: start
+        deactivate GameLobby
+    end
+    deactivate Lobby
+    Lobby -> Lobby: removeObserver
+    activate Lobby
+    deactivate Lobby
+end
+
+@enduml

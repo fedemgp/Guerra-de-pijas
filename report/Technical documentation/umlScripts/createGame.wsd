@@ -1,0 +1,50 @@
+@startuml
+
+-> GameLobby: run
+activate GameLobby
+activate ServerSocket
+activate LobbyJoiner
+
+GameLobby -> GameLobby: loadLevels
+activate GameLobby
+deactivate GameLobby
+
+activate Lobbies
+
+GameLobby -> Lobbies: configure
+
+loop hasta que la conexión termine
+    GameLobby -> ServerSocket: accept
+    ServerSocket --> GameLobby
+    GameLobby -> GameLobbyAssitant: run
+    activate GameLobbyAssitant
+end
+
+deactivate ServerSocket
+
+GameLobbyAssitant -> GameLobbyAssitant: createGame
+activate GameLobbyAssitant
+
+GameLobbyAssitant -> Lobbies: createGame
+activate Lobbies
+Lobbies -> Lobby: << create >>
+activate Lobby
+Lobby -> Lobby: addObserver
+activate Lobby
+deactivate Lobby
+Lobby -> Lobby: joinGame
+activate Lobby
+deactivate Lobby
+Lobby --> Lobbies
+deactivate Lobbies
+deactivate GameLobbyAssitant
+
+GameLobby -> GameLobby: killLobbies
+activate GameLobby
+deactivate GameLobby
+
+GameLobby -> LobbyJoiner: join
+
+deactivate GameLobby
+
+@enduml
